@@ -1,5 +1,7 @@
 # SRE Practices
+
 Компетенции для развития в ветке `SRE Practices`:
+
 ```mermaid
 graph LR
     SREPractices{SRE Practices}

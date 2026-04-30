@@ -11,22 +11,25 @@
   </a>
 </p>
 
+<p align="center">
+  <img src="./logo/sre.png" alt="SRE Bear">
+</p>
+
 > Вдохновлен проектом [The-Way-of-DevOps](https://github.com/evgeniy-kharchenko/The-Way-of-DevOps) за авторством [Евгения Харченко](https://github.com/evgeniy-kharchenko).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Про мотивацию](#про-мотивацию)
-- [О работе](#о-работе)
-- [Дисклеймер](#дисклеймер)
-- [О методологической базе](#о-методологической-базе)
+- [Про мотивацию](#%D0%BF%D1%80%D0%BE-%D0%BC%D0%BE%D1%82%D0%B8%D0%B2%D0%B0%D1%86%D0%B8%D1%8E)
+- [О работе](#%D0%BE-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B5)
+- [Дисклеймер](#%D0%B4%D0%B8%D1%81%D0%BA%D0%BB%D0%B5%D0%B9%D0%BC%D0%B5%D1%80)
+- [О методологической базе](#%D0%BE-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B9-%D0%B1%D0%B0%D0%B7%D0%B5)
 - [The way of SRE](#the-way-of-sre)
-  - [Основные ветви для развития в SRE направлении](#основные-ветви-для-развития-в-sre-направлении)
+  - [Основные ветви для развития в SRE направлении](#%D0%BE%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D0%B5-%D0%B2%D0%B5%D1%82%D0%B2%D0%B8-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F-%D0%B2-sre-%D0%BD%D0%B0%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B8)
   - [SRE Culture](#sre-culture)
   - [SRE Engineering](#sre-engineering)
   - [SRE Practices](#sre-practices)
-  - [Рекомендуемый Roadmap для развития](#рекомендуемый-roadmap-для-развития)
+  - [Рекомендуемый Roadmap для развития](#%D1%80%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D1%83%D0%B5%D0%BC%D1%8B%D0%B9-roadmap-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

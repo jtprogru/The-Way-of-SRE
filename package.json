@@ -1,0 +1,13 @@
+{
+  "name": "the-way-of-sre",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "toc": "doctoc README.md docs/sre-priorities.md --github --notitle",
+    "lint": "markdownlint-cli2 \"**/*.md\""
+  },
+  "devDependencies": {
+    "doctoc": "^2.2.1",
+    "markdownlint-cli2": "^0.22.1"
+  }
+}

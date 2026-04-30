@@ -1,5 +1,7 @@
 # SRE Culture
+
 Компетенции для развития в ветке `SRE Culture`:
+
 ```mermaid
 graph LR
     SRECulture{SRE Culture}

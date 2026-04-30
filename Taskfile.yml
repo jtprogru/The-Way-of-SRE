@@ -1,0 +1,29 @@
+version: "3"
+
+tasks:
+  default:
+    desc: "Show available tasks"
+    silent: true
+    cmd: task --list
+
+  install:
+    desc: "Install dependencies"
+    cmd: npm install
+    sources:
+      - package.json
+    generates:
+      - node_modules/.package-lock.json
+
+  toc:
+    desc: "Update Table of Contents in README and docs"
+    deps: [install]
+    cmd: npm run toc
+
+  lint:
+    desc: "Lint markdown files"
+    deps: [install]
+    cmd: npm run lint
+
+  check:
+    desc: "Run all checks (toc + lint)"
+    deps: [toc, lint]

@@ -1,5 +1,7 @@
 # SRE Engineering
+
 Компетенции для развития в ветке `SRE Engineering`:
+
 ```mermaid
 graph LR
     SREEngineering{SRE Engineering}

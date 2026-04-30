@@ -1,0 +1,12 @@
+ignores:
+  - "node_modules/**"
+  - "LCIENSE"
+
+config:
+  default: true
+  MD013: false  # line length — не применимо к mermaid-диаграммам
+  MD033: false  # inline HTML — используется в README заголовке
+  MD041: false  # first line heading — файлы начинаются не всегда с h1
+  MD045: false  # image alt text — декоративные gif в заголовке
+  MD046: false  # code block style — fenced обязателен для mermaid
+  MD032: false  # blanks around lists — doctoc генерирует TOC без отступов

@@ -1,1 +1,3 @@
 .serena/
+node_modules/
+.task/

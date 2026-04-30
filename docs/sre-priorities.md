@@ -1,18 +1,18 @@
 # SRE Roadmap
+
 Предполагаемая последовательность совершенствования компетенций с приоритетами.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [SRE Roadmap](#sre-roadmap)
-  - [SRE Culture](#sre-culture)
-  - [SRE Engineering](#sre-engineering)
-  - [SRE Practices](#sre-practices)
+- [SRE Culture](#sre-culture)
+- [SRE Engineering](#sre-engineering)
+- [SRE Practices](#sre-practices)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## SRE Culture
+
 ```mermaid
 graph LR
     SRECulture{SRE Culture}
