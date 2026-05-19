@@ -262,7 +262,18 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'professional-development', label: 'Professional Development', priority: 'mandatory' },
+        {
+          id: 'professional-development',
+          label: 'Professional Development',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'personal-growth-plan',
+              label: 'Personal Growth Plan',
+              href: '/leaves/practices/personal-growth-plan/',
+            },
+          ],
+        },
         {
           id: 'performance-management',
           label: 'Performance Management',
