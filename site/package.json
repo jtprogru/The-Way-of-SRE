@@ -1,0 +1,18 @@
+{
+  "name": "the-way-of-sre-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Astro Starlight PoC for The Way of SRE roadmap",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.30.6",
+    "astro": "^5.1.7",
+    "sharp": "^0.33.5"
+  }
+}
