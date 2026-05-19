@@ -34,3 +34,39 @@
 .hero .tagline {
   max-width: none !important;
 }
+
+/* Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками */
+.intro-blurb {
+  max-width: 64ch;
+  margin: 1.5rem auto 2.5rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--sl-color-gray-2);
+  text-align: center;
+}
+
+/* Meta-strip: счётчики и open source метка */
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 2rem auto 1rem;
+  font-size: 0.9rem;
+  color: var(--sl-color-gray-3);
+  text-align: center;
+}
+
+.meta-strip strong {
+  color: var(--sl-color-white);
+  font-weight: 700;
+}
+
+:root[data-theme='light'] .meta-strip strong {
+  color: var(--sl-color-text);
+}
+
+.meta-strip > span[aria-hidden='true'] {
+  opacity: 0.5;
+}
