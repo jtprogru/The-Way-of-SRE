@@ -68,6 +68,7 @@ export default defineConfig({
                 { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
                 { label: 'Architecture Decision Records', link: '/leaves/practices/architecture-decision-records/' },
                 { label: 'One-on-Ones', link: '/leaves/practices/one-on-ones/' },
+                { label: 'Personal Growth Plan', link: '/leaves/practices/personal-growth-plan/' },
               ],
             },
           ],
