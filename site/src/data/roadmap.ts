@@ -181,7 +181,18 @@ export const roadmap: Roadmap = {
           ],
         },
         { id: 'toil-reduction', label: 'Toil Reduction', priority: 'mandatory' },
-        { id: 'configuration-management', label: 'Configuration Management', priority: 'mandatory' },
+        {
+          id: 'configuration-management',
+          label: 'Configuration Management',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'infrastructure-as-code',
+              label: 'Infrastructure as Code',
+              href: '/leaves/engineering/infrastructure-as-code/',
+            },
+          ],
+        },
         { id: 'database-reliability', label: 'Database Reliability', priority: 'ondemand' },
       ],
     },
