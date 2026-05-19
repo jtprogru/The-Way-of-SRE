@@ -6,8 +6,8 @@
   <a href="https://github.com/jtprogru/The-Way-of-SRE/pulls">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?longCache=true" alt="Pull Requests">
   </a>
-  <a href="LICENSE.md">
-    <img src="https://img.shields.io/badge/License-Apache-brightgreen" alt="Apache License">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-Apache--2.0-brightgreen" alt="Apache 2.0 License">
   </a>
 </p>
 
