@@ -62,11 +62,10 @@ graph LR
     PDSV --> BurnoutPrevention[Burnout Prevention]
     PDSV --> OnCallDesign[On-Call Design]
 
-    PEMT --> Mentorship[Mentorship]
     PEMT --> PeopleMgmt[People Management]
     PEMT --> SettingGoals[Setting Goals]
     PEMT --> PsychologicalSafety[Psychological Safety]
     PEMT --> PerformanceConversations[Performance Conversations]
 ```
 
-Бюджет узлов: 1 корень + 7 L1 + 32 L2 = **40 узлов**.
+Бюджет узлов: 1 корень + 7 L1 + 31 L2 = **39 узлов**.
