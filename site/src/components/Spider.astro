@@ -1,0 +1,154 @@
+---
+// Spider.astro — карта компетенций SRE в виде кликабельного SVG-паучка.
+//
+// Принципиальная архитектура:
+//   - Каждый узел рисуется как <rect> (rounded) + <text>.
+//   - Только <text> завёрнут в <a>: кликается ТЕКСТ, а не сама фигура.
+//   - Стили адаптируются к теме Starlight (light/dark) через --sl-* переменные.
+//
+// Карта пока минимальная: 1 корень + 3 ветви + одна цепочка L1→L2 (Observability
+// → SLI-based Alerting). По мере появления заполненных листьев — расширяется.
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (path: string) => `${base}${path}`;
+---
+
+<figure class="spider-figure">
+  <svg
+    class="spider"
+    viewBox="0 0 1000 400"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-label="Карта компетенций SRE — кликабельный паучок"
+  >
+    <!-- edges -->
+    <g class="edges">
+      <line x1="160" y1="200" x2="230" y2="80" />
+      <line x1="160" y1="200" x2="230" y2="200" />
+      <line x1="160" y1="200" x2="230" y2="320" />
+      <line x1="410" y1="200" x2="520" y2="200" />
+      <line x1="680" y1="200" x2="760" y2="200" />
+    </g>
+
+    <!-- root: SRE -->
+    <g class="node node-root">
+      <rect x="40" y="175" width="120" height="50" rx="25" ry="25" />
+      <text x="100" y="207" text-anchor="middle">SRE</text>
+    </g>
+
+    <!-- branches L0 -->
+    <g class="node node-branch">
+      <rect x="230" y="55" width="180" height="50" rx="12" ry="12" />
+      <a href={link('/sre-culture/')}>
+        <text x="320" y="87" text-anchor="middle">SRE Culture</text>
+      </a>
+    </g>
+
+    <g class="node node-branch">
+      <rect x="230" y="175" width="180" height="50" rx="12" ry="12" />
+      <a href={link('/sre-engineering/')}>
+        <text x="320" y="207" text-anchor="middle">SRE Engineering</text>
+      </a>
+    </g>
+
+    <g class="node node-branch">
+      <rect x="230" y="295" width="180" height="50" rx="12" ry="12" />
+      <a href={link('/sre-practices/')}>
+        <text x="320" y="327" text-anchor="middle">SRE Practices</text>
+      </a>
+    </g>
+
+    <!-- L1 under Engineering -->
+    <g class="node node-l1">
+      <rect x="520" y="175" width="160" height="50" rx="12" ry="12" />
+      <a href={link('/sre-engineering/#observability')}>
+        <text x="600" y="207" text-anchor="middle">Observability</text>
+      </a>
+    </g>
+
+    <!-- L2 leaf -->
+    <g class="node node-leaf">
+      <rect x="760" y="175" width="200" height="50" rx="12" ry="12" />
+      <a href={link('/leaves/engineering/sli-based-alerting/')}>
+        <text x="860" y="207" text-anchor="middle">SLI-based Alerting</text>
+      </a>
+    </g>
+  </svg>
+
+  <figcaption>
+    Кликается <strong>текст</strong> внутри узла, а не сама фигура. Карта растёт постепенно: каждый новый заполненный лист становится новым узлом.
+  </figcaption>
+</figure>
+
+<style>
+  .spider-figure {
+    margin: 1.5rem 0 2rem;
+  }
+
+  .spider {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    display: block;
+  }
+
+  .spider .edges line {
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 2;
+  }
+
+  .spider .node rect {
+    fill: var(--sl-color-bg-nav);
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 1.5;
+  }
+
+  .spider .node text {
+    fill: var(--sl-color-text);
+    font-family: var(--sl-font);
+    font-size: 16px;
+    font-weight: 500;
+    pointer-events: auto;
+    user-select: none;
+  }
+
+  .spider .node-root rect {
+    fill: var(--sl-color-accent);
+    stroke: var(--sl-color-accent);
+  }
+
+  .spider .node-root text {
+    fill: var(--sl-color-white);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .spider .node-leaf rect {
+    fill: var(--sl-color-accent-low);
+    stroke: var(--sl-color-accent);
+    stroke-width: 2;
+  }
+
+  .spider a {
+    cursor: pointer;
+  }
+
+  .spider a text {
+    transition: fill 0.15s ease;
+  }
+
+  .spider a:hover text,
+  .spider a:focus text {
+    fill: var(--sl-color-accent-high);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .spider-figure figcaption {
+    margin-top: 0.75rem;
+    color: var(--sl-color-gray-2);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+</style>
