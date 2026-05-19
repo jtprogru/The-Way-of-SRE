@@ -12,12 +12,25 @@
   --sl-color-accent-high: #0b3d91;
 }
 
-/* Splash-страница: расширить hero и tagline на полную ширину контейнера. */
+/*
+ * Splash-страница без hero-image: Starlight по умолчанию делит hero
+ * на grid 7fr 4fr (под image справа). У нас image нет — заставляем
+ * copy и tagline занимать всю ширину одной колонкой.
+ *
+ * Переопределяем правила из Starlight Hero-компонента:
+ *   .hero:where(.astro-jbfsktt5) { grid-template-columns: 7fr 4fr; ... }
+ *   .tagline:where(.astro-jbfsktt5) { ... }
+ *
+ * `!important` нужен потому что Starlight scoped-классы имеют ту же
+ * специфичность, что наши, и без `!important` cascade-победа зависит
+ * от порядка загрузки CSS-чанков (нестабильно).
+ */
 .hero {
-  max-width: none;
+  grid-template-columns: 100% !important;
+  max-width: none !important;
 }
 
 .hero .copy,
 .hero .tagline {
-  max-width: none;
+  max-width: none !important;
 }
