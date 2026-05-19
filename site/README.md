@@ -4,23 +4,31 @@ Astro Starlight PoC для визуализации карты компетен�
 
 **Статус:** Proof of Concept. Проверяем, подходит ли Astro Starlight как целевая платформа для роадмапа взамен mermaid-схем в `/docs`.
 
-## Запуск
+## Запуск из корня репо
+
+Все команды доступны из корня проекта через `task`, заходить в `site/` не требуется:
 
 ```bash
-cd site
-npm install
-npm run dev
+task site:dev      # dev-сервер на http://localhost:4321/The-Way-of-SRE/
+task site:build    # билд в site/dist/
+task site:preview  # локальный preview готовой сборки
 ```
 
-Открывается на <http://localhost:4321/The-Way-of-SRE/>.
+Зависимости устанавливаются автоматически при первом запуске любой `site:*` задачи (есть `task site:install` для явной установки).
 
-## Билд
+Если предпочитаешь работать без Taskfile, эквивалент:
 
 ```bash
-npm run build
+cd site && npm install && npm run dev
 ```
 
-Статический сайт собирается в `site/dist/`. Деплой пока не настроен — это следующий шаг, если PoC признаётся успешным.
+## Деплой
+
+Автоматический через GitHub Actions (`.github/workflows/deploy-site.yml`): на каждый push в `main`, затрагивающий `site/`, билд публикуется на GitHub Pages.
+
+URL после первого успешного деплоя: <https://jtprogru.github.io/The-Way-of-SRE/>.
+
+Чтобы деплой заработал, в настройках репо нужно включить **Settings → Pages → Source: GitHub Actions** (одноразово, скриптом не делается).
 
 ## Что внутри PoC
 
@@ -31,9 +39,7 @@ npm run build
 
 ## Чего нет в PoC
 
-- Деплой (GitHub Pages, Vercel) — не настроен.
 - Полная миграция содержимого из `/docs` — намеренно не сделана. PoC — это образец, не финал.
-- Интеграция с Taskfile и корневым `package.json` — нет, `site/` живёт автономно.
 - Расширение spider до полной карты — только цепочка `SRE → Engineering → Observability → SLI-based Alerting` для проверки L2-навигации.
 
 ## Решение по миграции

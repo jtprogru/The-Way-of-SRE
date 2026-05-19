@@ -1,6 +1,7 @@
 ignores:
   - "node_modules/**"
   - "LCIENSE"
+  - "site/**"  # Starlight-специфичный синтаксис (admonitions, frontmatter)
 
 config:
   default: true
