@@ -65,6 +65,7 @@ export default defineConfig({
                 { label: 'Incident Response', link: '/leaves/practices/incident-response/' },
                 { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
+                { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
               ],
             },
           ],
