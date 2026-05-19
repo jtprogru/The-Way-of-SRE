@@ -16,29 +16,49 @@ description: Систематические текстовые инструкц�
 ## Что должен уметь
 
 - **L3** — Использует существующие runbooks команды для реагирования на инциденты; следует шагам, не выходит за их пределы без эскалации.
-- **L4** — Пишет runbook для известного типа инцидента: симптом → шаги диагностики → шаги mitigation → escalation. Обновляет runbook после новых инцидентов.
-- **L5** — Строит культуру runbook-first: алерт без runbook'а в команде не принимается. Проводит аудит runbook'ов на актуальность.
-- **L6+** — Внедряет runbook-систему (платформа, шаблоны, метрики использования) в команде/организации. Связывает runbooks с алерт-системой автоматически.
+- **L3** — Сообщает владельцу runbook'а о найденной неточности или устаревшем шаге сразу после использования (не «потом, на ревью»).
+- **L4** — Пишет runbook для известного типа инцидента: симптом → шаги диагностики → шаги mitigation → как откатить → escalation. Обновляет runbook после новых инцидентов.
+- **L4** — Следует шаблону команды и проверяет actionable-критерий: каждый шаг — конкретная команда или явное решение; не «понять и подумать».
+- **L5** — Строит культуру runbook-first: алерт без runbook'а в команде не принимается. Проводит аудит runbook'ов на актуальность по расписанию.
+- **L5** — Тестирует runbook'и в game day / wheel of misfortune; не доверяет ни одному runbook'у, которым никто не проходил по факту.
+- **L5** — Встраивает ссылку на runbook прямо в алерт (например, через `runbook_url` annotation в Prometheus AlertRule или поле `runbook` в Alertmanager).
+- **L6+** — Внедряет runbook-систему: платформа, шаблоны, метрики использования, автоматическая связь с алерт-системой.
+- **L6+** — Держит SLO для самого runbook-репозитория (например, «≥ 95% алертов имеют ссылку на актуальный runbook»); отслеживает деградацию покрытия.
 
 ## Материалы
 
 ### Книги
 
-- Betsy Beyer et al. — **Site Reliability Engineering** (O'Reilly, 2016), глава 11 «Being On-Call». Раздел «Documenting» обсуждает runbook-культуру. [sre.google/sre-book/being-on-call](https://sre.google/sre-book/being-on-call/).
+- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/being-on-call/)** (O'Reilly, 2016), глава 11 «Being On-Call». Раздел «Documenting» — фундамент runbook-культуры. База.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/on-call/)** (O'Reilly, 2018), глава 8 «On-Call». Продолжение темы: playbook содержит severity, impact, debugging suggestions, mitigation. Утверждение «каждый алерт получает playbook» как норму.
 
 ### Статьи и доклады
 
-- PagerDuty — **[Runbook Templates](https://response.pagerduty.com/training/runbooks/)**. Готовые шаблоны и анти-шаблоны.
-- Charity Majors — **[Runbooks Should Be Boring](https://charity.wtf/2018/04/03/observability-the-charity-talk/)**. Доводы за «скучные» runbook'и: чем тривиальнее шаги, тем меньше cognitive load в 3 утра.
+- PagerDuty — **[Incident Response Documentation](https://response.pagerduty.com/)**. Публичный guide по incident response; даёт референс для своего шаблона runbook'а (формат «Being On-Call → Before / During / After»). Дополнительно.
+
+### Инструменты
+
+- **Markdown в репозитории команды** — самый простой и работающий формат. Один runbook = один файл; PR-based review; история через git.
+- **[Rundeck](https://www.rundeck.com/)** — open-source платформа для исполняемых runbook'ов (job runner + access control + audit). Подходит, когда часть шагов автоматизируется и нужно фиксировать исполнение.
+- **[StackStorm](https://stackstorm.com/)** — event-driven automation platform; runbook как сценарий, запускаемый на триггеры. Альтернатива Rundeck для команд, у которых уже есть event-bus.
+- **Prometheus AlertRule `runbook_url` annotation** — стандартный паттерн: каждому алерту в `prometheus.yml` прописывается ссылка на runbook. Alertmanager пробрасывает её в нотификацию (Slack/Pager).
 
 ## Best practices
 
-- **Runbook = детальные шаги, не нарратив.** Цель — чтобы on-call мог следовать в 3 утра, не думая. Если для понимания шага нужно «знать архитектуру», runbook сломан.
-- **Привязка к симптому, а не к причине.** Runbook называется по тому, **что видит дежурный** (например, «p99 latency > 500ms»), а не по предполагаемой причине. Симптомов мало, причин много.
-- **Регулярный аудит.** Устаревшие runbooks хуже их отсутствия: они дают ложное чувство уверенности. Установи периодичность пересмотра (квартал/полугодие) и владельца.
+- **Runbook = детальные шаги, не нарратив.** Антипаттерн: эссе вместо инструкции. Если для исполнения шага нужно «знать архитектуру» или «вспомнить контекст», runbook сломан — on-call в 3 утра не должен думать, он должен следовать.
+- **Привязка к симптому, а не к причине.** Антипаттерн: runbook называется «padение базы», но дежурный видит «p99 latency > 500ms» и не знает, что это та же ситуация. Runbook называется по симптому, который видит дежурный (имя алерта). Симптомов мало, причин много; от симптома runbook ведёт к диагностике причин.
+- **Каждый шаг — actionable + критерий проверки.** Антипаттерн: шаг «проверить логи» без указания где, какие, что искать. Правильно: «выполни `kubectl logs -n prod app-foo --tail=200 | grep ERROR`; если видишь `connection refused` — переходи к шагу 3, иначе к шагу 5».
+- **Шаг «как откатить безопасно» — обязательный.** Антипаттерн: runbook ведёт mitigation вперёд, но не описывает, что делать, если mitigation сделал хуже. Каждое изменяющее действие сопровождается откатным шагом и критерием «откатывать ли».
+- **Регулярный аудит и владелец.** Антипаттерн: устаревшие runbook'и хуже их отсутствия — они дают ложное чувство уверенности и ведут не туда. Установи периодичность пересмотра (квартал/полугодие) и владельца, который отвечает за актуальность. После каждого инцидента — обязательное обновление.
+- **Тестирование в game day.** Антипаттерн: runbook написан, положен в wiki, никто им не пользовался — в инциденте оказывается, что команда из шагов не работает или ведёт не туда. Регулярные game day / wheel of misfortune прогоняют runbook'и без боевой обстановки и выявляют гнильё.
 
 ## Связанные листья
 
-- **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — обязательная пара: каждый SLO-алерт ведёт к runbook'у.
-- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — runbooks — главный инструмент в incident response.
-- **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — постмортем должен порождать обновление runbook'а.
+- **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — обязательная пара: каждый SLO-алерт ведёт к runbook'у; алерт без runbook'а удаляется как фоновый шум.
+- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — runbook'и — главный инструмент в моменте инцидента; качество runbook'ов прямо определяет MTTR.
+- **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — каждый постмортем порождает обновление runbook'а (новый или правки существующего); без обновления lesson learned не закреплён.
+- **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — co-ownership: runbook'и пишутся совместно с product-командой, иначе SRE дежурит «вслепую» по чужому сервису.
+
+## Открытые вопросы
+
+- Граница между «runbook» и «playbook» — терминологический разнобой. Google SRE Workbook использует «playbook», DevOps-индустрия чаще «runbook»; некоторые команды разделяют («playbook» = высокоуровневый сценарий, «runbook» = конкретные команды). В этом листе — единый термин «runbook»; обсуждение разделения — на следующей итерации.
