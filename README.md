@@ -44,7 +44,7 @@ graph TD
     click SREEngineering "docs/sre-engineering.md" "Перейти к SRE Engineering"
     click SREPractices "docs/sre-practices.md" "Перейти к SRE Practices"
     click Observability "docs/sre-engineering.md" "Перейти к Observability"
-    click SLIAlerting "docs/leaves/engineering/sli-based-alerting.md" "Открыть лист SLI-based Alerting"
+    click SLIAlerting "https://jtprogru.github.io/The-Way-of-SRE/leaves/engineering/sli-based-alerting/" "Открыть лист SLI-based Alerting"
 ```
 
 - **[SRE Culture](docs/sre-culture.md)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы.
@@ -63,5 +63,5 @@ graph TD
 - [docs/methodology.md](docs/methodology.md) — методологический каркас и внешние источники.
 - [docs/sre-priorities.md](docs/sre-priorities.md) — приоритеты развития.
 - [docs/_inventory/overlaps.md](docs/_inventory/overlaps.md) — инвентаризация пересечений (рабочий артефакт ребаланса).
-- [docs/leaves/_template.md](docs/leaves/_template.md) — шаблон leaf-страницы.
-- [docs/leaves/](docs/leaves/) — заполненные листья роадмапа.
+- [docs/leaves/_template.md](docs/leaves/_template.md) — шаблон leaf-страницы (Starlight-формат).
+- Заполненные листья роадмапа — на сайте: <https://jtprogru.github.io/The-Way-of-SRE/>, исходники в `site/src/content/docs/leaves/`.
