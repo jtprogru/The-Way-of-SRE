@@ -1,0 +1,40 @@
+---
+title: SRE Practices
+description: Ветвь развития, посвящённая операционным процессам SRE — incident management, постмортемы, change management, on-call
+---
+
+import BranchView from '../../components/BranchView.astro';
+
+Ветвь развития, посвящённая совершенствованию **операционных процессов**: управление инцидентами, постмортемы, управление изменениями, on-call процессы, runbook-культура, SLO-ревью. Главный объект деятельности — процессы и ритуалы.
+
+<BranchView branchId="practices" />
+
+## Компетенции верхнего уровня
+
+### Incident Management
+
+Координация реагирования на инциденты: роли (IC, Comms Lead, Ops Lead), escalation paths, on-call rotation, status page management. Цель — минимизировать MTTR при соблюдении blameless-принципов.
+
+### Problem Management
+
+Проведение постмортемов (blameless postmortems), выявление корневых причин инцидентов, разработка action items и их отслеживание, регулярный SLO Review Ritual. Проблема — это потенциальный источник инцидентов; её устранение снижает риски.
+
+### Change Management
+
+Безопасное управление изменениями в production: production readiness review, progressive delivery, rollback-стратегии, error budget gating, оценка риска изменений.
+
+### Information Security
+
+Управление уязвимостями, обеспечение надёжности с учётом требований безопасности (security SLOs), участие в threat modeling, supply chain security, secret management.
+
+<h3 id="methods-tools">Methods & Tools</h3>
+
+Выбор, внедрение и совершенствование инструментария SRE-команды: системы мониторинга, incident-трекеры, платформы для постмортемов, runbook-системы.
+
+### Professional Development
+
+Профессиональный рост SRE-инженеров: планирование карьерного пути, определение зон ответственности, дизайн on-call rotation, борьба с burnout.
+
+### Performance Management
+
+Управленческие ритуалы: 1-on-1, постановка целей (Setting Goals), people management, performance conversations, развитие культуры психологической безопасности.
