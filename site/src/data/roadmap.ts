@@ -52,10 +52,54 @@ export const roadmap: Roadmap = {
       href: '/sre-culture/',
       priority: 'must',
       l1: [
-        { id: 'relationship-management', label: 'Relationship Management', priority: 'must' },
-        { id: 'learning-delivery', label: 'Learning Delivery', priority: 'must' },
-        { id: 'measurement', label: 'Measurement', priority: 'must' },
-        { id: 'knowledge-management', label: 'Knowledge Management', priority: 'must' },
+        {
+          id: 'relationship-management',
+          label: 'Relationship Management',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'dev-team-partnership',
+              label: 'Dev Team Partnership',
+              href: '/leaves/culture/dev-team-partnership/',
+            },
+          ],
+        },
+        {
+          id: 'learning-delivery',
+          label: 'Learning Delivery',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'postmortem-culture',
+              label: 'Postmortem Culture',
+              href: '/leaves/culture/postmortem-culture/',
+            },
+          ],
+        },
+        {
+          id: 'measurement',
+          label: 'Measurement',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'slo-budget-review',
+              label: 'SLO / Budget Review',
+              href: '/leaves/culture/slo-budget-review/',
+            },
+          ],
+        },
+        {
+          id: 'knowledge-management',
+          label: 'Knowledge Management',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'runbooks',
+              label: 'Runbooks',
+              href: '/leaves/culture/runbooks/',
+            },
+          ],
+        },
         { id: 'it-management', label: 'IT Management', priority: 'mandatory' },
         {
           id: 'organisational-capability-development',
@@ -82,9 +126,42 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'reliability-engineering', label: 'Reliability Engineering', priority: 'must' },
-        { id: 'it-infrastructure', label: 'IT Infrastructure', priority: 'must' },
-        { id: 'programming-scripting', label: 'Programming / Scripting', priority: 'must' },
+        {
+          id: 'reliability-engineering',
+          label: 'Reliability Engineering',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'slo-engineering',
+              label: 'SLO Engineering',
+              href: '/leaves/engineering/slo-engineering/',
+            },
+          ],
+        },
+        {
+          id: 'it-infrastructure',
+          label: 'IT Infrastructure',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'networking',
+              label: 'Networking',
+              href: '/leaves/engineering/networking/',
+            },
+          ],
+        },
+        {
+          id: 'programming-scripting',
+          label: 'Programming / Scripting',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'programming-languages',
+              label: 'Programming Languages',
+              href: '/leaves/engineering/programming-languages/',
+            },
+          ],
+        },
         { id: 'toil-reduction', label: 'Toil Reduction', priority: 'mandatory' },
         { id: 'configuration-management', label: 'Configuration Management', priority: 'mandatory' },
         { id: 'database-reliability', label: 'Database Reliability', priority: 'ondemand' },
@@ -96,8 +173,30 @@ export const roadmap: Roadmap = {
       href: '/sre-practices/',
       priority: 'must',
       l1: [
-        { id: 'incident-management', label: 'Incident Management', priority: 'must' },
-        { id: 'problem-management', label: 'Problem Management', priority: 'must' },
+        {
+          id: 'incident-management',
+          label: 'Incident Management',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'incident-response',
+              label: 'Incident Response',
+              href: '/leaves/practices/incident-response/',
+            },
+          ],
+        },
+        {
+          id: 'problem-management',
+          label: 'Problem Management',
+          priority: 'must',
+          leaves: [
+            {
+              id: 'blameless-postmortem',
+              label: 'Blameless Postmortem',
+              href: '/leaves/practices/blameless-postmortem/',
+            },
+          ],
+        },
         { id: 'change-management', label: 'Change Management', priority: 'mandatory' },
         { id: 'information-security', label: 'Information Security', priority: 'mandatory' },
         { id: 'methods-tools', label: 'Methods & Tools', priority: 'mandatory' },

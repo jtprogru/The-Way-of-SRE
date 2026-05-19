@@ -36,8 +36,32 @@ export default defineConfig({
           label: 'Листья',
           items: [
             {
-              label: 'SLI-based Alerting',
-              link: '/leaves/engineering/sli-based-alerting/',
+              label: 'Culture',
+              collapsed: false,
+              items: [
+                { label: 'SLO / Budget Review', link: '/leaves/culture/slo-budget-review/' },
+                { label: 'Runbooks', link: '/leaves/culture/runbooks/' },
+                { label: 'Postmortem Culture', link: '/leaves/culture/postmortem-culture/' },
+                { label: 'Dev Team Partnership', link: '/leaves/culture/dev-team-partnership/' },
+              ],
+            },
+            {
+              label: 'Engineering',
+              collapsed: false,
+              items: [
+                { label: 'SLI-based Alerting', link: '/leaves/engineering/sli-based-alerting/' },
+                { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
+                { label: 'Networking', link: '/leaves/engineering/networking/' },
+                { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
+              ],
+            },
+            {
+              label: 'Practices',
+              collapsed: false,
+              items: [
+                { label: 'Incident Response', link: '/leaves/practices/incident-response/' },
+                { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
+              ],
             },
           ],
         },
