@@ -100,11 +100,29 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'it-management', label: 'IT Management', priority: 'mandatory' },
+        {
+          id: 'it-management',
+          label: 'IT Management',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'it-management',
+              label: 'IT Management',
+              href: '/leaves/culture/it-management/',
+            },
+          ],
+        },
         {
           id: 'organisational-capability-development',
           label: 'Organisational Capability Development',
           priority: 'nice',
+          leaves: [
+            {
+              id: 'organisational-capability-development',
+              label: 'Organisational Capability Development',
+              href: '/leaves/culture/organisational-capability-development/',
+            },
+          ],
         },
       ],
     },
