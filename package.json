@@ -2,9 +2,20 @@
   "name": "the-way-of-sre",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "description": "The Way of SRE — Astro Starlight roadmap карты компетенций SRE",
   "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
     "toc": "doctoc README.md docs/sre-priorities.md --github --notitle",
     "lint": "markdownlint-cli2 \"**/*.md\""
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.39.2",
+    "astro": "^6.3.5",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "doctoc": "^2.2.1",

@@ -1,6 +1,7 @@
 ignores:
   - "node_modules/**"
-  - "site/**"  # Starlight-специфичный синтаксис (admonitions, frontmatter)
+  - "src/**"  # Starlight-специфичный синтаксис (admonitions, frontmatter, mdx)
+  - "dist/**"
 
 config:
   default: true

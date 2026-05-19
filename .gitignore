@@ -1,3 +1,20 @@
+# Editor / OS
+.DS_Store
+*.log
+
+# Tooling
 .serena/
-node_modules/
 .task/
+
+# Astro
+.astro/
+dist/
+
+# Build / cache
+node_modules/
+.cache/
+
+# Environment
+.env
+.env.local
+.env.*.local
