@@ -16,17 +16,26 @@ const link = (path: string) => `${base}${path}`;
 const ROW_H = 34;
 const BRANCH_GAP = 22;
 const ROOT_X = 60;
-const BRANCH_X = 260;
-const L1_X = 540;
-const LEAF_X = 820;
-const NODE_W = 220;
+const COLUMN_GAP = 60;
+const MIN_NODE_W = 180;
 const NODE_H = 28;
+const NODE_PAD_X = 28; // padding inside the rect (left+right combined)
 const ROOT_W = 110;
 const ROOT_H = 56;
 const TOP_PAD = 24;
+// Approximate char widths in px at our font-size (13px, weight 500/600).
+// Estimates are conservative so wide glyphs (W/M/—) don't clip.
+const CHAR_W_BRANCH = 8.2; // 14px / 600
+const CHAR_W_L1 = 7.4; // 13px / 500
+const CHAR_W_LEAF = 7.4;
+
+function estimateWidth(label: string, charW: number): number {
+  return Math.max(MIN_NODE_W, Math.round(label.length * charW) + NODE_PAD_X);
+}
 
 interface Node {
   kind: 'root' | 'branch' | 'l1' | 'leaf';
+  branchId?: string;
   label: string;
   x: number;
   y: number;
@@ -44,6 +53,25 @@ interface Edge {
 
 const nodes: Node[] = [];
 const edges: Edge[] = [];
+
+// Per-column widths — растягиваем колонку под самый длинный label,
+// чтобы все узлы в колонке были одной ширины (выравнивание сохраняется).
+let branchColW = MIN_NODE_W;
+let l1ColW = MIN_NODE_W;
+let leafColW = MIN_NODE_W;
+for (const branch of roadmap.branches) {
+  branchColW = Math.max(branchColW, estimateWidth(branch.label, CHAR_W_BRANCH));
+  for (const l1 of branch.l1) {
+    l1ColW = Math.max(l1ColW, estimateWidth(l1.label, CHAR_W_L1));
+    for (const leaf of l1.leaves ?? []) {
+      leafColW = Math.max(leafColW, estimateWidth(leaf.label, CHAR_W_LEAF));
+    }
+  }
+}
+
+const BRANCH_X = ROOT_X + ROOT_W + COLUMN_GAP;
+const L1_X = BRANCH_X + branchColW + COLUMN_GAP;
+const LEAF_X = L1_X + l1ColW + COLUMN_GAP;
 
 // Compute Y positions: leaves drive vertical layout — каждый leaf занимает свою
 // строку, L1 центрируется между своими leaves, ветвь центрируется между L1.
@@ -96,27 +124,29 @@ for (const [bi, branch] of roadmap.branches.entries()) {
   });
   nodes.push({
     kind: 'branch',
+    branchId: branch.id,
     label: branch.label,
     x: BRANCH_X,
     y: branchCenters[bi] - NODE_H / 2,
-    width: NODE_W,
+    width: branchColW,
     height: NODE_H,
     href: branch.href,
   });
 
   for (const [l1i, l1] of branch.l1.entries()) {
     edges.push({
-      x1: BRANCH_X + NODE_W,
+      x1: BRANCH_X + branchColW,
       y1: branchCenters[bi],
       x2: L1_X,
       y2: l1Centers[bi][l1i],
     });
     nodes.push({
       kind: 'l1',
+      branchId: branch.id,
       label: l1.label,
       x: L1_X,
       y: l1Centers[bi][l1i] - NODE_H / 2,
-      width: NODE_W,
+      width: l1ColW,
       height: NODE_H,
       href: `${branch.href}#${l1.id}`,
     });
@@ -124,17 +154,18 @@ for (const [bi, branch] of roadmap.branches.entries()) {
     for (const [leafI, leaf] of (l1.leaves ?? []).entries()) {
       const leafY = leafCenters[bi][l1i][leafI];
       edges.push({
-        x1: L1_X + NODE_W,
+        x1: L1_X + l1ColW,
         y1: l1Centers[bi][l1i],
         x2: LEAF_X,
         y2: leafY,
       });
       nodes.push({
         kind: 'leaf',
+        branchId: branch.id,
         label: leaf.label,
         x: LEAF_X,
         y: leafY - NODE_H / 2,
-        width: NODE_W,
+        width: leafColW,
         height: NODE_H,
         href: leaf.href,
       });
@@ -142,7 +173,7 @@ for (const [bi, branch] of roadmap.branches.entries()) {
   }
 }
 
-const viewBoxW = LEAF_X + NODE_W + 20;
+const viewBoxW = LEAF_X + leafColW + 20;
 const viewBoxH = totalHeight;
 ---
 
