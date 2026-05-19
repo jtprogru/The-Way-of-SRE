@@ -1,82 +1,170 @@
 ---
-// Spider.astro — карта компетенций SRE в виде кликабельного SVG-паучка.
-//
-// Принципиальная архитектура:
-//   - Каждый узел рисуется как <rect> (rounded) + <text>.
-//   - Только <text> завёрнут в <a>: кликается ТЕКСТ, а не сама фигура.
-//   - Стили адаптируются к теме Starlight (light/dark) через --sl-* переменные.
-//
-// Карта пока минимальная: 1 корень + 3 ветви + одна цепочка L1→L2 (Observability
-// → SLI-based Alerting). По мере появления заполненных листьев — расширяется.
+// Spider.astro — главная карта компетенций SRE.
+// Читает структуру из ../data/roadmap.ts и рендерит inline SVG-схему:
+//   - root (SRE)
+//   - 3 branches (Culture/Engineering/Practices)
+//   - все L1 под каждой branch
+//   - leaves под L1 (если есть)
+// Кликается ТОЛЬКО текст внутри узла, не сама фигура.
+
+import { roadmap } from '../data/roadmap.ts';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const link = (path: string) => `${base}${path}`;
+
+// Layout constants
+const ROW_H = 34;
+const BRANCH_GAP = 22;
+const ROOT_X = 60;
+const BRANCH_X = 260;
+const L1_X = 540;
+const LEAF_X = 820;
+const NODE_W = 220;
+const NODE_H = 28;
+const ROOT_W = 110;
+const ROOT_H = 56;
+const TOP_PAD = 24;
+
+interface Node {
+  kind: 'root' | 'branch' | 'l1' | 'leaf';
+  label: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  href?: string;
+}
+
+interface Edge {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+const nodes: Node[] = [];
+const edges: Edge[] = [];
+
+// Compute Y positions: L1s flow top-down per branch, branch is centered on its L1 stack.
+let cursorY = TOP_PAD;
+const branchCenters: number[] = [];
+const l1Centers: number[][] = [];
+
+for (const branch of roadmap.branches) {
+  const ys: number[] = [];
+  for (const _ of branch.l1) {
+    ys.push(cursorY + NODE_H / 2);
+    cursorY += ROW_H;
+  }
+  l1Centers.push(ys);
+  branchCenters.push((ys[0] + ys[ys.length - 1]) / 2);
+  cursorY += BRANCH_GAP;
+}
+
+const totalHeight = cursorY - BRANCH_GAP + TOP_PAD;
+const rootY = (branchCenters[0] + branchCenters[branchCenters.length - 1]) / 2;
+
+// Build nodes and edges
+nodes.push({
+  kind: 'root',
+  label: roadmap.root,
+  x: ROOT_X,
+  y: rootY - ROOT_H / 2,
+  width: ROOT_W,
+  height: ROOT_H,
+});
+
+for (const [bi, branch] of roadmap.branches.entries()) {
+  edges.push({
+    x1: ROOT_X + ROOT_W,
+    y1: rootY,
+    x2: BRANCH_X,
+    y2: branchCenters[bi],
+  });
+  nodes.push({
+    kind: 'branch',
+    label: branch.label,
+    x: BRANCH_X,
+    y: branchCenters[bi] - NODE_H / 2,
+    width: NODE_W,
+    height: NODE_H,
+    href: branch.href,
+  });
+
+  for (const [l1i, l1] of branch.l1.entries()) {
+    edges.push({
+      x1: BRANCH_X + NODE_W,
+      y1: branchCenters[bi],
+      x2: L1_X,
+      y2: l1Centers[bi][l1i],
+    });
+    nodes.push({
+      kind: 'l1',
+      label: l1.label,
+      x: L1_X,
+      y: l1Centers[bi][l1i] - NODE_H / 2,
+      width: NODE_W,
+      height: NODE_H,
+      href: `${branch.href}#${l1.id}`,
+    });
+
+    for (const leaf of l1.leaves ?? []) {
+      edges.push({
+        x1: L1_X + NODE_W,
+        y1: l1Centers[bi][l1i],
+        x2: LEAF_X,
+        y2: l1Centers[bi][l1i],
+      });
+      nodes.push({
+        kind: 'leaf',
+        label: leaf.label,
+        x: LEAF_X,
+        y: l1Centers[bi][l1i] - NODE_H / 2,
+        width: NODE_W,
+        height: NODE_H,
+        href: leaf.href,
+      });
+    }
+  }
+}
+
+const viewBoxW = LEAF_X + NODE_W + 20;
+const viewBoxH = totalHeight;
 ---
 
 <figure class="spider-figure">
   <svg
     class="spider"
-    viewBox="0 0 1000 400"
+    viewBox={`0 0 ${viewBoxW} ${viewBoxH}`}
     xmlns="http://www.w3.org/2000/svg"
     role="img"
     aria-label="Карта компетенций SRE — кликабельный паучок"
   >
-    <!-- edges -->
-    <g class="edges">
-      <line x1="160" y1="200" x2="230" y2="80" />
-      <line x1="160" y1="200" x2="230" y2="200" />
-      <line x1="160" y1="200" x2="230" y2="320" />
-      <line x1="410" y1="200" x2="520" y2="200" />
-      <line x1="680" y1="200" x2="760" y2="200" />
-    </g>
+    {edges.map((e) => (
+      <line class="edge" x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} />
+    ))}
 
-    <!-- root: SRE -->
-    <g class="node node-root">
-      <rect x="40" y="175" width="120" height="50" rx="25" ry="25" />
-      <text x="100" y="207" text-anchor="middle">SRE</text>
-    </g>
-
-    <!-- branches L0 -->
-    <g class="node node-branch">
-      <rect x="230" y="55" width="180" height="50" rx="12" ry="12" />
-      <a href={link('/sre-culture/')}>
-        <text x="320" y="87" text-anchor="middle">SRE Culture</text>
-      </a>
-    </g>
-
-    <g class="node node-branch">
-      <rect x="230" y="175" width="180" height="50" rx="12" ry="12" />
-      <a href={link('/sre-engineering/')}>
-        <text x="320" y="207" text-anchor="middle">SRE Engineering</text>
-      </a>
-    </g>
-
-    <g class="node node-branch">
-      <rect x="230" y="295" width="180" height="50" rx="12" ry="12" />
-      <a href={link('/sre-practices/')}>
-        <text x="320" y="327" text-anchor="middle">SRE Practices</text>
-      </a>
-    </g>
-
-    <!-- L1 under Engineering -->
-    <g class="node node-l1">
-      <rect x="520" y="175" width="160" height="50" rx="12" ry="12" />
-      <a href={link('/sre-engineering/#observability')}>
-        <text x="600" y="207" text-anchor="middle">Observability</text>
-      </a>
-    </g>
-
-    <!-- L2 leaf -->
-    <g class="node node-leaf">
-      <rect x="760" y="175" width="200" height="50" rx="12" ry="12" />
-      <a href={link('/leaves/engineering/sli-based-alerting/')}>
-        <text x="860" y="207" text-anchor="middle">SLI-based Alerting</text>
-      </a>
-    </g>
+    {nodes.map((n) => {
+      const cx = n.x + n.width / 2;
+      const cy = n.y + n.height / 2 + 5;
+      const rx = n.kind === 'root' ? n.height / 2 : 6;
+      return (
+        <g class={`node node-${n.kind}`}>
+          <rect x={n.x} y={n.y} width={n.width} height={n.height} rx={rx} ry={rx} />
+          {n.href ? (
+            <a href={link(n.href)}>
+              <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+            </a>
+          ) : (
+            <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+          )}
+        </g>
+      );
+    })}
   </svg>
 
   <figcaption>
-    Кликается <strong>текст</strong> внутри узла, а не сама фигура. Карта растёт постепенно: каждый новый заполненный лист становится новым узлом.
+    Кликается <strong>текст</strong> внутри узла, а не сама фигура. Карта растёт из <a href="https://github.com/jtprogru/The-Way-of-SRE/blob/main/site/src/data/roadmap.ts"><code>site/src/data/roadmap.ts</code></a> — добавление узла туда автоматически отражается здесь.
   </figcaption>
 </figure>
 
@@ -88,13 +176,12 @@ const link = (path: string) => `${base}${path}`;
   .spider {
     width: 100%;
     height: auto;
-    max-height: 480px;
     display: block;
   }
 
-  .spider .edges line {
+  .spider .edge {
     stroke: var(--sl-color-gray-4);
-    stroke-width: 2;
+    stroke-width: 1.5;
   }
 
   .spider .node rect {
@@ -106,7 +193,7 @@ const link = (path: string) => `${base}${path}`;
   .spider .node text {
     fill: var(--sl-color-text);
     font-family: var(--sl-font);
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 500;
     pointer-events: auto;
     user-select: none;
@@ -120,8 +207,13 @@ const link = (path: string) => `${base}${path}`;
   .spider .node-root text {
     fill: var(--sl-color-white);
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 0.05em;
+  }
+
+  .spider .node-branch text {
+    font-weight: 600;
+    font-size: 14px;
   }
 
   .spider .node-leaf rect {
