@@ -55,6 +55,7 @@ export default defineConfig({
                 { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
                 { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
+                { label: 'Infrastructure as Code', link: '/leaves/engineering/infrastructure-as-code/' },
               ],
             },
             {
