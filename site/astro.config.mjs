@@ -43,8 +43,8 @@ export default defineConfig({
                 { label: 'Runbooks', link: '/leaves/culture/runbooks/' },
                 { label: 'Postmortem Culture', link: '/leaves/culture/postmortem-culture/' },
                 { label: 'Dev Team Partnership', link: '/leaves/culture/dev-team-partnership/' },
-                { label: 'IT Management', link: '/leaves/culture/it-management/' },
-                { label: 'Organisational Capability Development', link: '/leaves/culture/organisational-capability-development/' },
+                { label: 'Service Ownership', link: '/leaves/culture/service-ownership/' },
+                { label: 'SRE Onboarding', link: '/leaves/culture/sre-onboarding/' },
               ],
             },
             {

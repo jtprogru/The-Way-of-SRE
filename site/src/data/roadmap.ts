@@ -106,9 +106,9 @@ export const roadmap: Roadmap = {
           priority: 'mandatory',
           leaves: [
             {
-              id: 'it-management',
-              label: 'IT Management',
-              href: '/leaves/culture/it-management/',
+              id: 'service-ownership',
+              label: 'Service Ownership',
+              href: '/leaves/culture/service-ownership/',
             },
           ],
         },
@@ -118,9 +118,9 @@ export const roadmap: Roadmap = {
           priority: 'nice',
           leaves: [
             {
-              id: 'organisational-capability-development',
-              label: 'Organisational Capability Development',
-              href: '/leaves/culture/organisational-capability-development/',
+              id: 'sre-onboarding',
+              label: 'SRE Onboarding',
+              href: '/leaves/culture/sre-onboarding/',
             },
           ],
         },
