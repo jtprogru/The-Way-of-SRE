@@ -215,7 +215,18 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'change-management', label: 'Change Management', priority: 'mandatory' },
+        {
+          id: 'change-management',
+          label: 'Change Management',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'progressive-delivery',
+              label: 'Progressive Delivery',
+              href: '/leaves/practices/progressive-delivery/',
+            },
+          ],
+        },
         { id: 'information-security', label: 'Information Security', priority: 'mandatory' },
         { id: 'methods-tools', label: 'Methods & Tools', priority: 'mandatory' },
         { id: 'professional-development', label: 'Professional Development', priority: 'mandatory' },
