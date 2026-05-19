@@ -159,6 +159,11 @@ export const roadmap: Roadmap = {
               label: 'SLO Engineering',
               href: '/leaves/engineering/slo-engineering/',
             },
+            {
+              id: 'capacity-planning',
+              label: 'Capacity Planning',
+              href: '/leaves/engineering/capacity-planning/',
+            },
           ],
         },
         {
