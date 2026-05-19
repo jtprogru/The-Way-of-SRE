@@ -234,6 +234,11 @@ export const roadmap: Roadmap = {
               label: 'Incident Response',
               href: '/leaves/practices/incident-response/',
             },
+            {
+              id: 'on-call-rotation',
+              label: 'On-Call Rotation',
+              href: '/leaves/practices/on-call-rotation/',
+            },
           ],
         },
         {
