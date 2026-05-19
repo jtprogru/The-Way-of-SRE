@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="The Way of SRE">
+  <style>
+    :root { --c: #1a1a1a; }
+    @media (prefers-color-scheme: dark) { :root { --c: #f5f5f5; } }
+    .edge { stroke: var(--c); stroke-width: 4; stroke-linecap: round; fill: none; }
+    .node { fill: var(--c); }
+  </style>
+  <line class="edge" x1="32" y1="32" x2="12" y2="18" />
+  <line class="edge" x1="32" y1="32" x2="54" y2="22" />
+  <line class="edge" x1="32" y1="32" x2="32" y2="56" />
+  <circle class="node" cx="32" cy="32" r="8" />
+  <circle class="node" cx="12" cy="18" r="5" />
+  <circle class="node" cx="54" cy="22" r="5" />
+  <circle class="node" cx="32" cy="56" r="5" />
+</svg>
