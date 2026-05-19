@@ -11,6 +11,16 @@
 - **Cross-link** — узел остаётся в одной ветви; в другой появляется ссылка на тот же лист с явной пометкой. Используется как исключение.
 - **Открыто** — решение ещё не принято.
 
+## Статус применения
+
+| Решение | Статус | Где применено |
+| ------- | ------ | ------------- |
+| Knowledge Management → Culture | ✅ Применено | Был корректно в Culture как L1, изменений в графах не потребовалось |
+| Capacity Planning → Engineering | ✅ Применено | Удалён из `sre-culture.md` (ITMG), остался в `sre-engineering.md` (RELY) |
+| DR — разделение на технику и политику | ✅ Применено | `Disaster Recovery` в Engineering/RELY; `DR Policy & Stakeholders` в Culture/ITMG |
+| SLO — разделение на три концепта | ✅ Применено | `SLO Engineering` в Engineering/RELY; `SLO Governance` в Culture/ITMG (заменил Service Management с L3); `SLO Review Ritual` в Practices/PBMG |
+| DORA Metrics → Culture | ✅ Применено | Остался в Culture/MEAS; из Practices/PEMT убран Team Metrics/DORA, добавлен `Performance Conversations` |
+
 ## Таблица пересечений
 
 | # | Узел / семейство | Где сейчас встречается | Природа дубля | Решение | Обоснование |
