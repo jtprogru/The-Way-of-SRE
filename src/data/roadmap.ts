@@ -180,7 +180,18 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'toil-reduction', label: 'Toil Reduction', priority: 'mandatory' },
+        {
+          id: 'toil-reduction',
+          label: 'Toil Reduction',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'toil-tracking',
+              label: 'Toil Tracking',
+              href: '/leaves/engineering/toil-tracking/',
+            },
+          ],
+        },
         {
           id: 'configuration-management',
           label: 'Configuration Management',

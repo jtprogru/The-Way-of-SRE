@@ -56,6 +56,7 @@ export default defineConfig({
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
                 { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
                 { label: 'Infrastructure as Code', link: '/leaves/engineering/infrastructure-as-code/' },
+                { label: 'Toil Tracking', link: '/leaves/engineering/toil-tracking/' },
               ],
             },
             {
