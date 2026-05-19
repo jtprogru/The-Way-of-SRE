@@ -28,27 +28,23 @@
 
 ## Карта компетенций
 
-Узлы на схеме **кликабельны** — клик по ветви ведёт к карте её компетенций, клик по листу — к leaf-странице с конкретными умениями, материалами и best practices. Схема растёт постепенно: новый заполненный лист появляется новым узлом с кликом на свою страницу.
+Визуальная карта направлений в SRE. Растёт постепенно: новый заполненный лист появляется на схеме новым узлом.
 
 ```mermaid
-graph TD
-    SRE{SRE}
-    SRE --> SRECulture[SRE Culture]
-    SRE --> SREEngineering[SRE Engineering]
-    SRE --> SREPractices[SRE Practices]
-
-    SREEngineering --> Observability[Observability]
-    Observability --> SLIAlerting[SLI-based Alerting]
-
-    click SRECulture "docs/sre-culture.md" "Перейти к SRE Culture"
-    click SREEngineering "docs/sre-engineering.md" "Перейти к SRE Engineering"
-    click SREPractices "docs/sre-practices.md" "Перейти к SRE Practices"
-    click Observability "docs/sre-engineering.md" "Перейти к Observability"
-    click SLIAlerting "docs/leaves/engineering/sli-based-alerting.md" "Открыть лист SLI-based Alerting"
+mindmap
+  root((SRE))
+    SRE Culture
+    SRE Engineering
+      Observability
+        SLI-based Alerting
+    SRE Practices
 ```
+
+Навигация по карте — через список ссылок ниже:
 
 - **[SRE Culture](docs/sre-culture.md)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы.
 - **[SRE Engineering](docs/sre-engineering.md)** — технические компетенции и стек. Главный объект — системы.
+  - **[SLI-based Alerting](docs/leaves/engineering/sli-based-alerting.md)** — эталонный лист (Observability).
 - **[SRE Practices](docs/sre-practices.md)** — операционные процессы и ритуалы. Главный объект — процесс.
 
 Принцип разделения ветвей и политика контроля детализации — в [docs/methodology.md](docs/methodology.md).
