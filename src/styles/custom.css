@@ -91,3 +91,35 @@ body:has(.hero) {
 .meta-strip > span[aria-hidden='true'] {
   opacity: 0.5;
 }
+
+/*
+ * Pillar-карточки на главной — тонируем в палитру их ветки.
+ * Согласованность с Spider: Culture amber, Engineering teal, Practices indigo.
+ * Цвет проявляется как левый borderr и переход на hover.
+ */
+.sl-link-card:has(a[href*='/sre-culture']) {
+  border-inline-start: 4px solid #d97706;
+}
+.sl-link-card:has(a[href*='/sre-engineering']) {
+  border-inline-start: 4px solid #0d9488;
+}
+.sl-link-card:has(a[href*='/sre-practices']) {
+  border-inline-start: 4px solid #6366f1;
+}
+
+:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-culture']) {
+  border-inline-start-color: #f59e0b;
+}
+:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-engineering']) {
+  border-inline-start-color: #2dd4bf;
+}
+:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-practices']) {
+  border-inline-start-color: #818cf8;
+}
+
+.sl-link-card:has(a[href*='/sre-culture']):hover,
+.sl-link-card:has(a[href*='/sre-engineering']):hover,
+.sl-link-card:has(a[href*='/sre-practices']):hover {
+  transform: translateY(-2px);
+  transition: transform 0.15s ease;
+}
