@@ -64,4 +64,4 @@ graph TD
 - [docs/sre-priorities.md](docs/sre-priorities.md) — приоритеты развития.
 - [docs/_inventory/overlaps.md](docs/_inventory/overlaps.md) — инвентаризация пересечений (рабочий артефакт ребаланса).
 - [docs/leaves/_template.md](docs/leaves/_template.md) — шаблон leaf-страницы (Starlight-формат).
-- Заполненные листья роадмапа — на сайте: <https://jtprogru.github.io/The-Way-of-SRE/>, исходники в `site/src/content/docs/leaves/`.
+- Заполненные листья роадмапа — на сайте: <https://jtprogru.github.io/The-Way-of-SRE/>, исходники в `src/content/docs/leaves/`.
