@@ -57,6 +57,7 @@ export default defineConfig({
                 { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
                 { label: 'Infrastructure as Code', link: '/leaves/engineering/infrastructure-as-code/' },
                 { label: 'Toil Tracking', link: '/leaves/engineering/toil-tracking/' },
+                { label: 'Backup & Restore', link: '/leaves/engineering/backup-restore/' },
               ],
             },
             {

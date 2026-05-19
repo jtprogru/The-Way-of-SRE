@@ -204,7 +204,18 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'database-reliability', label: 'Database Reliability', priority: 'ondemand' },
+        {
+          id: 'database-reliability',
+          label: 'Database Reliability',
+          priority: 'ondemand',
+          leaves: [
+            {
+              id: 'backup-restore',
+              label: 'Backup & Restore',
+              href: '/leaves/engineering/backup-restore/',
+            },
+          ],
+        },
       ],
     },
     {
