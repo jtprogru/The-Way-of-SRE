@@ -43,6 +43,7 @@ description: Регулярные 1:1 встречи с manager / tech lead — 
 
 - **Shared notes в repo / wiki / Notion / Google Doc** — самый простой формат: один документ на пару `manager + IC`, добавляется новая секция на каждую встречу с датой; видим обеим сторонам, history доступна для review цикла.
 - **1:1 templates** — публичные шаблоны от GitLab handbook, Lattice, 15Five как стартовая точка. Минимальный шаблон: previous action items / status / blockers / growth / personal / new action items.
+- **[Team Health 1:1](https://github.com/fadeinflames/team-health)** — open-source платформа, специально заточенная под 1:1: shared agenda между manager и сотрудником, pulse-метрики (energy / load / clarity / trust), development plans с привязкой к 1:1 обсуждениям, next-steps с owner'ами и дедлайнами, dashboard для tracking'а. Self-hosted (PostgreSQL backend); полезна, когда хочется структуры между «shared doc» и тяжёлой коммерческой платформой.
 - **Lattice / 15Five / Officevibe** — коммерческие платформы для performance management; полезны, когда команда выходит за неск десятков 1:1 пар и нужен центральный hub с aggregated insights и attribution для review cycle.
 
 ## Best practices
