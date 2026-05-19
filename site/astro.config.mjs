@@ -66,6 +66,7 @@ export default defineConfig({
                 { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
                 { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
+                { label: 'Architecture Decision Records', link: '/leaves/practices/architecture-decision-records/' },
               ],
             },
           ],

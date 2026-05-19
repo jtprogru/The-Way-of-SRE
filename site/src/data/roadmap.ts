@@ -250,7 +250,18 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'methods-tools', label: 'Methods & Tools', priority: 'mandatory' },
+        {
+          id: 'methods-tools',
+          label: 'Methods & Tools',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'architecture-decision-records',
+              label: 'Architecture Decision Records',
+              href: '/leaves/practices/architecture-decision-records/',
+            },
+          ],
+        },
         { id: 'professional-development', label: 'Professional Development', priority: 'mandatory' },
         { id: 'performance-management', label: 'Performance Management', priority: 'mandatory' },
       ],
