@@ -1,0 +1,16 @@
+# Astro
+.astro/
+dist/
+
+# Build/Cache
+node_modules/
+.cache/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor / OS
+.DS_Store
+*.log
