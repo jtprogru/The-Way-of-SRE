@@ -17,7 +17,7 @@
 
 - верхнеуровневая mermaid-схема ветвей в [`README.md`](../README.md);
 - детализация ветвей до второго уровня — в `docs/sre-*.md`;
-- содержимое каждого узла L2 — в leaf-страницах `docs/leaves/<branch>/<slug>.md` по [единому шаблону](leaves/_template.md);
+- содержимое каждого узла L2 — в leaf-страницах на сайте (`site/src/content/docs/leaves/<branch>/<slug>.md`, публикуются по адресу `/The-Way-of-SRE/leaves/<branch>/<slug>/`) по [единому шаблону](leaves/_template.md);
 - методологический каркас (принцип разделения ветвей, политика контроля детализации) — в [`methodology.md`](methodology.md).
 
 Эссе и пересказ теории намеренно вынесены за пределы основного маршрута: они либо ужаты до коротких определений, либо заменены ссылками на первоисточники в материалах листьев.
@@ -35,4 +35,4 @@
 
 - Поправки в листьях — PR с одним атомарным изменением в одном файле.
 - Изменения в графе (`docs/sre-*.md`) — обязательно сверка с [`methodology.md`](methodology.md) и [`_inventory/overlaps.md`](_inventory/overlaps.md).
-- Новые листья — создаются строго по [шаблону](leaves/_template.md), с заполненным фронт-маттером.
+- Новые листья — создаются строго по [шаблону](leaves/_template.md) в `site/src/content/docs/leaves/<branch>/<slug>.md`, с обновлением навигации (`site/astro.config.mjs` + `site/src/data/roadmap.ts`).

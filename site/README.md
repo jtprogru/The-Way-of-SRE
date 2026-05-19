@@ -35,7 +35,7 @@ URL после первого успешного деплоя: <https://jtprogru
 - Главная страница со spider-картой (`src/content/docs/index.mdx`).
 - Компонент `Spider.astro` — inline SVG с `<a>`-тегами в текстовых узлах. **Кликабелен только текст**, не сами узлы. Это подтверждение концепции: текст-как-ссылка работает.
 - Три страницы ветвей (Culture / Engineering / Practices) — стабы для проверки навигации.
-- Один лист (`leaves/engineering/sli-based-alerting`) — перенесён из `/docs/leaves` для проверки полной цепочки навигации со spider'а.
+- Один лист (`leaves/engineering/sli-based-alerting`) — изначально перенесён из `/docs/leaves` для проверки полной цепочки навигации со spider'а.
 
 ## Чего нет в PoC
 

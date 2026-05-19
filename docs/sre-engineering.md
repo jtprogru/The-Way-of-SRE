@@ -63,7 +63,7 @@ graph LR
     DBAD --> DBBackup[Backup & Restore]
     DBAD --> DBPerf[Performance & Monitoring]
 
-    click SLIAlerting "leaves/engineering/sli-based-alerting.md" "Открыть лист SLI-based Alerting"
+    click SLIAlerting "https://jtprogru.github.io/The-Way-of-SRE/leaves/engineering/sli-based-alerting/" "Открыть лист SLI-based Alerting"
 ```
 
 Бюджет узлов: 1 корень + 7 L1 + 27 L2 = **35 узлов** (в пределах политики `≤ 80` на проект).

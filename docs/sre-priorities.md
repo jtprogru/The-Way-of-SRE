@@ -81,7 +81,7 @@ graph LR
 
 L2-компетенции под каждой ветвью:
 
-- 🔴 **[Observability](sre-engineering.md)** — Metrics, Logging, Distributed Tracing, [SLI-based Alerting](leaves/engineering/sli-based-alerting.md), End-User Monitoring.
+- 🔴 **[Observability](sre-engineering.md)** — Metrics, Logging, Distributed Tracing, [SLI-based Alerting](https://jtprogru.github.io/The-Way-of-SRE/leaves/engineering/sli-based-alerting/), End-User Monitoring.
 - 🔴 **[Reliability Engineering](sre-engineering.md)** — SLO Engineering, Chaos Engineering, Capacity Planning, Disaster Recovery, Resilience Patterns.
 - 🔴 **[IT Infrastructure](sre-engineering.md)** — Networking, Operating Systems, Containerization & Orchestration, Service Mesh, Cloud Providers.
 - 🔴 **[Programming / Scripting](sre-engineering.md)** — Programming Languages, Shell & CLI Craft, CI/CD.
