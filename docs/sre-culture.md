@@ -27,7 +27,6 @@ graph LR
     SRECulture --> ITMG[IT Management]
     SRECulture --> OCDV[Organisational Capability Development]
 
-    RLMT --> PeopleMgmt[People Management]
     RLMT --> StakeholderMgmt[Stakeholder Management]
     RLMT --> ContinuousFeedback[Continuous Feedback]
     RLMT --> DevTeamPartnership[Dev Team Partnership]
@@ -42,7 +41,6 @@ graph LR
     MEAS --> SLOBudgetReview[SLO / Budget Review]
     MEAS --> DORAMetrics[DORA Metrics]
     MEAS --> ToilMeasurement[Toil Measurement]
-    MEAS --> GoalSetting[Goal Setting]
 
     KNOW --> Runbooks[Runbooks]
     KNOW --> Playbooks[Playbooks]
@@ -60,4 +58,4 @@ graph LR
     OCDV --> TeamTopologies[Team Topologies]
 ```
 
-Бюджет узлов: 1 корень + 6 L1 + 26 L2 = **33 узла**.
+Бюджет узлов: 1 корень + 6 L1 + 24 L2 = **31 узел**.

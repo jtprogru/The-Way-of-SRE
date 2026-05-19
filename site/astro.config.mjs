@@ -23,6 +23,7 @@ export default defineConfig({
       ],
       sidebar: [
         { label: 'Карта компетенций', link: '/' },
+        { label: 'Roadmap (приоритеты)', link: '/priorities/' },
         {
           label: 'Ветви',
           items: [

@@ -1,18 +1,9 @@
-# SRE Roadmap
+---
+title: SRE Roadmap — приоритеты развития
+description: Карта компетенций SRE, организованная по приоритету для роли (Must Have / Mandatory / Nice to have / On Demand). Вторая ось — уровень SFIA — хранится во фронт-маттере листьев.
+---
 
 Документ организует компетенции трёх ветвей по **приоритету для роли SRE**. Это одна из двух осей развития; вторая — уровень зрелости инженера — хранится отдельно.
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [Две независимые оси](#%D0%B4%D0%B2%D0%B5-%D0%BD%D0%B5%D0%B7%D0%B0%D0%B2%D0%B8%D1%81%D0%B8%D0%BC%D1%8B%D0%B5-%D0%BE%D1%81%D0%B8)
-  - [Priority — обязательность для роли](#priority--%D0%BE%D0%B1%D1%8F%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C-%D0%B4%D0%BB%D1%8F-%D1%80%D0%BE%D0%BB%D0%B8)
-  - [SFIA — уровень зрелости инженера](#sfia--%D1%83%D1%80%D0%BE%D0%B2%D0%B5%D0%BD%D1%8C-%D0%B7%D1%80%D0%B5%D0%BB%D0%BE%D1%81%D1%82%D0%B8-%D0%B8%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%B0)
-- [SRE Culture](#sre-culture)
-- [SRE Engineering](#sre-engineering)
-- [SRE Practices](#sre-practices)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Две независимые оси
 
@@ -25,7 +16,7 @@
 - 🟢 **Nice to have** — расширяет возможности, но не блокирует.
 - 🔵 **On Demand** — изучается, когда проект требует.
 
-В графе ниже каждая L1-компетенция помечена цветом в соответствии с приоритетом.
+В графах ниже каждая L1-компетенция помечена цветом в соответствии с приоритетом.
 
 ### SFIA — уровень зрелости инженера
 
@@ -53,12 +44,12 @@ graph LR
 
 L2-компетенции под каждой ветвью:
 
-- 🔴 **[Measurement](sre-culture.md)** — SLO / Budget Review, DORA Metrics, Toil Measurement.
-- 🔴 **[Relationship Management](sre-culture.md)** — Stakeholder Management, Continuous Feedback, Dev Team Partnership, Communications.
-- 🔴 **[Learning Delivery](sre-culture.md)** — Game Day / Chaos Drills, Postmortem Culture, Incident Response Training, Mentorship, Knowledge Sharing.
-- 🔴 **[Knowledge Management](sre-culture.md)** — Runbooks, Playbooks, Postmortem Database, Architecture Decision Records, Collaboration.
-- 🟡 **[IT Management](sre-culture.md)** — On-Call Budget Management, DR Policy & Stakeholders, SLO Governance.
-- 🟢 **[Organisational Capability Development](sre-culture.md)** — SRE Maturity Assessment, SRE Model Adoption, Research & PoC, Team Topologies.
+- 🔴 **[Measurement](/The-Way-of-SRE/sre-culture/)** — SLO / Budget Review, DORA Metrics, Toil Measurement.
+- 🔴 **[Relationship Management](/The-Way-of-SRE/sre-culture/)** — Stakeholder Management, Continuous Feedback, Dev Team Partnership, Communications.
+- 🔴 **[Learning Delivery](/The-Way-of-SRE/sre-culture/)** — Game Day / Chaos Drills, Postmortem Culture, Incident Response Training, Mentorship, Knowledge Sharing.
+- 🔴 **[Knowledge Management](/The-Way-of-SRE/sre-culture/)** — Runbooks, Playbooks, Postmortem Database, Architecture Decision Records, Collaboration.
+- 🟡 **[IT Management](/The-Way-of-SRE/sre-culture/)** — On-Call Budget Management, DR Policy & Stakeholders, SLO Governance.
+- 🟢 **[Organisational Capability Development](/The-Way-of-SRE/sre-culture/)** — SRE Maturity Assessment, SRE Model Adoption, Research & PoC, Team Topologies.
 
 ## SRE Engineering
 
@@ -81,13 +72,13 @@ graph LR
 
 L2-компетенции под каждой ветвью:
 
-- 🔴 **[Observability](sre-engineering.md)** — Metrics, Logging, Distributed Tracing, [SLI-based Alerting](leaves/engineering/sli-based-alerting.md), End-User Monitoring.
-- 🔴 **[Reliability Engineering](sre-engineering.md)** — SLO Engineering, Chaos Engineering, Capacity Planning, Disaster Recovery, Resilience Patterns.
-- 🔴 **[IT Infrastructure](sre-engineering.md)** — Networking, Operating Systems, Containerization & Orchestration, Service Mesh, Cloud Providers.
-- 🔴 **[Programming / Scripting](sre-engineering.md)** — Programming Languages, Shell & CLI Craft, CI/CD.
-- 🟡 **[Toil Reduction](sre-engineering.md)** — Toil Identification, Toil Automation, Toil Tracking.
-- 🟡 **[Configuration Management](sre-engineering.md)** — Infrastructure as Code, GitOps.
-- 🔵 **[Database Reliability](sre-engineering.md)** — DB Engines, Replication, Backup & Restore, Performance & Monitoring.
+- 🔴 **[Observability](/The-Way-of-SRE/sre-engineering/)** — Metrics, Logging, Distributed Tracing, [SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/), End-User Monitoring.
+- 🔴 **[Reliability Engineering](/The-Way-of-SRE/sre-engineering/)** — SLO Engineering, Chaos Engineering, Capacity Planning, Disaster Recovery, Resilience Patterns.
+- 🔴 **[IT Infrastructure](/The-Way-of-SRE/sre-engineering/)** — Networking, Operating Systems, Containerization & Orchestration, Service Mesh, Cloud Providers.
+- 🔴 **[Programming / Scripting](/The-Way-of-SRE/sre-engineering/)** — Programming Languages, Shell & CLI Craft, CI/CD.
+- 🟡 **[Toil Reduction](/The-Way-of-SRE/sre-engineering/)** — Toil Identification, Toil Automation, Toil Tracking.
+- 🟡 **[Configuration Management](/The-Way-of-SRE/sre-engineering/)** — Infrastructure as Code, GitOps.
+- 🔵 **[Database Reliability](/The-Way-of-SRE/sre-engineering/)** — DB Engines, Replication, Backup & Restore, Performance & Monitoring.
 
 ## SRE Practices
 
@@ -110,10 +101,10 @@ graph LR
 
 L2-компетенции под каждой ветвью:
 
-- 🔴 **[Incident Management](sre-practices.md)** — Incident Response, Escalation Paths, On-Call Rotation, Status Page Management, MTTR Optimization.
-- 🔴 **[Problem Management](sre-practices.md)** — Blameless Postmortem, Problem Tracking, Trend Analysis, Preventive Measures, SLO Review Ritual.
-- 🟡 **[Change Management](sre-practices.md)** — Production Readiness Review, Progressive Delivery, Rollback Strategy, Error Budget Gating, Change Risk Assessment.
-- 🟡 **[Information Security](sre-practices.md)** — Vulnerability Management, Security SLOs, Threat Modeling, Supply Chain Security, Secret Management.
-- 🟡 **[Methods & Tools](sre-practices.md)** — SRE Toolchain, Policy and Standards, Analysis.
-- 🟡 **[Professional Development](sre-practices.md)** — Career Pathing for SRE, Strategy Planning, Burnout Prevention, On-Call Design.
-- 🟡 **[Performance Management](sre-practices.md)** — People Management, Setting Goals, Psychological Safety, Performance Conversations.
+- 🔴 **[Incident Management](/The-Way-of-SRE/sre-practices/)** — Incident Response, Escalation Paths, On-Call Rotation, Status Page Management, MTTR Optimization.
+- 🔴 **[Problem Management](/The-Way-of-SRE/sre-practices/)** — Blameless Postmortem, Problem Tracking, Trend Analysis, Preventive Measures, SLO Review Ritual.
+- 🟡 **[Change Management](/The-Way-of-SRE/sre-practices/)** — Production Readiness Review, Progressive Delivery, Rollback Strategy, Error Budget Gating, Change Risk Assessment.
+- 🟡 **[Information Security](/The-Way-of-SRE/sre-practices/)** — Vulnerability Management, Security SLOs, Threat Modeling, Supply Chain Security, Secret Management.
+- 🟡 **[Methods & Tools](/The-Way-of-SRE/sre-practices/)** — SRE Toolchain, Policy and Standards, Analysis.
+- 🟡 **[Professional Development](/The-Way-of-SRE/sre-practices/)** — Career Pathing for SRE, Strategy Planning, Burnout Prevention, On-Call Design.
+- 🟡 **[Performance Management](/The-Way-of-SRE/sre-practices/)** — People Management, Setting Goals, Psychological Safety, Performance Conversations.
