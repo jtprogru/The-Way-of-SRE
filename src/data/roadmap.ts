@@ -147,6 +147,11 @@ export const roadmap: Roadmap = {
               label: 'SLI-based Alerting',
               href: '/leaves/engineering/sli-based-alerting/',
             },
+            {
+              id: 'alert-fatigue-management',
+              label: 'Alert Fatigue Management',
+              href: '/leaves/engineering/alert-fatigue-management/',
+            },
           ],
         },
         {
