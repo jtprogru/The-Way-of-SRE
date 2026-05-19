@@ -34,6 +34,19 @@ function estimateWidth(label: string, charW: number): number {
   return Math.max(MIN_NODE_W, Math.round(label.length * charW) + NODE_PAD_X);
 }
 
+// Lucide-style иконки 24×24, stroke-based. Используются на branch-узлах.
+const BRANCH_ICONS: Record<string, string> = {
+  // users — про людей и команды (Culture)
+  culture:
+    'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+  // server — про инфраструктуру и код (Engineering)
+  engineering:
+    'M2 4h20v6H2z M2 14h20v6H2z M6 7h.01 M6 17h.01',
+  // clipboard-check — про процессы и ритуалы (Practices)
+  practices:
+    'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 3h6v4H9z M9 14l2 2 4-4',
+};
+
 interface Node {
   kind: 'root' | 'branch' | 'l1' | 'leaf';
   branchId?: string;
@@ -58,11 +71,16 @@ const edges: Edge[] = [];
 
 // Per-column widths — растягиваем колонку под самый длинный label,
 // чтобы все узлы в колонке были одной ширины (выравнивание сохраняется).
+// Branch-колонка дополнительно резервирует место под иконку.
+const BRANCH_ICON_W = 20;
+const BRANCH_ICON_GAP = 10;
 let branchColW = MIN_NODE_W;
 let l1ColW = MIN_NODE_W;
 let leafColW = MIN_NODE_W;
 for (const branch of roadmap.branches) {
-  branchColW = Math.max(branchColW, estimateWidth(branch.label, CHAR_W_BRANCH));
+  const branchEstimate =
+    estimateWidth(branch.label, CHAR_W_BRANCH) + BRANCH_ICON_W + BRANCH_ICON_GAP;
+  branchColW = Math.max(branchColW, branchEstimate);
   for (const l1 of branch.l1) {
     l1ColW = Math.max(l1ColW, estimateWidth(l1.label, CHAR_W_L1));
     for (const leaf of l1.leaves ?? []) {
@@ -216,15 +234,39 @@ const viewBoxH = totalHeight;
       const cy = n.y + n.height / 2 + 5;
       const rx = n.kind === 'root' ? n.height / 2 : 6;
       const groupFilter = n.kind === 'root' ? 'url(#spider-root-glow)' : undefined;
+      const iconPath = n.kind === 'branch' && n.branchId ? BRANCH_ICONS[n.branchId] : undefined;
+      // Когда есть иконка — рисуем «иконка + текст» как единый блок,
+      // центрированный внутри rect. Иначе — обычный центрированный текст.
+      let textX = cx;
+      let textAnchor: 'middle' | 'start' = 'middle';
+      let iconX = 0;
+      let iconY = 0;
+      if (iconPath) {
+        const estTextW = Math.round(n.label.length * CHAR_W_BRANCH);
+        const totalW = BRANCH_ICON_W + BRANCH_ICON_GAP + estTextW;
+        const contentLeft = n.x + (n.width - totalW) / 2;
+        iconX = contentLeft;
+        iconY = n.y + (n.height - BRANCH_ICON_W) / 2;
+        textX = contentLeft + BRANCH_ICON_W + BRANCH_ICON_GAP;
+        textAnchor = 'start';
+      }
       return (
         <g class={`node node-${n.kind}`} data-branch={n.branchId} filter={groupFilter}>
           <rect x={n.x} y={n.y} width={n.width} height={n.height} rx={rx} ry={rx} />
+          {iconPath && (
+            <g
+              class="branch-icon"
+              transform={`translate(${iconX}, ${iconY}) scale(${BRANCH_ICON_W / 24})`}
+            >
+              <path d={iconPath} />
+            </g>
+          )}
           {n.href ? (
             <a href={link(n.href)}>
-              <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+              <text x={textX} y={cy} text-anchor={textAnchor}>{n.label}</text>
             </a>
           ) : (
-            <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+            <text x={textX} y={cy} text-anchor={textAnchor}>{n.label}</text>
           )}
         </g>
       );
@@ -334,6 +376,15 @@ const viewBoxH = totalHeight;
     font-weight: 700;
     font-size: 15px;
     letter-spacing: 0.02em;
+  }
+
+  /* Иконка ветки — белый stroke, lucide-style */
+  .spider .branch-icon path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   /* L1 — рамка цвета ветки, светлый фон */
