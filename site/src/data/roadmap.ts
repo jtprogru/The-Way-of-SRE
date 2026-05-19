@@ -100,11 +100,29 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'it-management', label: 'IT Management', priority: 'mandatory' },
+        {
+          id: 'it-management',
+          label: 'IT Management',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'service-ownership',
+              label: 'Service Ownership',
+              href: '/leaves/culture/service-ownership/',
+            },
+          ],
+        },
         {
           id: 'organisational-capability-development',
           label: 'Organisational Capability Development',
           priority: 'nice',
+          leaves: [
+            {
+              id: 'sre-onboarding',
+              label: 'SRE Onboarding',
+              href: '/leaves/culture/sre-onboarding/',
+            },
+          ],
         },
       ],
     },
