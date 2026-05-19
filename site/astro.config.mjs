@@ -10,9 +10,9 @@ export default defineConfig({
     starlight({
       title: 'The Way of SRE',
       description: 'Карта компетенций для развития в роли Site Reliability Engineer',
-      defaultLocale: 'ru',
+      defaultLocale: 'root',
       locales: {
-        ru: { label: 'Русский', lang: 'ru' },
+        root: { label: 'Русский', lang: 'ru' },
       },
       social: {
         github: 'https://github.com/jtprogru/The-Way-of-SRE',
