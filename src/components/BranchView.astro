@@ -29,11 +29,31 @@ const link = (path: string) => `${base}${path}`;
 // Layout constants
 const ROW_H = 36;
 const BRANCH_X = 30;
-const L1_X = 280;
-const LEAF_X = 560;
-const NODE_W = 220;
+const COLUMN_GAP = 60;
+const MIN_NODE_W = 200;
 const NODE_H = 30;
+const NODE_PAD_X = 28;
 const TOP_PAD = 20;
+const CHAR_W_BRANCH = 8.2;
+const CHAR_W_L1 = 7.4;
+const CHAR_W_LEAF = 7.4;
+
+function estimateWidth(label: string, charW: number): number {
+  return Math.max(MIN_NODE_W, Math.round(label.length * charW) + NODE_PAD_X);
+}
+
+const branchColW = estimateWidth(branch.label, CHAR_W_BRANCH);
+let l1ColW = MIN_NODE_W;
+let leafColW = MIN_NODE_W;
+for (const l1 of branch.l1) {
+  l1ColW = Math.max(l1ColW, estimateWidth(l1.label, CHAR_W_L1));
+  for (const leaf of l1.leaves ?? []) {
+    leafColW = Math.max(leafColW, estimateWidth(leaf.label, CHAR_W_LEAF));
+  }
+}
+
+const L1_X = BRANCH_X + branchColW + COLUMN_GAP;
+const LEAF_X = L1_X + l1ColW + COLUMN_GAP;
 
 interface Node {
   kind: 'branch' | 'l1' | 'leaf';
@@ -73,14 +93,14 @@ nodes.push({
   label: branch.label,
   x: BRANCH_X,
   y: branchCenter - NODE_H / 2,
-  width: NODE_W,
+  width: branchColW,
   height: NODE_H,
 });
 
 // L1s + leaves
 for (const [l1i, l1] of branch.l1.entries()) {
   edges.push({
-    x1: BRANCH_X + NODE_W,
+    x1: BRANCH_X + branchColW,
     y1: branchCenter,
     x2: L1_X,
     y2: l1Centers[l1i],
@@ -91,14 +111,14 @@ for (const [l1i, l1] of branch.l1.entries()) {
     label: l1.label,
     x: L1_X,
     y: l1Centers[l1i] - NODE_H / 2,
-    width: NODE_W,
+    width: l1ColW,
     height: NODE_H,
     href: `${branch.href}#${l1.id}`,
   });
 
   for (const leaf of l1.leaves ?? []) {
     edges.push({
-      x1: L1_X + NODE_W,
+      x1: L1_X + l1ColW,
       y1: l1Centers[l1i],
       x2: LEAF_X,
       y2: l1Centers[l1i],
@@ -108,7 +128,7 @@ for (const [l1i, l1] of branch.l1.entries()) {
       label: leaf.label,
       x: LEAF_X,
       y: l1Centers[l1i] - NODE_H / 2,
-      width: NODE_W,
+      width: leafColW,
       height: NODE_H,
       href: leaf.href,
     });
@@ -116,11 +136,11 @@ for (const [l1i, l1] of branch.l1.entries()) {
 }
 
 const hasAnyLeaves = branch.l1.some((l1) => l1.leaves && l1.leaves.length > 0);
-const viewBoxW = (hasAnyLeaves ? LEAF_X + NODE_W : L1_X + NODE_W) + 20;
+const viewBoxW = (hasAnyLeaves ? LEAF_X + leafColW : L1_X + l1ColW) + 20;
 const viewBoxH = totalHeight;
 ---
 
-<figure class="branchview-figure" data-variant={variant}>
+<figure class="branchview-figure" data-variant={variant} data-branch={branch.id}>
   <svg
     class="branchview"
     viewBox={`0 0 ${viewBoxW} ${viewBoxH}`}
@@ -167,6 +187,43 @@ const viewBoxH = totalHeight;
     margin: 1.5rem 0 2rem;
   }
 
+  /*
+   * Палитра по ветвям — соответствует Spider.astro (одна цветовая
+   * семантика на всех страницах). Применяется только в navigation-
+   * варианте; priority-вариант оставлен с собственной цветовой схемой
+   * через .priority-* классы (приоритеты — другая ось смысла).
+   */
+  .branchview-figure[data-branch='culture'] {
+    --bc: #d97706;
+    --bc-low: #fef3c7;
+    --bc-text: #78350f;
+  }
+  .branchview-figure[data-branch='engineering'] {
+    --bc: #0d9488;
+    --bc-low: #ccfbf1;
+    --bc-text: #134e4a;
+  }
+  .branchview-figure[data-branch='practices'] {
+    --bc: #6366f1;
+    --bc-low: #e0e7ff;
+    --bc-text: #312e81;
+  }
+  :root[data-theme='dark'] .branchview-figure[data-branch='culture'] {
+    --bc: #f59e0b;
+    --bc-low: #44301a;
+    --bc-text: #fde68a;
+  }
+  :root[data-theme='dark'] .branchview-figure[data-branch='engineering'] {
+    --bc: #2dd4bf;
+    --bc-low: #133b37;
+    --bc-text: #99f6e4;
+  }
+  :root[data-theme='dark'] .branchview-figure[data-branch='practices'] {
+    --bc: #818cf8;
+    --bc-low: #1f1f4e;
+    --bc-text: #c7d2fe;
+  }
+
   .branchview {
     width: 100%;
     height: auto;
@@ -175,7 +232,8 @@ const viewBoxH = totalHeight;
 
   .branchview .edge {
     stroke: var(--sl-color-gray-4);
-    stroke-width: 1.5;
+    stroke-width: 1.6;
+    opacity: 0.85;
   }
 
   .branchview .node rect {
@@ -193,17 +251,47 @@ const viewBoxH = totalHeight;
     user-select: none;
   }
 
-  .branchview .node-branch rect {
+  /* Navigation variant: окраска по ветви */
+  .branchview-figure[data-variant='navigation'] .edge {
+    stroke: var(--bc);
+    opacity: 0.55;
+    stroke-width: 2;
+  }
+  .branchview-figure[data-variant='navigation'] .node-branch rect {
+    fill: var(--bc);
+    stroke: var(--bc);
+  }
+  .branchview-figure[data-variant='navigation'] .node-branch text {
+    fill: #fff;
+    font-weight: 700;
+  }
+  .branchview-figure[data-variant='navigation'] .node-l1 rect {
+    fill: var(--sl-color-bg);
+    stroke: var(--bc);
+    stroke-width: 1.5;
+  }
+  .branchview-figure[data-variant='navigation'] .node-leaf rect {
+    fill: var(--bc-low);
+    stroke: var(--bc);
+    stroke-width: 1.8;
+  }
+  .branchview-figure[data-variant='navigation'] .node-leaf text {
+    fill: var(--bc-text);
+    font-weight: 600;
+  }
+
+  /* Priority variant: оставлен с исходной цветовой схемой (по приоритетам) */
+  .branchview-figure[data-variant='priority'] .node-branch rect {
     fill: var(--sl-color-accent);
     stroke: var(--sl-color-accent);
   }
 
-  .branchview .node-branch text {
+  .branchview-figure[data-variant='priority'] .node-branch text {
     fill: var(--sl-color-white);
     font-weight: 700;
   }
 
-  .branchview .node-leaf rect {
+  .branchview-figure[data-variant='priority'] .node-leaf rect {
     fill: var(--sl-color-accent-low);
     stroke: var(--sl-color-accent);
     stroke-width: 2;

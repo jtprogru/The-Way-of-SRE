@@ -49,6 +49,7 @@ interface Edge {
   y1: number;
   x2: number;
   y2: number;
+  branchId?: string;
 }
 
 const nodes: Node[] = [];
@@ -121,6 +122,7 @@ for (const [bi, branch] of roadmap.branches.entries()) {
     y1: rootY,
     x2: BRANCH_X,
     y2: branchCenters[bi],
+    branchId: branch.id,
   });
   nodes.push({
     kind: 'branch',
@@ -139,6 +141,7 @@ for (const [bi, branch] of roadmap.branches.entries()) {
       y1: branchCenters[bi],
       x2: L1_X,
       y2: l1Centers[bi][l1i],
+      branchId: branch.id,
     });
     nodes.push({
       kind: 'l1',
@@ -158,6 +161,7 @@ for (const [bi, branch] of roadmap.branches.entries()) {
         y1: l1Centers[bi][l1i],
         x2: LEAF_X,
         y2: leafY,
+        branchId: branch.id,
       });
       nodes.push({
         kind: 'leaf',
@@ -186,7 +190,14 @@ const viewBoxH = totalHeight;
     aria-label="Карта компетенций SRE — кликабельный паучок"
   >
     {edges.map((e) => (
-      <line class="edge" x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} />
+      <line
+        class="edge"
+        data-branch={e.branchId}
+        x1={e.x1}
+        y1={e.y1}
+        x2={e.x2}
+        y2={e.y2}
+      />
     ))}
 
     {nodes.map((n) => {
@@ -194,7 +205,7 @@ const viewBoxH = totalHeight;
       const cy = n.y + n.height / 2 + 5;
       const rx = n.kind === 'root' ? n.height / 2 : 6;
       return (
-        <g class={`node node-${n.kind}`}>
+        <g class={`node node-${n.kind}`} data-branch={n.branchId}>
           <rect x={n.x} y={n.y} width={n.width} height={n.height} rx={rx} ry={rx} />
           {n.href ? (
             <a href={link(n.href)}>
@@ -220,11 +231,58 @@ const viewBoxH = totalHeight;
     display: block;
   }
 
-  .spider .edge {
-    stroke: var(--sl-color-gray-4);
-    stroke-width: 1.5;
+  /*
+   * Палитра по ветвям. Каждая ветка задаёт свой акцентный цвет (--bc)
+   * и его «низкую» версию (--bc-low). Дальше стили узлов читают эти
+   * переменные через data-branch, и одно правило раскрашивает три ветки.
+   *
+   * Light-тема: насыщенные средние оттенки (контраст к белому фону).
+   * Dark-тема: чуть осветлённые (контраст к тёмному фону).
+   */
+  .spider [data-branch='culture'] {
+    --bc: #d97706; /* amber-600 — про людей и нормы, тёплый */
+    --bc-low: #fef3c7; /* amber-100 */
+    --bc-text: #78350f; /* amber-900 */
+  }
+  .spider [data-branch='engineering'] {
+    --bc: #0d9488; /* teal-600 — про железо и код, холодный */
+    --bc-low: #ccfbf1; /* teal-100 */
+    --bc-text: #134e4a; /* teal-900 */
+  }
+  .spider [data-branch='practices'] {
+    --bc: #6366f1; /* indigo-500 — про процессы, нейтральный фиолетовый */
+    --bc-low: #e0e7ff; /* indigo-100 */
+    --bc-text: #312e81; /* indigo-900 */
+  }
+  :root[data-theme='dark'] .spider [data-branch='culture'] {
+    --bc: #f59e0b; /* amber-500 */
+    --bc-low: #44301a; /* deep amber tint */
+    --bc-text: #fde68a; /* amber-200 */
+  }
+  :root[data-theme='dark'] .spider [data-branch='engineering'] {
+    --bc: #2dd4bf; /* teal-400 */
+    --bc-low: #133b37; /* deep teal tint */
+    --bc-text: #99f6e4; /* teal-200 */
+  }
+  :root[data-theme='dark'] .spider [data-branch='practices'] {
+    --bc: #818cf8; /* indigo-400 */
+    --bc-low: #1f1f4e; /* deep indigo tint */
+    --bc-text: #c7d2fe; /* indigo-200 */
   }
 
+  /* Edges — fallback серый, окрашенные перебивают */
+  .spider .edge {
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 1.6;
+    opacity: 0.85;
+  }
+  .spider .edge[data-branch] {
+    stroke: var(--bc);
+    stroke-width: 2;
+    opacity: 0.55;
+  }
+
+  /* Base node — для root и fallback */
   .spider .node rect {
     fill: var(--sl-color-bg-nav);
     stroke: var(--sl-color-gray-4);
@@ -240,11 +298,11 @@ const viewBoxH = totalHeight;
     user-select: none;
   }
 
+  /* Root */
   .spider .node-root rect {
     fill: var(--sl-color-accent);
     stroke: var(--sl-color-accent);
   }
-
   .spider .node-root text {
     fill: var(--sl-color-white);
     font-weight: 700;
@@ -252,15 +310,33 @@ const viewBoxH = totalHeight;
     letter-spacing: 0.05em;
   }
 
-  .spider .node-branch text {
-    font-weight: 600;
+  /* Branch — фон цвета ветки, белый текст */
+  .spider .node-branch[data-branch] rect {
+    fill: var(--bc);
+    stroke: var(--bc);
+  }
+  .spider .node-branch[data-branch] text {
+    fill: #fff;
+    font-weight: 700;
     font-size: 14px;
   }
 
-  .spider .node-leaf rect {
-    fill: var(--sl-color-accent-low);
-    stroke: var(--sl-color-accent);
-    stroke-width: 2;
+  /* L1 — рамка цвета ветки, светлый фон */
+  .spider .node-l1[data-branch] rect {
+    fill: var(--sl-color-bg);
+    stroke: var(--bc);
+    stroke-width: 1.5;
+  }
+
+  /* Leaf — приглушённая заливка цвета ветки + цветной текст */
+  .spider .node-leaf[data-branch] rect {
+    fill: var(--bc-low);
+    stroke: var(--bc);
+    stroke-width: 1.8;
+  }
+  .spider .node-leaf[data-branch] text {
+    fill: var(--bc-text);
+    font-weight: 600;
   }
 
   .spider a {
@@ -273,7 +349,6 @@ const viewBoxH = totalHeight;
 
   .spider a:hover text,
   .spider a:focus text {
-    fill: var(--sl-color-accent-high);
     text-decoration: underline;
     text-decoration-thickness: 2px;
   }
