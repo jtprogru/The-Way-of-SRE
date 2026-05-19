@@ -230,6 +230,30 @@ const viewBoxH = totalHeight;
     display: block;
   }
 
+  /* Мобильный режим — см. Spider.astro: горизонтальный скролл с подсказкой */
+  @media (max-width: 900px) {
+    .branchview-figure {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+      padding-bottom: 0.25rem;
+    }
+    .branchview {
+      width: 820px;
+      min-width: 820px;
+    }
+    .branchview-figure::after {
+      content: '↔ карта шире экрана — листай горизонтально';
+      display: block;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--sl-color-gray-3);
+      margin-top: 0.5rem;
+      padding-inline: 1rem;
+    }
+  }
+
   .branchview .edge {
     stroke: var(--sl-color-gray-4);
     stroke-width: 1.6;

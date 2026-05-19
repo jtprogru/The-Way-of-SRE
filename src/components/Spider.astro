@@ -286,6 +286,35 @@ const viewBoxH = totalHeight;
   }
 
   /*
+   * Мобильный режим: ниже 900px SVG сжимается так, что текст становится
+   * нечитаем (~5pt). Делаем контейнер горизонтально скроллируемым,
+   * SVG получает фиксированную min-width и масштабируется по высоте.
+   * Снизу — подсказка «↔ листай горизонтально», скрывается на десктопе.
+   */
+  @media (max-width: 900px) {
+    .spider-figure {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-inline: -1rem; /* визуально вытягиваем под полные поля */
+      padding-inline: 1rem;
+      padding-bottom: 0.25rem;
+    }
+    .spider {
+      width: 960px;
+      min-width: 960px;
+    }
+    .spider-figure::after {
+      content: '↔ карта шире экрана — листай горизонтально';
+      display: block;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--sl-color-gray-3);
+      margin-top: 0.5rem;
+      padding-inline: 1rem;
+    }
+  }
+
+  /*
    * Палитра по ветвям. Каждая ветка задаёт свой акцентный цвет (--bc)
    * и его «низкую» версию (--bc-low). Дальше стили узлов читают эти
    * переменные через data-branch, и одно правило раскрашивает три ветки.
