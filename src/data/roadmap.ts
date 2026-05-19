@@ -212,6 +212,11 @@ export const roadmap: Roadmap = {
               label: 'Infrastructure as Code',
               href: '/leaves/engineering/infrastructure-as-code/',
             },
+            {
+              id: 'gitops',
+              label: 'GitOps',
+              href: '/leaves/engineering/gitops/',
+            },
           ],
         },
         {
