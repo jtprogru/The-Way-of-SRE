@@ -238,7 +238,18 @@ export const roadmap: Roadmap = {
             },
           ],
         },
-        { id: 'information-security', label: 'Information Security', priority: 'mandatory' },
+        {
+          id: 'information-security',
+          label: 'Information Security',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'secrets-management',
+              label: 'Secrets Management',
+              href: '/leaves/practices/secrets-management/',
+            },
+          ],
+        },
         { id: 'methods-tools', label: 'Methods & Tools', priority: 'mandatory' },
         { id: 'professional-development', label: 'Professional Development', priority: 'mandatory' },
         { id: 'performance-management', label: 'Performance Management', priority: 'mandatory' },
