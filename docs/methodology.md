@@ -84,6 +84,7 @@
 ## Связанные документы
 
 - [`_inventory/overlaps.md`](_inventory/overlaps.md) — инвентаризация и решения по пересечениям между ветвями.
+- [`_inventory/tlroadmap-review.md`](_inventory/tlroadmap-review.md) — разбор tlroadmap.io: что у них берём, что не берём, с обоснованием. Кандидаты на эксперименты с шаблоном.
 - [`leaves/_template.md`](leaves/_template.md) — шаблон leaf-страницы в Starlight-формате (три слоя: умения, материалы, best practices). Реальные листья создаются в `site/src/content/docs/leaves/<branch>/<slug>.md`.
 - [`sre-priorities.md`](sre-priorities.md) — текущая раскладка приоритетов (Must Have / Mandatory / Nice to have / On Demand). Будет переработана отдельным шагом: разделение двух ортогональных измерений — «уровень SFIA» и «приоритет».
 - [`about.md`](about.md) — мотивация, формат и дисклеймер проекта.
