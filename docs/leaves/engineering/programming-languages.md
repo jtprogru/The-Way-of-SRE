@@ -1,0 +1,50 @@
+---
+name: Programming Languages
+branch: Engineering
+path: Programming / Scripting/Programming Languages
+sfia_levels: [3, 4, 5, 6]
+priority: Must Have
+status: draft
+---
+
+# Programming Languages
+
+> **SRE пишет код.** Это принципиальное отличие от классических ops. Не «по чуть-чуть всё», а **один-два языка на уровне писать поддерживаемый сервис**, плюс Shell-уверенность для скриптовой автоматизации. Концепт; конкретный выбор языка — в материалах.
+
+## Что должен уметь
+
+- **L3** — Уверенно пишет shell-скрипты (bash). Читает и поправляет существующий код команды на основном языке (Go/Python).
+- **L4** — Пишет небольшие сервисы на основном языке: HTTP-handler, работа с метриками, логирование, тесты. Понимает идиомы языка (error handling в Go, generators в Python).
+- **L5** — Поддерживает производственный сервис на основном языке: профилирование, optimisation, разбор паник/exceptions, дизайн API.
+- **L6+** — Делает технические решения по выбору языка для команды (миграция Python → Go, например). Развивает code review-культуру.
+
+## Материалы
+
+### Книги
+
+- Donovan, Kernighan — **The Go Programming Language** (Addison-Wesley, 2015). Каноничный учебник для основного SRE-языка в индустрии.
+- Luciano Ramalho — **Fluent Python, 2nd ed.** (O'Reilly, 2022). Для тех, кто пишет SRE-tooling на Python.
+
+### Статьи и доклады
+
+- Effective Go — **[go.dev/doc/effective_go](https://go.dev/doc/effective_go)**. Официальный гайд по идиомам Go.
+- Brian Kernighan — **[A Few Billion Lines of Code Later](https://cacm.acm.org/research/a-few-billion-lines-of-code-later/)**. Про чтение чужого кода — основная активность SRE.
+
+### Инструменты
+
+- **Go**: стандартный для SRE-tooling в Google, HashiCorp, CNCF. Хорошо подходит для CLI и сервисов. Прометей написан на Go.
+- **Python**: для скриптов, data-tooling, automation. Богатая экосистема библиотек.
+- **bash**: универсальная склейка системных утилит. Достаточно для 80% операционных скриптов.
+- **Rust**: на подъёме для perf-critical SRE-tooling (Bottle Rocket, ripgrep), но более крутая кривая обучения.
+
+## Best practices
+
+- **Освой один язык до уровня «писать сервис», потом расширяй.** Поверхностное знание трёх языков менее ценно, чем глубокое знание одного. Дефолт в индустрии — Go или Python в зависимости от стека команды.
+- **SRE-код — это код в продакшен.** Не «временный скрипт». Тесты, code review, версионирование, мониторинг своих же tooling-сервисов — обязательны.
+- **Shell-навыки — отдельная инвестиция.** Никакой Go не заменит уверенный bash-pipeline для on-call задач. См. отдельный лист `engineering/shell-cli-craft` (TBD).
+
+## Связанные листья
+
+- **Shell & CLI Craft** (TBD) — терминальный инструментарий и shell-pipeline.
+- **CI/CD** (TBD) — где SRE-код деплоится и проверяется.
+- **Toil Automation** (TBD) — то, ради чего SRE пишет код.
