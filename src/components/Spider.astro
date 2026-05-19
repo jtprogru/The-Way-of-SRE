@@ -45,19 +45,32 @@ interface Edge {
 const nodes: Node[] = [];
 const edges: Edge[] = [];
 
-// Compute Y positions: L1s flow top-down per branch, branch is centered on its L1 stack.
+// Compute Y positions: leaves drive vertical layout — каждый leaf занимает свою
+// строку, L1 центрируется между своими leaves, ветвь центрируется между L1.
+// Если у L1 нет leaves — он сам занимает одну строку.
 let cursorY = TOP_PAD;
 const branchCenters: number[] = [];
 const l1Centers: number[][] = [];
+const leafCenters: number[][][] = []; // [branchIdx][l1Idx][leafIdx] → y
 
 for (const branch of roadmap.branches) {
-  const ys: number[] = [];
-  for (const _ of branch.l1) {
-    ys.push(cursorY + NODE_H / 2);
-    cursorY += ROW_H;
+  const branchL1Ys: number[] = [];
+  const branchLeafYs: number[][] = [];
+
+  for (const l1 of branch.l1) {
+    const leafYs: number[] = [];
+    const slotCount = Math.max(1, l1.leaves?.length ?? 0);
+    for (let i = 0; i < slotCount; i++) {
+      leafYs.push(cursorY + NODE_H / 2);
+      cursorY += ROW_H;
+    }
+    branchLeafYs.push(leafYs);
+    branchL1Ys.push((leafYs[0] + leafYs[leafYs.length - 1]) / 2);
   }
-  l1Centers.push(ys);
-  branchCenters.push((ys[0] + ys[ys.length - 1]) / 2);
+
+  l1Centers.push(branchL1Ys);
+  leafCenters.push(branchLeafYs);
+  branchCenters.push((branchL1Ys[0] + branchL1Ys[branchL1Ys.length - 1]) / 2);
   cursorY += BRANCH_GAP;
 }
 
@@ -108,18 +121,19 @@ for (const [bi, branch] of roadmap.branches.entries()) {
       href: `${branch.href}#${l1.id}`,
     });
 
-    for (const leaf of l1.leaves ?? []) {
+    for (const [leafI, leaf] of (l1.leaves ?? []).entries()) {
+      const leafY = leafCenters[bi][l1i][leafI];
       edges.push({
         x1: L1_X + NODE_W,
         y1: l1Centers[bi][l1i],
         x2: LEAF_X,
-        y2: l1Centers[bi][l1i],
+        y2: leafY,
       });
       nodes.push({
         kind: 'leaf',
         label: leaf.label,
         x: LEAF_X,
-        y: l1Centers[bi][l1i] - NODE_H / 2,
+        y: leafY - NODE_H / 2,
         width: NODE_W,
         height: NODE_H,
         href: leaf.href,

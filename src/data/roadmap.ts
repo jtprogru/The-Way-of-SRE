@@ -122,6 +122,11 @@ export const roadmap: Roadmap = {
               label: 'SRE Onboarding',
               href: '/leaves/culture/sre-onboarding/',
             },
+            {
+              id: 'career-ladders',
+              label: 'Career Ladders',
+              href: '/leaves/culture/career-ladders/',
+            },
           ],
         },
       ],
