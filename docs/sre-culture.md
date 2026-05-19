@@ -15,57 +15,49 @@
 
 ## Карта компетенций
 
-Компетенции для развития в ветке `SRE Culture`:
+Граф L1+L2 в соответствии с [политикой контроля детализации](methodology.md): не более 2 уровней под ветвью, не более 7 L1 на ветвь, не более 5 L2 на L1.
 
 ```mermaid
 graph LR
     SRECulture{SRE Culture}
-    SRECulture --> RLMT[Relationship management]
-    SRECulture --> ETDL[Learning delivery]
+    SRECulture --> RLMT[Relationship Management]
+    SRECulture --> ETDL[Learning Delivery]
     SRECulture --> MEAS[Measurement]
-    SRECulture --> KNOW[Knowledge management]
-    SRECulture --> ITMG[IT management]
-    SRECulture --> OCDV[Organisational capability development]
+    SRECulture --> KNOW[Knowledge Management]
+    SRECulture --> ITMG[IT Management]
+    SRECulture --> OCDV[Organisational Capability Development]
 
-    RLMT --> PeopleManagement[People Management]
+    RLMT --> PeopleMgmt[People Management]
     RLMT --> StakeholderMgmt[Stakeholder Management]
     RLMT --> ContinuousFeedback[Continuous Feedback]
     RLMT --> DevTeamPartnership[Dev Team Partnership]
-    RLMT --> Communications
+    RLMT --> Communications[Communications]
 
     ETDL --> GameDay[Game Day / Chaos Drills]
     ETDL --> PostmortemCulture[Postmortem Culture]
-    ETDL --> IncidentResponseTraining[Incident Response Training]
-    ETDL --> Mentorship
+    ETDL --> IRTraining[Incident Response Training]
+    ETDL --> Mentorship[Mentorship]
     ETDL --> KnowledgeSharing[Knowledge Sharing]
 
-    MEAS --> SLOReview[SLO Review]
+    MEAS --> SLOBudgetReview[SLO / Budget Review]
     MEAS --> DORAMetrics[DORA Metrics]
-    MEAS --> ErrorBudgetReview[Error Budget Review]
     MEAS --> ToilMeasurement[Toil Measurement]
-    MEAS --> ReliabilityTargets[Reliability Targets]
     MEAS --> GoalSetting[Goal Setting]
 
-    KNOW --> Runbooks
-    KNOW --> Playbooks
+    KNOW --> Runbooks[Runbooks]
+    KNOW --> Playbooks[Playbooks]
     KNOW --> PostmortemDB[Postmortem Database]
-    KNOW --> ArchDecisionRecords[Architecture Decision Records]
-    KNOW --> Collaboration
+    KNOW --> ADR[Architecture Decision Records]
+    KNOW --> Collaboration[Collaboration]
 
-    ITMG --> CapacityPlanning[Capacity Planning]
     ITMG --> OnCallBudget[On-Call Budget Management]
-    ITMG --> SLAManagement[SLA Management]
-    ITMG --> DisasterRecoveryPlanning[Disaster Recovery Planning]
-    ITMG --> BudgetReliability[Reliability Budget]
-    ITMG --> ServiceManagement[Service Management]
-    ServiceManagement --> SLA
-    ServiceManagement --> SLI
-    ServiceManagement --> SLO
-    ServiceManagement --> ErrorBudget[Error Budget]
+    ITMG --> DRPolicy[DR Policy & Stakeholders]
+    ITMG --> SLOGovernance[SLO Governance]
 
-    OCDV --> SREMaturityAssessment[SRE Maturity Assessment]
-    OCDV --> SREModelAdoption[SRE Model Adoption]
-    OCDV --> RnD[Research and Development]
-    OCDV --> PoC[Proof of Concepts]
+    OCDV --> SREMaturity[SRE Maturity Assessment]
+    OCDV --> SREModel[SRE Model Adoption]
+    OCDV --> ResearchPoC[Research & PoC]
     OCDV --> TeamTopologies[Team Topologies]
 ```
+
+Бюджет узлов: 1 корень + 6 L1 + 26 L2 = **33 узла**.

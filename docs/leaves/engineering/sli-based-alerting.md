@@ -1,7 +1,7 @@
 ---
 name: SLI-based Alerting
 branch: Engineering
-path: Observability/Alerting Strategy/SLI-based Alerting
+path: Observability/SLI-based Alerting
 sfia_levels: [3, 4, 5, 6]
 priority: Must Have
 status: draft
