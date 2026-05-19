@@ -1,0 +1,282 @@
+---
+// BranchView.astro — SVG-карта одной ветви: branch + её L1 + leaves.
+// Используется на страницах /sre-{branch}/ и /priorities/ для замены
+// неподдерживаемого Starlight'ом mermaid.
+//
+// Props:
+//   branchId: 'culture' | 'engineering' | 'practices'
+//   variant?: 'navigation' (по умолч.) | 'priority'
+//     navigation — нейтральные цвета, фокус на переходах
+//     priority   — L1-узлы окрашены в соответствии с приоритетом
+
+import { getBranch, priorityLabels, type Priority } from '../data/roadmap.ts';
+
+interface Props {
+  branchId: 'culture' | 'engineering' | 'practices';
+  variant?: 'navigation' | 'priority';
+}
+
+const { branchId, variant = 'navigation' } = Astro.props;
+const branch = getBranch(branchId);
+
+if (!branch) {
+  throw new Error(`BranchView: unknown branchId "${branchId}"`);
+}
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (path: string) => `${base}${path}`;
+
+// Layout constants
+const ROW_H = 36;
+const BRANCH_X = 30;
+const L1_X = 280;
+const LEAF_X = 560;
+const NODE_W = 220;
+const NODE_H = 30;
+const TOP_PAD = 20;
+
+interface Node {
+  kind: 'branch' | 'l1' | 'leaf';
+  priority?: Priority;
+  label: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  href?: string;
+}
+
+interface Edge {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
+const nodes: Node[] = [];
+const edges: Edge[] = [];
+
+const l1Centers: number[] = [];
+let cursorY = TOP_PAD;
+for (const _ of branch.l1) {
+  l1Centers.push(cursorY + NODE_H / 2);
+  cursorY += ROW_H;
+}
+
+const totalHeight = cursorY + TOP_PAD;
+const branchCenter = (l1Centers[0] + l1Centers[l1Centers.length - 1]) / 2;
+
+// Branch node
+nodes.push({
+  kind: 'branch',
+  priority: branch.priority,
+  label: branch.label,
+  x: BRANCH_X,
+  y: branchCenter - NODE_H / 2,
+  width: NODE_W,
+  height: NODE_H,
+});
+
+// L1s + leaves
+for (const [l1i, l1] of branch.l1.entries()) {
+  edges.push({
+    x1: BRANCH_X + NODE_W,
+    y1: branchCenter,
+    x2: L1_X,
+    y2: l1Centers[l1i],
+  });
+  nodes.push({
+    kind: 'l1',
+    priority: l1.priority,
+    label: l1.label,
+    x: L1_X,
+    y: l1Centers[l1i] - NODE_H / 2,
+    width: NODE_W,
+    height: NODE_H,
+    href: `${branch.href}#${l1.id}`,
+  });
+
+  for (const leaf of l1.leaves ?? []) {
+    edges.push({
+      x1: L1_X + NODE_W,
+      y1: l1Centers[l1i],
+      x2: LEAF_X,
+      y2: l1Centers[l1i],
+    });
+    nodes.push({
+      kind: 'leaf',
+      label: leaf.label,
+      x: LEAF_X,
+      y: l1Centers[l1i] - NODE_H / 2,
+      width: NODE_W,
+      height: NODE_H,
+      href: leaf.href,
+    });
+  }
+}
+
+const hasAnyLeaves = branch.l1.some((l1) => l1.leaves && l1.leaves.length > 0);
+const viewBoxW = (hasAnyLeaves ? LEAF_X + NODE_W : L1_X + NODE_W) + 20;
+const viewBoxH = totalHeight;
+---
+
+<figure class="branchview-figure" data-variant={variant}>
+  <svg
+    class="branchview"
+    viewBox={`0 0 ${viewBoxW} ${viewBoxH}`}
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-label={`Карта компетенций — ${branch.label}`}
+  >
+    {edges.map((e) => (
+      <line class="edge" x1={e.x1} y1={e.y1} x2={e.x2} y2={e.y2} />
+    ))}
+
+    {nodes.map((n) => {
+      const cx = n.x + n.width / 2;
+      const cy = n.y + n.height / 2 + 5;
+      const priorityClass =
+        variant === 'priority' && n.priority ? `priority-${n.priority}` : '';
+      return (
+        <g class={`node node-${n.kind} ${priorityClass}`}>
+          <rect x={n.x} y={n.y} width={n.width} height={n.height} rx="6" ry="6" />
+          {n.href ? (
+            <a href={link(n.href)}>
+              <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+            </a>
+          ) : (
+            <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+          )}
+        </g>
+      );
+    })}
+  </svg>
+
+  {variant === 'priority' && (
+    <figcaption class="legend">
+      <span class="legend-item priority-must">{priorityLabels.must.emoji} {priorityLabels.must.ru}</span>
+      <span class="legend-item priority-mandatory">{priorityLabels.mandatory.emoji} {priorityLabels.mandatory.ru}</span>
+      <span class="legend-item priority-nice">{priorityLabels.nice.emoji} {priorityLabels.nice.ru}</span>
+      <span class="legend-item priority-ondemand">{priorityLabels.ondemand.emoji} {priorityLabels.ondemand.ru}</span>
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .branchview-figure {
+    margin: 1.5rem 0 2rem;
+  }
+
+  .branchview {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .branchview .edge {
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 1.5;
+  }
+
+  .branchview .node rect {
+    fill: var(--sl-color-bg-nav);
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 1.5;
+  }
+
+  .branchview .node text {
+    fill: var(--sl-color-text);
+    font-family: var(--sl-font);
+    font-size: 13px;
+    font-weight: 500;
+    pointer-events: auto;
+    user-select: none;
+  }
+
+  .branchview .node-branch rect {
+    fill: var(--sl-color-accent);
+    stroke: var(--sl-color-accent);
+  }
+
+  .branchview .node-branch text {
+    fill: var(--sl-color-white);
+    font-weight: 700;
+  }
+
+  .branchview .node-leaf rect {
+    fill: var(--sl-color-accent-low);
+    stroke: var(--sl-color-accent);
+    stroke-width: 2;
+  }
+
+  /* Priority colors (variant=priority) */
+  .branchview .priority-must rect {
+    fill: #ffe1e1;
+    stroke: #cc0000;
+  }
+  :root[data-theme='dark'] .branchview .priority-must rect {
+    fill: #3d1212;
+    stroke: #ff6b6b;
+  }
+
+  .branchview .priority-mandatory rect {
+    fill: #fff5cc;
+    stroke: #a37e00;
+  }
+  :root[data-theme='dark'] .branchview .priority-mandatory rect {
+    fill: #3d2d0c;
+    stroke: #e6b800;
+  }
+
+  .branchview .priority-nice rect {
+    fill: #dffadb;
+    stroke: #2a7d2e;
+  }
+  :root[data-theme='dark'] .branchview .priority-nice rect {
+    fill: #142d15;
+    stroke: #57c95c;
+  }
+
+  .branchview .priority-ondemand rect {
+    fill: #dde7f0;
+    stroke: #1a4a73;
+  }
+  :root[data-theme='dark'] .branchview .priority-ondemand rect {
+    fill: #1a2733;
+    stroke: #6ba8d9;
+  }
+
+  /* Priority view: keep text color stable */
+  .branchview-figure[data-variant='priority'] .node-branch text,
+  .branchview-figure[data-variant='priority'] .node-l1 text {
+    fill: #222;
+  }
+  :root[data-theme='dark'] .branchview-figure[data-variant='priority'] .node-branch text,
+  :root[data-theme='dark'] .branchview-figure[data-variant='priority'] .node-l1 text {
+    fill: var(--sl-color-text);
+  }
+
+  .branchview a {
+    cursor: pointer;
+  }
+
+  .branchview a text {
+    transition: fill 0.15s ease;
+  }
+
+  .branchview a:hover text,
+  .branchview a:focus text {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+
+  .branchview-figure .legend {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-2);
+  }
+</style>
