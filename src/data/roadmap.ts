@@ -290,6 +290,11 @@ export const roadmap: Roadmap = {
               label: 'Secrets Management',
               href: '/leaves/practices/secrets-management/',
             },
+            {
+              id: 'threat-modeling',
+              label: 'Threat Modeling',
+              href: '/leaves/practices/threat-modeling/',
+            },
           ],
         },
         {

@@ -72,6 +72,7 @@ export default defineConfig({
                 { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
                 { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
+                { label: 'Threat Modeling', link: '/leaves/practices/threat-modeling/' },
                 { label: 'Architecture Decision Records', link: '/leaves/practices/architecture-decision-records/' },
                 { label: 'One-on-Ones', link: '/leaves/practices/one-on-ones/' },
                 { label: 'Personal Growth Plan', link: '/leaves/practices/personal-growth-plan/' },
