@@ -14,9 +14,13 @@ export default defineConfig({
       locales: {
         root: { label: 'Русский', lang: 'ru' },
       },
-      social: {
-        github: 'https://github.com/jtprogru/The-Way-of-SRE',
-      },
+      social: [
+        {
+          icon: 'github',
+          label: 'GitHub',
+          href: 'https://github.com/jtprogru/The-Way-of-SRE',
+        },
+      ],
       sidebar: [
         { label: 'Карта компетенций', link: '/' },
         {
