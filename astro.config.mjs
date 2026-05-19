@@ -53,6 +53,7 @@ export default defineConfig({
               collapsed: false,
               items: [
                 { label: 'SLI-based Alerting', link: '/leaves/engineering/sli-based-alerting/' },
+                { label: 'Alert Fatigue Management', link: '/leaves/engineering/alert-fatigue-management/' },
                 { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
                 { label: 'Capacity Planning', link: '/leaves/engineering/capacity-planning/' },
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
