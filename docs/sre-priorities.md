@@ -53,8 +53,8 @@ graph LR
 
 L2-компетенции под каждой ветвью:
 
-- 🔴 **[Measurement](sre-culture.md)** — SLO / Budget Review, DORA Metrics, Toil Measurement, Goal Setting.
-- 🔴 **[Relationship Management](sre-culture.md)** — People Management, Stakeholder Management, Continuous Feedback, Dev Team Partnership, Communications.
+- 🔴 **[Measurement](sre-culture.md)** — SLO / Budget Review, DORA Metrics, Toil Measurement.
+- 🔴 **[Relationship Management](sre-culture.md)** — Stakeholder Management, Continuous Feedback, Dev Team Partnership, Communications.
 - 🔴 **[Learning Delivery](sre-culture.md)** — Game Day / Chaos Drills, Postmortem Culture, Incident Response Training, Mentorship, Knowledge Sharing.
 - 🔴 **[Knowledge Management](sre-culture.md)** — Runbooks, Playbooks, Postmortem Database, Architecture Decision Records, Collaboration.
 - 🟡 **[IT Management](sre-culture.md)** — On-Call Budget Management, DR Policy & Stakeholders, SLO Governance.
@@ -116,4 +116,4 @@ L2-компетенции под каждой ветвью:
 - 🟡 **[Information Security](sre-practices.md)** — Vulnerability Management, Security SLOs, Threat Modeling, Supply Chain Security, Secret Management.
 - 🟡 **[Methods & Tools](sre-practices.md)** — SRE Toolchain, Policy and Standards, Analysis.
 - 🟡 **[Professional Development](sre-practices.md)** — Career Pathing for SRE, Strategy Planning, Burnout Prevention, On-Call Design.
-- 🟡 **[Performance Management](sre-practices.md)** — Mentorship, People Management, Setting Goals, Psychological Safety, Performance Conversations.
+- 🟡 **[Performance Management](sre-practices.md)** — People Management, Setting Goals, Psychological Safety, Performance Conversations.
