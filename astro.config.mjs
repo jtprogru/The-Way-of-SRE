@@ -1,8 +1,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
-// PoC config: minimal Starlight setup to validate Astro as the
-// future home of the SRE roadmap. Production deploy is deferred.
+// Production config: The Way of SRE roadmap site.
+// Деплой автоматический через .github/workflows/deploy-site.yml на push в main.
 export default defineConfig({
   site: 'https://jtprogru.github.io',
   base: '/The-Way-of-SRE',
@@ -67,6 +67,7 @@ export default defineConfig({
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
                 { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
                 { label: 'Architecture Decision Records', link: '/leaves/practices/architecture-decision-records/' },
+                { label: 'One-on-Ones', link: '/leaves/practices/one-on-ones/' },
               ],
             },
           ],

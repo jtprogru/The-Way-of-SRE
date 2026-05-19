@@ -263,7 +263,18 @@ export const roadmap: Roadmap = {
           ],
         },
         { id: 'professional-development', label: 'Professional Development', priority: 'mandatory' },
-        { id: 'performance-management', label: 'Performance Management', priority: 'mandatory' },
+        {
+          id: 'performance-management',
+          label: 'Performance Management',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'one-on-ones',
+              label: 'One-on-Ones',
+              href: '/leaves/practices/one-on-ones/',
+            },
+          ],
+        },
       ],
     },
   ],
