@@ -14,6 +14,21 @@ tasks:
     generates:
       - node_modules/.package-lock.json
 
+  dev:
+    desc: "Run site dev server at http://localhost:4321/The-Way-of-SRE/"
+    deps: [install]
+    cmd: npm run dev
+
+  build:
+    desc: "Build site to dist/"
+    deps: [install]
+    cmd: npm run build
+
+  preview:
+    desc: "Preview built site locally"
+    deps: [build]
+    cmd: npm run preview
+
   toc:
     desc: "Update Table of Contents in README and docs"
     deps: [install]
@@ -27,31 +42,3 @@ tasks:
   check:
     desc: "Run all checks (toc + lint)"
     deps: [toc, lint]
-
-  site:install:
-    desc: "Install site dependencies (Astro Starlight PoC)"
-    dir: site
-    cmd: npm install
-    sources:
-      - site/package.json
-      - site/package-lock.json
-    generates:
-      - site/node_modules/.package-lock.json
-
-  site:dev:
-    desc: "Run site dev server at http://localhost:4321/The-Way-of-SRE/"
-    deps: [site:install]
-    dir: site
-    cmd: npm run dev
-
-  site:build:
-    desc: "Build site to site/dist/"
-    deps: [site:install]
-    dir: site
-    cmd: npm run build
-
-  site:preview:
-    desc: "Preview built site locally"
-    deps: [site:build]
-    dir: site
-    cmd: npm run preview

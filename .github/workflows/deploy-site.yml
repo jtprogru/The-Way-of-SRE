@@ -1,13 +1,18 @@
 name: Deploy site to GitHub Pages
 
 # Триггеры:
-# - push в main, затрагивающий site/ или сам workflow
+# - push в main, затрагивающий Astro-проект или сам workflow
 # - ручной запуск через UI (workflow_dispatch)
 on:
   push:
     branches: [main]
     paths:
-      - 'site/**'
+      - 'src/**'
+      - 'public/**'
+      - 'astro.config.mjs'
+      - 'tsconfig.json'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 
@@ -35,20 +40,17 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: site/package-lock.json
 
       - name: Install dependencies
-        working-directory: site
         run: npm ci
 
       - name: Build
-        working-directory: site
         run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site/dist
+          path: dist
 
   deploy:
     name: Deploy to GitHub Pages
