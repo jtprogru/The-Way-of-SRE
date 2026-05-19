@@ -54,6 +54,7 @@ export default defineConfig({
               items: [
                 { label: 'SLI-based Alerting', link: '/leaves/engineering/sli-based-alerting/' },
                 { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
+                { label: 'Capacity Planning', link: '/leaves/engineering/capacity-planning/' },
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
                 { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
                 { label: 'Infrastructure as Code', link: '/leaves/engineering/infrastructure-as-code/' },
