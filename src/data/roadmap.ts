@@ -339,6 +339,11 @@ export const roadmap: Roadmap = {
               label: 'Threat Modeling',
               href: '/leaves/practices/threat-modeling/',
             },
+            {
+              id: 'vulnerability-management',
+              label: 'Vulnerability Management',
+              href: '/leaves/practices/vulnerability-management/',
+            },
           ],
         },
         {
