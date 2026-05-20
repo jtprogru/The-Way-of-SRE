@@ -89,6 +89,7 @@ export default defineConfig({
                 { label: 'Incident Response', link: '/leaves/practices/incident-response/' },
                 { label: 'On-Call Rotation', link: '/leaves/practices/on-call-rotation/' },
                 { label: 'Severity Classification', link: '/leaves/practices/severity-classification/' },
+                { label: 'Customer Communications', link: '/leaves/practices/customer-communications/' },
                 { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
                 { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
