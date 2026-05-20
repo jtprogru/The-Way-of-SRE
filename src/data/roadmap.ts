@@ -293,6 +293,11 @@ export const roadmap: Roadmap = {
               label: 'Severity Classification',
               href: '/leaves/practices/severity-classification/',
             },
+            {
+              id: 'customer-communications',
+              label: 'Customer Communications',
+              href: '/leaves/practices/customer-communications/',
+            },
           ],
         },
         {
