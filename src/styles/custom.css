@@ -49,6 +49,12 @@ body:has(.hero) {
 .hero {
   grid-template-columns: 100% !important;
   max-width: none !important;
+  /*
+   * Starlight даёт hero на ≥50rem `padding-block: clamp(2.5rem, ..., 10rem)`
+   * — снизу на широких экранах до 160px пустоты между CTA и следующим блоком.
+   * Урезаем bottom; top оставляем по Starlight для дыхания между navbar и title.
+   */
+  padding-bottom: 2rem !important;
 }
 
 .hero .copy,
@@ -60,10 +66,11 @@ body:has(.hero) {
  * Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками.
  * Используем <div> вместо <p>, потому что MDX внутри prose-обёртки автоматически
  * оборачивает текст в <p>, и nested-p в HTML невалиден.
+ *
+ * Без max-width — растягивается на ширину content-panel (та же, что Spider).
  */
 .intro-blurb {
-  max-width: 64ch;
-  margin: 1.5rem auto 2.5rem;
+  margin: 1.5rem 0 2.5rem;
   font-size: 1.05rem;
   line-height: 1.6;
   color: var(--sl-color-gray-2);
@@ -135,18 +142,20 @@ body:has(.hero) {
 /*
  * Секции на главной под Spider: «Цель проекта», «Как читать карту»,
  * «Обсудить и контрибутить». Каждая в своём <section class="home-section">.
- * Splash-template даёт центрирование и ограниченную ширину контента —
- * мы доводим визуальную иерархию до читаемой landing page.
+ *
+ * Секция растягивается на полную ширину content-panel (равна ширине Spider).
+ * Заголовок H2 центрирован, prose внутри — выровнен по левому краю
+ * (центрированный многострочный текст хуже читается). Списки и CTA-row —
+ * по центру за счёт собственных стилей.
  */
 .home-section {
-  max-width: 64ch;
-  margin: 3.5rem auto 0;
-  text-align: center;
+  margin: 3.5rem 0 0;
 }
 
 .home-section h2 {
   font-size: 1.6rem;
   font-weight: 700;
+  text-align: center;
   margin-bottom: 1rem;
 }
 
@@ -154,7 +163,8 @@ body:has(.hero) {
   font-size: 1rem;
   line-height: 1.65;
   color: var(--sl-color-gray-2);
-  margin: 0 auto 1rem;
+  text-align: left;
+  margin: 0 0 1rem;
 }
 
 .section-lede:last-child {
