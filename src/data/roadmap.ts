@@ -222,6 +222,11 @@ export const roadmap: Roadmap = {
               label: 'CI/CD',
               href: '/leaves/engineering/ci-cd/',
             },
+            {
+              id: 'test-strategy',
+              label: 'Test Strategy',
+              href: '/leaves/engineering/test-strategy/',
+            },
           ],
         },
         {
