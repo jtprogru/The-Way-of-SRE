@@ -1,12 +1,26 @@
-// Единый источник правды для карты компетенций SRE.
+// Источник правды для структуры роадмапа на уровне L1 + leaves и для priorities.
 //
-// Структура отражает текущее состояние графов в /docs/sre-*.md и
-// _inventory/overlaps.md. При изменении графов — обновлять здесь.
+// За что отвечает этот файл (и НИЧТО другое):
+//   - L1-узлы каждой ветви и их порядок
+//   - priorities L1 (must / mandatory / nice / ondemand) — используется
+//     /priorities/ на сайте и цветовой разметкой `PriorityMap`
+//   - leaves под L1 (фактически написанные leaf-страницы)
 //
-// `priority` хранится на уровне L1 (для homepage / branch views)
-// и используется PriorityMap для цветовой разметки.
-// `leaves` под L1 появляются по мере создания leaf-страниц
-// в site/src/content/docs/leaves/<branch>/<slug>.md.
+// За что отвечают /docs/sre-{culture,engineering,practices}.md:
+//   - inventory L1 + L2 концептов компетенций (mermaid) — для GitHub-читателей
+//   - L2-узлы (Stakeholder Management, Metrics, IaC и т.п.) живут ТОЛЬКО там;
+//     это потенциальные подкомпетенции, не leaf-страницы
+//
+// Инвариант: набор и порядок L1 в этом файле должен совпадать с L1 в
+// mermaid'ах /docs/sre-*.md. При изменении L1 (переименование, добавление,
+// удаление) — синхронизировать оба источника одним PR.
+//
+// /docs/sre-priorities.md — методологический документ про ось priority,
+// он НЕ содержит данных (только определение Must Have / Mandatory / …
+// и ссылки сюда).
+//
+// Leaves создаются в src/content/docs/leaves/<branch>/<slug>.md и
+// регистрируются здесь под соответствующим L1.
 
 export type Priority = 'must' | 'mandatory' | 'nice' | 'ondemand';
 
