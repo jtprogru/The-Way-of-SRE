@@ -1,0 +1,126 @@
+---
+// Кастомный Footer:
+// 1) сохраняет дефолтное поведение Starlight (EditLink + LastUpdated + Pagination)
+// 2) добавляет site-wide блок снизу: соцссылки, копирайт, лицензия.
+//
+// Не рендерится на splash-страницах (Starlight их полностью кастомизирует);
+// для главной site-footer добавлен inline в src/content/docs/index.mdx.
+
+import EditLink from 'virtual:starlight/components/EditLink';
+import LastUpdated from 'virtual:starlight/components/LastUpdated';
+import Pagination from 'virtual:starlight/components/Pagination';
+import { Icon } from '@astrojs/starlight/components';
+
+const year = new Date().getFullYear();
+
+const socials = [
+  { icon: 'github', label: 'GitHub', href: 'https://github.com/jtprogru/The-Way-of-SRE' },
+  { icon: 'telegram', label: 'Telegram канал', href: 'https://t.me/jtprogru_channel' },
+  { icon: 'telegram', label: 'Telegram чат', href: 'https://t.me/jtprogru_chat' },
+  { icon: 'external', label: 'Блог jtprog.ru', href: 'https://jtprog.ru/' },
+] as const;
+---
+
+<footer class="sl-flex">
+  <div class="meta sl-flex">
+    <EditLink />
+    <LastUpdated />
+  </div>
+  <Pagination />
+
+  <div class="site-footer">
+    <nav class="site-footer-socials" aria-label="Социальные ссылки">
+      {socials.map((s) => (
+        <a href={s.href} aria-label={s.label} title={s.label} class="site-footer-social" rel="noopener" target="_blank">
+          <Icon name={s.icon} />
+        </a>
+      ))}
+    </nav>
+    <div class="site-footer-meta">
+      <span>© 2024&ndash;{year} Mikhail Savin</span>
+      <span aria-hidden="true">·</span>
+      <a href="https://github.com/jtprogru/The-Way-of-SRE/blob/main/LICENSE" rel="noopener">Apache-2.0</a>
+      <span aria-hidden="true">·</span>
+      <span>open source</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .meta {
+    gap: 0.75rem 3rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .meta > :global(p:only-child) {
+    margin-inline-start: auto;
+  }
+
+  .site-footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--sl-color-hairline);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .site-footer-socials {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .site-footer-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--sl-color-gray-3);
+    border-radius: 50%;
+    transition: color 0.15s, background-color 0.15s;
+  }
+  .site-footer-social:hover {
+    color: var(--sl-color-white);
+    background-color: var(--sl-color-gray-6);
+  }
+  :root[data-theme='light'] .site-footer-social:hover {
+    color: var(--sl-color-text);
+    background-color: var(--sl-color-gray-7);
+  }
+  .site-footer-social :global(svg) {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .site-footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+  }
+  .site-footer-meta a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--sl-color-gray-5);
+  }
+  .site-footer-meta a:hover {
+    color: var(--sl-color-white);
+    border-bottom-color: var(--sl-color-gray-3);
+  }
+  :root[data-theme='light'] .site-footer-meta a:hover {
+    color: var(--sl-color-text);
+  }
+  .site-footer-meta > span[aria-hidden='true'] {
+    opacity: 0.5;
+  }
+</style>
