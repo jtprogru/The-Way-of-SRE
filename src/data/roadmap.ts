@@ -283,6 +283,11 @@ export const roadmap: Roadmap = {
               label: 'On-Call Rotation',
               href: '/leaves/practices/on-call-rotation/',
             },
+            {
+              id: 'severity-classification',
+              label: 'Severity Classification',
+              href: '/leaves/practices/severity-classification/',
+            },
           ],
         },
         {
