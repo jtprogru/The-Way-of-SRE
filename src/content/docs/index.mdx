@@ -6,7 +6,7 @@ hero:
   tagline: Карта направлений в SRE — три ветви, 20 компетенций верхнего уровня, листья с конкретными умениями, материалами и best practices.
   actions:
     - text: Roadmap по приоритетам
-      link: /priorities/
+      link: /The-Way-of-SRE/priorities/
       icon: right-arrow
       variant: primary
     - text: GitHub
@@ -19,6 +19,7 @@ import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 import Spider from '../../components/Spider.astro';
 import { roadmap } from '../../data/roadmap.ts';
 
+export const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 export const totalLeaves = roadmap.branches.reduce(
   (sum, b) => sum + b.l1.reduce((s, l1) => s + (l1.leaves?.length ?? 0), 0),
   0,
@@ -36,17 +37,17 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
   <LinkCard
     title="SRE Culture"
     description="Люди, нормы, обмен опытом. Партнёрство с командами, постмортем-культура, метрики надёжности как инструмент разговора."
-    href="/sre-culture/"
+    href={`${base}/sre-culture/`}
   />
   <LinkCard
     title="SRE Engineering"
     description="Технические компетенции. Observability, SLO, networking, IaC, capacity planning, database reliability."
-    href="/sre-engineering/"
+    href={`${base}/sre-engineering/`}
   />
   <LinkCard
     title="SRE Practices"
     description="Процессы и ритуалы. Incident management, change management, on-call, security, профессиональное развитие."
-    href="/sre-practices/"
+    href={`${base}/sre-practices/`}
   />
 </CardGrid>
 
