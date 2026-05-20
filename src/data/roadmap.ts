@@ -303,6 +303,11 @@ export const roadmap: Roadmap = {
               label: 'Customer Communications',
               href: '/leaves/practices/customer-communications/',
             },
+            {
+              id: 'war-room-patterns',
+              label: 'War Room Patterns',
+              href: '/leaves/practices/war-room-patterns/',
+            },
           ],
         },
         {
