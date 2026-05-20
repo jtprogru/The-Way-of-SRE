@@ -49,6 +49,12 @@ body:has(.hero) {
 .hero {
   grid-template-columns: 100% !important;
   max-width: none !important;
+  /*
+   * Starlight даёт hero на ≥50rem `padding-block: clamp(2.5rem, ..., 10rem)`
+   * — снизу на широких экранах до 160px пустоты между CTA и следующим блоком.
+   * Урезаем bottom; top оставляем по Starlight для дыхания между navbar и title.
+   */
+  padding-bottom: 2rem !important;
 }
 
 .hero .copy,
@@ -56,14 +62,23 @@ body:has(.hero) {
   max-width: none !important;
 }
 
-/* Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками */
+/*
+ * Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками.
+ * Используем <div> вместо <p>, потому что MDX внутри prose-обёртки автоматически
+ * оборачивает текст в <p>, и nested-p в HTML невалиден.
+ *
+ * Без max-width — растягивается на ширину content-panel (та же, что Spider).
+ */
 .intro-blurb {
-  max-width: 64ch;
-  margin: 1.5rem auto 2.5rem;
+  margin: 1.5rem 0 2.5rem;
   font-size: 1.05rem;
   line-height: 1.6;
   color: var(--sl-color-gray-2);
   text-align: center;
+}
+
+.intro-blurb > p {
+  margin: 0;
 }
 
 /* Meta-strip: счётчики и open source метка */
@@ -122,4 +137,93 @@ body:has(.hero) {
 .sl-link-card:has(a[href*='/sre-practices']):hover {
   transform: translateY(-2px);
   transition: transform 0.15s ease;
+}
+
+/*
+ * Секции на главной под Spider: «Цель проекта», «Как читать карту»,
+ * «Обсудить и контрибутить». Каждая в своём <section class="home-section">.
+ *
+ * Секция растягивается на полную ширину content-panel (равна ширине Spider).
+ * Заголовок H2 центрирован, prose внутри — выровнен по левому краю
+ * (центрированный многострочный текст хуже читается). Списки и CTA-row —
+ * по центру за счёт собственных стилей.
+ */
+.home-section {
+  margin: 3.5rem 0 0;
+}
+
+.home-section h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section-lede {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--sl-color-gray-2);
+  text-align: left;
+  margin: 0 0 1rem;
+}
+
+.section-lede:last-child {
+  margin-bottom: 0;
+}
+
+/* MDX оборачивает prose внутри <div> в <p> — обнуляем его margin */
+.section-lede > p {
+  margin: 0;
+}
+
+/*
+ * Глоссарий «Как читать карту»: dl, разбитый на пары через
+ * обёртку <div>, чтобы grid лёг по парам термин/определение.
+ */
+.terms {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  text-align: left;
+  margin: 1rem 0 0;
+}
+
+.terms > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.terms dt {
+  font-weight: 700;
+  color: var(--sl-color-white);
+  font-size: 0.95rem;
+}
+
+:root[data-theme='light'] .terms dt {
+  color: var(--sl-color-text);
+}
+
+.terms dd {
+  margin: 0;
+  color: var(--sl-color-gray-2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .terms > div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
+/* CTA-row: три LinkButton'а в горизонтальный ряд с переносом на узком */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
