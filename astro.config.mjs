@@ -20,6 +20,21 @@ export default defineConfig({
           label: 'GitHub',
           href: 'https://github.com/jtprogru/The-Way-of-SRE',
         },
+        {
+          icon: 'telegram',
+          label: 'Telegram канал',
+          href: 'https://t.me/jtprogru_channel',
+        },
+        {
+          icon: 'telegram',
+          label: 'Telegram чат',
+          href: 'https://t.me/jtprogru_chat',
+        },
+        {
+          icon: 'external',
+          label: 'Блог jtprog.ru',
+          href: 'https://jtprog.ru/',
+        },
       ],
       sidebar: [
         { label: 'Карта компетенций', link: '/' },
