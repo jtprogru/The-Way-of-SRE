@@ -1,8 +1,8 @@
-# Инвентаризация пересечений между ветвями
+# Inventory пересечений между ветвями
 
-Рабочий артефакт ребаланса. Фиксирует все узлы, которые в текущих mermaid-графах дублируются между `SRE Culture` / `SRE Engineering` / `SRE Practices`, и закрепляет решение по каждому.
+Рабочий артефакт ребаланса. Фиксирует все узлы, которые в L2 inventory дублируются между `SRE Culture` / `SRE Engineering` / `SRE Practices`, и закрепляет решение по каждому. На сайт не публикуется; живёт в репозитории как рабочая запись для контрибьюторов.
 
-Документ опирается на [methodology.md](../methodology.md) — три способа разрешения пересечений (перенос / разделение / cross-link) описаны там. Здесь — только применение этих способов к конкретным узлам.
+Документ опирается на [Методологию](https://jtprogru.github.io/The-Way-of-SRE/methodology/) — три способа разрешения пересечений (перенос / разделение / cross-link) описаны там. Здесь — только применение этих способов к конкретным узлам.
 
 ## Статусы решения
 
@@ -16,7 +16,7 @@
 | Решение | Статус | Где применено |
 | ------- | ------ | ------------- |
 | Knowledge Management → Culture | ✅ Применено | Был корректно в Culture как L1, изменений в графах не потребовалось |
-| Capacity Planning → Engineering | ✅ Применено | Удалён из `sre-culture.md` (ITMG), остался в `sre-engineering.md` (RELY) |
+| Capacity Planning → Engineering | ✅ Применено | Удалён из `sre-culture` L2 inventory (ITMG), остался в `sre-engineering` (RELY) |
 | DR — разделение на технику и политику | ✅ Применено | `Disaster Recovery` в Engineering/RELY; `DR Policy & Stakeholders` в Culture/ITMG |
 | SLO — разделение на три концепта | ✅ Применено | `SLO Engineering` в Engineering/RELY; `SLO Governance` в Culture/ITMG (заменил Service Management с L3); `SLO Review Ritual` в Practices/PBMG |
 | DORA Metrics → Culture | ✅ Применено | Остался в Culture/MEAS; из Practices/PEMT убран Team Metrics/DORA, добавлен `Performance Conversations` |
@@ -49,4 +49,4 @@
 
 1. При добавлении нового узла — проверить, нет ли уже строки по нему в таблице.
 2. При обнаружении нового пересечения — добавить строку с решением «Открыто» и обсуждать в PR.
-3. После принятия решения — перенести правку в соответствующий граф `docs/sre-*.md` отдельным коммитом и обновить статус здесь.
+3. После принятия решения — перенести правку в L2 inventory соответствующего `sre-*.mdx` отдельным коммитом и обновить статус здесь.

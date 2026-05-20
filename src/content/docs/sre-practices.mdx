@@ -11,30 +11,50 @@ import BranchView from '../../components/BranchView.astro';
 
 ## Компетенции верхнего уровня
 
+Под каждым L1-узлом — список **L2-концептов** (потенциальные подкомпетенции, не leaf-страницы). Конкретный тулинг (PagerDuty, Vault и т.п.) в графе не присутствует — он живёт в секции «Материалы» соответствующего листа. Подробнее — в [Методологии](/The-Way-of-SRE/methodology/#что-не-попадает-в-граф).
+
 ### Incident Management
 
 Координация реагирования на инциденты: роли (IC, Comms Lead, Ops Lead), escalation paths, on-call rotation, status page management. Цель — минимизировать MTTR при соблюдении blameless-принципов.
+
+**L2-концепты:** Incident Response · Escalation Paths · On-Call Rotation · Status Page Management · MTTR Optimization
 
 ### Problem Management
 
 Проведение постмортемов (blameless postmortems), выявление корневых причин инцидентов, разработка action items и их отслеживание, регулярный SLO Review Ritual. Проблема — это потенциальный источник инцидентов; её устранение снижает риски.
 
+**L2-концепты:** Blameless Postmortem · Problem Tracking · Trend Analysis · Preventive Measures · SLO Review Ritual
+
 ### Change Management
 
 Безопасное управление изменениями в production: production readiness review, progressive delivery, rollback-стратегии, error budget gating, оценка риска изменений.
+
+**L2-концепты:** Production Readiness Review · Progressive Delivery · Rollback Strategy · Error Budget Gating · Change Risk Assessment
 
 ### Information Security
 
 Управление уязвимостями, обеспечение надёжности с учётом требований безопасности (security SLOs), участие в threat modeling, supply chain security, secret management.
 
+**L2-концепты:** Vulnerability Management · Security SLOs · Threat Modeling · Supply Chain Security · Secret Management
+
 <h3 id="methods-tools">Methods & Tools</h3>
 
 Выбор, внедрение и совершенствование инструментария SRE-команды: системы мониторинга, incident-трекеры, платформы для постмортемов, runbook-системы.
+
+**L2-концепты:** SRE Toolchain · Policy and Standards · Analysis
 
 ### Professional Development
 
 Профессиональный рост SRE-инженеров: планирование карьерного пути, определение зон ответственности, дизайн on-call rotation, борьба с burnout.
 
+**L2-концепты:** Career Pathing for SRE · Strategy Planning · Burnout Prevention · On-Call Design
+
 ### Performance Management
 
 Управленческие ритуалы: 1-on-1, постановка целей (Setting Goals), people management, performance conversations, развитие культуры психологической безопасности.
+
+**L2-концепты:** People Management · Setting Goals · Psychological Safety · Performance Conversations
+
+---
+
+Бюджет узлов: 1 корень + 7 L1 + 31 L2 = **39 узлов**.

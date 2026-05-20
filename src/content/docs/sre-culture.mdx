@@ -13,26 +13,44 @@ import BranchView from '../../components/BranchView.astro';
 
 ## Компетенции верхнего уровня
 
+Под каждым L1-узлом — список **L2-концептов** (потенциальные подкомпетенции, не leaf-страницы). Не каждый L2-узел становится leaf'ом; leaves регистрируются отдельно в `src/data/roadmap.ts`. Подробнее — в [Методологии](/The-Way-of-SRE/methodology/#источники-структуры).
+
 ### Relationship Management
 
 Выстраивание партнёрства между SRE и продуктовыми командами, управление ожиданиями стейкхолдеров, формирование культуры совместной ответственности за надёжность. SRE работают вместе с разработчиками, а не вместо них.
+
+**L2-концепты:** Stakeholder Management · Continuous Feedback · Dev Team Partnership · Communications
 
 ### Learning Delivery
 
 Распространение SRE-знаний внутри организации: game day, обучение incident response, менторство, постмортем как инструмент обучения, а не порицания.
 
+**L2-концепты:** Game Day / Chaos Drills · Postmortem Culture · Incident Response Training · Mentorship · Knowledge Sharing
+
 ### Measurement
 
 Определение и отслеживание метрик надёжности: DORA-метрики, SLI/SLO/SLA, error budget burn rate, toil ratio. Основа data-driven reliability decisions.
+
+**L2-концепты:** SLO / Budget Review · DORA Metrics · Toil Measurement
 
 ### Knowledge Management
 
 Систематическое накопление и распространение знаний об эксплуатации систем: runbooks, playbooks, постмортемы, архитектурные решения. База знаний снижает когнитивную нагрузку и время восстановления при инцидентах.
 
+**L2-концепты:** Runbooks · Playbooks · Postmortem Database · Architecture Decision Records · Collaboration
+
 ### IT Management
 
 Управление надёжностью и жизненным циклом IT-систем: бюджет on-call нагрузки, SLA с внешними сервисами (SLO Governance), DR Policy & Stakeholders, принятие архитектурных решений с точки зрения надёжности.
 
+**L2-концепты:** On-Call Budget Management · DR Policy & Stakeholders · SLO Governance
+
 ### Organisational Capability Development
 
 Развитие зрелости SRE-практик в организации: оценка текущего состояния надёжности, внедрение SRE-модели (embedded vs centralised), масштабирование практик на другие команды.
+
+**L2-концепты:** SRE Maturity Assessment · SRE Model Adoption · Research & PoC · Team Topologies
+
+---
+
+Бюджет узлов: 1 корень + 6 L1 + 24 L2 = **31 узел**.

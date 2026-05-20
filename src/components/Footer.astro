@@ -12,6 +12,13 @@ import Pagination from 'virtual:starlight/components/Pagination';
 import { Icon } from '@astrojs/starlight/components';
 
 const year = new Date().getFullYear();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const docNav = [
+  { label: 'Мотивация', href: `${base}/about/` },
+  { label: 'Формат', href: `${base}/format/` },
+  { label: 'Методология', href: `${base}/methodology/` },
+] as const;
 
 const socials = [
   { icon: 'github', label: 'GitHub', href: 'https://github.com/jtprogru/The-Way-of-SRE' },
@@ -29,6 +36,14 @@ const socials = [
   <Pagination />
 
   <div class="site-footer">
+    <nav class="site-footer-docnav" aria-label="Документы проекта">
+      {docNav.map((d, i) => (
+        <>
+          {i > 0 && <span aria-hidden="true">·</span>}
+          <a href={d.href}>{d.label}</a>
+        </>
+      ))}
+    </nav>
     <nav class="site-footer-socials" aria-label="Социальные ссылки">
       {socials.map((s) => (
         <a href={s.href} aria-label={s.label} title={s.label} class="site-footer-social" rel="noopener" target="_blank">
@@ -74,6 +89,31 @@ const socials = [
     font-size: var(--sl-text-sm);
     color: var(--sl-color-gray-3);
   }
+  .site-footer-docnav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+    font-size: var(--sl-text-sm);
+  }
+  .site-footer-docnav a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--sl-color-gray-5);
+  }
+  .site-footer-docnav a:hover {
+    color: var(--sl-color-white);
+    border-bottom-color: var(--sl-color-gray-3);
+  }
+  :root[data-theme='light'] .site-footer-docnav a:hover {
+    color: var(--sl-color-text);
+  }
+  .site-footer-docnav > span[aria-hidden='true'] {
+    opacity: 0.5;
+    color: var(--sl-color-gray-3);
+  }
+
   .site-footer-socials {
     display: flex;
     gap: 0.5rem;

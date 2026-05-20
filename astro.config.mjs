@@ -48,6 +48,14 @@ export default defineConfig({
           ],
         },
         {
+          label: 'О проекте',
+          items: [
+            { label: 'Мотивация', link: '/about/' },
+            { label: 'Формат проекта', link: '/format/' },
+            { label: 'Методология', link: '/methodology/' },
+          ],
+        },
+        {
           label: 'Листья',
           items: [
             {
@@ -109,6 +117,7 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       components: {
         Footer: './src/components/Footer.astro',
+        SocialIcons: './src/components/SocialIcons.astro',
       },
     }),
   ],
