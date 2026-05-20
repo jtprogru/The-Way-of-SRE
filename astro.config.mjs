@@ -48,6 +48,15 @@ export default defineConfig({
           ],
         },
         {
+          label: 'О проекте',
+          items: [
+            { label: 'Мотивация и формат', link: '/about/' },
+            { label: 'Методология', link: '/methodology/' },
+            { label: 'Inventory: пересечения', link: '/inventory/overlaps/' },
+            { label: 'Inventory: разбор tlroadmap.io', link: '/inventory/tlroadmap-review/' },
+          ],
+        },
+        {
           label: 'Листья',
           items: [
             {

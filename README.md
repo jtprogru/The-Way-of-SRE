@@ -29,7 +29,7 @@
 
 ## Карта компетенций
 
-Узлы на схеме **кликабельны** — клик по ветви ведёт к её L1-карте. Полная интерактивная карта с листьями (конкретные умения, материалы, best practices) — на сайте: <https://jtprogru.github.io/The-Way-of-SRE/>.
+Узлы на схеме **кликабельны** — клик по ветви ведёт к её L1-карте на сайте. Полная интерактивная карта с листьями (конкретные умения, материалы, best practices) — <https://jtprogru.github.io/The-Way-of-SRE/>.
 
 ```mermaid
 graph LR
@@ -38,20 +38,20 @@ graph LR
     SRE --> SREEngineering[SRE Engineering]
     SRE --> SREPractices[SRE Practices]
 
-    click SRECulture "docs/sre-culture.md" "Перейти к SRE Culture"
-    click SREEngineering "docs/sre-engineering.md" "Перейти к SRE Engineering"
-    click SREPractices "docs/sre-practices.md" "Перейти к SRE Practices"
+    click SRECulture "https://jtprogru.github.io/The-Way-of-SRE/sre-culture/" "Перейти к SRE Culture"
+    click SREEngineering "https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/" "Перейти к SRE Engineering"
+    click SREPractices "https://jtprogru.github.io/The-Way-of-SRE/sre-practices/" "Перейти к SRE Practices"
 ```
 
-- **[SRE Culture](docs/sre-culture.md)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **7 листьев** на полной глубине.
-- **[SRE Engineering](docs/sre-engineering.md)** — технические компетенции и стек. Главный объект — системы. **14 листьев** на полной глубине.
-- **[SRE Practices](docs/sre-practices.md)** — операционные процессы и ритуалы. Главный объект — процесс. **14 листьев** на полной глубине.
+- **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/sre-culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **7 листьев** на полной глубине.
+- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **14 листьев** на полной глубине.
+- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **14 листьев** на полной глубине.
 
-Принцип разделения ветвей и политика контроля детализации — в [docs/methodology.md](docs/methodology.md).
+Принцип разделения ветвей, политика контроля детализации, оси priority и SFIA — в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
 
 ## Roadmap
 
-Последовательность развития компетенций и приоритеты (Must Have / Mandatory / Nice to have / On Demand) — в [docs/sre-priorities.md](docs/sre-priorities.md).
+Последовательность развития компетенций и приоритеты (Must Have / Mandatory / Nice to have / On Demand) — на странице [/priorities/](https://jtprogru.github.io/The-Way-of-SRE/priorities/) сайта; определения осей — в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
 
 ## Локальный запуск сайта
 
@@ -75,10 +75,11 @@ npm install && npm run dev
 
 ## Документы проекта
 
-- [docs/about.md](docs/about.md) — мотивация, формат проекта, дисклеймер, контрибуция.
-- [docs/methodology.md](docs/methodology.md) — методологический каркас и внешние источники.
-- [docs/sre-priorities.md](docs/sre-priorities.md) — приоритеты развития (карта по приоритету и SFIA-уровням).
-- [docs/_inventory/overlaps.md](docs/_inventory/overlaps.md) — инвентаризация пересечений между ветвями (рабочий артефакт ребаланса).
-- [docs/_inventory/tlroadmap-review.md](docs/_inventory/tlroadmap-review.md) — разбор соседнего проекта `tlroadmap.io`: что берём, что не берём.
-- [docs/leaves/_template.md](docs/leaves/_template.md) — шаблон leaf-страницы (Starlight-формат).
-- Заполненные листья роадмапа — на сайте; исходники в `src/content/docs/leaves/<branch>/<slug>.md`.
+Все документы публикуются на сайте; исходники — в `src/content/docs/`.
+
+- [О проекте](https://jtprogru.github.io/The-Way-of-SRE/about/) — мотивация, формат, дисклеймер, контрибуция (`src/content/docs/about.mdx`).
+- [Методология](https://jtprogru.github.io/The-Way-of-SRE/methodology/) — методологический каркас, принцип разделения ветвей, оси priority и SFIA, источники структуры (`src/content/docs/methodology.mdx`).
+- [Inventory: пересечения между ветвями](https://jtprogru.github.io/The-Way-of-SRE/inventory/overlaps/) — рабочий артефакт ребаланса (`src/content/docs/inventory/overlaps.mdx`).
+- [Inventory: разбор tlroadmap.io](https://jtprogru.github.io/The-Way-of-SRE/inventory/tlroadmap-review/) — что у соседнего проекта берём, что не берём (`src/content/docs/inventory/tlroadmap-review.mdx`).
+- Шаблон листа — [`src/content/docs/leaves/_template.md`](src/content/docs/leaves/_template.md) (Astro игнорирует `_`-префикс, шаблон виден только в GitHub UI).
+- Заполненные листья — на сайте; исходники в `src/content/docs/leaves/<branch>/<slug>.md`.

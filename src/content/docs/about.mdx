@@ -1,4 +1,7 @@
-# О проекте
+---
+title: О проекте
+description: Мотивация, формат проекта, дисклеймер и как контрибутить
+---
 
 ## Про мотивацию
 
@@ -9,16 +12,16 @@
 ## О работе
 
 - **SRE MindMap** — карта всех возможных и рекомендованных к развитию ветвей.
-- **SRE Roadmap** — инкрементальное приращение экспертизы и предполагаемый путь развития (см. [`sre-priorities.md`](sre-priorities.md)).
+- **SRE Roadmap** — инкрементальное приращение экспертизы и предполагаемый путь развития (см. [Методологию](/The-Way-of-SRE/methodology/)).
 
 ## Формат проекта
 
 Целевая форма — **карта компетенций с минимумом текста**:
 
-- верхнеуровневая mermaid-схема ветвей в [`README.md`](../README.md);
-- детализация ветвей до второго уровня — в `docs/sre-*.md`;
-- содержимое каждого узла L2 — в leaf-страницах на сайте (`src/content/docs/leaves/<branch>/<slug>.md`, публикуются по адресу `/The-Way-of-SRE/leaves/<branch>/<slug>/`) по [единому шаблону](leaves/_template.md);
-- методологический каркас (принцип разделения ветвей, политика контроля детализации) — в [`methodology.md`](methodology.md).
+- верхнеуровневая mermaid-схема ветвей в [`README.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/README.md) на GitHub;
+- интерактивный паук (главная страница) и branch-views на сайте — рендерятся из `src/data/roadmap.ts`;
+- содержимое каждого листа — на сайте по адресу `/The-Way-of-SRE/leaves/<branch>/<slug>/`; исходники в `src/content/docs/leaves/<branch>/<slug>.md` по единому шаблону (см. [`leaves/_template.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/src/content/docs/leaves/_template.md) в репозитории);
+- методологический каркас (принцип разделения ветвей, политика контроля детализации, оси priority и SFIA) — в [Методологии](/The-Way-of-SRE/methodology/).
 
 Эссе и пересказ теории намеренно вынесены за пределы основного маршрута: они либо ужаты до коротких определений, либо заменены ссылками на первоисточники в материалах листьев.
 
@@ -34,5 +37,5 @@
 ## Как контрибутить
 
 - Поправки в листьях — PR с одним атомарным изменением в одном файле.
-- Изменения в графе (`docs/sre-*.md`) — обязательно сверка с [`methodology.md`](methodology.md) и [`_inventory/overlaps.md`](_inventory/overlaps.md).
-- Новые листья — создаются строго по [шаблону](leaves/_template.md) в `src/content/docs/leaves/<branch>/<slug>.md`, с обновлением навигации (`astro.config.mjs` + `src/data/roadmap.ts`).
+- Изменения в структуре графа (L1 в `src/data/roadmap.ts` и в L2 inventory `sre-*.mdx`) — обязательно сверка с [Методологией](/The-Way-of-SRE/methodology/) и [Inventory пересечений](/The-Way-of-SRE/inventory/overlaps/).
+- Новые листья — создаются строго по шаблону `src/content/docs/leaves/_template.md` в `src/content/docs/leaves/<branch>/<slug>.md`, с обновлением навигации (`astro.config.mjs` + `src/data/roadmap.ts`).

@@ -6,18 +6,18 @@
 //     /priorities/ на сайте и цветовой разметкой `PriorityMap`
 //   - leaves под L1 (фактически написанные leaf-страницы)
 //
-// За что отвечают /docs/sre-{culture,engineering,practices}.md:
-//   - inventory L1 + L2 концептов компетенций (mermaid) — для GitHub-читателей
+// За что отвечают src/content/docs/sre-{culture,engineering,practices}.mdx:
+//   - L1 + L2 inventory концептов компетенций (как nested list под каждым L1)
 //   - L2-узлы (Stakeholder Management, Metrics, IaC и т.п.) живут ТОЛЬКО там;
 //     это потенциальные подкомпетенции, не leaf-страницы
 //
 // Инвариант: набор и порядок L1 в этом файле должен совпадать с L1 в
-// mermaid'ах /docs/sre-*.md. При изменении L1 (переименование, добавление,
-// удаление) — синхронизировать оба источника одним PR.
+// sre-*.mdx. При изменении L1 (переименование, добавление, удаление)
+// — синхронизировать оба источника одним PR.
 //
-// /docs/sre-priorities.md — методологический документ про ось priority,
-// он НЕ содержит данных (только определение Must Have / Mandatory / …
-// и ссылки сюда).
+// src/content/docs/methodology.mdx — методологический документ про ось
+// priority и ось SFIA, он НЕ содержит данных (только определения и
+// ссылки сюда).
 //
 // Leaves создаются в src/content/docs/leaves/<branch>/<slug>.md и
 // регистрируются здесь под соответствующим L1.
