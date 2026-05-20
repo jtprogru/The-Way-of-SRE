@@ -123,3 +123,84 @@ body:has(.hero) {
   transform: translateY(-2px);
   transition: transform 0.15s ease;
 }
+
+/*
+ * Секции на главной под Spider: «Цель проекта», «Как читать карту»,
+ * «Обсудить и контрибутить». Каждая в своём <section class="home-section">.
+ * Splash-template даёт центрирование и ограниченную ширину контента —
+ * мы доводим визуальную иерархию до читаемой landing page.
+ */
+.home-section {
+  max-width: 64ch;
+  margin: 3.5rem auto 0;
+  text-align: center;
+}
+
+.home-section h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.section-lede {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--sl-color-gray-2);
+  margin: 0 auto 1rem;
+}
+
+.section-lede:last-child {
+  margin-bottom: 0;
+}
+
+/*
+ * Глоссарий «Как читать карту»: dl, разбитый на пары через
+ * обёртку <div>, чтобы grid лёг по парам термин/определение.
+ */
+.terms {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  text-align: left;
+  margin: 1rem 0 0;
+}
+
+.terms > div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) 1fr;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.terms dt {
+  font-weight: 700;
+  color: var(--sl-color-white);
+  font-size: 0.95rem;
+}
+
+:root[data-theme='light'] .terms dt {
+  color: var(--sl-color-text);
+}
+
+.terms dd {
+  margin: 0;
+  color: var(--sl-color-gray-2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .terms > div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}
+
+/* CTA-row: три LinkButton'а в горизонтальный ряд с переносом на узком */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}

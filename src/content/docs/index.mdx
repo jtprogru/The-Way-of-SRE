@@ -15,7 +15,7 @@ hero:
       variant: minimal
 ---
 
-import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+import { CardGrid, LinkCard, LinkButton } from '@astrojs/starlight/components';
 import Spider from '../../components/Spider.astro';
 import { roadmap } from '../../data/roadmap.ts';
 
@@ -62,3 +62,69 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
 </p>
 
 <Spider />
+
+<section class="home-section">
+  ## Цель проекта
+
+  <p class="section-lede">
+    Карта собирает единое видение развития SRE-компетенций в русскоязычном
+    сообществе — не как предписание, а как референс. В каждом листе — формулировки
+    «что должен уметь», best practices с антипаттернами, инструменты и материалы
+    с тегами «база / дополнительно / продвинуто».
+  </p>
+
+  <p class="section-lede">
+    Любая компетенция в роадмапе — приглашение к разговору о применимости, а не
+    серебряная пуля. Сверяйте с контекстом своей команды, индустрии и текущей
+    зрелости систем.
+  </p>
+</section>
+
+<section class="home-section">
+  ## Как читать карту
+
+  <dl class="terms">
+    <div>
+      <dt>Ветвь</dt>
+      <dd>Главный объект деятельности: <strong>Culture</strong> — люди и нормы,
+        <strong>Engineering</strong> — технические артефакты, <strong>Practices</strong> — процессы и ритуалы.</dd>
+    </div>
+    <div>
+      <dt>L1-компетенция</dt>
+      <dd>Верхнеуровневое умение внутри ветви: «Observability», «Incident Management»,
+        «Knowledge Management». На карте всего около {totalL1}.</dd>
+    </div>
+    <div>
+      <dt>Лист</dt>
+      <dd>Конкретная практика внутри L1 со своей страницей: «SLI-based Alerting»,
+        «Blameless Postmortem», «Career Ladders». В каждом — умения, best practices
+        с антипаттернами, инструменты, SFIA-уровни для самооценки.</dd>
+    </div>
+    <div>
+      <dt>Цвет L1</dt>
+      <dd>Приоритет для роли: 🔴 Must Have, 🟡 Mandatory, 🟢 Nice to have, 🔵 On Demand.
+        Подробнее — на странице <a href={`${base}/priorities/`}>Roadmap по приоритетам</a>.</dd>
+    </div>
+  </dl>
+</section>
+
+<section class="home-section">
+  ## Обсудить и контрибутить
+
+  <p class="section-lede">
+    Проект открытый — поправки в листьях, новые листья под покрытые L1, обсуждения
+    архитектуры карты. Атомарные PR через GitHub, разговоры — в Telegram-чате.
+  </p>
+
+  <div class="cta-row">
+    <LinkButton href="https://t.me/jtprogru_chat" variant="primary" icon="external">
+      Обсудить в Telegram
+    </LinkButton>
+    <LinkButton href="https://github.com/jtprogru/The-Way-of-SRE" variant="secondary" icon="external">
+      GitHub репозиторий
+    </LinkButton>
+    <LinkButton href="https://t.me/jtprogru_channel" variant="minimal" icon="external">
+      Канал автора
+    </LinkButton>
+  </div>
+</section>
