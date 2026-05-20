@@ -212,6 +212,11 @@ export const roadmap: Roadmap = {
               label: 'Programming Languages',
               href: '/leaves/engineering/programming-languages/',
             },
+            {
+              id: 'ci-cd',
+              label: 'CI/CD',
+              href: '/leaves/engineering/ci-cd/',
+            },
           ],
         },
         {
