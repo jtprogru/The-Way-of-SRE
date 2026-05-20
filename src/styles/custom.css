@@ -4,12 +4,33 @@
   --sl-color-accent-low: #1e3a5f;
   --sl-color-accent: #4a90d9;
   --sl-color-accent-high: #b3d3f2;
+  /* dot-grid палитра — еле заметные точки, читается «как-будто схема» */
+  --dot-color: rgba(255, 255, 255, 0.05);
 }
 
 :root[data-theme='light'] {
   --sl-color-accent-low: #d6e7f7;
   --sl-color-accent: #2563eb;
   --sl-color-accent-high: #0b3d91;
+  --dot-color: rgba(0, 0, 0, 0.06);
+  /* off-white фон вместо стерильно-белого */
+  --sl-color-bg: #fafaf7;
+}
+
+/*
+ * Dot-grid подложка под splash-страницей. Активируется только на
+ * страницах с template: splash (детект через :has(.hero)). Не трогает
+ * остальной сайт — там обычные документные страницы и сетка отвлекает.
+ */
+body:has(.hero) {
+  background-image: radial-gradient(
+    circle,
+    var(--dot-color) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+  background-attachment: fixed;
 }
 
 /*
@@ -33,4 +54,72 @@
 .hero .copy,
 .hero .tagline {
   max-width: none !important;
+}
+
+/* Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками */
+.intro-blurb {
+  max-width: 64ch;
+  margin: 1.5rem auto 2.5rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--sl-color-gray-2);
+  text-align: center;
+}
+
+/* Meta-strip: счётчики и open source метка */
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 2rem auto 1rem;
+  font-size: 0.9rem;
+  color: var(--sl-color-gray-3);
+  text-align: center;
+}
+
+.meta-strip strong {
+  color: var(--sl-color-white);
+  font-weight: 700;
+}
+
+:root[data-theme='light'] .meta-strip strong {
+  color: var(--sl-color-text);
+}
+
+.meta-strip > span[aria-hidden='true'] {
+  opacity: 0.5;
+}
+
+/*
+ * Pillar-карточки на главной — тонируем в палитру их ветки.
+ * Согласованность с Spider: Culture amber, Engineering teal, Practices indigo.
+ * Цвет проявляется как левый borderr и переход на hover.
+ */
+.sl-link-card:has(a[href*='/sre-culture']) {
+  border-inline-start: 4px solid #d97706;
+}
+.sl-link-card:has(a[href*='/sre-engineering']) {
+  border-inline-start: 4px solid #0d9488;
+}
+.sl-link-card:has(a[href*='/sre-practices']) {
+  border-inline-start: 4px solid #6366f1;
+}
+
+:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-culture']) {
+  border-inline-start-color: #f59e0b;
+}
+:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-engineering']) {
+  border-inline-start-color: #2dd4bf;
+}
+:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-practices']) {
+  border-inline-start-color: #818cf8;
+}
+
+.sl-link-card:has(a[href*='/sre-culture']):hover,
+.sl-link-card:has(a[href*='/sre-engineering']):hover,
+.sl-link-card:has(a[href*='/sre-practices']):hover {
+  transform: translateY(-2px);
+  transition: transform 0.15s ease;
 }

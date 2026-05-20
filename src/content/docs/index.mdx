@@ -3,9 +3,61 @@ title: The Way of SRE
 description: Карта компетенций для развития в роли Site Reliability Engineer
 template: splash
 hero:
-  tagline: Карта направлений в SRE с конкретными умениями, материалами и best practices в каждом листе.
+  tagline: Карта направлений в SRE — три ветви, 20 компетенций верхнего уровня, листья с конкретными умениями, материалами и best practices.
+  actions:
+    - text: Roadmap по приоритетам
+      link: /priorities/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub
+      link: https://github.com/jtprogru/The-Way-of-SRE
+      icon: external
+      variant: minimal
 ---
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 import Spider from '../../components/Spider.astro';
+import { roadmap } from '../../data/roadmap.ts';
+
+export const totalLeaves = roadmap.branches.reduce(
+  (sum, b) => sum + b.l1.reduce((s, l1) => s + (l1.leaves?.length ?? 0), 0),
+  0,
+);
+export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0);
+
+<p class="intro-blurb">
+  Зачем это нужно: SRE — широкая область на стыке разработки, инфраструктуры и
+  процессов. Эта карта показывает, что входит в роль и в какой последовательности
+  разумно развиваться. Каждый лист — отдельная практика с материалами,
+  external references и SFIA-уровнями для самооценки.
+</p>
+
+<CardGrid>
+  <LinkCard
+    title="SRE Culture"
+    description="Люди, нормы, обмен опытом. Партнёрство с командами, постмортем-культура, метрики надёжности как инструмент разговора."
+    href="/sre-culture/"
+  />
+  <LinkCard
+    title="SRE Engineering"
+    description="Технические компетенции. Observability, SLO, networking, IaC, capacity planning, database reliability."
+    href="/sre-engineering/"
+  />
+  <LinkCard
+    title="SRE Practices"
+    description="Процессы и ритуалы. Incident management, change management, on-call, security, профессиональное развитие."
+    href="/sre-practices/"
+  />
+</CardGrid>
+
+<p class="meta-strip">
+  <span><strong>3</strong> ветви</span>
+  <span aria-hidden="true">·</span>
+  <span><strong>{totalL1}</strong> компетенций верхнего уровня</span>
+  <span aria-hidden="true">·</span>
+  <span><strong>{totalLeaves}</strong> листьев полной глубины</span>
+  <span aria-hidden="true">·</span>
+  <span>open source · Apache-2.0</span>
+</p>
 
 <Spider />
