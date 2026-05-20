@@ -56,7 +56,11 @@ body:has(.hero) {
   max-width: none !important;
 }
 
-/* Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками */
+/*
+ * Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками.
+ * Используем <div> вместо <p>, потому что MDX внутри prose-обёртки автоматически
+ * оборачивает текст в <p>, и nested-p в HTML невалиден.
+ */
 .intro-blurb {
   max-width: 64ch;
   margin: 1.5rem auto 2.5rem;
@@ -64,6 +68,10 @@ body:has(.hero) {
   line-height: 1.6;
   color: var(--sl-color-gray-2);
   text-align: center;
+}
+
+.intro-blurb > p {
+  margin: 0;
 }
 
 /* Meta-strip: счётчики и open source метка */
@@ -151,6 +159,11 @@ body:has(.hero) {
 
 .section-lede:last-child {
   margin-bottom: 0;
+}
+
+/* MDX оборачивает prose внутри <div> в <p> — обнуляем его margin */
+.section-lede > p {
+  margin: 0;
 }
 
 /*

@@ -26,12 +26,12 @@ export const totalLeaves = roadmap.branches.reduce(
 );
 export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0);
 
-<p class="intro-blurb">
+<div class="intro-blurb">
   Зачем это нужно: SRE — широкая область на стыке разработки, инфраструктуры и
   процессов. Эта карта показывает, что входит в роль и в какой последовательности
   разумно развиваться. Каждый лист — отдельная практика с материалами,
   external references и SFIA-уровнями для самооценки.
-</p>
+</div>
 
 <CardGrid>
   <LinkCard
@@ -66,18 +66,18 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
 <section class="home-section">
   ## Цель проекта
 
-  <p class="section-lede">
+  <div class="section-lede">
     Карта собирает единое видение развития SRE-компетенций в русскоязычном
     сообществе — не как предписание, а как референс. В каждом листе — формулировки
     «что должен уметь», best practices с антипаттернами, инструменты и материалы
     с тегами «база / дополнительно / продвинуто».
-  </p>
+  </div>
 
-  <p class="section-lede">
+  <div class="section-lede">
     Любая компетенция в роадмапе — приглашение к разговору о применимости, а не
     серебряная пуля. Сверяйте с контекстом своей команды, индустрии и текущей
     зрелости систем.
-  </p>
+  </div>
 </section>
 
 <section class="home-section">
@@ -111,10 +111,10 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
 <section class="home-section">
   ## Обсудить и контрибутить
 
-  <p class="section-lede">
+  <div class="section-lede">
     Проект открытый — поправки в листьях, новые листья под покрытые L1, обсуждения
     архитектуры карты. Атомарные PR через GitHub, разговоры — в Telegram-чате.
-  </p>
+  </div>
 
   <div class="cta-row">
     <LinkButton href="https://t.me/jtprogru_chat" variant="primary" icon="external">
