@@ -183,6 +183,11 @@ export const roadmap: Roadmap = {
               label: 'Capacity Planning',
               href: '/leaves/engineering/capacity-planning/',
             },
+            {
+              id: 'resilience-patterns',
+              label: 'Resilience Patterns',
+              href: '/leaves/engineering/resilience-patterns/',
+            },
           ],
         },
         {
