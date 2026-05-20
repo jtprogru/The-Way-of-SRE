@@ -10,6 +10,7 @@
 //     priority   — L1-узлы окрашены в соответствии с приоритетом
 
 import { getBranch, priorityLabels, type Priority } from '../data/roadmap.ts';
+import { BRANCH_ICONS, BRANCH_ICON_W, BRANCH_ICON_GAP } from '../data/branchIcons.ts';
 
 interface Props {
   branchId: 'culture' | 'engineering' | 'practices';
@@ -42,7 +43,13 @@ function estimateWidth(label: string, charW: number): number {
   return Math.max(MIN_NODE_W, Math.round(label.length * charW) + NODE_PAD_X);
 }
 
-const branchColW = estimateWidth(branch.label, CHAR_W_BRANCH);
+// В priority варианте на branch-узле есть иконка — резервируем под неё
+// дополнительно ширину (так же, как в Spider.astro). В navigation варианте
+// иконки нет, чтобы не дублировать смысл «карты ветви» — там это лишний шум.
+const branchHasIcon = variant === 'priority';
+const branchColW =
+  estimateWidth(branch.label, CHAR_W_BRANCH) +
+  (branchHasIcon ? BRANCH_ICON_W + BRANCH_ICON_GAP : 0);
 let l1ColW = MIN_NODE_W;
 let leafColW = MIN_NODE_W;
 for (const l1 of branch.l1) {
@@ -86,7 +93,7 @@ for (const _ of branch.l1) {
 const totalHeight = cursorY + TOP_PAD;
 const branchCenter = (l1Centers[0] + l1Centers[l1Centers.length - 1]) / 2;
 
-// Branch node
+// Branch node — кликабельный, как в Spider.astro.
 nodes.push({
   kind: 'branch',
   priority: branch.priority,
@@ -95,6 +102,7 @@ nodes.push({
   y: branchCenter - NODE_H / 2,
   width: branchColW,
   height: NODE_H,
+  href: branch.href,
 });
 
 // L1s + leaves
@@ -157,15 +165,39 @@ const viewBoxH = totalHeight;
       const cy = n.y + n.height / 2 + 5;
       const priorityClass =
         variant === 'priority' && n.priority ? `priority-${n.priority}` : '';
+      const iconPath =
+        n.kind === 'branch' && branchHasIcon ? BRANCH_ICONS[branch.id] : undefined;
+      // С иконкой текст и иконка центрируются как единый блок (см. Spider.astro).
+      let textX = cx;
+      let textAnchor: 'middle' | 'start' = 'middle';
+      let iconX = 0;
+      let iconY = 0;
+      if (iconPath) {
+        const estTextW = Math.round(n.label.length * CHAR_W_BRANCH);
+        const totalW = BRANCH_ICON_W + BRANCH_ICON_GAP + estTextW;
+        const contentLeft = n.x + (n.width - totalW) / 2;
+        iconX = contentLeft;
+        iconY = n.y + (n.height - BRANCH_ICON_W) / 2;
+        textX = contentLeft + BRANCH_ICON_W + BRANCH_ICON_GAP;
+        textAnchor = 'start';
+      }
       return (
         <g class={`node node-${n.kind} ${priorityClass}`}>
           <rect x={n.x} y={n.y} width={n.width} height={n.height} rx="6" ry="6" />
+          {iconPath && (
+            <g
+              class="branch-icon"
+              transform={`translate(${iconX}, ${iconY}) scale(${BRANCH_ICON_W / 24})`}
+            >
+              <path d={iconPath} />
+            </g>
+          )}
           {n.href ? (
             <a href={link(n.href)}>
-              <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+              <text x={textX} y={cy} text-anchor={textAnchor}>{n.label}</text>
             </a>
           ) : (
-            <text x={cx} y={cy} text-anchor="middle">{n.label}</text>
+            <text x={textX} y={cy} text-anchor={textAnchor}>{n.label}</text>
           )}
         </g>
       );
@@ -189,9 +221,10 @@ const viewBoxH = totalHeight;
 
   /*
    * Палитра по ветвям — соответствует Spider.astro (одна цветовая
-   * семантика на всех страницах). Применяется только в navigation-
-   * варианте; priority-вариант оставлен с собственной цветовой схемой
-   * через .priority-* классы (приоритеты — другая ось смысла).
+   * семантика на всех страницах). Применяется и в navigation-, и в
+   * priority-варианте — для branch-узла (чтобы согласоваться с главной).
+   * L1 и leaves в priority-варианте остаются в priority-цветах через
+   * .priority-* классы (приоритеты — отдельная ось смысла).
    */
   .branchview-figure[data-branch='culture'] {
     --bc: #d97706;
@@ -304,21 +337,26 @@ const viewBoxH = totalHeight;
     font-weight: 600;
   }
 
-  /* Priority variant: оставлен с исходной цветовой схемой (по приоритетам) */
+  /*
+   * Priority variant: branch-узел в канонической палитре ветви
+   * (согласовано с главной и navigation вариантом). L1 и leaves
+   * окрашиваются по приоритету через .priority-* классы ниже.
+   */
   .branchview-figure[data-variant='priority'] .node-branch rect {
-    fill: var(--sl-color-accent);
-    stroke: var(--sl-color-accent);
+    fill: var(--bc);
+    stroke: var(--bc);
   }
-
   .branchview-figure[data-variant='priority'] .node-branch text {
-    fill: var(--sl-color-white);
+    fill: #fff;
     font-weight: 700;
   }
-
-  .branchview-figure[data-variant='priority'] .node-leaf rect {
-    fill: var(--sl-color-accent-low);
-    stroke: var(--sl-color-accent);
-    stroke-width: 2;
+  /* Иконка ветви — белый stroke поверх заливки branch-цветом. */
+  .branchview .node-branch .branch-icon path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   /* Priority colors (variant=priority) */
@@ -358,12 +396,13 @@ const viewBoxH = totalHeight;
     stroke: #6ba8d9;
   }
 
-  /* Priority view: keep text color stable */
-  .branchview-figure[data-variant='priority'] .node-branch text,
+  /*
+   * Priority view: L1 text стабильно тёмный/светлый поверх priority-rect.
+   * Branch text определён выше — белый поверх branch-цвета.
+   */
   .branchview-figure[data-variant='priority'] .node-l1 text {
     fill: #222;
   }
-  :root[data-theme='dark'] .branchview-figure[data-variant='priority'] .node-branch text,
   :root[data-theme='dark'] .branchview-figure[data-variant='priority'] .node-l1 text {
     fill: var(--sl-color-text);
   }
