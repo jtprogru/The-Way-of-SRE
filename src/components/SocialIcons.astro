@@ -1,0 +1,53 @@
+---
+// Override Starlight SocialIcons:
+// перед стандартными соцссылками ставим doc-nav (О проекте / Формат / Методология),
+// чтобы новые страницы были видны в шапке на каждой странице.
+
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const docNav = [
+  { label: 'Мотивация', href: `${base}/about/` },
+  { label: 'Формат', href: `${base}/format/` },
+  { label: 'Методология', href: `${base}/methodology/` },
+] as const;
+---
+
+<nav class="header-docnav" aria-label="Документы проекта">
+  {docNav.map((d) => (
+    <a href={d.href}>{d.label}</a>
+  ))}
+</nav>
+
+<Default><slot /></Default>
+
+<style>
+  .header-docnav {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-inline-end: 0.5rem;
+    font-size: var(--sl-text-sm);
+  }
+  .header-docnav a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    padding-block: 0.25rem;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .header-docnav a:hover {
+    color: var(--sl-color-white);
+    border-bottom-color: var(--sl-color-gray-3);
+  }
+  :root[data-theme='light'] .header-docnav a:hover {
+    color: var(--sl-color-text);
+  }
+  /* На узких экранах скрываем doc-nav — остаётся sidebar и footer */
+  @media (max-width: 800px) {
+    .header-docnav {
+      display: none;
+    }
+  }
+</style>

@@ -35,6 +35,7 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
   процессов. Эта карта показывает, что входит в роль и в какой последовательности
   разумно развиваться. Каждый лист — отдельная практика с материалами,
   external references и SFIA-уровнями для самооценки.
+  Глубже — <a href={`${base}/about/`}>Мотивация</a>, <a href={`${base}/format/`}>Формат проекта</a> и <a href={`${base}/methodology/`}>Методология</a>.
 </div>
 
 <CardGrid>
@@ -110,39 +111,6 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
         Подробнее — на странице <a href={`${base}/priorities/`}>Roadmap по приоритетам</a>.</dd>
     </div>
   </dl>
-</section>
-
-<section class="home-section">
-  ## Документы проекта
-
-  <div class="section-lede">
-    Если хочется глубже — мотивация, методологический каркас и рабочие
-    inventory-документы. Не обязательны для использования карты, но полезны
-    при контрибуции и для понимания, как принимаются решения.
-  </div>
-
-  <CardGrid>
-    <LinkCard
-      title="О проекте"
-      description="Мотивация, формат, дисклеймер. Что это и зачем — на одной странице."
-      href={`${base}/about/`}
-    />
-    <LinkCard
-      title="Методология"
-      description="Принцип разделения ветвей, политика контроля детализации, оси priority и SFIA, источники структуры графа."
-      href={`${base}/methodology/`}
-    />
-    <LinkCard
-      title="Inventory: пересечения"
-      description="Все известные дубли L1/L2 между ветвями и принятые решения (перенос / разделение / cross-link)."
-      href={`${base}/inventory/overlaps/`}
-    />
-    <LinkCard
-      title="Inventory: tlroadmap.io"
-      description="Разбор соседнего русскоязычного проекта-роадмапа: что у них берём, что не берём, с обоснованием."
-      href={`${base}/inventory/tlroadmap-review/`}
-    />
-  </CardGrid>
 </section>
 
 <section class="home-section">

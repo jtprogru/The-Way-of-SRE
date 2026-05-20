@@ -50,10 +50,9 @@ export default defineConfig({
         {
           label: 'О проекте',
           items: [
-            { label: 'Мотивация и формат', link: '/about/' },
+            { label: 'Мотивация', link: '/about/' },
+            { label: 'Формат проекта', link: '/format/' },
             { label: 'Методология', link: '/methodology/' },
-            { label: 'Inventory: пересечения', link: '/inventory/overlaps/' },
-            { label: 'Inventory: разбор tlroadmap.io', link: '/inventory/tlroadmap-review/' },
           ],
         },
         {
@@ -118,6 +117,7 @@ export default defineConfig({
       customCss: ['./src/styles/custom.css'],
       components: {
         Footer: './src/components/Footer.astro',
+        SocialIcons: './src/components/SocialIcons.astro',
       },
     }),
   ],
