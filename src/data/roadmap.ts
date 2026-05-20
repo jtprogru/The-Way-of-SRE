@@ -344,6 +344,11 @@ export const roadmap: Roadmap = {
               label: 'Vulnerability Management',
               href: '/leaves/practices/vulnerability-management/',
             },
+            {
+              id: 'supply-chain-security',
+              label: 'Supply Chain Security',
+              href: '/leaves/practices/supply-chain-security/',
+            },
           ],
         },
         {
