@@ -72,6 +72,7 @@ export default defineConfig({
                 { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
                 { label: 'Capacity Planning', link: '/leaves/engineering/capacity-planning/' },
                 { label: 'Resilience Patterns', link: '/leaves/engineering/resilience-patterns/' },
+                { label: 'Chaos Engineering', link: '/leaves/engineering/chaos-engineering/' },
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
                 { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
                 { label: 'CI/CD', link: '/leaves/engineering/ci-cd/' },

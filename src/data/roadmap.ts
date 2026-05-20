@@ -188,6 +188,11 @@ export const roadmap: Roadmap = {
               label: 'Resilience Patterns',
               href: '/leaves/engineering/resilience-patterns/',
             },
+            {
+              id: 'chaos-engineering',
+              label: 'Chaos Engineering',
+              href: '/leaves/engineering/chaos-engineering/',
+            },
           ],
         },
         {
