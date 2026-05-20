@@ -26,7 +26,7 @@ export default defineConfig({
           href: 'https://t.me/jtprogru_channel',
         },
         {
-          icon: 'telegram',
+          icon: 'comment-alt',
           label: 'Telegram чат',
           href: 'https://t.me/jtprogru_chat',
         },
