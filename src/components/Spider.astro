@@ -8,6 +8,7 @@
 // Кликается ТОЛЬКО текст внутри узла, не сама фигура.
 
 import { roadmap } from '../data/roadmap.ts';
+import { BRANCH_ICONS, BRANCH_ICON_W, BRANCH_ICON_GAP } from '../data/branchIcons.ts';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const link = (path: string) => `${base}${path}`;
@@ -34,19 +35,6 @@ function estimateWidth(label: string, charW: number): number {
   return Math.max(MIN_NODE_W, Math.round(label.length * charW) + NODE_PAD_X);
 }
 
-// Lucide-style иконки 24×24, stroke-based. Используются на branch-узлах.
-const BRANCH_ICONS: Record<string, string> = {
-  // users — про людей и команды (Culture)
-  culture:
-    'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
-  // server — про инфраструктуру и код (Engineering)
-  engineering:
-    'M2 4h20v6H2z M2 14h20v6H2z M6 7h.01 M6 17h.01',
-  // clipboard-check — про процессы и ритуалы (Practices)
-  practices:
-    'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2 M9 3h6v4H9z M9 14l2 2 4-4',
-};
-
 interface Node {
   kind: 'root' | 'branch' | 'l1' | 'leaf';
   branchId?: string;
@@ -72,8 +60,6 @@ const edges: Edge[] = [];
 // Per-column widths — растягиваем колонку под самый длинный label,
 // чтобы все узлы в колонке были одной ширины (выравнивание сохраняется).
 // Branch-колонка дополнительно резервирует место под иконку.
-const BRANCH_ICON_W = 20;
-const BRANCH_ICON_GAP = 10;
 let branchColW = MIN_NODE_W;
 let l1ColW = MIN_NODE_W;
 let leafColW = MIN_NODE_W;
