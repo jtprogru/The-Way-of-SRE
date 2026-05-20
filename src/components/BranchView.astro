@@ -50,6 +50,13 @@ const branchHasIcon = variant === 'priority';
 const branchColW =
   estimateWidth(branch.label, CHAR_W_BRANCH) +
   (branchHasIcon ? BRANCH_ICON_W + BRANCH_ICON_GAP : 0);
+
+// В priority варианте listья не отображаем: страница про приоритет L1,
+// а leaves не имеют собственного priority (он наследуется от L1) —
+// одинаковые синие плашки только засоряют схему и не добавляют смысла.
+// На главной (Spider) listья видны со своими branch-tinted цветами;
+// на /sre-{branch}/ (navigation вариант) — тоже видны.
+const showLeaves = variant !== 'priority';
 let l1ColW = MIN_NODE_W;
 let leafColW = MIN_NODE_W;
 for (const l1 of branch.l1) {
@@ -124,26 +131,29 @@ for (const [l1i, l1] of branch.l1.entries()) {
     href: `${branch.href}#${l1.id}`,
   });
 
-  for (const leaf of l1.leaves ?? []) {
-    edges.push({
-      x1: L1_X + l1ColW,
-      y1: l1Centers[l1i],
-      x2: LEAF_X,
-      y2: l1Centers[l1i],
-    });
-    nodes.push({
-      kind: 'leaf',
-      label: leaf.label,
-      x: LEAF_X,
-      y: l1Centers[l1i] - NODE_H / 2,
-      width: leafColW,
-      height: NODE_H,
-      href: leaf.href,
-    });
+  if (showLeaves) {
+    for (const leaf of l1.leaves ?? []) {
+      edges.push({
+        x1: L1_X + l1ColW,
+        y1: l1Centers[l1i],
+        x2: LEAF_X,
+        y2: l1Centers[l1i],
+      });
+      nodes.push({
+        kind: 'leaf',
+        label: leaf.label,
+        x: LEAF_X,
+        y: l1Centers[l1i] - NODE_H / 2,
+        width: leafColW,
+        height: NODE_H,
+        href: leaf.href,
+      });
+    }
   }
 }
 
-const hasAnyLeaves = branch.l1.some((l1) => l1.leaves && l1.leaves.length > 0);
+const hasAnyLeaves =
+  showLeaves && branch.l1.some((l1) => l1.leaves && l1.leaves.length > 0);
 const viewBoxW = (hasAnyLeaves ? LEAF_X + leafColW : L1_X + l1ColW) + 20;
 const viewBoxH = totalHeight;
 ---
