@@ -70,6 +70,25 @@
 - [ ] В графе нет названий продуктов; тулинг помещён в материалы листа.
 - [ ] Целевой бюджет (80 узлов) не превышен.
 
+## Источники структуры
+
+Структура графа компетенций распределена по нескольким файлам, каждый отвечает за свой срез. Это важно знать, чтобы при правках не дублировать данные и не вызывать рассинхрон.
+
+| Файл | За что отвечает | Чего там НЕТ |
+| ---- | --------------- | ------------ |
+| [`../src/data/roadmap.ts`](../src/data/roadmap.ts) | L1-узлы каждой ветви и их порядок, **priorities L1**, leaves под L1 | L2 концепты компетенций |
+| [`sre-culture.md`](sre-culture.md), [`sre-engineering.md`](sre-engineering.md), [`sre-practices.md`](sre-practices.md) | mermaid-граф **L1 + L2 концептов** (inventory для GitHub-читателей) | priorities, leaves |
+| [`sre-priorities.md`](sre-priorities.md) | методология оси priority и оси SFIA | конкретные L1 и их priorities (только ссылки на сайт и графы) |
+| [`_inventory/overlaps.md`](_inventory/overlaps.md) | решения по пересечениям компетенций между ветвями | сами компетенции |
+
+**Инвариант L1.** Набор и порядок L1 в `roadmap.ts` должен совпадать с mermaid'ами `sre-{culture,engineering,practices}.md`. При изменении L1 (переименование, добавление, удаление) — синхронизировать оба источника одним PR.
+
+**Priorities L1** живут только в `roadmap.ts`. Цветовая разметка на странице `/priorities/` сайта генерируется из этого поля автоматически; `sre-priorities.md` приоритеты не дублирует.
+
+**L2 концепты** живут только в mermaid'ах `sre-{culture,engineering,practices}.md`. Это потенциальные подкомпетенции; не каждый L2-узел становится leaf-страницей.
+
+**Leaves** регистрируются в `roadmap.ts` под соответствующим L1; исходники — в `src/content/docs/leaves/<branch>/<slug>.md`.
+
 ## Внешние источники методологии
 
 Рекомендации проекта построены на собственном опыте и опыте других инженеров, а в качестве методологической базы используются:
@@ -86,5 +105,5 @@
 - [`_inventory/overlaps.md`](_inventory/overlaps.md) — инвентаризация и решения по пересечениям между ветвями.
 - [`_inventory/tlroadmap-review.md`](_inventory/tlroadmap-review.md) — разбор tlroadmap.io: что у них берём, что не берём, с обоснованием. Кандидаты на эксперименты с шаблоном.
 - [`leaves/_template.md`](leaves/_template.md) — шаблон leaf-страницы в Starlight-формате (три слоя: умения, материалы, best practices). Реальные листья создаются в `src/content/docs/leaves/<branch>/<slug>.md`.
-- [`sre-priorities.md`](sre-priorities.md) — текущая раскладка приоритетов (Must Have / Mandatory / Nice to have / On Demand). Будет переработана отдельным шагом: разделение двух ортогональных измерений — «уровень SFIA» и «приоритет».
+- [`sre-priorities.md`](sre-priorities.md) — методология оси приоритета (Must Have / Mandatory / Nice to have / On Demand) и оси SFIA. Конкретные priorities L1 — в `../src/data/roadmap.ts`, визуализируются на `/priorities/`.
 - [`about.md`](about.md) — мотивация, формат и дисклеймер проекта.
