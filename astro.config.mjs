@@ -71,6 +71,7 @@ export default defineConfig({
                 { label: 'Alert Fatigue Management', link: '/leaves/engineering/alert-fatigue-management/' },
                 { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
                 { label: 'Capacity Planning', link: '/leaves/engineering/capacity-planning/' },
+                { label: 'Resilience Patterns', link: '/leaves/engineering/resilience-patterns/' },
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
                 { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
                 { label: 'Infrastructure as Code', link: '/leaves/engineering/infrastructure-as-code/' },
