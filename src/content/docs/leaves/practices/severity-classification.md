@@ -11,7 +11,7 @@ description: Рамка измерения серьёзности инциден
 - **Статус:** draft
 :::
 
-«Всё SEV1, потому что страшно» — антипаттерн, который я регулярно вижу в команде без чёткой severity matrix. Severity inflation: всё «критично» → ничего реально не критично, команда выгорает, customers получают неуместные alarmist communications, executive escalation тратится впустую. Severity Classification — это **рамка по критериям**: impact × scope даёт уровень (SEV0..SEV3), уровень определяет — кого пейджит, кого вовлекать, с какой каденцией общаться с клиентами, какой постмортем требуется. Третий лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/) и [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)).
+«Всё SEV1, потому что страшно» — антипаттерн, который я регулярно вижу в команде без чёткой [severity](/The-Way-of-SRE/glossary/#severity) matrix. Severity inflation: всё «критично» → ничего реально не критично, команда выгорает, customers получают неуместные alarmist communications, executive escalation тратится впустую. Severity Classification — это **рамка по критериям**: impact × scope даёт уровень (SEV0..SEV3), уровень определяет — кого пейджит, кого вовлекать, с какой каденцией общаться с клиентами, какой постмортем требуется. Третий лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/) и [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)).
 
 ## Что должен уметь
 

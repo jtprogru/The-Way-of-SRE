@@ -11,7 +11,7 @@ description: Систематическое выявление угроз на d
 - **Статус:** draft
 :::
 
-«Security ревьюим за неделю до релиза» — типичный антипаттерн, который я регулярно вижу в командах без threat modeling. Код написан, архитектура зафиксирована, security приходит и находит фундаментальные проблемы дизайна — стоимость fix'а сравнима со стоимостью feature, либо релиз сдвигается. Threat Modeling — это **дисциплина на design phase**: четыре вопроса Manifesto (What are we building? What can go wrong? What will we do about it? Did we do enough?), DFD с trust boundaries, STRIDE per element, mitigation с явным статусом. Соседний лист к [Secrets Management](/The-Way-of-SRE/leaves/practices/secrets-management/) под L1 `Information Security`.
+«Security ревьюим за неделю до релиза» — типичный антипаттерн, который я регулярно вижу в командах без threat modeling. Код написан, архитектура зафиксирована, security приходит и находит фундаментальные проблемы дизайна — стоимость fix'а сравнима со стоимостью feature, либо релиз сдвигается. Threat Modeling — это **дисциплина на design phase**: четыре вопроса Manifesto (What are we building? What can go wrong? What will we do about it? Did we do enough?), DFD с [trust boundaries](/The-Way-of-SRE/glossary/#trust-boundary), [STRIDE](/The-Way-of-SRE/glossary/#stride) per element, mitigation с явным статусом. Соседний лист к [Secrets Management](/The-Way-of-SRE/leaves/practices/secrets-management/) под L1 `Information Security`.
 
 ## Что должен уметь
 

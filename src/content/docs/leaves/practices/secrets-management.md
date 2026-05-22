@@ -11,7 +11,7 @@ description: Управление secrets через централизован�
 - **Статус:** draft
 :::
 
-«Закоммитил токен, удалил следующим коммитом — ок» — фраза, после которой я начинаю говорить про ротацию **немедленно**. Токен остался в git history, в reflog, в forks, в CI кэше, в local repo у каждого, кто pull'нул. Удаление коммита не помогает — секрет нужно ротировать **сразу**. Secrets Management — это **дисциплина**: централизованный store (Vault / Secrets Manager / Sealed Secrets), наименьшие привилегии для доступа, регулярная rotation, полный журнал аудита, отрепетированная emergency revocation. Главная практика внутри L1 `Information Security`; соседи (Threat Modeling, Access Control & IAM, Vulnerability Management) — в открытых вопросах.
+«Закоммитил токен, удалил следующим коммитом — ок» — фраза, после которой я начинаю говорить про ротацию **немедленно**. Токен остался в git history, в reflog, в forks, в CI кэше, в local repo у каждого, кто pull'нул. Удаление коммита не помогает — секрет нужно ротировать **сразу**. Secrets Management — это **дисциплина**: централизованный store (Vault / Secrets Manager / Sealed Secrets), [наименьшие привилегии](/The-Way-of-SRE/glossary/#least-privilege) для доступа, регулярная rotation, полный [журнал аудита](/The-Way-of-SRE/glossary/#audit-trail), отрепетированная emergency revocation. Главная практика внутри L1 `Information Security`; соседи (Threat Modeling, Access Control & IAM, Vulnerability Management) — в открытых вопросах.
 
 ## Что должен уметь
 
