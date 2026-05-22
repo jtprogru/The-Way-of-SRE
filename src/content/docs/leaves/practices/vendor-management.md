@@ -84,6 +84,7 @@ description: Engineering-практика управления зависимо�
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — vendor incident — отдельный класс incident; IC immediately checks vendor status в первые 5 минут.
 - **[Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/)** — graceful degradation для vendor unavailability: cached responses, fallback providers, degraded mode.
 - **[Architecture Decision Records](/The-Way-of-SRE/leaves/practices/architecture-decision-records/)** — vendor selection — типичный ADR; концентрация vs diversification — recurring decision.
+- **[Composite SLO Methodology](/The-Way-of-SRE/leaves/engineering/composite-slo-methodology/)** — vendor SLAs — input в composite math; этот лист ведёт inventory, composite methodology — использует.
 
 ## Открытые вопросы
 
@@ -91,5 +92,4 @@ description: Engineering-практика управления зависимо�
 - **Vendor Concentration Metrics** *(TBD)* — как количественно мерить vendor concentration risk (% of revenue / % of critical paths / blast radius).
 - **Open-source Dependencies как «vendor»** — semi-vendor relationships (Linux distro, k8s, PostgreSQL, etc); похожие governance вопросы, разный контекст.
 - **Vendor Negotiation Tactics** — engineering-сторона переговоров (technical evidence для лучших terms); пересечение с procurement role.
-- **Composite SLO Methodology** *(TBD)* — формальный math для multi-vendor multi-dependency SLO; отдельный лист.
 - Я не уверен, какая **минимальная granularity** vendor inventory правильна (на уровне vendor / на уровне отдельных endpoints / на уровне feature). Если у вас есть рабочая модель — расскажите через PR.

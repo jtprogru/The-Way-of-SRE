@@ -74,9 +74,8 @@ description: Инженерная сторона SLO — определение 
 - **[Capacity Planning](/The-Way-of-SRE/leaves/engineering/capacity-planning/)** — capacity planning опирается на SLO как на reliability-таргет.
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — vendor SLAs — нижняя граница composite SLO math: own SLO ≤ product(vendor SLAs × own reliability) без явной redundancy.
 - **[Symptom vs Cause Alerting](/The-Way-of-SRE/leaves/engineering/symptom-vs-cause-alerting/)** — symptom-side SLI — то, на что алертит paging-level; cause-side — diagnostic context.
+- **[Composite SLO Methodology](/The-Way-of-SRE/leaves/engineering/composite-slo-methodology/)** — *как формулировать* SLO для одного компонента (этот лист) и *как складывать* SLO для multi-component системы. Читать вместе.
 
 ## Открытые вопросы
-
-- **Composite SLO methodology** — нет канонической формулы для составления SLO из компонентов; реальные команды решают через симуляцию или эмпирику. Возможно, отдельный лист.
 - **Real-time vs synthetic SLI** — когда какие, в какой комбинации, как избежать gap'ов.
 - Я регулярно вижу sloppy формулировки SLI в командах после первой настройки («≥ 99% requests success»). Без conkretики «что такое request», «что такое success», «что такое window» это не SLI, это слоган. Хороший SLI читается как `count(http_requests{status!~"5.."} | window_5m) / count(http_requests{is_synthetic="false"} | window_5m) > 0.999`. Если в команде нет такой строгости — стоит обсудить, как её внедрить.

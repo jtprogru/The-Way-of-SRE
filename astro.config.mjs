@@ -81,6 +81,7 @@ export default defineConfig({
                 { label: 'Symptom vs Cause Alerting', link: '/leaves/engineering/symptom-vs-cause-alerting/' },
                 { label: 'Alert Fatigue Management', link: '/leaves/engineering/alert-fatigue-management/' },
                 { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
+                { label: 'Composite SLO Methodology', link: '/leaves/engineering/composite-slo-methodology/' },
                 { label: 'Capacity Planning', link: '/leaves/engineering/capacity-planning/' },
                 { label: 'Resilience Patterns', link: '/leaves/engineering/resilience-patterns/' },
                 { label: 'Chaos Engineering', link: '/leaves/engineering/chaos-engineering/' },
