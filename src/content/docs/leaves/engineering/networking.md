@@ -75,8 +75,8 @@ description: Сетевой стек как фундамент надёжнос�
 - **[Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/)** — реализация retries / circuit breaker / timeouts происходит в коде; знание сетевых библиотек языка — половина resilience-практики.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — сетевые инциденты (DNS, TLS, peer'ы, certs, mesh) — отдельный класс с собственным набором диагностических действий.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook'и для типичных сетевых сценариев (cert expired, DNS resolver down, mesh control plane unhealthy).
+- **[Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)** — kernel networking, TCP-стек ядра, network namespaces — соседняя по domain'у тема; границы пересекаются на `tcpdump` / `ss` / `conntrack` / namespaces.
 
 ## Открытые вопросы
 
 - **Resilience Patterns** уже выделены в отдельный лист под `Reliability Engineering`. Граница: Networking — про *сеть* как медиум; Resilience Patterns — про архитектурные паттерны устойчивости.
-- **Operating Systems** (kernel networking, TCP-стек ядра, network namespaces) — пограничная тема. Сейчас kernel-уровень упомянут в инструментах (`bpftrace`, `nftables`); отдельный лист возможен при углублении ветви.

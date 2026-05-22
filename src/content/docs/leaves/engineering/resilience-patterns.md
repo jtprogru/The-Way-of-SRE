@@ -77,6 +77,7 @@ Resilience — не магия, а **набор явных правил**: circu
 - **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — алерты ловят момент активации patterns (circuit open, retry rate up, shed rate ≠ 0).
 - **[Chaos Engineering](/The-Way-of-SRE/leaves/engineering/chaos-engineering/)** — chaos валидирует patterns: circuit breaker реально открывается? retry с backoff не амплифицирует? bulkhead изолирует?
 - **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — canary с health gate использует readiness probes и circuit-breaker метрики.
+- **[Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)** — OS-level health (open file descriptors, conntrack, page cache pressure) — то, на что часто реагирует graceful degradation; resilience pattern triggers — kernel signals.
 
 ## Открытые вопросы
 

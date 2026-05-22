@@ -85,7 +85,9 @@ export default defineConfig({
                 { label: 'Resilience Patterns', link: '/leaves/engineering/resilience-patterns/' },
                 { label: 'Chaos Engineering', link: '/leaves/engineering/chaos-engineering/' },
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
+                { label: 'Operating Systems', link: '/leaves/engineering/operating-systems/' },
                 { label: 'Programming Languages', link: '/leaves/engineering/programming-languages/' },
+                { label: 'Shell & CLI Craft', link: '/leaves/engineering/shell-cli-craft/' },
                 { label: 'CI/CD', link: '/leaves/engineering/ci-cd/' },
                 { label: 'Test Strategy', link: '/leaves/engineering/test-strategy/' },
                 { label: 'Infrastructure as Code', link: '/leaves/engineering/infrastructure-as-code/' },
@@ -93,6 +95,7 @@ export default defineConfig({
                 { label: 'Toil Tracking', link: '/leaves/engineering/toil-tracking/' },
                 { label: 'Backup & Restore', link: '/leaves/engineering/backup-restore/' },
                 { label: 'Cost Management', link: '/leaves/engineering/cost-management/' },
+                { label: 'Performance & Profiling', link: '/leaves/engineering/performance-profiling/' },
               ],
             },
             {

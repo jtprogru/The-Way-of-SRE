@@ -71,6 +71,7 @@ description: Прогнозирование потребности в ресур
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каталог сервиса содержит capacity-метаданные: текущий resource budget, forecast horizon, owner.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — capacity-induced incidents — отдельный класс с собственным response (emergency scale-up, traffic shed, criticality demotion).
 - **[Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)** — capacity рассматривается с двух сторон: «хватит ли» (этот лист) и «во что обходится» (cost management). Forecast — один.
+- **[Performance & Profiling](/The-Way-of-SRE/leaves/engineering/performance-profiling/)** — две стороны ресурса: «хватит ли» (этот лист) и «правильно ли используем те, что есть» (profiling). Resource efficiency через profiling — input для capacity decisions.
 
 ## Открытые вопросы
 
