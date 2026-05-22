@@ -11,7 +11,7 @@ description: Обнаружение, классификация и измере�
 - **Статус:** draft
 :::
 
-«Мы все ужасно заняты on-call'ом» — фраза, которую я слышу регулярно, и без данных она ничего не значит. Без явного учёта toil невозможно ни ограничить его (toil budget), ни автоматизировать прицельно (автоматизируешь не то, что съедает время), ни обосновать hiring. Toil — это **technical** категория с конкретным определением (Google SRE: manual / repetitive / automatable / tactical / devoid of enduring value / scales linearly), а не «всё, что бесит». Лист — про **измерение** этой работы. Главная практика внутри L1 `Toil Reduction`; соседи (Toil Automation, Alert Fatigue Management) — в открытых вопросах.
+«Мы все ужасно заняты on-call'ом» — фраза, которую я слышу регулярно, и без данных она ничего не значит. Без явного учёта [toil](/The-Way-of-SRE/glossary/#toil) невозможно ни ограничить его (toil budget), ни автоматизировать прицельно (автоматизируешь не то, что съедает время), ни обосновать hiring. Toil — это **technical** категория с конкретным определением (Google SRE: manual / repetitive / automatable / tactical / devoid of enduring value / scales linearly), а не «всё, что бесит». Лист — про **измерение** этой работы. Главная практика внутри L1 `Toil Reduction`; соседи (Toil Automation, Alert Fatigue Management) — в открытых вопросах.
 
 ## Что должен уметь
 

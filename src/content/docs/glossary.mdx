@@ -216,6 +216,8 @@ Mean Time To Repair / Resolve / Recovery (зависит от источника
 
 ### RPO / RTO
 
+<a id="rpo"></a><a id="rto"></a>
+
 Recovery Point Objective (сколько данных потерять допустимо) и Recovery Time Objective (сколько времени на восстановление). Фиксируются в SLO-документе сервиса; пересматриваются вместе с SLO.
 
 *Категория A*. См. [`Backup & Restore`](/The-Way-of-SRE/leaves/engineering/backup-restore/).
@@ -253,6 +255,8 @@ Sitrep (situation report) — формализованная сводка ста
 *Категория C* — «сводка обстановки (sitrep)» при первом упоминании. См. [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/), [`Customer Communications`](/The-Way-of-SRE/leaves/practices/customer-communications/).
 
 ### SLA / SLO / SLI
+
+<a id="sli"></a><a id="slo"></a><a id="sla"></a>
 
 **SLI** (Service Level Indicator) — измеряемая метрика, чаще всего отношение `good events / valid events`. **SLO** (Objective) — целевое значение SLI на окне (например, 99.9% за 28 дней). **SLA** (Agreement) — контрактное обязательство с consequences при нарушении (compensation, refund).
 
