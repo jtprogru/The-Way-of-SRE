@@ -35,7 +35,7 @@ description: Pull-based reconciliation — git как источник исти�
 
 ### Документация инструментов
 
-- **[Argo CD Documentation](https://argo-cd.readthedocs.io/en/stable/)**. Declarative GitOps continuous delivery; поддержка Kustomize / Helm / Jsonnet / plain YAML; multi-cluster + RBAC + SSO + audit trails. По моим наблюдениям, стандарт enterprise.
+- **[Argo CD Documentation](https://argo-cd.readthedocs.io/en/stable/)**. Declarative GitOps continuous delivery; поддержка Kustomize / Helm / Jsonnet / plain YAML; multi-cluster + RBAC + SSO + журнал аудита. По моим наблюдениям, стандарт enterprise.
 - **[Flux](https://fluxcd.io/)** (CNCF Graduated). GitOps семейство для Kubernetes; pull-based, minimal privileges design, multi-tenancy через native RBAC. Альтернатива Argo CD; чаще выбирают команды, ценящие minimal pull architecture и tight k8s-native integration.
 
 ### Инструменты
@@ -51,8 +51,8 @@ description: Pull-based reconciliation — git как источник исти�
 
 **Короткие правила:**
 
-- **Git = single source of truth, никаких `kubectl apply` напрямую.** Через минуту controller обнаружит drift и откатит ручное изменение (если self-heal = true) или зафиксирует drift в UI. Click-ops в проде = операционный инцидент с постмортемом, а не «срочно поправил».
-- **Rollback = git revert, не «руками».** `kubectl edit` в инциденте работает на 5 минут, потом controller возвращает старое из git. Правильно: `git revert` PR → controller подтягивает revert → изменение откатано atomically с audit trail.
+- **Git = единый источник истины, никаких `kubectl apply` напрямую.** Через минуту controller обнаружит drift и откатит ручное изменение (если self-heal = true) или зафиксирует drift в UI. Click-ops в проде = операционный инцидент с постмортемом, а не «срочно поправил».
+- **Rollback = git revert, не «руками».** `kubectl edit` в инциденте работает на 5 минут, потом controller возвращает старое из git. Правильно: `git revert` PR → controller подтягивает revert → изменение откатано atomically с журналом аудита.
 - **Secrets никогда в plain виде в git, даже в private repo.** Base64-encoded secret в git — «оно же encoded» — не шифрование; любой с read access на repo видит секрет. Sealed Secrets / External Secrets / SOPS — единственный безопасный путь.
 
 Подробнее:

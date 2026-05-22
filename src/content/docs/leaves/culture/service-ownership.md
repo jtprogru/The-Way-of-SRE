@@ -21,7 +21,7 @@ description: Систематическое владение production-серв
 - **L3** — Обновляет запись в service catalog после смены owner / on-call / runbook.
 - **L4** — Ведёт service catalog для своих сервисов: owner, on-call rotation, SLO, runbook, зависимости, текущий статус (production / deprecated / sunset).
 - **L4** — Проводит inventory «белых пятен» ownership: сервисы без owner, без runbook, без SLO; формирует список и owner для закрытия.
-- **L5** — Внедряет service catalog как single source of truth; систематически вытесняет дублирующие записи (wiki, spreadsheet, устные договорённости).
+- **L5** — Внедряет service catalog как единый источник истины; систематически вытесняет дублирующие записи (wiki, spreadsheet, устные договорённости).
 - **L5** — Связывает catalog с автоматизацией: deploy pipeline / on-call rotation / dashboards / SLO-метрики читают данные из catalog, а не из дублей.
 - **L5** — Проводит ownership handoff при реорганизациях (sunset сервиса, миграция, transfer владельца) с явным дедлайном и follow-up.
 - **L6+** — Проектирует ownership-модель для области из нескольких команд: где single owner, где shared, кто owner cross-team-сервисов и платформенных компонентов.
@@ -41,7 +41,7 @@ description: Систематическое владение production-серв
 ### Инструменты
 
 - **[Backstage](https://backstage.io/)** — open-source платформа для service catalog от Spotify. По моим наблюдениям, канонический выбор для команд, которым перерос markdown — особенно если есть желание делать developer portal поверх.
-- **Markdown в repo команды** — самый простой формат на старте: один сервис = одна запись (`services/<slug>.md`) с фронт-маттером owner / on-call / SLO / dependencies. PR-based review, git history как audit trail.
+- **Markdown в repo команды** — самый простой формат на старте: один сервис = одна запись (`services/<slug>.md`) с фронт-маттером owner / on-call / SLO / dependencies. PR-based review, git history как журнал аудита.
 - **CODEOWNERS (GitHub)** — частичная проекция ownership на уровень кода. Не заменяет catalog, но синхронизировать с ним обязательно.
 
 ## Best practices
@@ -49,7 +49,7 @@ description: Систематическое владение production-серв
 **Короткие правила:**
 
 - **Service owner — конкретный человек или команда, никогда «общая инфра».** «Owner: SRE team» без указания конкретной команды/лида — через год при инциденте никто не помнит, кто принимает решения; обновления откладываются, sunset невозможен.
-- **Catalog — single source of truth, а не один из источников.** Метаданные расползаются по wiki, Confluence, spreadsheet, устным договорённостям — через полгода ни один документ не соответствует реальности. Catalog должен быть единственным местом, на которое ссылаются остальные.
+- **Catalog — единый источник истины, а не один из источников.** Метаданные расползаются по wiki, Confluence, spreadsheet, устным договорённостям — через полгода ни один документ не соответствует реальности. Catalog должен быть единственным местом, на которое ссылаются остальные.
 - **Sunset — явный статус с дедлайном.** «Сервис вроде не используется» — через 3 года zombie с уязвимостями и cloud spend. Sunset = запись в catalog со статусом, ответственным и датой выключения.
 
 Подробнее:
@@ -70,5 +70,5 @@ description: Систематическое владение production-серв
 
 ## Открытые вопросы
 
-- Под L1 `IT Management` остаются темы, которые могут стать отдельными листьями: **Cost Management** (cloud spend ownership, unit economics), **Vendor Management** (контракты, exit-стратегии), **Change Governance** (CAB, async review, audit trail), **Production Access Audit** (compliance-readiness). Service Ownership — фундамент для всех четырёх.
+- Под L1 `IT Management` остаются темы, которые могут стать отдельными листьями: **Cost Management** (cloud spend ownership, unit economics), **Vendor Management** (контракты, exit-стратегии), **Change Governance** (CAB, async review, журнал аудита), **Production Access Audit** (compliance-readiness). Service Ownership — фундамент для всех четырёх.
 - Граница со `Methods & Tools`: catalog как инструмент частично пересекается. Здесь — про ownership как практику; там — про выбор tooling.

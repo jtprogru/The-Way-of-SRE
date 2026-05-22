@@ -41,7 +41,7 @@ description: Фиксация технических решений в форм�
 
 ### Инструменты
 
-- **`docs/adr/` в repo команды как markdown-файлы** — самый простой формат. По моим наблюдениям, в зрелых командах именно так и хранят: один ADR = один файл (`0042-use-prometheus-not-influxdb.md`), PR-based review, git как audit trail.
+- **`docs/adr/` в repo команды как markdown-файлы** — самый простой формат. По моим наблюдениям, в зрелых командах именно так и хранят: один ADR = один файл (`0042-use-prometheus-not-influxdb.md`), PR-based review, git как журнал аудита.
 - **adr-tools / `adr` CLI** — небольшой shell-инструмент для создания / linking / индексирования ADR (`adr new`, `adr supersede 42`).
 - **MADR (Markdown Any Decision Records)** — облегчённый шаблон с context / decision / consequences плюс явные `considered options`. Подходит для команд, которым Nygard-формат тяжёл.
 

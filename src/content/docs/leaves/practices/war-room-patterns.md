@@ -11,7 +11,7 @@ description: Operational дисциплина multi-team incident response — I
 - **Статус:** draft
 :::
 
-«Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без war room discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для customers, IC меняется неявно через «я устал, кто-то другой», постмортем-timeline восстановить невозможно. War Room Patterns — это **operational дисциплина multi-team incident response**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как audit trail, shift transition по чек-листу. Пятый лист под L1 `Incident Management` — самая плотная L1 на сайте, рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/), [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/).
+«Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без war room discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для customers, IC меняется неявно через «я устал, кто-то другой», постмортем-timeline восстановить невозможно. War Room Patterns — это **operational дисциплина multi-team incident response**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как след аудита, shift transition по чек-листу. Пятый лист под L1 `Incident Management` — самая плотная L1 на сайте, рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/), [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/).
 
 ## Что должен уметь
 
@@ -23,7 +23,7 @@ description: Operational дисциплина multi-team incident response — I
 - **L5** — Проектирует **role rotation** — pre-planned handoff на second IC; 5-минутный sync (current hypothesis, что попробовано, что не работает). Распространяется на Ops Lead, Comms Lead.
 - **L5** — Применяет **decision log** как separate artifact — каждое значимое решение `WHO decided WHAT at WHEN, alternatives considered, rollback plan`. Primary input для post-mortem.
 - **L5** — Проектирует **shift transition** для multi-day incidents — handoff doc, explicit reassignment всех ролей, overlap window (15–30 минут handoff sync).
-- **L5** — Управляет **incident channel hygiene** — single source of truth, separation `incident-${id}-warroom` (executors) и `incident-${id}-stakeholders` (broadcast). Запрет DM-обсуждений «решений», запрет parallel war rooms.
+- **L5** — Управляет **incident channel hygiene** — единый источник истины, separation `incident-${id}-warroom` (executors) и `incident-${id}-stakeholders` (broadcast). Запрет DM-обсуждений «решений», запрет parallel war rooms.
 - **L6+** — Внедряет **org-level war room infrastructure** — incident management tool, recurring IC training, IC certification, review IC performance в post-mortem.
 - **L6+** — Принимает strategic decisions — 24×7 IC coverage, executive escalation thresholds, legal/PR involvement, war room compensation.
 
@@ -72,7 +72,7 @@ description: Operational дисциплина multi-team incident response — I
 
 **Shift transition для multi-day incidents — handoff doc обязателен.** Без shift transition новая смена начинает с нуля каждые 8 часов — incident длится в 2 раза дольше. Handoff doc: current state, hypothesis tree, что попробовано, что работает, что не работает, next steps. Explicit reassignment всех ролей. Overlap window — 15–30 минут handoff sync, не one-line «передаю». Это базовая дисциплина для регулируемых индустрий, но полезна везде.
 
-**Incident channel hygiene — single source of truth.** Запрет DM-обсуждений «решений» — всё в channel либо в decision log. Запрет parallel war rooms (split-brain coordination). Separation `incident-${id}-warroom` (executors only) и `incident-${id}-stakeholders` (broadcast) — executors не отвлекаются на executive questions, stakeholders не путаются в jargon.
+**Incident channel hygiene — единый источник истины.** Запрет DM-обсуждений «решений» — всё в channel либо в decision log. Запрет parallel war rooms (split-brain coordination). Separation `incident-${id}-warroom` (executors only) и `incident-${id}-stakeholders` (broadcast) — executors не отвлекаются на executive questions, stakeholders не путаются в jargon.
 
 **Game day и IC training регулярно.** Первый IC-experience — реальный SEV0 в 3 ночи: команда паникует, IC не уверен в роли, sitrep не выходят, decision log пустой. Tabletop exercises и game day с искусственными SEV0 — единственный способ построить мышечную память. IC certification / on-call IC roster (не каждый on-call может быть IC) — следующий уровень зрелости.
 
