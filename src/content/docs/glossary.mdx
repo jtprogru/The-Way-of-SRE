@@ -82,9 +82,15 @@ Continuous Integration / Continuous Delivery (или Deployment). Pipeline сб�
 
 ### CVE
 
-Common Vulnerabilities and Exposures — публичная нумерация известных уязвимостей (`CVE-YYYY-NNNN`). Поддерживается MITRE; используется как vocabulary в [Vulnerability Management](#vm).
+Common Vulnerabilities and Exposures — публичная нумерация известных уязвимостей (`CVE-YYYY-NNNN`). Поддерживается MITRE; используется как vocabulary в [vulnerability management](#vulnerability-management).
 
 *Категория A* — пишется заглавными. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+
+### CVSS
+
+Common Vulnerability Scoring System — числовая оценка серьёзности CVE по шкале 0–10. Базовая метрика для приоритизации патчей, но **не единственная**: combined CVSS + [EPSS](#epss) + asset context даёт actionable очередь, в отличие от наивного «патчим всё что CVSS ≥ 7».
+
+*Категория A* — пишется заглавными. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
 
 ## D
 
@@ -138,7 +144,7 @@ Toggle, отделяющий момент выкатки кода (deploy) от 
 
 ### GitOps
 
-Pull-based reconciliation модель: git как [единый источник истины](#ssot) desired state, controller в кластере (Argo CD / Flux) непрерывно сводит actual state с git. Отличается от push-based CI-applying. Click-ops в проде с этой моделью несовместим.
+Pull-based reconciliation модель: git как [единый источник истины](#single-source-of-truth) desired state, controller в кластере (Argo CD / Flux) непрерывно сводит actual state с git. Отличается от push-based CI-applying. Click-ops в проде с этой моделью несовместим.
 
 *Категория A*. См. [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/). Источник: [OpenGitOps Principles](https://opengitops.dev/) (CNCF).
 
@@ -296,6 +302,14 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 *Категория B* — «граница доверия». См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
 
+## V
+
+### vulnerability management
+
+Дисциплина обнаружения, классификации и устранения software vulnerabilities в собственных артефактах и dependencies. Не CVE-checklist, а измеримый процесс: discovery ([SCA](https://github.com/jtprogru/The-Way-of-SRE/blob/main/src/content/docs/leaves/practices/vulnerability-management.md) / SAST / DAST / pen test / bug bounty) → triage (CVSS + EPSS + asset context) → remediation (patch SLA per severity) → verification.
+
+*Категория A* (как фраза процесса). См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
 ## W
 
 ### war room
@@ -310,4 +324,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `CVSS`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `OIDC federation`, `Workload Identity`, `mTLS`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `idempotency`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `OIDC federation`, `Workload Identity`, `mTLS`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `idempotency`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
