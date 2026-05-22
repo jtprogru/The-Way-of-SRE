@@ -11,7 +11,7 @@ description: Pipeline сборки и доставки кода как кодо�
 - **Статус:** draft
 :::
 
-Если у вас pipeline 45 минут с flaky тестами — не показывайте мне диаграммы Continuous Delivery. Это уже не CI/CD, это batch-обработка с ритуалом. CI/CD — про **fast feedback** на каждый PR (≤10 минут до результата), **immutable artifacts** с явным versioning и **zero-trust** к flaky тестам. Это не «инструмент DevOps команды», а **платформа**, на которой стоят [Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/), [Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/) и [GitOps](/The-Way-of-SRE/leaves/engineering/gitops/). Соседний лист к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) под L1 `Programming / Scripting`.
+Если у вас pipeline 45 минут с flaky тестами — не показывайте мне диаграммы Continuous Delivery. Это уже не [CI/CD](/The-Way-of-SRE/glossary/#ci-cd), это batch-обработка с ритуалом. CI/CD — про **fast feedback** на каждый PR (≤10 минут до результата), **immutable artifacts** с явным versioning и **zero-trust** к flaky тестам. Это не «инструмент DevOps команды», а **платформа**, на которой стоят [Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/), [Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/) и [GitOps](/The-Way-of-SRE/leaves/engineering/gitops/). Соседний лист к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) под L1 `Programming / Scripting`.
 
 ## Что должен уметь
 

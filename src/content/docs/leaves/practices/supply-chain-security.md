@@ -11,7 +11,7 @@ description: Защита цепочки build → sign → distribute → verif
 - **Статус:** draft
 :::
 
-SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака на software supply chain сместилась с runtime на build и distribution. Я наблюдаю, что многие команды думают про supply chain security только в категории «scan на vulnerabilities» — это лишь финальный слой. Real defense — контролируемая цепочка артефактов с криптографически проверяемым **provenance**: signed commits → controlled build → SBOM → signed release → verify-on-deploy. Четвёртый лист под L1 `Information Security`. Граница с [Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/) чёткая: VM реагирует на known CVE — что уже сломано; Supply Chain Security защищает сам процесс — где будущая уязвимость не успеет стать известной CVE, а попадёт в прод через скомпрометированный pipeline.
+SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака на software supply chain сместилась с runtime на build и distribution. Я наблюдаю, что многие команды думают про supply chain security только в категории «scan на vulnerabilities» — это лишь финальный слой. Real defense — контролируемая цепочка артефактов с криптографически проверяемым **provenance**: signed commits → controlled build → [SBOM](/The-Way-of-SRE/glossary/#sbom) → signed release → verify-on-deploy. Четвёртый лист под L1 `Information Security`. Граница с [Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/) чёткая: VM реагирует на known CVE — что уже сломано; Supply Chain Security защищает сам процесс — где будущая уязвимость не успеет стать известной CVE, а попадёт в прод через скомпрометированный pipeline.
 
 ## Что должен уметь
 

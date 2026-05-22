@@ -11,7 +11,7 @@ description: Систематическое введение нового SRE �
 - **Статус:** draft
 :::
 
-«Бросим в боевые инциденты с первой недели — научится быстрее» — типичный совет, который я слышу от senior engineers, и типичная причина churn'а нового engineer'а через 3–6 месяцев. SRE Onboarding — это **систематическое** введение в команду и production: явный curriculum, mentor-связь до выхода, последовательность освоения artefacts (runbook, dashboards, репозитории, on-call rotation), путь до первого on-call под supervision. Базовая практика внутри L1 `Organisational Capability Development`; без неё новый engineer выходит «в продакшен на ощупь» и churn'ит через 6 месяцев.
+«Бросим в боевые инциденты с первой недели — научится быстрее» — типичный совет, который я слышу от senior engineers, и типичная причина churn'а нового engineer'а через 3–6 месяцев. SRE Onboarding — это **систематическое** введение в команду и production: явный curriculum, mentor-связь до выхода, последовательность освоения artefacts ([runbook](/The-Way-of-SRE/glossary/#runbook), dashboards, репозитории, [on-call](/The-Way-of-SRE/glossary/#on-call) rotation), путь до первого on-call под supervision. Базовая практика внутри L1 `Organisational Capability Development`; без неё новый engineer выходит «в продакшен на ощупь» и churn'ит через 6 месяцев.
 
 ## Что должен уметь
 

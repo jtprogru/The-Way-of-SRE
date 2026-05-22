@@ -11,7 +11,7 @@ description: Production-инфраструктура как версиониру
 - **Статус:** draft
 :::
 
-Каждый раз, когда команда говорит «у нас IaC» — мой первый вопрос: «click-ops в проде у вас есть?». Если ответ «иногда, в срочных случаях» — IaC у вас нет, у вас IaC-театр. Production-инфраструктура (cloud resources, k8s манифесты, IAM, network policies, secrets references) описана как **версионируемый код** в git и применяется декларативно через автоматизированный pipeline. PR → review → plan → apply, и никакой «срочно правлю через console облака». Главная практика внутри L1 `Configuration Management`; соседи (GitOps, Policy as Code, Secrets Management) — в открытых вопросах.
+Каждый раз, когда команда говорит «у нас [IaC](/The-Way-of-SRE/glossary/#iac)» — мой первый вопрос: «click-ops в проде у вас есть?». Если ответ «иногда, в срочных случаях» — IaC у вас нет, у вас IaC-театр. Production-инфраструктура (cloud resources, k8s манифесты, IAM, network policies, secrets references) описана как **версионируемый код** в git и применяется декларативно через автоматизированный pipeline. PR → review → plan → apply, и никакой «срочно правлю через console облака». Главная практика внутри L1 `Configuration Management`; соседи (GitOps, Policy as Code, Secrets Management) — в открытых вопросах.
 
 ## Что должен уметь
 

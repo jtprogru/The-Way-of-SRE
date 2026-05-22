@@ -11,7 +11,7 @@ description: Координация реагирования на инциден
 - **Статус:** draft
 :::
 
-«Работаем вместе» без распределения ролей — IC, Ops Lead и Comms Lead в одном лице — антипаттерн, который я регулярно вижу в командах. Решения утекают в группу, никто не делает sync-апдейты для стейкхолдеров, MTTR растёт, customers молчат, потому что нет channel. Incident Response — это **процесс координации**: явные роли, escalation paths, sitrep cadence, structured handoff между сменами. Цель в моменте — **минимизировать MTTR при соблюдении blameless-принципов** и сохранить достаточно сигнала для последующего постмортема. Не путать с [Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/) (after-action разбор); здесь — про *during-action*.
+«Работаем вместе» без распределения ролей — [IC](/The-Way-of-SRE/glossary/#ic), Ops Lead и Comms Lead в одном лице — антипаттерн, который я регулярно вижу в командах. Решения утекают в группу, никто не делает sync-апдейты для стейкхолдеров, MTTR растёт, customers молчат, потому что нет channel. Incident Response — это **процесс координации**: явные роли, escalation paths, sitrep cadence, structured handoff между сменами. Цель в моменте — **минимизировать MTTR при соблюдении blameless-принципов** и сохранить достаточно сигнала для последующего постмортема. Не путать с [Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/) (after-action разбор); здесь — про *during-action*.
 
 ## Что должен уметь
 

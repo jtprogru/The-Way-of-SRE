@@ -11,7 +11,7 @@ description: Выкатка изменений малыми долями с heal
 - **Статус:** draft
 :::
 
-«Deploy сразу всем» — паттерн, который я регулярно вижу в командах без progressive delivery, и почти всегда из него растут production-инциденты с большим blast radius. Progressive Delivery — это **дисциплина** выкатки изменений малыми долями с возможностью наблюдать и откатиться: code deploy через canary с явным SLI health gate, feature flags отделяют момент release от deploy, rollback автоматизирован по burn rate, не «нажмём кнопку». Главная практика внутри L1 `Change Management`.
+«Deploy сразу всем» — паттерн, который я регулярно вижу в командах без progressive delivery, и почти всегда из него растут production-инциденты с большим blast radius. Progressive Delivery — это **дисциплина** выкатки изменений малыми долями с возможностью наблюдать и откатиться: code deploy через [canary](/The-Way-of-SRE/glossary/#canary-release) с явным SLI health gate, feature flags отделяют момент release от deploy, rollback автоматизирован по burn rate, не «нажмём кнопку». Главная практика внутри L1 `Change Management`.
 
 ## Что должен уметь
 
