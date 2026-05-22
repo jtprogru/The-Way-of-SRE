@@ -46,7 +46,19 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория B* — «журнал аудита» (или «след аудита», если рядом уже стоит «log»). См. [`Service Ownership`](/The-Way-of-SRE/leaves/culture/service-ownership/), [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
 
+### auto-scaling
+
+Динамическое изменение количества compute-ресурсов в ответ на нагрузку. В Kubernetes — HPA (по CPU/memory/custom metrics), VPA (resource recommendations), Cluster Autoscaler (node-level). Решает **reactive** часть масштабирования, но не заменяет capacity planning — auto-scaling упрётся в node-pool limit или cloud quota, если capacity не была спрогнозирована заранее.
+
+*Категория A* — устоявшийся англицизм. См. [`Capacity Planning`](/The-Way-of-SRE/leaves/engineering/capacity-planning/).
+
 ## B
+
+### backup
+
+Резервная копия данных, сделанная для возможности **проверенного восстановления** при потере primary. В SRE-практике главная дисциплина — *untested backup ≠ backup*: backup, который никто никогда не восстанавливал, существует только на бумаге. Используется в паре с явными RPO/RTO и регулярными restore-drills с измеряемым MTTR.
+
+*Категория A* — устоявшийся англицизм; «бэкап» как транслитерация допустима в неформальном контексте. См. [`Backup & Restore`](/The-Way-of-SRE/leaves/engineering/backup-restore/).
 
 ### blameless
 
@@ -68,6 +80,12 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория A*. См. [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/).
 
+### career ladder
+
+Документированная система уровней инженерных ролей и критериев переходов между ними — expectations per level (skills, scope, impact, behaviours) плюс явные signals для promotion. Engineer читает, чтобы понять, что от него ожидается; manager использует для review; calibration meeting уточняет применение между командами.
+
+*Категория C* — двойная форма «карьерная лестница (career ladder)» при первом упоминании. См. [`Career Ladders`](/The-Way-of-SRE/leaves/culture/career-ladders/). Источник: Will Larson, *Staff Engineer*; [Progression.fyi](https://progression.fyi/) (75+ публичных ladders).
+
 ### chaos engineering
 
 Дисциплина hypothesis-driven экспериментов, в которых система вводится в контролируемый сбой ради проверки её resilience-свойств. Не «сломаем что-нибудь», а явная steady-state hypothesis → инъекция → измерение → вывод.
@@ -85,6 +103,12 @@ Continuous Integration / Continuous Delivery (или Deployment). Pipeline сб�
 Множество условий, **совместное** наступление которых вызвало инцидент. Подход NBJS (Necessary But Only Jointly Sufficient) альтернативен наивному поиску «root cause»: вместо одной причины — список факторов, каждый из которых отдельно предотвратил бы инцидент.
 
 *Категория C* — двойная форма «факторы вклада (contributing factors)» при первом упоминании. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/). Источник: Allspaw, *Each Necessary, But Only Jointly Sufficient*.
+
+### coverage
+
+Code coverage — процент кода, выполненного тестами. Полезен как **diagnostic** (что **не** покрыто) и для сравнения модулей; **бесполезен как target**. «80% обязательно для merge» через Goodhart's law порождает тесты без assertions или на trivial code (геттеры) — coverage growth есть, signal value не растёт. Mutation score — гораздо более честная метрика качества тестов, но дороже считать.
+
+*Категория A* — устоявшийся англицизм. См. [`Test Strategy`](/The-Way-of-SRE/leaves/engineering/test-strategy/).
 
 ### CVE
 
@@ -111,6 +135,12 @@ Common Vulnerability Scoring System — числовая оценка серьё
 Принцип многоуровневой защиты: компрометация одного слоя не даёт полного доступа, потому что есть следующий слой. Pre-commit hook → CI scan → historical scan — типичный пример для secrets.
 
 *Категория B* — «защита в глубину». См. [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
+
+### deliberate practice
+
+Структурированная учебная практика с измеримым outcome и feedback'ом: формулируется учебная цель (артефакт + критерий выполнения), применяется на реальной задаче, ревьюется с peer'ом. Anders Ericsson показал, что 10000 часов работы сами по себе ничего не значат — нужна именно deliberate practice. Противоположность passive consumption (только книги/курсы без применения).
+
+*Категория C* — двойная форма «осознанная практика (deliberate practice)» при первом упоминании. См. [`Personal Growth Plan`](/The-Way-of-SRE/leaves/practices/personal-growth-plan/). Источник: Anders Ericsson, *Peak: Secrets from the New Science of Expertise* (2016).
 
 ### DORA
 
@@ -168,6 +198,12 @@ Incident Commander — координатор инцидента. Не дела�
 
 *Категория A* — допустим перевод «руководитель инцидента» при первом упоминании. См. [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/).
 
+### idempotency
+
+Свойство операции, при котором повторный вызов даёт тот же результат, что и однократный. Пре-условие для retry-safe вызовов — без idempotency каждый retry потенциально создаёт side-effect (double-write, double-charge). Реализуется через idempotency keys, ETags, conditional writes, transaction outbox.
+
+*Категория A* — устоявшийся англицизм; «идемпотентность» как транслитерация тоже допустима. См. [`Resilience Patterns`](/The-Way-of-SRE/leaves/engineering/resilience-patterns/).
+
 ## K
 
 ### KEV
@@ -205,6 +241,14 @@ Mean Time To Repair / Resolve / Recovery (зависит от источника
 Дежурство — режим работы, в котором инженер отвечает за реагирование на алерты в нерабочее время (или в смену). Sustainable on-call требует явной компенсации, alert hygiene, runbook на каждый pager.
 
 *Категория A* — пишется латиницей без склонения. См. [`On-Call Rotation`](/The-Way-of-SRE/leaves/practices/on-call-rotation/).
+
+### one-on-one
+
+<a id="1-1"></a>
+
+Регулярная (раз в 1–2 недели) встреча engineer'а с manager или tech lead. Не status update — пространство для того, что **не покрыто** другими ритуалами: личные блокеры, обратная связь, growth conversations, отношения. Andy Grove формализовал в 1983: 1:1 — это **встреча сотрудника**, не manager'а.
+
+*Категория A* (термин «1:1» используется без склонения). См. [`One-on-Ones`](/The-Way-of-SRE/leaves/practices/one-on-ones/). Источник: Andy Grove, *High Output Management* (1983).
 
 ## P
 
@@ -334,4 +378,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `OIDC federation`, `Workload Identity`, `mTLS`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `idempotency`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `OIDC federation`, `Workload Identity`, `mTLS`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
