@@ -215,6 +215,11 @@ export const roadmap: Roadmap = {
               label: 'Networking',
               href: '/leaves/engineering/networking/',
             },
+            {
+              id: 'operating-systems',
+              label: 'Operating Systems',
+              href: '/leaves/engineering/operating-systems/',
+            },
           ],
         },
         {
@@ -228,6 +233,11 @@ export const roadmap: Roadmap = {
               href: '/leaves/engineering/programming-languages/',
             },
             {
+              id: 'shell-cli-craft',
+              label: 'Shell & CLI Craft',
+              href: '/leaves/engineering/shell-cli-craft/',
+            },
+            {
               id: 'ci-cd',
               label: 'CI/CD',
               href: '/leaves/engineering/ci-cd/',
@@ -236,6 +246,11 @@ export const roadmap: Roadmap = {
               id: 'test-strategy',
               label: 'Test Strategy',
               href: '/leaves/engineering/test-strategy/',
+            },
+            {
+              id: 'performance-profiling',
+              label: 'Performance & Profiling',
+              href: '/leaves/engineering/performance-profiling/',
             },
           ],
         },

@@ -90,11 +90,11 @@ description: Дисциплина проектирования testing portfolio
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — performance / load tests генерируют baselines для SLI / SLO. Без load testing SLO targets — guess.
 - **[Toil Tracking](/The-Way-of-SRE/leaves/engineering/toil-tracking/)** — manual test execution = toil; automation тестов — toil reduction.
 - **[Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/)** — security testing (SAST / DAST / fuzzing) — отдельная категория в test portfolio.
+- **[Performance & Profiling](/The-Way-of-SRE/leaves/engineering/performance-profiling/)** — load / performance testing — runtime-side проверки; profile-driven optimization — продолжение измерения после first deploy. Соседние листы.
 
 ## Открытые вопросы
 
 - **Build Reproducibility / Hermetic Builds** *(TBD)* — Bazel-style hermetic compilation, deterministic builds. Может стать отдельным листом под Programming / Scripting либо подсекцией Supply Chain Security.
-- **Performance & Profiling как отдельный лист** *(TBD)* — pprof / perf / async-profiler / flame graphs. Tightly связан с этим листом, но достоин отдельной глубины.
 - **Fuzzing как отдельная подобласть** *(TBD)* — libFuzzer / AFL / jazzer / OSS-Fuzz / Go native fuzz. Security-flavoured, но техника — property-based testing с генеративным input space.
 - **TDD как practice vs principle** *(TBD)* — граница к этому листу: TDD = workflow (red-green-refactor); Test Strategy = portfolio architecture.
 - **Shadow Traffic / Traffic Replay testing** *(TBD)* — запись prod traffic и replay против new version в staging. Polyglot между chaos / load / regression / contract.

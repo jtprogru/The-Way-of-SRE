@@ -64,7 +64,7 @@ description: SRE пишет код — один-два языка на уров�
 
 **SRE-код — это production-код, а не «временный скрипт».** Это правило ломается чаще всего вокруг shell-скриптов. Я наблюдаю типичный паттерн: трёхлетний bash-скрипт в crontab упал молча, отдал NaN в одну из метрик capacity planning, об этом узнали через две недели, когда поломался дашборд. Скрипт не был покрыт тестами, не запускался в CI, не имел владельца — потому что «временный». Если код запускается на проде регулярно — он живёт по тем же правилам, что код продуктовой команды: репозиторий, тесты, code review, versioning, наблюдаемость своего же tooling.
 
-**Shell-уверенность — отдельная инвестиция, не «приложение к Go».** Хороший Go не заменяет умения написать `for f in $(...); do ...; done`, прочитать `kubectl logs ... | jq | grep` и парсить вывод утилит. В on-call это пишется ежедневно, и плохой bash тратит здесь больше времени, чем плохой Go в коде сервиса. Соседний лист `Shell & CLI Craft` *(TBD)* — про это отдельно.
+**Shell-уверенность — отдельная инвестиция, не «приложение к Go».** Хороший Go не заменяет умения написать `for f in $(...); do ...; done`, прочитать `kubectl logs ... | jq | grep` и парсить вывод утилит. В on-call это пишется ежедневно, и плохой bash тратит здесь больше времени, чем плохой Go в коде сервиса. Соседний лист — [Shell & CLI Craft](/The-Way-of-SRE/leaves/engineering/shell-cli-craft/).
 
 **Чтение чужого кода — главный навык SRE.** SRE поддерживает чужие сервисы, и читать чужой код приходится больше, чем писать свой. Я наблюдаю чёткое разделение между сильными и слабыми инженерами по этому критерию: сильные — «прочитаю код, чтобы понять, потом задам вопрос автору»; слабые — «вызову автора при каждом непонятном поведении, не открывая код». Регулярная практика — code review соседних сервисов, walkthrough legacy-кода с тех. лидами, шаг «понять прежде, чем менять» — обязателен.
 
@@ -75,9 +75,11 @@ description: SRE пишет код — один-два языка на уров�
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — graceful shutdown, idempotency, retries — кодовая основа того, что измеряется SLO.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — скрипты в runbook (одноразовые fixup-инструменты, диагностические выгрузки) — отдельный класс кода; bash здесь часто выигрывает у Go простотой обновления.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — чтение трейсов, exception stack, pprof в инциденте — главный live-use языка.
+- **[Shell & CLI Craft](/The-Way-of-SRE/leaves/engineering/shell-cli-craft/)** — соседний лист про композицию unix-tools; shell — не «приложение к Go», а отдельный muscle.
+- **[Performance & Profiling](/The-Way-of-SRE/leaves/engineering/performance-profiling/)** — pprof / flame graphs / latency budgets — соседний лист про measure-first дисциплину; работает поверх runtime языка.
+- **[Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)** — runtime языка живёт поверх OS; GC pauses, scheduler interactions, syscall patterns — intersection.
 
 ## Открытые вопросы
 
-- **Shell & CLI Craft** — отдельный лист про bash / awk / sed / jq / grep идиомы, pipeline-композицию и стиль on-call-скриптов. Сейчас shell сжато упомянут здесь; при углублении ветви — выделить.
-- **CI/CD** — где SRE-код деплоится и проверяется. Сосед под `Programming / Scripting`, отдельный лист.
-- **Performance & Profiling как практика** — pprof / flame graphs / latency budgets — возможно отдельный лист под `Reliability Engineering` или `Observability`, не часть Programming Languages.
+- **Async / Concurrency Patterns по языкам** — структурированное сравнение Go-горутин, Python asyncio, Rust async, Java virtual threads. Возможно отдельный лист под Programming / Scripting.
+- Я не уверен, где правильно проходит граница между «лист про язык» и «лист про runtime / OS interaction». Часть концепций (GC tuning, scheduler interaction) сейчас распределена между этим листом, Performance & Profiling и Operating Systems — overlap намеренный, но возможно нуждается в более чёткой границе.
