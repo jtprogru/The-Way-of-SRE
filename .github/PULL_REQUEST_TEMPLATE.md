@@ -30,6 +30,7 @@
 - [ ] В секции `## Материалы` есть личная оценка хотя бы для половины источников.
 - [ ] Устоявшиеся англицизмы (SRE, SLI/SLO, postmortem, runbook, on-call, blameless, war room) пишутся латиницей курсивом без склонения.
 - [ ] Явные кальки (`decision log`, `shift transition`, `sitrep cadence`) — переведены.
+- [ ] **Новые значимые термины из листа** добавлены в [Глоссарий](https://github.com/jtprogru/The-Way-of-SRE/blob/main/src/content/docs/glossary.mdx) (или есть отдельный follow-up issue/PR). Глоссарий — единое место истины определений.
 
 ### Инфраструктурный чеклист
 
