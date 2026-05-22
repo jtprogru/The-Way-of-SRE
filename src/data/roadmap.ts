@@ -189,6 +189,11 @@ export const roadmap: Roadmap = {
               href: '/leaves/engineering/slo-engineering/',
             },
             {
+              id: 'composite-slo-methodology',
+              label: 'Composite SLO Methodology',
+              href: '/leaves/engineering/composite-slo-methodology/',
+            },
+            {
               id: 'capacity-planning',
               label: 'Capacity Planning',
               href: '/leaves/engineering/capacity-planning/',
