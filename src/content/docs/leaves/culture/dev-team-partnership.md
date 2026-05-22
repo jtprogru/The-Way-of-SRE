@@ -73,7 +73,7 @@ description: Партнёрство SRE с продуктовыми команд
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — co-ownership: runbook пишутся совместно, иначе SRE дежурит вслепую по dev-сервису.
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — joint postmortems с обеими сторонами — обязательное условие сохранения partnership.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — модель ролей (IC и др.) распределяется между SRE и dev в зависимости от engagement model.
-- **Production Readiness Review** *(TBD)* — формализованная граница «product team готов к продакшен».
+- **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — PRR — формализованная граница «product team готов к продакшен», описан там как gate.
 
 ## Открытые вопросы
 

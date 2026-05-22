@@ -80,8 +80,7 @@ description: Алерт на нарушение пользовательског
 - **[Alert Fatigue Management](/The-Way-of-SRE/leaves/engineering/alert-fatigue-management/)** — соседний концепт: SLI-based подход — основной инструмент борьбы с alert fatigue, но не единственный.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — обязательная привязка: алерт без runbook не проходит ревью.
 - **[SLO / Budget Review](/The-Way-of-SRE/leaves/culture/slo-budget-review/)** — потребитель: ритуал ревью опирается на данные, накопленные SLO-based алертами.
+- **[Symptom vs Cause Alerting](/The-Way-of-SRE/leaves/engineering/symptom-vs-cause-alerting/)** — *как* алерт устроен — здесь; *на что именно* алертить (симптом, не причина) — там. Читать вместе.
 
 ## Открытые вопросы
-
-- Стоит ли заводить отдельный лист `Symptom vs Cause Alerting` или это часть данного листа? Сейчас зафиксировано как best practice здесь.
 - Я не знаю хорошего ответа на «как ставить алерты для batch-сервисов и pipelines, где user-facing SLI плохо определён». RED-метрики (rate / errors / duration) работают для онлайн-сервисов; для batch — freshness / throughput / correctness, но как ставить burn rate на freshness, когда нагрузка по запросам нерегулярная — я в публичной литературе консенсуса не видел. Если у вас есть опыт — расскажите через PR.

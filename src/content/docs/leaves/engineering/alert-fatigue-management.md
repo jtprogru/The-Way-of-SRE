@@ -72,10 +72,9 @@ description: Систематическое снижение alert fatigue — a
 - **[Toil Tracking](/The-Way-of-SRE/leaves/engineering/toil-tracking/)** — alert fatigue — крупный класс toil; tracking ловит signal «слишком много manual response → automate».
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — noisy on-call смена — кандидат на постмортем (системная проблема, не «норма»).
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — SLO для алертинга как мета-практика («≥ 95% pages actionable»).
+- **[Symptom vs Cause Alerting](/The-Way-of-SRE/leaves/engineering/symptom-vs-cause-alerting/)** — alert hygiene начинается с правильного выбора что алертить: symptom-side reduces false-positive rate в принципе, не post-hoc.
 
 ## Открытые вопросы
-
-- **Symptom vs Cause Alerting** *(TBD)* — подтема alert design, пересекается с Alert Fatigue Management через symptom-based reduces false-positive rate.
 - **Auto-Remediation Patterns** *(TBD)* — детальные паттерны (Lambda / k8s operator / Argo Workflow); как safely прогрессивно автоматизировать.
 - **Alert Routing & Escalation Patterns** — детализация Alertmanager routing trees, criticality levels (SHEDDABLE / CRITICAL_PLUS из SRE Book гл. 21).
 - **Maintenance Window / Silencing Practices** — как правильно делать planned silences без потери visibility; TTL hygiene.

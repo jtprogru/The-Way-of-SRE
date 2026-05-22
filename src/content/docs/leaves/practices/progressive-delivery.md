@@ -73,9 +73,8 @@ description: Выкатка изменений малыми долями с heal
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — SLO определяет, насколько safe canary phase; без явного SLO health gate настроить нельзя.
 - **[GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)** — Argo Rollouts (с ArgoCD) и Flagger (с Flux) — GitOps-нативные tools для progressive delivery.
 - **[Test Strategy](/The-Way-of-SRE/leaves/engineering/test-strategy/)** — pre-deploy tests vs canary как runtime test; дополняют друг друга.
+- **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — *техника* deployment (этот лист) и *policy / process* (governance) — соседние практики. Canary без явного change classification — half practice.
 
 ## Открытые вопросы
-
-- **Pre-Deployment Review** *(TBD)* — для high-risk изменений (data migration / security / regulatory).
 - **Rollback Discipline** *(TBD)* — углублённая тема: rollback testing (regular fire drills), automated rollback testing in CI, time-to-rollback как метрика.
 - **Database Migration Patterns** — детальная схема (expand-contract, dual-write, backfill, shadow read).

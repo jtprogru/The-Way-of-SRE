@@ -82,6 +82,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 - **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — verify-on-deploy admission policies встроены в deployment pipeline.
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — Terraform modules / Helm charts / Ansible roles тоже supply chain. Аналогичные практики: signed releases, pinned versions, SBOM.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — supply chain compromise — особый класс инцидентов: огромный blast radius, remediation требует revoke-and-rotate scope.
+- **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — security-side зависимостей (этот лист) и reliability-side (vendor management) — соседние практики с общим vendor inventory.
 
 ## Открытые вопросы
 

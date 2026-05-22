@@ -81,10 +81,10 @@ description: Pipeline сборки и доставки кода как кодо�
 - **[Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/)** — SLSA, Sigstore, SBOM, ephemeral runners. CI/CD pipeline — главный surface для supply chain.
 - **[Secrets Management](/The-Way-of-SRE/leaves/practices/secrets-management/)** — OIDC; CI/CD — один из главных контекстов потенциальной утечки.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service team owns its pipeline; не «централизованный DevOps team настраивает за всех».
+- **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — PRR / production readiness review реализуется как gate в pipeline; classification standard / normal change опирается на pipeline-level evidence.
 
 ## Открытые вопросы
 
 - **Supply Chain Security** *(TBD)* — отдельный лист про SLSA framework, Sigstore, SBOM. Сосед к Vulnerability Management.
-- **Pre-Deployment Review** *(TBD)* — production readiness review как gate в pipeline.
 - **DORA Metrics как отдельная практика** — FOUR KEYS как самостоятельная measurement practice (definitions, dashboards, anti-gaming) может стать листом под Measurement L1 в Culture.
 - **Build Reproducibility / Hermetic Builds** — отдельная подтема (deterministic builds, Bazel-style, locked deps).
