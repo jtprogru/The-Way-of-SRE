@@ -47,7 +47,7 @@ description: Hypothesis-driven эксперименты для проверки 
 - **[Litmus](https://litmuschaos.io/)** (CNCF, k8s) — альтернатива Chaos Mesh с богатым каталогом готовых experiments (ChaosHub) и Argo Workflows integration.
 - **[AWS Fault Injection Service](https://aws.amazon.com/fis/) / [Azure Chaos Studio](https://learn.microsoft.com/en-us/azure/chaos-studio/)** — managed chaos в cloud providers: EC2 instance termination, EBS pause, API throttling, network disruption. Без своего chaos-operator.
 - **[Chaos Toolkit](https://chaostoolkit.org/)** — open-source declarative experiments в JSON/YAML. Multi-provider. Берут, когда нужен инструмент-agnostic к runtime.
-- **[Gremlin](https://www.gremlin.com/) / [Steadybit](https://www.steadybit.com/) / [Verica](https://www.verica.io/)** — commercial платформы. Reliable safety controls (auto-abort на SLO), визуальный experiment builder, audit trail для regulatory.
+- **[Gremlin](https://www.gremlin.com/) / [Steadybit](https://www.steadybit.com/) / [Verica](https://www.verica.io/)** — commercial платформы. Reliable safety controls (auto-abort на SLO), визуальный experiment builder, журнал аудита для regulatory.
 - **[Pumba](https://github.com/alexei-led/pumba)** — Docker-focused chaos: pause / kill / netem / stress в локальном Docker. Lightweight для experiments на dev-машине.
 
 ## Best practices

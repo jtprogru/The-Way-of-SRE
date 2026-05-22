@@ -55,7 +55,7 @@ description: Резервное копирование с проверенным
 
 - **Untested backup ≠ backup.** Backup, который никто никогда не восстанавливал, существует только на бумаге: corruption в архивах, изменённый формат БД, отсутствие нужных ключей шифрования, неправильный access — всё это всплывает только в момент реального восстановления, когда уже поздно. Restore-test минимум раз в квартал — норма.
 - **Off-site / cross-region копия обязательна.** Backup в том же регионе / той же зоне доступности, что primary, не защищает от регионального outage или физической аварии. Минимум — backup в другом регионе того же cloud; для критичных систем — копия off-cloud (другой провайдер / on-prem) для защиты от cloud-level incidents (account compromise, billing disputes).
-- **Encryption at rest + access audit обязательны.** Backup — это **snapshot всей prod-БД с user PII / payment data / secrets**; компрометация backup-bucket эквивалентна компрометации БД. KMS-encryption с key rotation, IAM access по принципу least-privilege, audit log каждого access — обязательное условие compliance (SOC2, PCI, GDPR).
+- **Encryption at rest + access audit обязательны.** Backup — это **snapshot всей prod-БД с user PII / payment data / secrets**; компрометация backup-bucket эквивалентна компрометации БД. KMS-encryption с key rotation, IAM access по принципу наименьших привилегий, audit log каждого access — обязательное условие compliance (SOC2, PCI, GDPR).
 
 Подробнее:
 

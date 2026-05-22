@@ -25,7 +25,7 @@ description: Pipeline сборки и доставки кода как кодо�
 - **L5** — Проектирует CI/CD как **платформу команды/организации**: shared templates, golden paths для типовых сервисов, self-service onboarding.
 - **L5** — Оптимизирует pipeline performance: caching, parallelism, fail-fast, flaky тесты в quarantine. Целевая длительность — **≤ 10 минут до feedback на PR**.
 - **L5** — Использует DORA метрики как health indicator: deployment frequency, lead time for changes, change failure rate, MTTR. Понимает, что **все четыре одновременно** — иначе Goodhart's law ломает оптимизацию.
-- **L6+** — Проектирует deployment governance в крупных организациях: regulatory constraints (SOX / PCI-DSS / GDPR), audit trails, signed artifacts (Sigstore / cosign), SLSA / SBOM, reproducible builds. CI/CD становится compliance-инструментом.
+- **L6+** — Проектирует deployment governance в крупных организациях: regulatory constraints (SOX / PCI-DSS / GDPR), журнал аудита, signed artifacts (Sigstore / cosign), SLSA / SBOM, reproducible builds. CI/CD становится compliance-инструментом.
 
 ## Материалы
 
