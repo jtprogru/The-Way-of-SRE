@@ -70,8 +70,9 @@ description: Систематическое введение нового SRE �
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — embedded SRE onboarding включает погружение в product-команду, не только в production-сервисы.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service catalog — точка входа onboardee в production.
 - **[Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/)** — onboarding curriculum обычно maps к L3 → L4 progression в первый год.
+- **[Communities of Practice](/The-Way-of-SRE/leaves/culture/communities-of-practice/)** — после первых 12 недель CoP — место, где new engineer находит cross-team peer learning.
 
 ## Открытые вопросы
 
-- Под L1 `Organisational Capability Development` остаются темы — Career Ladders уже выделена; Competency Framework (SFIA-adapted skill matrix для SRE), Communities of Practice (cross-team learning), Retention.
+- Под L1 `Organisational Capability Development` остаются темы — Career Ladders уже выделена; Competency Framework (SFIA-adapted skill matrix для SRE), Retention.
 - Граница со `practices/Personal Growth Plan`: пересечение по mentorship и личному росту. Здесь — org-level процесс onboarding; там — personal-level развитие.

@@ -66,6 +66,7 @@ export default defineConfig({
                 { label: 'SLO / Budget Review', link: '/leaves/culture/slo-budget-review/' },
                 { label: 'Runbooks', link: '/leaves/culture/runbooks/' },
                 { label: 'Postmortem Culture', link: '/leaves/culture/postmortem-culture/' },
+                { label: 'Communities of Practice', link: '/leaves/culture/communities-of-practice/' },
                 { label: 'Dev Team Partnership', link: '/leaves/culture/dev-team-partnership/' },
                 { label: 'Service Ownership', link: '/leaves/culture/service-ownership/' },
                 { label: 'SRE Onboarding', link: '/leaves/culture/sre-onboarding/' },
@@ -90,6 +91,7 @@ export default defineConfig({
                 { label: 'GitOps', link: '/leaves/engineering/gitops/' },
                 { label: 'Toil Tracking', link: '/leaves/engineering/toil-tracking/' },
                 { label: 'Backup & Restore', link: '/leaves/engineering/backup-restore/' },
+                { label: 'Cost Management', link: '/leaves/engineering/cost-management/' },
               ],
             },
             {
@@ -102,6 +104,7 @@ export default defineConfig({
                 { label: 'Customer Communications', link: '/leaves/practices/customer-communications/' },
                 { label: 'War Room Patterns', link: '/leaves/practices/war-room-patterns/' },
                 { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
+                { label: 'Action Items Tracking', link: '/leaves/practices/action-items-tracking/' },
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
                 { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
                 { label: 'Threat Modeling', link: '/leaves/practices/threat-modeling/' },

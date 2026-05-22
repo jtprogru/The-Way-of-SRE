@@ -43,9 +43,9 @@ graph LR
     click SREPractices "https://jtprogru.github.io/The-Way-of-SRE/sre-practices/" "Перейти к SRE Practices"
 ```
 
-- **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/sre-culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **7 листьев** на полной глубине.
-- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **14 листьев** на полной глубине.
-- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **14 листьев** на полной глубине.
+- **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/sre-culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **8 листьев** на полной глубине.
+- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **15 листьев** на полной глубине.
+- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **15 листьев** на полной глубине.
 
 Принцип разделения ветвей, политика контроля детализации, оси priority и SFIA — в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
 
