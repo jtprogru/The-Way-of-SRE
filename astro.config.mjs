@@ -55,6 +55,7 @@ export default defineConfig({
             { label: 'Методология', link: '/methodology/' },
           ],
         },
+        { label: 'Глоссарий', link: '/glossary/' },
         {
           label: 'Листья',
           items: [
