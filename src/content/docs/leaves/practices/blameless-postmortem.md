@@ -69,8 +69,8 @@ description: Ритуал разбора инцидента — timeline на ф
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — каждый постмортем должен порождать обновление runbook; иначе lesson learned не закреплён.
 - **[SLO / Budget Review](/The-Way-of-SRE/leaves/culture/slo-budget-review/)** — постмортемы выявляют источники бюджет-сжигания; ревью — точка, где lessons learned превращаются в приоритеты.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — owner сервиса — accountable person за постмортем и его action items.
+- **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — соседняя практика: постмортем генерирует AIs, action items tracking — про их выполнение. Без обоих cycle разорван.
 
 ## Открытые вопросы
 
-- **Action Items Tracking** *(TBD)* — отдельный лист про дисциплину выполнения action items (платформа, метрики, owner, эскалация при невыполнении).
 - **Severity-based triage methodology** — детальная схема классификации инцидентов под уровень постмортема (lightweight retro vs полноценный).

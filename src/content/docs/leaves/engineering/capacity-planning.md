@@ -70,11 +70,11 @@ description: Прогнозирование потребности в ресур
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — capacity provisioning описывается как IaC; capacity decisions реализуются через PR в IaC repo.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каталог сервиса содержит capacity-метаданные: текущий resource budget, forecast horizon, owner.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — capacity-induced incidents — отдельный класс с собственным response (emergency scale-up, traffic shed, criticality demotion).
+- **[Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)** — capacity рассматривается с двух сторон: «хватит ли» (этот лист) и «во что обходится» (cost management). Forecast — один.
 
 ## Открытые вопросы
 
 - **Auto-scaling Patterns** *(TBD)* — HPA / VPA / KEDA / cluster autoscaler / custom metrics; tuning, anti-patterns.
 - **Load Testing** *(TBD)* — практика проверки capacity assumptions (locust, k6, gatling, vegeta).
-- **Cost Optimization как отдельная practice** *(TBD)* — FinOps tooling, reserved capacity, spot instances, idle resource cleanup.
 - **Multi-region Capacity Strategy** — regional balancing, failover capacity, regional saturation isolation.
 - **Handling Overload Patterns** — graceful degradation, criticality levels, throttling (cross-ref с SRE Book гл. 21).

@@ -75,7 +75,8 @@ description: Координация реагирования на инциден
 - **[Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/)** — внешняя коммуникация во время инцидента.
 - **[War Room Patterns](/The-Way-of-SRE/leaves/practices/war-room-patterns/)** — operational дисциплина для multi-team high-severity incidents.
 - **[On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)** — кто реагирует и в каком состоянии.
+- **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — close-out incident включает создание AIs с owner / deadline / criterion; этот лист — про дисциплину их выполнения.
 
 ## Открытые вопросы
 
-- Большая часть «открытых вопросов» этого листа уже выделена в отдельные листы под Incident Management: Severity Classification, Customer Communications, On-Call Rotation, War Room Patterns. Дальнейшие развития — Action Items Tracking, Status Page Management.
+- Большая часть «открытых вопросов» этого листа уже выделена в отдельные листы под Incident Management: Severity Classification, Customer Communications, On-Call Rotation, War Room Patterns. Дальнейшее развитие — Status Page Management.

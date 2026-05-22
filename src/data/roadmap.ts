@@ -88,6 +88,11 @@ export const roadmap: Roadmap = {
               label: 'Postmortem Culture',
               href: '/leaves/culture/postmortem-culture/',
             },
+            {
+              id: 'communities-of-practice',
+              label: 'Communities of Practice',
+              href: '/leaves/culture/communities-of-practice/',
+            },
           ],
         },
         {
@@ -270,6 +275,18 @@ export const roadmap: Roadmap = {
             },
           ],
         },
+        {
+          id: 'financial-management',
+          label: 'Financial Management',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'cost-management',
+              label: 'Cost Management',
+              href: '/leaves/engineering/cost-management/',
+            },
+          ],
+        },
       ],
     },
     {
@@ -319,6 +336,11 @@ export const roadmap: Roadmap = {
               id: 'blameless-postmortem',
               label: 'Blameless Postmortem',
               href: '/leaves/practices/blameless-postmortem/',
+            },
+            {
+              id: 'action-items-tracking',
+              label: 'Action Items Tracking',
+              href: '/leaves/practices/action-items-tracking/',
             },
           ],
         },

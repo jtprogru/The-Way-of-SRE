@@ -74,11 +74,11 @@ description: Рамка измерения серьёзности инциден
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — burn rate как input для severity.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — escalation идёт по service ownership chain.
 - **[War Room Patterns](/The-Way-of-SRE/leaves/practices/war-room-patterns/)** — SEV0+ требует структурированного war room.
+- **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — severity определяет, требуется ли formal action items review (SEV0/1 — обязательно, SEV3 — optional).
 
 ## Открытые вопросы
 
 - **Customer Communications** уже выделена в отдельный лист.
 - **War Room Patterns** уже выделен в отдельный лист.
-- **Action Items Tracking** *(TBD)* — severity threshold для action items review.
 - **Status Page Management** *(TBD)* — operational practice для public statuspage.
 - **Severity vs Priority в trackers** — соотношение incident severity (момент инцидента) и priority в backlog для follow-up.
