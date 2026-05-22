@@ -11,7 +11,7 @@ description: Внешняя коммуникация во время инцид�
 - **Статус:** draft
 :::
 
-Я регулярно вижу две крайности communication during incident. Одна — silence: команда тушит, никто наружу не пишет, customers читают Twitter и пишут в support. Вторая — overcommunication: каждые 5 минут update «всё ещё расследуем», customers устают и отписываются от status page. Между ними — дисциплина: severity определяет audience, cadence — обещание (а не «когда есть что сказать»), honest framing без alarm. Четвёртый лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)).
+Я регулярно вижу две крайности communication during incident. Одна — silence: команда тушит, никто наружу не пишет, customers читают Twitter и пишут в support. Вторая — overcommunication: каждые 5 минут update «всё ещё расследуем», customers устают и отписываются от status page. Между ними — дисциплина: [severity](/The-Way-of-SRE/glossary/#severity) определяет audience, cadence — обещание (а не «когда есть что сказать»), honest framing без alarm. Четвёртый лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)).
 
 ## Что должен уметь
 
