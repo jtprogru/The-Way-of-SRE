@@ -67,8 +67,11 @@ description: Систематическое владение production-серв
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — engagement contract предполагает явное ownership; без него partnership деградирует в «SRE решает всё».
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — incident commander смотрит в catalog, чтобы узнать owner и эскалационный путь.
 - **[Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/)** — caталог содержит backup-метаданные сервиса; без catalog на момент disaster engineers ищут backup вслепую.
+- **[Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)** — каталог содержит cost-метаданные: текущий spend, budget, trend. Cost ownership = service ownership.
+- **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — каталог содержит upstream vendor dependencies сервиса; vendor incident playbook привязан к owner.
+- **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — каталог содержит PRR status: passed / not passed / in progress. Часть «есть ли owner и готовность к prod».
 
 ## Открытые вопросы
 
-- Под L1 `IT Management` остаются темы, которые могут стать отдельными листьями: **Cost Management** (cloud spend ownership, unit economics), **Vendor Management** (контракты, exit-стратегии), **Change Governance** (CAB, async review, журнал аудита), **Production Access Audit** (compliance-readiness). Service Ownership — фундамент для всех четырёх.
+- Под L1 `IT Management` остаются темы — например, **Production Access Audit** (compliance-readiness, who has shell access to prod). Cost / Vendor / Change Governance уже выделены в отдельные листья.
 - Граница со `Methods & Tools`: catalog как инструмент частично пересекается. Здесь — про ownership как практику; там — про выбор tooling.

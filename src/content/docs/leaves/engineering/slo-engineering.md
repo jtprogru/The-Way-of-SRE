@@ -72,6 +72,8 @@ description: Инженерная сторона SLO — определение 
 - **[Networking](/The-Way-of-SRE/leaves/engineering/networking/)** — большинство SLI строятся на сетевых метриках (latency, error rate, DNS); знание networking-стека определяет, что измеримо корректно.
 - **[Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/)** — инструментирование SLI требует кода в сервисе (Prometheus client, OpenTelemetry SDK).
 - **[Capacity Planning](/The-Way-of-SRE/leaves/engineering/capacity-planning/)** — capacity planning опирается на SLO как на reliability-таргет.
+- **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — vendor SLAs — нижняя граница composite SLO math: own SLO ≤ product(vendor SLAs × own reliability) без явной redundancy.
+- **[Symptom vs Cause Alerting](/The-Way-of-SRE/leaves/engineering/symptom-vs-cause-alerting/)** — symptom-side SLI — то, на что алертит paging-level; cause-side — diagnostic context.
 
 ## Открытые вопросы
 

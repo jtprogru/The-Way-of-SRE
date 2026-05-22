@@ -78,6 +78,7 @@ export default defineConfig({
               collapsed: false,
               items: [
                 { label: 'SLI-based Alerting', link: '/leaves/engineering/sli-based-alerting/' },
+                { label: 'Symptom vs Cause Alerting', link: '/leaves/engineering/symptom-vs-cause-alerting/' },
                 { label: 'Alert Fatigue Management', link: '/leaves/engineering/alert-fatigue-management/' },
                 { label: 'SLO Engineering', link: '/leaves/engineering/slo-engineering/' },
                 { label: 'Capacity Planning', link: '/leaves/engineering/capacity-planning/' },
@@ -106,6 +107,7 @@ export default defineConfig({
                 { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
                 { label: 'Action Items Tracking', link: '/leaves/practices/action-items-tracking/' },
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
+                { label: 'Change Governance', link: '/leaves/practices/change-governance/' },
                 { label: 'Secrets Management', link: '/leaves/practices/secrets-management/' },
                 { label: 'Threat Modeling', link: '/leaves/practices/threat-modeling/' },
                 { label: 'Vulnerability Management', link: '/leaves/practices/vulnerability-management/' },
@@ -113,6 +115,7 @@ export default defineConfig({
                 { label: 'Architecture Decision Records', link: '/leaves/practices/architecture-decision-records/' },
                 { label: 'One-on-Ones', link: '/leaves/practices/one-on-ones/' },
                 { label: 'Personal Growth Plan', link: '/leaves/practices/personal-growth-plan/' },
+                { label: 'Vendor Management', link: '/leaves/practices/vendor-management/' },
               ],
             },
           ],

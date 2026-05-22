@@ -167,6 +167,11 @@ export const roadmap: Roadmap = {
               href: '/leaves/engineering/sli-based-alerting/',
             },
             {
+              id: 'symptom-vs-cause-alerting',
+              label: 'Symptom vs Cause Alerting',
+              href: '/leaves/engineering/symptom-vs-cause-alerting/',
+            },
+            {
               id: 'alert-fatigue-management',
               label: 'Alert Fatigue Management',
               href: '/leaves/engineering/alert-fatigue-management/',
@@ -354,6 +359,11 @@ export const roadmap: Roadmap = {
               label: 'Progressive Delivery',
               href: '/leaves/practices/progressive-delivery/',
             },
+            {
+              id: 'change-governance',
+              label: 'Change Governance',
+              href: '/leaves/practices/change-governance/',
+            },
           ],
         },
         {
@@ -416,6 +426,18 @@ export const roadmap: Roadmap = {
               id: 'one-on-ones',
               label: 'One-on-Ones',
               href: '/leaves/practices/one-on-ones/',
+            },
+          ],
+        },
+        {
+          id: 'sourcing',
+          label: 'Sourcing',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'vendor-management',
+              label: 'Vendor Management',
+              href: '/leaves/practices/vendor-management/',
             },
           ],
         },
