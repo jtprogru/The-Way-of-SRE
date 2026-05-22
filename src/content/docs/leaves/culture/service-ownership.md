@@ -11,7 +11,7 @@ description: Систематическое владение production-серв
 - **Статус:** draft
 :::
 
-«У нас всё в SRE team» — один из ответов, который я регулярно слышу на вопрос «кто owner этого сервиса?». Это не ownership — это размазанная ответственность, которая распадается на первом инциденте: никто не помнит, кто принимает решения, runbook не обновляется, sunset невозможен. Service ownership — это **конкретный человек или конкретная команда** как accountable owner, фиксированный в catalog, связанный с deploy / on-call / dashboards / SLO. Базовая практика внутри L1 `IT Management`; без неё разваливаются ownership-зависимые ритуалы (SLO Review, on-call rotation, change governance).
+«У нас всё в SRE team» — один из ответов, который я регулярно слышу на вопрос «кто owner этого сервиса?». Это не ownership — это размазанная ответственность, которая распадается на первом инциденте: никто не помнит, кто принимает решения, [runbook](/The-Way-of-SRE/glossary/#runbook) не обновляется, sunset невозможен. Service ownership — это **конкретный человек или конкретная команда** как accountable owner, фиксированный в catalog, связанный с deploy / on-call / dashboards / SLO. Базовая практика внутри L1 `IT Management`; без неё разваливаются ownership-зависимые ритуалы (SLO Review, on-call rotation, change governance).
 
 ## Что должен уметь
 
