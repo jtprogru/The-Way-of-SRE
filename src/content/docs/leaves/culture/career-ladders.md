@@ -11,7 +11,7 @@ description: Документированные уровни и переходы
 - **Статус:** draft
 :::
 
-«Вырастешь — посмотрим» — антипаттерн, который я регулярно вижу в командах без документированной career ladder. Engineer не понимает, что от него ожидается; manager интерпретирует «senior» по-своему; calibration между командами невозможен; промоушн через 2 года приходит с feedback, который ни разу не звучал в 1:1. Career ladder — это **организационный артефакт**: явный список компетенций на каждом уровне, конкретные signals для promotion, calibration meeting для shared interpretation. Соседний лист к [SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/) под L1 `Organisational Capability Development`.
+«Вырастешь — посмотрим» — антипаттерн, который я регулярно вижу в командах без документированной [career ladder](/The-Way-of-SRE/glossary/#career-ladder). Engineer не понимает, что от него ожидается; manager интерпретирует «senior» по-своему; calibration между командами невозможен; промоушн через 2 года приходит с feedback, который ни разу не звучал в 1:1. Career ladder — это **организационный артефакт**: явный список компетенций на каждом уровне, конкретные signals для promotion, calibration meeting для shared interpretation. Соседний лист к [SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/) под L1 `Organisational Capability Development`.
 
 ## Что должен уметь
 

@@ -11,7 +11,7 @@ description: Дисциплина проектирования testing portfolio
 - **Статус:** draft
 :::
 
-Каждый раз, когда я слышу «у нас coverage 80%, всё нормально с тестами», у меня появляется один вопрос: «80% — это покрытие чего, и какое количество багов это покрытие реально ловит?». Coverage — diagnostic, не target. Лист — про **архитектуру** портфолио тестов: какие слои (unit / integration / contract / e2e), какой ценой поддерживаются, какой полнотой ловят регрессии. Третий лист под L1 `Programming / Scripting`, сосед к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) и [CI/CD](/The-Way-of-SRE/leaves/engineering/ci-cd/).
+Каждый раз, когда я слышу «у нас [coverage](/The-Way-of-SRE/glossary/#coverage) 80%, всё нормально с тестами», у меня появляется один вопрос: «80% — это покрытие чего, и какое количество багов это покрытие реально ловит?». Coverage — diagnostic, не target. Лист — про **архитектуру** портфолио тестов: какие слои (unit / integration / contract / e2e), какой ценой поддерживаются, какой полнотой ловят регрессии. Третий лист под L1 `Programming / Scripting`, сосед к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) и [CI/CD](/The-Way-of-SRE/leaves/engineering/ci-cd/).
 
 ## Что должен уметь
 
