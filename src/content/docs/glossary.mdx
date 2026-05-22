@@ -1,0 +1,313 @@
+---
+title: Глоссарий
+description: Термины SRE с переводом, кратким определением и ссылками на листья
+---
+
+Глоссарий — единое место истины для терминов в проекте. Каждая запись содержит оригинал (английский или аббревиатура), русский эквивалент (если применим), краткое определение и ссылки на листья, где термин используется в контексте.
+
+В каждой записи указана **категория** по принципу из [`inventory/terminology.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/inventory/terminology.md):
+
+- **A** — устоявшийся в SRE-индустрии англицизм; не переводим, пишем латиницей курсивом без склонения.
+- **B** — есть устоявшийся русский перевод; используем перевод в листьях.
+- **C** — двойная форма при первом упоминании: русский (английский).
+- **D** — спорные; решение по контексту.
+
+Глоссарий растёт инкрементально. Если встретили термин в листе, которого здесь нет, — это хорошая причина открыть PR.
+
+## A
+
+### action items
+
+Конкретные задачи с владельцем, дедлайном, приоритетом и критерием готовности. Появляются на постмортеме или ином ритуале. Без всех четырёх атрибутов action item — «доброе пожелание», и через два-три невыполненных списка убивает доверие к ритуалу.
+
+*Категория C* — двойная форма «задачи (action items)» при первом упоминании. См. [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/), [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/). Источник: Beyer et al., *SRE Book*, гл. 15.
+
+### alert fatigue
+
+Состояние, в котором команда теряет способность отличать актуальные сигналы от шума из-за большого количества алертов. Симптом — actionable rate ниже 50%, дежурный *ack*'ает на автомате и пропускает реальные инциденты.
+
+*Категория B* — «усталость от алертов». См. [`Alert Fatigue Management`](/The-Way-of-SRE/leaves/engineering/alert-fatigue-management/), [`On-Call Rotation`](/The-Way-of-SRE/leaves/practices/on-call-rotation/).
+
+### attack surface
+
+Сумма всех точек, через которые потенциальный атакующий может попасть в систему: открытые порты, публичные API, зависимости, права у пользователей. Минимизация attack surface снижает вероятность компрометации.
+
+*Категория B* — «поверхность атаки». См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+
+### audit trail
+
+Хронологический след действий, по которому через год можно восстановить «кто, когда и почему» сделал изменение. Реализуется через git history, IAM audit log, structured incident log.
+
+*Категория B* — «журнал аудита» (или «след аудита», если рядом уже стоит «log»). См. [`Service Ownership`](/The-Way-of-SRE/leaves/culture/service-ownership/), [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
+
+## B
+
+### blameless
+
+Принцип разбора инцидентов, в котором фокус на **системе**, а не на «кто это сделал». Психологическая безопасность — предпосылка blameless, не следствие шаблона.
+
+*Категория A* — пишется латиницей курсивом, без склонения. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/). Источник: Allspaw, *Blameless PostMortems and a Just Culture* (Etsy, 2012); Dekker, *The Field Guide to Understanding 'Human Error'*.
+
+### burn rate
+
+Скорость, с которой сервис сжигает [error budget](#error-budget). При burn rate `14.4×` за час за 5 часов бюджет на месяц исчерпан. Используется как input для multi-window multi-burn-rate alerting.
+
+*Категория A*. См. [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/), [`SLO / Budget Review`](/The-Way-of-SRE/leaves/culture/slo-budget-review/). Источник: Beyer et al., *SRE Workbook*, гл. 5.
+
+## C
+
+### canary release
+
+Стратегия выкатки изменения малыми долями трафика (5 / 25 / 50 / 100%) с health gate по SLI на каждом шаге. При нарушении burn rate — автоматический rollback. Не путать с blue-green (две полные версии, переключение целиком).
+
+*Категория A*. См. [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/).
+
+### chaos engineering
+
+Дисциплина hypothesis-driven экспериментов, в которых система вводится в контролируемый сбой ради проверки её resilience-свойств. Не «сломаем что-нибудь», а явная steady-state hypothesis → инъекция → измерение → вывод.
+
+*Категория A*. См. [`Chaos Engineering`](/The-Way-of-SRE/leaves/engineering/chaos-engineering/). Источник: Rosenthal & Jones, *Chaos Engineering: System Resiliency in Practice* (O'Reilly, 2020).
+
+### CI/CD
+
+Continuous Integration / Continuous Delivery (или Deployment). Pipeline сборки, тестов и доставки кода в production как кодовый артефакт. Платформа, на которой работают [progressive delivery](#canary-release), [IaC](#iac), [GitOps](#gitops).
+
+*Категория A*. См. [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/). Источник: Humble & Farley, *Continuous Delivery* (Addison-Wesley, 2010).
+
+### contributing factors
+
+Множество условий, **совместное** наступление которых вызвало инцидент. Подход NBJS (Necessary But Only Jointly Sufficient) альтернативен наивному поиску «root cause»: вместо одной причины — список факторов, каждый из которых отдельно предотвратил бы инцидент.
+
+*Категория C* — двойная форма «факторы вклада (contributing factors)» при первом упоминании. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/). Источник: Allspaw, *Each Necessary, But Only Jointly Sufficient*.
+
+### CVE
+
+Common Vulnerabilities and Exposures — публичная нумерация известных уязвимостей (`CVE-YYYY-NNNN`). Поддерживается MITRE; используется как vocabulary в [Vulnerability Management](#vm).
+
+*Категория A* — пишется заглавными. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+
+## D
+
+### decision log
+
+Отдельный артефакт инцидента, в котором фиксируются значимые решения: кто решил, когда, какие альтернативы рассматривались, какой rollback plan. Не «размешан в Slack scrollback» — отдельный документ. Primary input для постмортема.
+
+*Категория B* — «журнал решений». См. [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/).
+
+### defense in depth
+
+Принцип многоуровневой защиты: компрометация одного слоя не даёт полного доступа, потому что есть следующий слой. Pre-commit hook → CI scan → historical scan — типичный пример для secrets.
+
+*Категория B* — «защита в глубину». См. [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
+
+### DORA
+
+DevOps Research and Assessment — исследование (Forsgren / Humble / Kim), которое выделяет 4 ключевые метрики: deployment frequency, lead time for changes, change failure rate, MTTR. Используются вместе; оптимизация одной метрики за счёт другой — Goodhart's law.
+
+*Категория A*. См. [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/). Источник: Forsgren et al., *Accelerate* (IT Revolution, 2018).
+
+### drift
+
+Расхождение между желаемым состоянием (в git) и фактическим (в кластере / cloud). В GitOps controller непрерывно сводит drift к нулю; click-ops в проде — источник drift и операционный инцидент.
+
+*Категория B* — «дрейф (конфигурации)». См. [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/), [`Infrastructure as Code`](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/).
+
+## E
+
+### EPSS
+
+Exploit Prediction Scoring System (FIRST.org). Data-driven вероятность активной эксплуатации уязвимости в течение 30 дней. Дополняет [CVSS](#cvss) при triage уязвимостей.
+
+*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
+### error budget
+
+«Допустимое количество ошибок» — `1 − SLO target`. При SLO 99.9% месячный error budget = 0.1% × 30 дней ≈ 43 минуты. Используется как объективный сигнал «можно ли катить новые фичи».
+
+*Категория A*. См. [`SLO Engineering`](/The-Way-of-SRE/leaves/engineering/slo-engineering/), [`SLO / Budget Review`](/The-Way-of-SRE/leaves/culture/slo-budget-review/). Источник: Beyer et al., *SRE Book*, гл. 4.
+
+## F
+
+### feature flag
+
+Toggle, отделяющий момент выкатки кода (deploy) от момента включения функциональности (release). Позволяет катить код в production в выключенном состоянии и включать для cohort / процента трафика. Категории: release / experiment / ops / permissioning.
+
+*Категория A*. См. [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/). Источник: Pete Hodgson, *Feature Toggles* (martinfowler.com).
+
+## G
+
+### GitOps
+
+Pull-based reconciliation модель: git как [единый источник истины](#ssot) desired state, controller в кластере (Argo CD / Flux) непрерывно сводит actual state с git. Отличается от push-based CI-applying. Click-ops в проде с этой моделью несовместим.
+
+*Категория A*. См. [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/). Источник: [OpenGitOps Principles](https://opengitops.dev/) (CNCF).
+
+## I
+
+### IaC
+
+Infrastructure as Code — production-инфраструктура (cloud resources, k8s манифесты, IAM, network) описана как версионируемый код и применяется через автоматизированный pipeline. Никакого click-ops в console облака.
+
+*Категория A*. См. [`Infrastructure as Code`](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/). Источник: Kief Morris, *Infrastructure as Code* (O'Reilly, 2-е изд., 2020).
+
+### IC
+
+Incident Commander — координатор инцидента. Не делает руками, а принимает решения и держит структуру: распределение ролей, sitrep cadence, decision log. После 2–4 часов передаёт роль (handoff), чтобы не терять качество решений из-за fatigue.
+
+*Категория A* — допустим перевод «руководитель инцидента» при первом упоминании. См. [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/).
+
+## K
+
+### KEV
+
+CISA Known Exploited Vulnerabilities — публичный каталог уязвимостей с подтверждённой active exploitation. Federal mandate для US agencies; индустрия следует как best practice — match KEV в стеке = patch вне обычной очереди triage.
+
+*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
+## L
+
+### least privilege
+
+Принцип, по которому идентичность (человек или сервис) имеет минимальный необходимый набор прав — не больше. Снижает blast radius при компрометации. Реализуется через IAM/RBAC scoping и just-in-time elevation.
+
+*Категория B* — «(принцип) наименьших привилегий». См. [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
+## M
+
+### MTTR
+
+Mean Time To Repair / Resolve / Recovery (зависит от источника). Среднее время от обнаружения инцидента до восстановления сервиса. Одна из четырёх DORA-метрик.
+
+*Категория A*. См. [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/).
+
+## O
+
+### observability
+
+Способность отвечать на вопросы о внутреннем состоянии системы через её внешние сигналы (метрики, логи, трейсы). Не «monitoring наоборот», а способность задавать **новые** вопросы без перевыпуска.
+
+*Категория A*. См. [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/), [`Resilience Patterns`](/The-Way-of-SRE/leaves/engineering/resilience-patterns/). Источник: Sridharan, *Distributed Systems Observability* (O'Reilly, 2018).
+
+### on-call
+
+Дежурство — режим работы, в котором инженер отвечает за реагирование на алерты в нерабочее время (или в смену). Sustainable on-call требует явной компенсации, alert hygiene, runbook на каждый pager.
+
+*Категория A* — пишется латиницей без склонения. См. [`On-Call Rotation`](/The-Way-of-SRE/leaves/practices/on-call-rotation/).
+
+## P
+
+### postmortem
+
+Документ, фиксирующий разбор инцидента после его завершения: timeline, contributing factors, action items с владельцем и дедлайном, lessons learned. В SRE-практике норма — [blameless](#blameless) постмортем.
+
+*Категория A* как документ; «провести разбор» допустим как процесс. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/). Источник: Beyer et al., *SRE Book*, гл. 15.
+
+### principle of least privilege
+
+См. [least privilege](#least-privilege).
+
+## R
+
+### RPO / RTO
+
+Recovery Point Objective (сколько данных потерять допустимо) и Recovery Time Objective (сколько времени на восстановление). Фиксируются в SLO-документе сервиса; пересматриваются вместе с SLO.
+
+*Категория A*. См. [`Backup & Restore`](/The-Way-of-SRE/leaves/engineering/backup-restore/).
+
+### runbook
+
+Конкретные инструкции по реагированию на инцидент: симптом → шаги диагностики → mitigation → rollback → escalation. Каждый шаг — actionable команда или явное решение, не «понять и подумать». **Алерт без runbook — фоновый шум**.
+
+*Категория A* — пишется латиницей без склонения (если нужно — через апостроф: `runbook'ом`). См. [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/).
+
+## S
+
+### SBOM
+
+Software Bill of Materials — список всех dependencies артефакта со связями (transitive deps, версии, hashes). Форматы: SPDX (ISO standard) или CycloneDX (OWASP). Foundation для vulnerability management — нельзя патчить то, чего не знаешь, что есть.
+
+*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
+### severity
+
+Классификация серьёзности инцидента — `SEV0..SEV3` (или эквивалент). Выводится из `impact × scope`; определяет response intensity, audience для customer comms, требования к постмортему. Severity не статична: upgrade/downgrade в ходе инцидента — нормально.
+
+*Категория A*. См. [`Severity Classification`](/The-Way-of-SRE/leaves/practices/severity-classification/).
+
+### single source of truth
+
+Архитектурный принцип: данные хранятся в одном месте, все остальные представления выводятся из него или ссылаются на него. Антипод — расползание по wiki / spreadsheet / устным договорённостям.
+
+*Категория B* — «единый источник истины». См. [`Service Ownership`](/The-Way-of-SRE/leaves/culture/service-ownership/), [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/).
+
+### sitrep
+
+Sitrep (situation report) — формализованная сводка статуса инцидента, выпускаемая по cadence (каждые 15 мин для SEV0, 30 мин для SEV1). Структура: `current status / what we tried / what we're doing now / next step / blockers / next sitrep at HH:MM`.
+
+*Категория C* — «сводка обстановки (sitrep)» при первом упоминании. См. [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/), [`Customer Communications`](/The-Way-of-SRE/leaves/practices/customer-communications/).
+
+### SLA / SLO / SLI
+
+**SLI** (Service Level Indicator) — измеряемая метрика, чаще всего отношение `good events / valid events`. **SLO** (Objective) — целевое значение SLI на окне (например, 99.9% за 28 дней). **SLA** (Agreement) — контрактное обязательство с consequences при нарушении (compensation, refund).
+
+*Категория A* — все три заглавными. См. [`SLO Engineering`](/The-Way-of-SRE/leaves/engineering/slo-engineering/), [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 4.
+
+### SLSA
+
+Supply-chain Levels for Software Artifacts (OpenSSF). Фреймворк уровней зрелости supply chain security: Level 1 (provenance), Level 2 (hosted build), Level 3 (non-forgeable provenance), Level 4 (hermetic + two-party review).
+
+*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+
+### SRE
+
+Site Reliability Engineering. Дисциплина, родившаяся в Google и сформулированная в *SRE Book* (Beyer et al., 2016). Главное отличие от классической ops-модели — **SRE пишет код** и разделяет error budget с продуктовой командой.
+
+*Категория A*. См. [Мотивацию](/The-Way-of-SRE/about/), [Методологию](/The-Way-of-SRE/methodology/).
+
+### STRIDE
+
+Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiation, **I**nformation Disclosure, **D**enial of Service, **E**levation of Privilege. Применяется per element of DFD (data flow diagram).
+
+*Категория A*. См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/). Источник: Shostack, *Threat Modeling: Designing for Security* (Wiley, 2014).
+
+## T
+
+### threat model
+
+Документ, фиксирующий результат threat modeling: DFD с trust boundaries → identified threats per STRIDE category → mitigations с явным статусом (implemented / planned / accepted). Living document, не «artifact для аудита».
+
+*Категория C* — «модель угроз (threat model)» при первом упоминании. См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+
+### timeline
+
+Хронология событий и решений в инциденте, собранная по timestamp из логов, алертов, Slack-тредов. Главная дисциплина — отделить **факты** от интерпретаций. «X не справился» — уже интерпретация; «X вернул 503 в 14:23» — факт.
+
+*Категория C* — «хронология (timeline)» при первом упоминании, дальше можно «timeline». См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/).
+
+### toil
+
+Операционная работа, которая **manual, repetitive, automatable, tactical, devoid of enduring value, scales linearly with service growth**. Все пять критериев должны выполняться — иначе это не toil, а просто «не любимая работа». Google SRE convention — ≤ 50% времени per engineer.
+
+*Категория A*. См. [`Toil Tracking`](/The-Way-of-SRE/leaves/engineering/toil-tracking/). Источник: Vivek Rau, *SRE Book*, гл. 5.
+
+### trust boundary
+
+Граница, при пересечении которой меняется уровень доверия (network zone, deployment unit, role). На threat model рисуются явно — потому что именно на boundary threats умножаются.
+
+*Категория B* — «граница доверия». См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+
+## W
+
+### war room
+
+Канал координации high-severity инцидента, в котором собраны IC / Ops / Comms / Scribe / SME. С 1970-х годов разрабатывается как practice в crisis management (FEMA ICS). Без структуры war room — амплификатор хаоса; со структурой — единственный способ держать координацию при многочасовом инциденте.
+
+*Категория C* — «оперативный штаб (war room)» при первом упоминании, дальше «war room». См. [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/).
+
+---
+
+## Источник истины
+
+Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
+
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `CVSS`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `OIDC federation`, `Workload Identity`, `mTLS`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `idempotency`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
