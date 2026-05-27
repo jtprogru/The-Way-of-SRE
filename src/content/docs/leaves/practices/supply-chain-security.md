@@ -83,11 +83,13 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — Terraform modules / Helm charts / Ansible roles тоже supply chain. Аналогичные практики: signed releases, pinned versions, SBOM.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — supply chain compromise — особый класс инцидентов: огромный blast radius, remediation требует revoke-and-rotate scope.
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — security-side зависимостей (этот лист) и reliability-side (vendor management) — соседние практики с общим vendor inventory.
+- **[Workload Identity](/The-Way-of-SRE/leaves/practices/workload-identity/)** — OIDC federation в CI убирает long-lived credentials в build pipeline; signed artifact ↔ workload identity, который собрал артефакт — часть SLSA chain.
+- **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — SOC 2 / ISO 27001 vendor risk requirements + EU Cyber Resilience Act (в силе с 2024) — первый regulatory mandate с конкретными supply chain requirements.
 
 ## Открытые вопросы
 
+- **Workload Identity** — выделен в отдельный лист (см. Связанные листья).
+- **Compliance Frameworks** — выделен в отдельный лист.
 - **Bug Bounty Program Economics** *(TBD)* — когда launch, scopes, payout structure. Уже в open questions из Vulnerability Management. Соседний лист.
-- **Workload Identity** *(TBD)* — service-to-service auth без long-lived secrets (SPIFFE / SPIRE, Workload Identity Federation).
-- **Compliance Frameworks** *(TBD)* — SOC 2 / ISO 27001 / PCI-DSS / FedRAMP / EU CRA как drivers для supply chain requirements. EU Cyber Resilience Act (в силе с 2024) — first regulatory mandate с конкретными supply chain requirements.
 - **Reproducible Builds** *(TBD)* — Bazel, Nix, Guix lineage; bit-for-bit determinism; cross-language challenges. Может быть отдельным листом под Programming / Scripting либо SLSA Level 4 подсекцией здесь.
 - Я не знаю, какой baseline SLSA Level имеет смысл рекомендовать для среднестатистической команды на 2026. SLSA 1 слишком слабо (просто provenance), SLSA 3 уже требует non-forgeable build service. По моим наблюдениям, большинство останавливается где-то на SLSA 2 + cosign + SBOM — но это не явная позиция индустрии, а пока консенсус-по-факту.

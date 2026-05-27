@@ -73,11 +73,13 @@ description: Систематическое выявление угроз на d
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каталог сервиса содержит ссылку на текущую threat model; owner отвечает за её актуальность.
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — security controls (IAM policies, network policies, encryption) описываются как IaC.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — threat model informs incident response: classes of incidents predictable из threat model.
+- **[Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/)** — STRIDE категория Elevation of Privilege — основной источник IAM-требований; trust boundaries проводятся по identity границам.
+- **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — SOC 2 CC3.x / ISO 27001 A.5.7 требуют risk assessment; threat model — наиболее операциональная форма.
 
 ## Открытые вопросы
 
 - **Vulnerability Management** уже выделена в отдельный лист.
-- **Access Control & IAM** *(TBD)* — управление identity, RBAC, привилегиями.
+- **Access Control & IAM** — выделен в отдельный лист (см. Связанные листья).
+- **Compliance Frameworks** — выделен в отдельный лист.
 - **Security Code Review** *(TBD)* — практика проверки кода на security-issues (OWASP Top 10, secure coding).
-- **Compliance** *(TBD)* — SOC 2 / PCI-DSS / GDPR / HIPAA как организационная задача.
 - **DAST / SAST tooling** — automated security testing (SonarQube, Snyk, Semgrep) — дополняет threat modeling через runtime / static verification.
