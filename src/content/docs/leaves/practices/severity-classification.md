@@ -75,6 +75,7 @@ description: Рамка измерения серьёзности инциден
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — escalation идёт по service ownership chain.
 - **[War Room Patterns](/The-Way-of-SRE/leaves/practices/war-room-patterns/)** — SEV0+ требует структурированного war room.
 - **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — severity определяет, требуется ли formal action items review (SEV0/1 — обязательно, SEV3 — optional).
+- **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — declare-incident через slash-command (`/incident sev1 <description>`) — каноническая ChatOps команда; SEV-routing к разным каналам и pager-группам.
 
 ## Открытые вопросы
 

@@ -11,7 +11,7 @@ description: Обнаружение, классификация и измере�
 - **Статус:** draft
 :::
 
-«Мы все ужасно заняты on-call'ом» — фраза, которую я слышу регулярно, и без данных она ничего не значит. Без явного учёта [toil](/The-Way-of-SRE/glossary/#toil) невозможно ни ограничить его (toil budget), ни автоматизировать прицельно (автоматизируешь не то, что съедает время), ни обосновать hiring. Toil — это **technical** категория с конкретным определением (Google SRE: manual / repetitive / automatable / tactical / devoid of enduring value / scales linearly), а не «всё, что бесит». Лист — про **измерение** этой работы. Главная практика внутри L1 `Toil Reduction`; соседи (Toil Automation, Alert Fatigue Management) — в открытых вопросах.
+«Мы все ужасно заняты on-call'ом» — фраза, которую я слышу регулярно, и без данных она ничего не значит. Без явного учёта [toil](/The-Way-of-SRE/glossary/#toil) невозможно ни ограничить его (toil budget), ни автоматизировать прицельно (автоматизируешь не то, что съедает время), ни обосновать hiring. Toil — это **technical** категория с конкретным определением (Google SRE: manual / repetitive / automatable / tactical / devoid of enduring value / scales linearly), а не «всё, что бесит». Лист — про **измерение** этой работы; соседние практики под тем же L1: [Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/) (про *как* устранять), [Personal SRE Toolkit](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/) (individual-level), [ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/) (chat-driven team automation).
 
 ## Что должен уметь
 
@@ -69,9 +69,12 @@ description: Обнаружение, классификация и измере�
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — IaC устраняет config-toil; один из самых высоких-impact toil-reduction уровней.
 - **[Alert Fatigue Management](/The-Way-of-SRE/leaves/engineering/alert-fatigue-management/)** — alert fatigue — отдельный класс toil; SLO-based alerts с high signal-to-noise + runbook сокращают alert-toil сильнее, чем любая другая техника.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — fire-fighting context-switch — высоковесь toil; уменьшается зрелым incident response.
+- **[Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/)** — пара: tracking даёт ranked list самого дорогого toil; automation реализует elimination. Здесь — про *что*; там — про *как*.
+- **[Personal SRE Toolkit](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/)** — самый дешёвый уровень toil reduction (alias / CLI / templates) для individual-level задач.
+- **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — chat-driven форма team-level automation; снимает operational запросы через bot interface.
 
 ## Открытые вопросы
 
-- **Toil Automation** *(TBD)* — отдельная практика автоматизации; здесь — про что автоматизировать, там — про как.
+- **Toil Automation** — выделена в отдельный лист (см. Связанные листья).
 - **Capacity Planning & Toil** — связь toil ↔ capacity ↔ hiring заслуживает отдельной разработки.
 - **Toil ROI Calculation** — методика расчёта возврата (saved hours × hourly rate − automation cost − maintenance).
