@@ -365,6 +365,11 @@ export const roadmap: Roadmap = {
               label: 'War Room Patterns',
               href: '/leaves/practices/war-room-patterns/',
             },
+            {
+              id: 'status-page-management',
+              label: 'Status Page Management',
+              href: '/leaves/practices/status-page-management/',
+            },
           ],
         },
         {

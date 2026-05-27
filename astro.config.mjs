@@ -111,6 +111,7 @@ export default defineConfig({
                 { label: 'Severity Classification', link: '/leaves/practices/severity-classification/' },
                 { label: 'Customer Communications', link: '/leaves/practices/customer-communications/' },
                 { label: 'War Room Patterns', link: '/leaves/practices/war-room-patterns/' },
+                { label: 'Status Page Management', link: '/leaves/practices/status-page-management/' },
                 { label: 'Blameless Postmortem', link: '/leaves/practices/blameless-postmortem/' },
                 { label: 'Action Items Tracking', link: '/leaves/practices/action-items-tracking/' },
                 { label: 'Progressive Delivery', link: '/leaves/practices/progressive-delivery/' },
