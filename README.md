@@ -53,6 +53,8 @@ graph LR
 
 Последовательность развития компетенций и приоритеты (Must Have / Mandatory / Nice to have / On Demand) — на странице [/priorities/](https://jtprogru.github.io/The-Way-of-SRE/priorities/) сайта; определения осей — в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
 
+Изначальный план новых листьев (10 шт) закрыт; следующая фаза — листья из open-questions / TBD-маркеров уже существующих.
+
 ## Локальный запуск сайта
 
 Проект — Astro Starlight. Команды доступны через [Task](https://taskfile.dev/):
