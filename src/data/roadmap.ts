@@ -411,6 +411,21 @@ export const roadmap: Roadmap = {
               label: 'Supply Chain Security',
               href: '/leaves/practices/supply-chain-security/',
             },
+            {
+              id: 'compliance-frameworks',
+              label: 'Compliance Frameworks',
+              href: '/leaves/practices/compliance-frameworks/',
+            },
+            {
+              id: 'access-control-iam',
+              label: 'Access Control & IAM',
+              href: '/leaves/practices/access-control-iam/',
+            },
+            {
+              id: 'workload-identity',
+              label: 'Workload Identity',
+              href: '/leaves/practices/workload-identity/',
+            },
           ],
         },
         {
