@@ -77,7 +77,8 @@ description: Координация реагирования на инциден
 - **[On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)** — кто реагирует и в каком состоянии.
 - **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — close-out incident включает создание AIs с owner / deadline / criterion; этот лист — про дисциплину их выполнения.
 - **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — современные incident-инструменты (incident.io, Netflix Dispatch, FireHydrant) — Slack-native ChatOps; declare / coordinate / sitrep живут в chat с встроенным audit trail.
+- **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — public status page update — часть IC checklist в моменте инцидента.
 
 ## Открытые вопросы
 
-- Большая часть «открытых вопросов» этого листа уже выделена в отдельные листы под Incident Management: Severity Classification, Customer Communications, On-Call Rotation, War Room Patterns. Дальнейшее развитие — Status Page Management.
+- Большая часть «открытых вопросов» этого листа выделена в отдельные листы под Incident Management: Severity Classification, Customer Communications, On-Call Rotation, War Room Patterns, Status Page Management. L1 полностью раскрыта по основным операционным практикам.
