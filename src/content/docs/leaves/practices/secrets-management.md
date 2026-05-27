@@ -72,11 +72,14 @@ description: Управление secrets через централизован�
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook для emergency revocation, rotation, recovery после leak — must-have в on-call toolkit.
 - **[Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/)** — пересечение в OIDC federation; centralized signing infrastructure = secrets-management применённая к signing keys.
 - **[Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/)** — vulnerability часто = secret leak; rotation + scoping снижают impact compromised secret.
+- **[Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/)** — IAM решает «кто», secrets — «чем»; вместе единая модель authentication + authorization.
+- **[Workload Identity](/The-Way-of-SRE/leaves/practices/workload-identity/)** — делает большинство shared secrets ненужными: cryptographic identity вместо API token / mTLS вместо bearer.
+- **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — encryption / key management / access controls — pervasive требования во всех frameworks; SOC 2 CC6.6 / PCI-DSS Req 3.
 
 ## Открытые вопросы
 
 - **Threat Modeling** уже выделен в отдельный лист под Information Security.
-- **Access Control & IAM** *(TBD)* — управление identity, ролями, разрешениями (для людей и для сервисов).
-- **Compliance** *(TBD)* — SOC2 / PCI-DSS / GDPR / HIPAA как организационная задача.
+- **Access Control & IAM** — выделен в отдельный лист (см. Связанные листья).
+- **Workload Identity** — выделен в отдельный лист; покрывает SPIFFE/SPIRE, AWS IRSA, GCP/Azure Workload Identity, OIDC federation в CI/CD.
+- **Compliance Frameworks** — выделен в отдельный лист; SOC 2 / PCI-DSS / GDPR / HIPAA как драйверы требований к secrets management (encryption at rest / in transit, key rotation, audit trail).
 - **Security Code Review** *(TBD)* — практика проверки кода на security-issues (OWASP Top 10, secure coding patterns).
-- **Workload Identity / Service Identity** — частный случай Access Control: SPIFFE/SPIRE, AWS IRSA, GCP Workload Identity.
