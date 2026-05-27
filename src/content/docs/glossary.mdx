@@ -16,6 +16,12 @@ description: Термины SRE с переводом, кратким опред
 
 ## A
 
+### ABAC
+
+Attribute-Based Access Control — модель авторизации, в которой решение «можно ли» вычисляется из атрибутов subject (роль, department, clearance), resource (sensitivity, owner) и context (time, IP, MFA strength). Решает scaling-проблему RBAC в больших orgs (role explosion), но требует attribute hygiene — кто их валидирует, что происходит при stale attribute.
+
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/).
+
 ### ADR
 
 Architecture Decision Record — фиксация технического решения в формате `context → decision → consequences`, версионируется в git, ревьюится в PR. Через два года новый engineer открывает ADR и понимает, почему было принято решение, — не «решили в чате полтора года назад».
@@ -186,6 +192,12 @@ Pull-based reconciliation модель: git как [единый источни�
 
 ## I
 
+### IAM
+
+Identity and Access Management — централизованная система управления тем, кто (human или service) есть в системе и что им разрешено. Включает authentication (login + MFA / federation) и authorization (RBAC / ABAC / ReBAC). У cloud-провайдеров — нативная (AWS IAM, GCP IAM, Microsoft Entra ID); у workforce — обычно отдельный IdP (Okta, Entra ID, JumpCloud) поверх облачных IAM.
+
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/), [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/).
+
 ### IaC
 
 Infrastructure as Code — production-инфраструктура (cloud resources, k8s манифесты, IAM, network) описана как версионируемый код и применяется через автоматизированный pipeline. Никакого click-ops в console облака.
@@ -222,6 +234,18 @@ CISA Known Exploited Vulnerabilities — публичный каталог уя�
 
 ## M
 
+### MFA
+
+Multi-Factor Authentication — требование двух или более независимых факторов для login (что-то, что знаешь / имеешь / есть ты сам). Не равноценны: SMS phish'ится через SIM swap, TOTP — через relay-фишинг, FIDO2/WebAuthn (hardware keys, passkeys) — cryptographic binding на domain делает их **phishing-resistant**. Для admin/production access баseline — FIDO2; для low-risk — TOTP.
+
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/). Источник: [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html).
+
+### mTLS
+
+Mutual TLS — TLS с двусторонней аутентификацией: и client, и server предъявляют сертификаты. Используется для service-to-service authentication вместо shared secrets / bearer tokens; в service mesh (Istio, Linkerd) — by default. Sertificate provisioning обычно через workload identity ([SPIFFE](#spiffe--spire) SVID или mesh-native).
+
+*Категория A* — пишется без склонения. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`Networking`](/The-Way-of-SRE/leaves/engineering/networking/).
+
 ### MTTR
 
 Mean Time To Repair / Resolve / Recovery (зависит от источника). Среднее время от обнаружения инцидента до восстановления сервиса. Одна из четырёх DORA-метрик.
@@ -235,6 +259,12 @@ Mean Time To Repair / Resolve / Recovery (зависит от источника
 Способность отвечать на вопросы о внутреннем состоянии системы через её внешние сигналы (метрики, логи, трейсы). Не «monitoring наоборот», а способность задавать **новые** вопросы без перевыпуска.
 
 *Категория A*. См. [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/), [`Resilience Patterns`](/The-Way-of-SRE/leaves/engineering/resilience-patterns/). Источник: Sridharan, *Distributed Systems Observability* (O'Reilly, 2018).
+
+### OIDC
+
+OpenID Connect — identity layer поверх OAuth 2.0; современный стандарт для federated authentication. В SRE-контексте чаще встречается как **OIDC federation**: workload (CI runner, k8s pod) предъявляет signed JWT от своего issuer'а (GitHub, GitLab, k8s API server), cloud провайдер (AWS STS, GCP STS) принимает токен и выдаёт ephemeral credentials — без long-lived API key в repository secrets или environment.
+
+*Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/). Источник: [OIDC Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html).
 
 ### on-call
 
@@ -263,6 +293,12 @@ Mean Time To Repair / Resolve / Recovery (зависит от источника
 См. [least privilege](#least-privilege).
 
 ## R
+
+### RBAC
+
+Role-Based Access Control — модель авторизации, в которой permissions присваиваются ролям, а пользователи получают роли. Простая, audit-friendly, хорошо работает на 5–20 ролях. При scale страдает role explosion (роль на каждую комбинацию permissions) — тогда сдвиг в сторону [ABAC](#abac) или ReBAC (Zanzibar-style relationship model).
+
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
 
 ### RPO / RTO
 
@@ -317,6 +353,20 @@ Sitrep (situation report) — формализованная сводка ста
 Supply-chain Levels for Software Artifacts (OpenSSF). Фреймворк уровней зрелости supply chain security: Level 1 (provenance), Level 2 (hosted build), Level 3 (non-forgeable provenance), Level 4 (hermetic + two-party review).
 
 *Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+
+### SOC 2
+
+Service Organization Control 2 — фреймворк сертификации (AICPA) для SaaS-вендоров, доказывающий клиентам, что у вендора есть operating controls по Trust Services Criteria (Security обязательно, остальные четыре — Availability / Processing Integrity / Confidentiality / Privacy — опционально). **Type I** — control design в момент аудита; **Type II** — operational effectiveness за период 6–12 месяцев. В B2B SaaS — типичное требование для prospect customers.
+
+*Категория A* — пишется через пробел. См. [`Compliance Frameworks`](/The-Way-of-SRE/leaves/practices/compliance-frameworks/). Источник: [AICPA Trust Services Criteria](https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services).
+
+### SPIFFE / SPIRE
+
+<a id="spiffe"></a><a id="spire"></a>
+
+**SPIFFE** (Secure Production Identity Framework For Everyone) — CNCF-стандарт workload identity: формат ID (`spiffe://trust-domain/path`), SVID (Verifiable Identity Document — X.509 или JWT), attestation framework. **SPIRE** — reference implementation: SPIRE server выпускает SVIDs, SPIRE agent на ноде проводит attestation workload'ов. Используется в команд с multi-cloud / hybrid scenarios; в одном cloud чаще используют cloud-native альтернативу (IRSA, GCP Workload Identity).
+
+*Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/). Источник: [SPIFFE Specification](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/).
 
 ### SRE
 
@@ -378,4 +428,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `OIDC federation`, `Workload Identity`, `mTLS`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
