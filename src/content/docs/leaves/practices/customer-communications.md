@@ -78,10 +78,11 @@ description: Внешняя коммуникация во время инцид�
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — pre-staged comm templates живут в runbook для типовых сценариев (data breach / regional outage / security event).
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service owner отвечает за customer comms своего сервиса; key accounts знает CSM, кого уведомлять.
 - **[Threat Modeling](/The-Way-of-SRE/leaves/practices/threat-modeling/)** — security incidents имеют специфические regulatory comms; threat modeling определяет, какие данные требуют какого уведомления.
+- **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — operational practice самой платформы: subscriber model, uptime transparency policy, scheduled maintenance pre-announce, decoupled infrastructure. Этот лист — про *что говорить*; SPM — про *как устроен канал*.
 
 ## Открытые вопросы
 
-- **Status Page Management** *(TBD)* — operational practice для public statuspage: subscriber management, uptime history transparency trade-off, scheduled maintenance comms, integration с monitoring.
+- **Status Page Management** — выделен в отдельный лист (см. Связанные листья).
 - **Pre-Staged Comm Templates** *(TBD)* — pre-incident подготовка templates с legal review для типовых сценариев. Может быть подсекцией здесь или отдельный лист.
 - **Public Post-Mortem Practice** — публикация post-mortems как deliberate trust-building (Cloudflare/GitHub/Stripe). Может стать подсекцией в Blameless Postmortem или соседним листом.
-- **Internationalization statuspage** — для international customer base: language switcher, локализованные email, time zone в cadence promises.
+- **Internationalization statuspage** — для international customer base — теперь в открытых вопросах Status Page Management.
