@@ -269,6 +269,21 @@ export const roadmap: Roadmap = {
               label: 'Toil Tracking',
               href: '/leaves/engineering/toil-tracking/',
             },
+            {
+              id: 'toil-automation',
+              label: 'Toil Automation',
+              href: '/leaves/engineering/toil-automation/',
+            },
+            {
+              id: 'personal-sre-toolkit',
+              label: 'Personal SRE Toolkit',
+              href: '/leaves/engineering/personal-sre-toolkit/',
+            },
+            {
+              id: 'chatops',
+              label: 'ChatOps',
+              href: '/leaves/engineering/chatops/',
+            },
           ],
         },
         {

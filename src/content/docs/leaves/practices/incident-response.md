@@ -76,6 +76,7 @@ description: Координация реагирования на инциден
 - **[War Room Patterns](/The-Way-of-SRE/leaves/practices/war-room-patterns/)** — operational дисциплина для multi-team high-severity incidents.
 - **[On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)** — кто реагирует и в каком состоянии.
 - **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — close-out incident включает создание AIs с owner / deadline / criterion; этот лист — про дисциплину их выполнения.
+- **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — современные incident-инструменты (incident.io, Netflix Dispatch, FireHydrant) — Slack-native ChatOps; declare / coordinate / sitrep живут в chat с встроенным audit trail.
 
 ## Открытые вопросы
 

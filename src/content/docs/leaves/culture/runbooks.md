@@ -69,6 +69,7 @@ description: Инструкции по реагированию на инцид�
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — runbook — главный инструмент в моменте инцидента; качество runbook прямо определяет MTTR.
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — каждый постмортем порождает обновление runbook (новый или правки существующего); без обновления lesson learned не закреплён.
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — co-ownership: runbook'и пишутся совместно с product-командой; иначе SRE дежурит вслепую по чужому сервису.
+- **[Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/)** — automatable runbook steps мигрируют в automation; «runbook говорит сделать X — пусть делает скрипт» как естественный следующий шаг.
 
 ## Открытые вопросы
 

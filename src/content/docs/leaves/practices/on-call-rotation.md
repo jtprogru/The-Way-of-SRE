@@ -73,6 +73,7 @@ description: Организация дежурства команды — кто
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — шумные / тяжёлые on-call смены — кандидаты на постмортем.
 - **[SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/)** — supervised on-call как мост от curriculum к самостоятельной ротации.
 - **[One-on-Ones](/The-Way-of-SRE/leaves/practices/one-on-ones/)** — discussion on-call health на 1:1 — встроенный sustainability check.
+- **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — `/oncall`, `/escalate`, `/page` через chat — стандартные ChatOps queries и actions для on-call workflow.
 
 ## Открытые вопросы
 

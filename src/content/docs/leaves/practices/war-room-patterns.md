@@ -84,6 +84,7 @@ description: Operational дисциплина multi-team incident response — I
 - **[On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)** — war room rotation может быть отдельной ротацией от service on-call (24×7 IC coverage).
 - **[Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/)** — decision log из war room — основной input для timeline постмортема.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — IC checklist, sitrep template, handoff template — часть runbook для major incidents.
+- **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — war room канал и есть ChatOps canvas; bots координируют sitrep cadence, scribe role, decision log fixing.
 
 ## Открытые вопросы
 
