@@ -104,6 +104,12 @@ Continuous Integration / Continuous Delivery (или Deployment). Pipeline сб�
 
 *Категория A*. См. [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/). Источник: Humble & Farley, *Continuous Delivery* (Addison-Wesley, 2010).
 
+### ChatOps
+
+Operations через chat-интерфейс с встроенным audit trail. Термин ввёл GitHub около 2011 с [Hubot](https://hubot.github.com/). Три уровня: **push** (нотификации в chat — alerts / CI), **pull** (bot отвечает на queries — `/oncall`, `/status`), **action** (триггер операций через chat — `/deploy`, `/incident declare`). Современные incident-platforms (incident.io, Netflix Dispatch, FireHydrant) — Slack-native ChatOps.
+
+*Категория A* — пишется без склонения. См. [`ChatOps`](/The-Way-of-SRE/leaves/engineering/chatops/), [`Severity Classification`](/The-Way-of-SRE/leaves/practices/severity-classification/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/).
+
 ### contributing factors
 
 Множество условий, **совместное** наступление которых вызвало инцидент. Подход NBJS (Necessary But Only Jointly Sufficient) альтернативен наивному поиску «root cause»: вместо одной причины — список факторов, каждый из которых отдельно предотвратил бы инцидент.
@@ -153,6 +159,12 @@ Common Vulnerability Scoring System — числовая оценка серьё
 DevOps Research and Assessment — исследование (Forsgren / Humble / Kim), которое выделяет 4 ключевые метрики: deployment frequency, lead time for changes, change failure rate, MTTR. Используются вместе; оптимизация одной метрики за счёт другой — Goodhart's law.
 
 *Категория A*. См. [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/). Источник: Forsgren et al., *Accelerate* (IT Revolution, 2018).
+
+### dotfiles
+
+Конфигурационные файлы пользователя в HOME, начинающиеся с точки (`.zshrc`, `.config/nvim`, `.tmux.conf`). Industry-стандарт — хранить в git-репозитории с symlink-deployment ([GNU stow](https://www.gnu.org/software/stow/) или собственный `install.sh`). Без git-репо не переживают переустановку OS / смену машины. Главный способ переносить personal toolkit между environments.
+
+*Категория A* — пишется без склонения. См. [`Personal SRE Toolkit`](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/). Источник: [dotfiles.github.io](https://dotfiles.github.io/) (community catalog).
 
 ### drift
 
@@ -265,6 +277,12 @@ Mean Time To Repair / Resolve / Recovery (зависит от источника
 OpenID Connect — identity layer поверх OAuth 2.0; современный стандарт для federated authentication. В SRE-контексте чаще встречается как **OIDC federation**: workload (CI runner, k8s pod) предъявляет signed JWT от своего issuer'а (GitHub, GitLab, k8s API server), cloud провайдер (AWS STS, GCP STS) принимает токен и выдаёт ephemeral credentials — без long-lived API key в repository secrets или environment.
 
 *Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/). Источник: [OIDC Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html).
+
+### operator pattern
+
+Kubernetes controller с custom CRD, который управляет complex / stateful workload (DB primary/replica failover, certificate rotation, Kafka cluster). Декларативный API: `kubectl apply` — остальное operator делает сам (provision / failover / backup / restore / upgrade). Cost: разработка — самостоятельный Go-проект с k8s API expertise, controller-runtime; maintenance — следить за k8s API deprecations. Готовые operators (postgres-operator, cert-manager, external-secrets) покрывают 80% потребностей.
+
+*Категория A* — пишется без склонения. См. [`Toil Automation`](/The-Way-of-SRE/leaves/engineering/toil-automation/). Источник: CoreOS / Red Hat blog (2016); [Operator Capability Levels](https://operatorframework.io/operator-capabilities/).
 
 ### on-call
 
@@ -428,4 +446,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `paved road` / `golden path`, `platform engineering`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
