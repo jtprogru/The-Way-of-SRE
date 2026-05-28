@@ -32,7 +32,7 @@ description: Управление secrets через централизован�
 ### Книги и руководства
 
 - **[OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)**. Один из самых актуальных публичных guide: централизация, lifecycle, encryption standards, cloud-specific guidance, incident response.
-- **[HashiCorp Vault Documentation](https://developer.hashicorp.com/vault)**. Канонический tool для secret management; documentation как референс по архитектуре, secret engines, auth methods, dynamic credentials.
+- **[HashiCorp Vault Documentation](https://developer.hashicorp.com/vault)**. Канонический tool для secret management; документация как референс по архитектуре, secret engines, auth methods, dynamic credentials.
 
 ### Статьи
 

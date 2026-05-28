@@ -11,13 +11,13 @@ description: Operational дисциплина multi-team incident response — I
 - **Статус:** draft
 :::
 
-«Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без [war room](/The-Way-of-SRE/glossary/#war-room) discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для customers, IC меняется неявно через «я устал, кто-то другой», постмортем-timeline восстановить невозможно. War Room Patterns — это **operational дисциплина multi-team incident response**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как след аудита, shift transition по чек-листу. Пятый лист под L1 `Incident Management` — самая плотная L1 на сайте, рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/), [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/).
+«Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без [war room](/The-Way-of-SRE/glossary/#war-room) discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для клиентов, IC меняется неявно через «я устал, кто-то другой», постмортем-timeline восстановить невозможно. War Room Patterns — это **operational дисциплина multi-team incident response**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как след аудита, shift transition по чек-листу. Пятый лист под L1 `Incident Management` — самая плотная L1 на сайте, рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/), [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/).
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — проектировать **IC rotation**. IC не может вести инцидент дольше 2–4 часов без потери эффективности — fatigue, tunnel vision, привязанность к гипотезам. Я регулярно вижу инциденты длиной 8+ часов с одним IC, который под конец принимает решения хуже, чем on-call engineer в первый час. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает). Без rotation IC становится bottleneck.
+Главный навык на уровне L5 — проектировать **IC rotation**. IC не может вести инцидент дольше 2–4 часов без потери эффективности — fatigue, tunnel vision, привязанность к гипотезам. Я регулярно вижу инциденты длиной 8+ часов с одним IC, который под конец принимает решения хуже, чем on-call инженер в первый час. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает). Без rotation IC становится bottleneck.
 
-- **L4** — Понимает роли war room по PagerDuty / Google IRT model: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние комms; **Scribe** — фиксирует timeline в реальном времени; **SME** — domain knowledge.
+- **L4** — Понимает роли war room по PagerDuty / Google IRT model: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние коммуникации; **Scribe** — фиксирует timeline в реальном времени; **SME** — domain knowledge.
 - **L4** — Выступает как IC для **SEV2+** incident в своём домене — открывает war room channel, объявляет роли, ведёт sitrep cadence. Принимает решения 70/30: ждать 100% уверенности — терять время; 70%+ — действовать, записывать в decision log.
 - **L4** — Применяет **sitrep cadence** как explicit ritual — каждые 15 минут (SEV0/critical) или 30 минут (SEV1/major). Структура: `current status / what we tried / what we're doing now / next step / blockers / next sitrep at HH:MM`.
 - **L5** — Проектирует **role rotation** — pre-planned handoff на second IC; 5-минутный sync (current hypothesis, что попробовано, что не работает). Распространяется на Ops Lead, Comms Lead.
@@ -41,7 +41,7 @@ description: Operational дисциплина multi-team incident response — I
 - **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management/handbook)**. Detailed playbook с фокусом на coordination. Альтернативный взгляд к PagerDuty.
 - Brent Chapman — **[Incident Command for IT — What We Can Learn from the Fire Department](https://www.usenix.org/conference/srecon16/program/presentation/chapman)** (SREcon 2016). Original talk applying NIMS / ICS (US Federal Incident Command System used by fire departments since 1970s) к IT incidents. История role separation идёт оттуда.
 - **[FEMA Incident Command System (ICS-100, ICS-200 free courses)](https://training.fema.gov/is/courseoverview.aspx?code=is-100.c)**. Original framework, на котором базируется PagerDuty / Google IMAG. Free online courses от 2 часов.
-- **[Honeycomb — The Cost of Incident Response](https://www.honeycomb.io/blog/the-cost-of-incident-response)** (Charity Majors). Argues что incident response costs реальные деньги.
+- **[Honeycomb — The Cost of Incident Response](https://www.honeycomb.io/blog/the-cost-of-incident-response)** (Charity Majors). Утверждает, что incident response стоит реальные деньги.
 
 ### Шаблоны
 
@@ -68,11 +68,11 @@ description: Operational дисциплина multi-team incident response — I
 
 Подробнее:
 
-**IC rotation после 2–4 часов — норма для long incidents.** Я регулярно вижу инциденты длиной 6+ часов с одним IC, который под конец принимает решения хуже, чем on-call engineer в первый час. Fatigue + tunnel vision + привязанность к гипотезам — это не «слабость», это physiology. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает, текущий decision pending). Без rotation качество incident management падает экспоненциально.
+**IC rotation после 2–4 часов — норма для long incidents.** Я регулярно вижу инциденты длиной 6+ часов с одним IC, который под конец принимает решения хуже, чем on-call инженер в первый час. Fatigue + tunnel vision + привязанность к гипотезам — это не «слабость», это physiology. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает, текущий decision pending). Без rotation качество incident management падает экспоненциально.
 
 **Shift transition для multi-day incidents — handoff doc обязателен.** Без shift transition новая смена начинает с нуля каждые 8 часов — incident длится в 2 раза дольше. Handoff doc: current state, hypothesis tree, что попробовано, что работает, что не работает, next steps. Explicit reassignment всех ролей. Overlap window — 15–30 минут handoff sync, не one-line «передаю». Это базовая дисциплина для регулируемых индустрий, но полезна везде.
 
-**Incident channel hygiene — единый источник истины.** Запрет DM-обсуждений «решений» — всё в channel либо в decision log. Запрет parallel war rooms (split-brain coordination). Separation `incident-${id}-warroom` (executors only) и `incident-${id}-stakeholders` (broadcast) — executors не отвлекаются на executive questions, stakeholders не путаются в jargon.
+**Incident channel hygiene — единый источник истины.** Запрет DM-обсуждений «решений» — всё в channel либо в decision log. Запрет parallel war rooms (split-brain coordination). Separation `incident-${id}-warroom` (executors only) и `incident-${id}-stakeholders` (broadcast) — executors не отвлекаются на executive questions, stakeholders не путаются в жаргоне.
 
 **Game day и IC training регулярно.** Первый IC-experience — реальный SEV0 в 3 ночи: команда паникует, IC не уверен в роли, sitrep не выходят, decision log пустой. Tabletop exercises и game day с искусственными SEV0 — единственный способ построить мышечную память. IC certification / on-call IC roster (не каждый on-call может быть IC) — следующий уровень зрелости.
 
@@ -92,4 +92,4 @@ description: Operational дисциплина multi-team incident response — I
 - **War Room Compensation** — overtime, on-call IC compensation — связано с On-Call Rotation comp models.
 - **Executive Escalation Thresholds** — когда IC поднимает CTO / CEO в war room (обычно при customer impact > $X или regulatory implications).
 - **Legal / PR involvement в war room** — когда подключать, как разграничить с technical mitigation.
-- Я не уверен, в какой момент команда дорастает до отдельной IC rotation vs IC = duty senior on-call. По моим наблюдениям, типичный момент — между 50 и 200 engineers, но это очень контекстно зависит от incident volume.
+- Я не уверен, в какой момент команда дорастает до отдельной IC rotation vs IC = duty senior on-call. По моим наблюдениям, типичный момент — между 50 и 200 инженеров, но это очень контекстно зависит от incident volume.

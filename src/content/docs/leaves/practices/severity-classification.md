@@ -11,17 +11,17 @@ description: Рамка измерения серьёзности инциден
 - **Статус:** draft
 :::
 
-«Всё SEV1, потому что страшно» — антипаттерн, который я регулярно вижу в команде без чёткой [severity](/The-Way-of-SRE/glossary/#severity) matrix. Severity inflation: всё «критично» → ничего реально не критично, команда выгорает, customers получают неуместные alarmist communications, executive escalation тратится впустую. Severity Classification — это **рамка по критериям**: impact × scope даёт уровень (SEV0..SEV3), уровень определяет — кого пейджит, кого вовлекать, с какой каденцией общаться с клиентами, какой постмортем требуется. Третий лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/) и [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)).
+«Всё SEV1, потому что страшно» — антипаттерн, который я регулярно вижу в команде без чёткой [severity](/The-Way-of-SRE/glossary/#severity) matrix. Severity inflation: всё «критично» → ничего реально не критично, команда выгорает, клиенты получают неуместные паникёрские сообщения, executive escalation тратится впустую. Severity Classification — это **рамка по критериям**: impact × scope даёт уровень (SEV0..SEV3), уровень определяет — кого пейджит, кого вовлекать, с какой каденцией общаться с клиентами, какой постмортем требуется. Третий лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/) и [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)).
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — связывать **SLO burn rate с severity** через автоматическое правило. Severity отдельно от alerting — это субъективная оценка IC «по ощущениям». High burn rate (5% бюджета за час) — это уже сигнал severity 1: customer impact в данный момент. Auto-escalation rule в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity becomes subjective, и в разных инцидентах одинаковая ситуация получает разный severity.
+Главный навык на уровне L5 — связывать **SLO burn rate с severity** через автоматическое правило. Severity отдельно от alerting — это субъективная оценка IC «по ощущениям». High burn rate (5% бюджета за час) — это уже сигнал severity 1: customer impact в данный момент. Auto-escalation rule в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity становится subjective, и в разных инцидентах одинаковая ситуация получает разный severity.
 
 - **L3** — Знает severity scheme своей команды; применяет корректную severity при declare, не «всё SEV1 потому что страшно».
 - **L3** — Знает escalation path для своего сервиса; где это документировано.
-- **L4** — Использует severity-based response: SEV0 — war room + leadership notify + customer comms, SEV1 — IC + senior eng, SEV2 — on-call + manager-уведомление, SEV3 — async fix без paging других.
+- **L4** — Использует severity-based response: SEV0 — war room + leadership notify + customer comms, SEV1 — IC + senior eng, SEV2 — on-call + уведомление руководителя, SEV3 — async fix без paging других.
 - **L4** — Делает escalation по правилам: time-based (5 мин без ack → secondary, 15 мин → IC, 30 мин → leadership при SEV1+), criteria-based (data integrity / regulatory triggers → CISO / Legal).
-- **L5** — Проектирует severity matrix: **impact** (data loss / customer-facing degradation / internal-only) × **scope** (single user / blast radius / global) → severity. Численные пороги (% users affected, $/min revenue impact).
+- **L5** — Проектирует severity matrix: **impact** (data loss / customer-facing degradation / internal-only) × **scope** (один пользователь / blast radius / global) → severity. Численные пороги (% затронутых пользователей, $/min revenue impact).
 - **L5** — Связывает severity с SLO burn rate: high burn rate автоматически elevates severity; SLO breach с пользовательским impact = минимум SEV1.
 - **L5** — Калибрует scheme на основе lookback (квартальный ревью): distribution по severity, false-positives, missed cases.
 - **L6+** — Проектирует org-level severity governance: единая scheme через все команды, regulatory hooks (GDPR breach → CISO/Legal), customer comms gates.
@@ -50,13 +50,13 @@ description: Рамка измерения серьёзности инциден
 
 **Короткие правила:**
 
-- **Severity = impact + scope, не «громкость крика».** Severity-inflation: всё «критично» → ничего реально не критично. Severity — рамка по критериям: customer impact (data loss > user-facing degradation > internal-only), scope (% users / blast radius), data integrity, regulatory implications.
-- **Severity-based response — не уравниловка.** Для каждого incident — full war room и all-hands → burnout, потеря фокуса. SEV0 = war room + leadership + customer comms; SEV1 = IC + senior eng; SEV2 = on-call + manager-уведомление; SEV3 = on-call async fix.
+- **Severity = impact + scope, не «громкость крика».** Severity-inflation: всё «критично» → ничего реально не критично. Severity — рамка по критериям: customer impact (data loss > user-facing degradation > internal-only), scope (% пользователей / blast radius), data integrity, regulatory implications.
+- **Severity-based response — не уравниловка.** Для каждого incident — full war room и all-hands → burnout, потеря фокуса. SEV0 = war room + leadership + customer comms; SEV1 = IC + senior eng; SEV2 = on-call + уведомление руководителя; SEV3 = on-call async fix.
 - **Auto-escalation по timeout, не «жду ответа».** Pager сработал, primary не ответил за 30 минут — никто не знает. Auto-escalation в paging tool: 5 мин без ack → secondary; 15 мин → IC; 30 мин → leadership (при SEV1+). Настроить однажды, тестировать на game day.
 
 Подробнее:
 
-**Severity не статична — upgrade/downgrade в ходе incident.** «Один раз declared SEV2 — навсегда SEV2» (стыдно повышать) — реальные incidents меняют scope в ходе investigation. Думали один user → оказалось 50% базы → SEV0. Process: IC явно declare severity change с уведомлением stakeholders; downgrade тоже валиден (initial assessment был алармистский — формальный downgrade с явным обоснованием). По моим наблюдениям, нежелание менять severity в ходе инцидента — частая причина mismatched response.
+**Severity не статична — upgrade/downgrade в ходе incident.** «Один раз declared SEV2 — навсегда SEV2» (стыдно повышать) — реальные incidents меняют scope в ходе investigation. Думали один пользователь → оказалось 50% базы → SEV0. Process: IC явно declare severity change с уведомлением stakeholders; downgrade тоже валиден (initial assessment был алармистский — формальный downgrade с явным обоснованием). По моим наблюдениям, нежелание менять severity в ходе инцидента — частая причина mismatched response.
 
 **SLO burn rate → severity bridge.** «Severity отдельно, alerting отдельно» — high burn rate (5% бюджета за час) — это уже сигнал severity 1. Auto-escalation rules в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity становится subjective.
 

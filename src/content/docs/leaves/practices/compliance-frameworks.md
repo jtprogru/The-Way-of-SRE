@@ -22,7 +22,7 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 - **L4** — Mapping компонентов системы на конкретные контролы; знает, какой control покрывается каким техническим артефактом (IaC модулем, IAM policy, runbook'ом, дашбордом).
 - **L4** — Автоматизирует evidence collection — снимок IAM state, screenshot patch SLA дашборда, IaC diff history, audit log export — через cron / event-driven hooks в GRC platform, а не вручную перед аудитом.
 - **L4** — Различает SOC 2 Type I (control design в момент аудита) и Type II (operational effectiveness за период 3–12 месяцев); Type II требует доказательств за весь период, что меняет всё в evidence collection.
-- **L5** — Проектирует control framework команды/org — выбор фреймворков по customer demand, scope definition, control catalogue, ownership matrix (кто ответствен за каждый control), audit cadence.
+- **L5** — Проектирует control framework команды/org — выбор фреймворков по клиентскому спросу, scope definition, control catalogue, ownership matrix (кто ответствен за каждый control), audit cadence.
 - **L5** — Внедряет *compliance-as-code* — policy через OPA / Sentinel / Cloud Custodian, automated drift detection, continuous control testing. «Контроль зелёный» = «automated check прошёл в последние 24 часа», не «policy документ написан год назад».
 - **L5** — Координирует с external auditors — scoping, evidence requests, walkthroughs, finding remediation. Понимает, что auditor может принять *compensating control* (альтернативу) — это переговоры, не команда сверху.
 - **L6+** — Дизайнит strategy на уровне org: какие certifications нужны (SOC 2 Type II baseline + ISO 27001 если EU enterprise + HITRUST если healthcare), inheritance модель (parent org аудит покрывает subsidiary), budget audit вендоров vs внутреннее content, board reporting.
@@ -70,7 +70,7 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 
 Подробнее:
 
-**Choose your frameworks по customer demand, не по «полнее — лучше».** Я регулярно вижу startup'ы, которые в первый год хотят SOC 2 Type II + ISO 27001 + HIPAA + PCI-DSS «на будущее». Стоимость — половина security headcount на год, ROI — минимальный, потому что customers не просят. Сначала customer demand (sales pipeline застревает на «у вас SOC 2?»), потом сертификация. Исключения — regulated industries (healthcare → HIPAA сразу, payments → PCI-DSS сразу).
+**Choose your frameworks по клиентскому спросу, не по «полнее — лучше».** Я регулярно вижу startup'ы, которые в первый год хотят SOC 2 Type II + ISO 27001 + HIPAA + PCI-DSS «на будущее». Стоимость — половина security headcount на год, ROI — минимальный, потому что клиенты не просят. Сначала клиентский спрос (sales pipeline застревает на «у вас SOC 2?»), потом сертификация. Исключения — regulated industries (healthcare → HIPAA сразу, payments → PCI-DSS сразу).
 
 **Inheritance model — серьёзная экономия в multi-product / multi-subsidiary orgs.** Если parent org сертифицирован по SOC 2, subsidiary могут inherit infrastructure controls (data center physical security, network segmentation), и аудит subsidiary становится дешевле и быстрее. Cloud providers (AWS, GCP, Azure) публикуют SOC reports — их inheritance покрывает часть infra-control'ов для всех клиентов. Это надо явно использовать в scoping; auditor сам не предложит.
 

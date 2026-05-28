@@ -39,7 +39,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 ### Статьи и доклады
 
 - **[The xz-utils backdoor (CVE-2024-3094) — Andres Freund's discovery](https://www.openwall.com/lists/oss-security/2024/03/29/4)**. Главный публичный кейс — см. ниже.
-- **[The SolarWinds Cyberattack — CISA report](https://www.cisa.gov/news-events/news/remediating-networks-affected-solarwinds-and-active-directory-m365-compromise)**. Watershed-инцидент: атакующие вошли через build system и подписали malicious update легитимным cert. Читать для понимания, почему build environment integrity критично.
+- **[The SolarWinds Cyberattack — CISA report](https://www.cisa.gov/news-events/news/remediating-networks-affected-solarwinds-and-active-directory-m365-compromise)**. Переломный инцидент: атакующие вошли через build system и подписали malicious update легитимным cert. Читать для понимания, почему build environment integrity критично.
 - **[Codecov Bash Uploader Compromise](https://about.codecov.io/security-update/)**. Build pipeline compromise через подменённый Docker image; secrets из CI клиентов утекли.
 - **[Reproducible Builds](https://reproducible-builds.org/)**. Movement и tooling за bit-for-bit reproducibility — основа для verifiable build attestations.
 - **[OpenSSF Scorecard](https://github.com/ossf/scorecard)**. Automated assessment OSS репозиториев по security practices.
@@ -57,7 +57,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 
 ## Best practices
 
-Главный публичный кейс — **xz-utils backdoor (CVE-2024-3094)**, обнаруженный Andres Freund в марте 2024. Атакующий («Jia Tan») провёл многолетнюю social engineering атаку на single-maintainer critical OSS project: построил доверие за несколько лет, стал co-maintainer, постепенно вставил backdoor в production releases. Обнаружено случайно — Freund заметил повышенный CPU в ssh handshake на personal машине и стал копать. Главный урок: даже идеальный pipeline не защитит от backdoor в upstream, если upstream сам compromise. Защита — dependency hygiene (избегать single-maintainer critical deps), maintained status (last commit / responsive maintainer), multi-maintainer requirements для critical paths, reproducible builds (xz backdoor работал именно потому, что build не был reproducible).
+Главный публичный кейс — **xz-utils backdoor (CVE-2024-3094)**, обнаруженный Andres Freund в марте 2024. Атакующий («Jia Tan») провёл многолетнюю social engineering атаку на single-maintainer critical OSS project: построил доверие за несколько лет, стал co-maintainer, постепенно вставил backdoor в production releases. Обнаружено случайно — Freund заметил повышенный CPU в ssh handshake на личной машине и стал копать. Главный урок: даже идеальный pipeline не защитит от backdoor в upstream, если upstream сам скомпрометирован. Защита — dependency hygiene (избегать single-maintainer critical deps), maintained status (last commit / responsive maintainer), multi-maintainer requirements для critical paths, reproducible builds (xz backdoor работал именно потому, что build не был reproducible).
 
 **Короткие правила:**
 

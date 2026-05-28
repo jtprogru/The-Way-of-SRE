@@ -46,7 +46,7 @@ description: Engineering-практика управления зависимо�
 
 ### Инструменты
 
-- **Vendor inventory in repo / Notion** — самый базовый и самый часто пропускаемый инструмент. Markdown table: vendor / SLA / criticality / SLO impact / fallback / playbook link / contract renewal date. По моим наблюдениям, разница между командами с workingским vendor management и без — наличие этой таблицы.
+- **Vendor inventory in repo / Notion** — самый базовый и самый часто пропускаемый инструмент. Markdown table: vendor / SLA / criticality / SLO impact / fallback / playbook link / contract renewal date. По моим наблюдениям, разница между командами с рабочим vendor management и без — наличие этой таблицы.
 - **[StatusGator](https://statusgator.com/) / [IsDown](https://isdown.app/)** — aggregators status pages внешних vendors; sends alerts при vendor incident. Полезны для команд с десятками SaaS vendors.
 - **Synthetic monitoring (Datadog Synthetics / [Checkly](https://www.checklyhq.com/))** — проактивная проверка vendor endpoint health; ловит partial degradation раньше public status update.
 - **[Cloudflare Workers](https://workers.cloudflare.com/) / multi-CDN configuration** — практический инструмент redundancy для CDN tier. Один из немногих vendor-types, где multi-vendor реально работает.
@@ -54,7 +54,7 @@ description: Engineering-практика управления зависимо�
 
 ## Best practices
 
-Главный публичный кейс — **Cloudflare outage, July 2, 2019** (примерно 30 минут, ~50% всего HTTP-трафика интернета affected). Регулярное expression в WAF rule вызвало CPU exhaustion на edge serverах; ошибка попала в production без catching в pre-prod environments. **Что показал инцидент:** даже компании уровня Reddit, Twitch, Discord были effectively down, потому что Cloudflare — concentrated single point of failure для half of internet. Я регулярно вижу команды, у которых «у нас Cloudflare» как полное answer на вопрос «что у вас по DDoS / DNS / CDN», без понимания, что **vendor concentration** — это reliability risk, и в день Cloudflare outage любая redundancy на собственной инфраструктуре уже бесполезна. Это не аргумент против Cloudflare — это аргумент за **vendor incident playbook**: что мы делаем (degraded mode? read-only? bypass CDN?), когда vendor up за пределами нашего контроля.
+Главный публичный кейс — **Cloudflare outage, July 2, 2019** (примерно 30 минут, ~50% всего HTTP-трафика интернета affected). Регулярное expression в WAF rule вызвало CPU exhaustion на edge серверах; ошибка попала в production без catching в pre-prod environments. **Что показал инцидент:** даже компании уровня Reddit, Twitch, Discord были effectively down, потому что Cloudflare — concentrated single point of failure для half of internet. Я регулярно вижу команды, у которых «у нас Cloudflare» как полный ответ на вопрос «что у вас по DDoS / DNS / CDN», без понимания, что **vendor concentration** — это reliability risk, и в день Cloudflare outage любая redundancy на собственной инфраструктуре уже бесполезна. Это не аргумент против Cloudflare — это аргумент за **vendor incident playbook**: что мы делаем (degraded mode? read-only? bypass CDN?), когда vendor up за пределами нашего контроля.
 
 **Короткие правила:**
 
@@ -66,13 +66,13 @@ description: Engineering-практика управления зависимо�
 
 **Concentration risk vs operational simplicity — главный trade-off.** Single vendor (AWS-only / Cloudflare-only / Stripe-only) — operational simplicity, но full exposure to их incidents. Multi-vendor — снижает single-point-of-failure, но требует 2x ops effort, complex routing, payment redundancy и т.д. По моим наблюдениям, разумная граница: для **infrastructure tier** (cloud, DNS, CDN, payment) — multi-vendor оправдан для критичных компаний; для **operational tier** (observability, error tracking, communication tools) — single vendor обычно ОК с явным fallback. Конкретный baseline зависит от business criticality и customer-facing SLO.
 
-**Vendor SLA — нижняя граница, не expectation.** Реальный uptime обычно лучше contractual SLA (vendor consérves credit budget), но в год outage случается. SLO planning должен ассумировать SLA, не observed; иначе любой compliant vendor incident сжигает наш бюджет, и нам нечем покрыть собственные инциденты. Это базовая дисциплина, которую часто откладывают.
+**Vendor SLA — нижняя граница, не expectation.** Реальный uptime обычно лучше contractual SLA (vendor бережёт credit budget), но в год outage случается. SLO planning должен закладывать SLA, не observed; иначе любой compliant vendor incident сжигает наш бюджет, и нам нечем покрыть собственные инциденты. Это базовая дисциплина, которую часто откладывают.
 
 **Vendor exit — не theoretical exercise.** Я регулярно вижу команды, у которых «vendor lock-in» обсуждается на ADR, но никогда не тестируется. Tested escape path для критичных vendors — это раз в 1–2 года прокат миграции хотя бы для одного non-critical сервиса между vendors. Без actual experience migration vendor exit — это wish, не plan. Особенно касается auth (Auth0 ↔ Okta ↔ Cognito), payment (Stripe ↔ Adyen ↔ Braintree), observability (Datadog ↔ New Relic ↔ Grafana Cloud).
 
 **Status page checking — automated, не manual.** Я регулярно вижу команды, у которых процесс «vendor incident detection» = «кто-то заметил в Slack» / «увидели на Twitter». Это late signal. Healthy подход: subscribe на vendor status RSS / webhook / API; integrate в свой incident management. Время от vendor announcement до собственного incident response — должно быть минуты, не десятки минут.
 
-**Annual vendor review ritual.** Раз в год — review portfolio: какие vendors используем (некоторые забыты), какие fees растут disproportionate to value, какие vendor SLA не соответствуют наблюдаемой uptime, какие contracts renewing (negotiation window), какие vendors консолидировали (M&A risk). Без ritual portfolio становится bag of accumulated decisions без revisit.
+**Annual vendor review ritual.** Раз в год — review portfolio: какие vendors используем (некоторые забыты), какие расходы растут непропорционально ценности, какие vendor SLA не соответствуют наблюдаемой uptime, какие contracts renewing (negotiation window), какие vendors консолидировали (M&A risk). Без ritual portfolio становится набором накопленных решений без пересмотра.
 
 ## Связанные листья
 
