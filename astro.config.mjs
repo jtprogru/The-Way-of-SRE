@@ -123,6 +123,8 @@ export default defineConfig({
                 { label: 'Compliance Frameworks', link: '/leaves/practices/compliance-frameworks/' },
                 { label: 'Access Control & IAM', link: '/leaves/practices/access-control-iam/' },
                 { label: 'Workload Identity', link: '/leaves/practices/workload-identity/' },
+                { label: 'Security Code Review', link: '/leaves/practices/security-code-review/' },
+                { label: 'Security Chaos Engineering', link: '/leaves/practices/security-chaos-engineering/' },
                 { label: 'Architecture Decision Records', link: '/leaves/practices/architecture-decision-records/' },
                 { label: 'One-on-Ones', link: '/leaves/practices/one-on-ones/' },
                 { label: 'Personal Growth Plan', link: '/leaves/practices/personal-growth-plan/' },
