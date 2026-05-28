@@ -75,6 +75,7 @@ description: Управление secrets через централизован�
 - **[Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/)** — IAM решает «кто», secrets — «чем»; вместе единая модель authentication + authorization.
 - **[Workload Identity](/The-Way-of-SRE/leaves/practices/workload-identity/)** — делает большинство shared secrets ненужными: cryptographic identity вместо API token / mTLS вместо bearer.
 - **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — encryption / key management / access controls — pervasive требования во всех frameworks; SOC 2 CC6.6 / PCI-DSS Req 3.
+- **[Security Code Review](/The-Way-of-SRE/leaves/practices/security-code-review/)** — secret scanning (gitleaks / trufflehog) — общий слой: SCR ловит захардкоженный секрет до merge, Secrets Management отвечает за его lifecycle в store.
 
 ## Открытые вопросы
 
@@ -82,4 +83,4 @@ description: Управление secrets через централизован�
 - **Access Control & IAM** — выделен в отдельный лист (см. Связанные листья).
 - **Workload Identity** — выделен в отдельный лист; покрывает SPIFFE/SPIRE, AWS IRSA, GCP/Azure Workload Identity, OIDC federation в CI/CD.
 - **Compliance Frameworks** — выделен в отдельный лист; SOC 2 / PCI-DSS / GDPR / HIPAA как драйверы требований к secrets management (encryption at rest / in transit, key rotation, audit trail).
-- **Security Code Review** *(TBD)* — практика проверки кода на security-issues (OWASP Top 10, secure coding patterns).
+- **Security Code Review** — выделен в отдельный лист (см. Связанные листья).

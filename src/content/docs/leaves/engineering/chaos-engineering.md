@@ -80,11 +80,12 @@ description: Hypothesis-driven эксперименты для проверки 
 - **[Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/)** — game day findings обрабатываются через постмортем-процесс; cultural prerequisite адопции.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — game day валидирует runbook'и: если шаги не сработали, runbook outdated.
 - **[Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)** — game day scenarios варьируются по severity, тренируют correct severity declaration.
+- **[Security Chaos Engineering](/The-Way-of-SRE/leaves/practices/security-chaos-engineering/)** — тот же метод, объект — security-контролы вместо reliability-свойств: проверяем, срабатывает ли detection / response, а не остаётся ли система живой.
 
 ## Открытые вопросы
 
 - **Continuous Chaos vs GameDay** — scheduled monthly GameDay (low-cost / high-engagement) vs continuous chaos в pipeline (high-confidence / catches regressions). Возможно отдельный лист на детализацию.
 - **Disaster Recovery Testing** *(TBD)* — DR drills (regional failover, DB failure, full data center loss) — большие chaos experiments верхнего уровня со своим scope и cadence.
-- **Security Chaos Engineering** *(TBD)* — validation security controls через эксперименты (Shortridge / Rinehart). Сосед под Information Security, потому что главный объект — security controls, не reliability.
+- **Security Chaos Engineering** — выделен в отдельный лист (Practices / Information Security; см. Связанные листья).
 - **Failure Modes Catalog** *(TBD)* — систематический каталог known failure modes для сервиса/системы как корень chaos scenarios.
 - Я не знаю, как корректно делать chaos в regulated industries (banking / healthcare / payments) — Federal Reserve guidance / FDA / PCI-DSS накладывают ограничения, и публичной литературы про практику chaos в банках я не видел. Если есть опыт — расскажите PR'ом.
