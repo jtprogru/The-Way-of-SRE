@@ -136,6 +136,12 @@ Common Vulnerability Scoring System — числовая оценка серьё
 
 ## D
 
+### DAST
+
+Dynamic Application Security Testing — поиск уязвимостей в **работающем** приложении через внешние запросы, без доступа к исходникам. Дополняет [`SAST`](#sast) (статический анализ кода): видит то, что проявляется только в runtime. Инструменты — OWASP ZAP, Burp Suite.
+
+*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
 ### decision log
 
 Отдельный артефакт инцидента, в котором фиксируются значимые решения: кто решил, когда, какие альтернативы рассматривались, какой rollback plan. Не «размешан в Slack scrollback» — отдельный документ. Primary input для постмортема.
@@ -298,6 +304,14 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 *Категория A* (термин «1:1» используется без склонения). См. [`One-on-Ones`](/The-Way-of-SRE/leaves/practices/one-on-ones/). Источник: Andy Grove, *High Output Management* (1983).
 
+### OWASP Top 10
+
+<a id="owasp-top-10"></a>
+
+Список самых критичных классов уязвимостей веб-приложений от OWASP, обновляется раз в несколько лет. В редакции 2021 №1 — broken access control. Не чеклист, а словарь классов, на которые смотрят в security-ревью и threat modeling.
+
+*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+
 ## P
 
 ### postmortem
@@ -334,11 +348,23 @@ Recovery Point Objective (сколько данных потерять допу�
 
 ## S
 
+### SAST
+
+Static Application Security Testing — анализ исходного кода на security-дефекты без запуска (pattern-matching + semantic). Ловит SQL-инъекции, слабый crypto, захардкоженные секреты; **не видит** логику авторизации (broken access control). Инструменты — Semgrep, CodeQL, gosec, Bandit.
+
+*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
 ### SBOM
 
 Software Bill of Materials — список всех dependencies артефакта со связями (transitive deps, версии, hashes). Форматы: SPDX (ISO standard) или CycloneDX (OWASP). Foundation для vulnerability management — нельзя патчить то, чего не знаешь, что есть.
 
 *Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+
+### SCA
+
+Software Composition Analysis — анализ сторонних dependencies артефакта на known CVE; опирается на [`SBOM`](#sbom). Отличается от [`SAST`](#sast) объектом: SAST смотрит свой код, SCA — чужой. Инструменты — govulncheck, Snyk, Dependabot, Trivy.
+
+*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
 
 ### severity
 
@@ -446,4 +472,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `DAST` / `SAST` / `SCA`, `MITRE ATT&CK`, `OWASP Top 10`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `paved road` / `golden path`, `platform engineering`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `paved road` / `golden path`, `platform engineering`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
