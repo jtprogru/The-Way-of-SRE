@@ -13,7 +13,7 @@ description: Самоорганизующиеся сообщества инже�
 
 «У нас CoP — это monthly митинг, где никто ничего не делает, кроме демо» — диагноз, который я слышу регулярно через 3–6 месяцев после запуска. Community of Practice (CoP) — это **самоорганизующееся сообщество** через границы команд, объединённое **общей практикой**, а не темой. Не «общий канал в Slack», не «brown bag раз в месяц», а regular ritual с явной целью: распространить качественную practice через границы. Etienne Wenger ввёл понятие в 1998, Spotify применил при scale как часть guild model — и публично откатился от части этой модели в 2020-х. История CoP — это история того, как easy concept оказывается hard practice.
 
-Граница: [SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/) — org-level процесс для одного engineer; [Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/) — vocabulary роста; этот лист — **ritual cross-team learning**, который заполняет пространство между ними.
+Граница: [SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/) — org-level процесс для одного инженера; [Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/) — vocabulary роста; этот лист — **ritual cross-team learning**, который заполняет пространство между ними.
 
 ## Что должен уметь
 
@@ -52,7 +52,7 @@ description: Самоорганизующиеся сообщества инже�
 
 ## Best practices
 
-Главный публичный кейс — **Spotify guild model и его последующая ревизия**. В 2012 году Kniberg опубликовал white paper о tribes / squads / chapters / guilds, который стал референсом для сотен компаний. В 2020 году Jeremiah Lee (бывший сотрудник Spotify) публично написал, что guild model в практике работала слабее, чем декларация: guilds регулярно умирали без strategic sponsorship, attendance деградировала, Spotify сам внутри её модифицировал. Урок не в том, что CoP «не работает», а в том, что **CoP без явного charter и sponsorship — fragile**. Я регулярно вижу команды, которые копируют Spotify modèle без понимания, что Spotify его уже скорректировал. Если кто-то в org предлагает «давайте сделаем как у Spotify» — отправляйте на обе статьи (Kniberg 2012 + Lee 2020).
+Главный публичный кейс — **Spotify guild model и его последующая ревизия**. В 2012 году Kniberg опубликовал white paper о tribes / squads / chapters / guilds, который стал референсом для сотен компаний. В 2020 году Jeremiah Lee (бывший сотрудник Spotify) публично написал, что guild model в практике работала слабее, чем декларация: guilds регулярно умирали без strategic sponsorship, attendance деградировала, Spotify сам внутри её модифицировал. Урок не в том, что CoP «не работает», а в том, что **CoP без явного charter и sponsorship — fragile**. Я регулярно вижу команды, которые копируют Spotify-модель без понимания, что Spotify её уже скорректировал. Если кто-то в org предлагает «давайте сделаем как у Spotify» — отправляйте на обе статьи (Kniberg 2012 + Lee 2020).
 
 **Короткие правила:**
 
@@ -72,11 +72,11 @@ description: Самоорганизующиеся сообщества инже�
 
 ## Связанные листья
 
-- **[SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/)** — onboarding curriculum может включать introduction к существующим CoP как часть networking. CoP — место, где новый engineer находит peer learning после первых 12 недель.
+- **[SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/)** — onboarding curriculum может включать introduction к существующим CoP как часть networking. CoP — место, где новый инженер находит peer learning после первых 12 недель.
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — cross-team incident review session — частая форма Incident Response CoP; «как мы learn from incidents across teams» — отдельная задача поверх per-team постмортемов.
 - **[Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/)** — facilitate CoP — типичный expected behavior на L5 / L6+; ladder обращается к CoP-contribution как valid evidence influence beyond team.
 - **[Personal Growth Plan](/The-Way-of-SRE/leaves/practices/personal-growth-plan/)** — CoP — один из multi-format learning channels (см. лист про deliberate practice + community contribution).
-- **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — CoP — один из способов масштабирования SRE-практик за пределы текущей engagement modello (SRE-developers CoP с участием обеих сторон).
+- **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — CoP — один из способов масштабирования SRE-практик за пределы текущей engagement-модели (SRE-developers CoP с участием обеих сторон).
 
 ## Открытые вопросы
 

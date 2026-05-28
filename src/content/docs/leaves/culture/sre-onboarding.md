@@ -11,20 +11,20 @@ description: Систематическое введение нового SRE �
 - **Статус:** draft
 :::
 
-«Бросим в боевые инциденты с первой недели — научится быстрее» — типичный совет, который я слышу от senior engineers, и типичная причина churn'а нового engineer'а через 3–6 месяцев. SRE Onboarding — это **систематическое** введение в команду и production: явный curriculum, mentor-связь до выхода, последовательность освоения artefacts ([runbook](/The-Way-of-SRE/glossary/#runbook), dashboards, репозитории, [on-call](/The-Way-of-SRE/glossary/#on-call) rotation), путь до первого on-call под supervision. Базовая практика внутри L1 `Organisational Capability Development`; без неё новый engineer выходит «в продакшен на ощупь» и churn'ит через 6 месяцев.
+«Бросим в боевые инциденты с первой недели — научится быстрее» — типичный совет, который я слышу от senior-инженеров, и типичная причина churn'а нового инженера через 3–6 месяцев. SRE Onboarding — это **систематическое** введение в команду и production: явный curriculum, mentor-связь до выхода, последовательность освоения artefacts ([runbook](/The-Way-of-SRE/glossary/#runbook), dashboards, репозитории, [on-call](/The-Way-of-SRE/glossary/#on-call) rotation), путь до первого on-call под supervision. Базовая практика внутри L1 `Organisational Capability Development`; без неё новый инженер выходит «в продакшен на ощупь» и churn'ит через 6 месяцев.
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — измерять **time-to-on-call** как метрику. «Выйдет в ротацию, когда будет готов» — без даты engineer тянется, команда не планирует ротацию, mentor не понимает, что подтянуть. Целевая дата (8 недель до supervised on-call, 12 недель до самостоятельного) даёт структуру и accountability. Я регулярно вижу разницу: команды с явным time-to-on-call быстрее выводят новых engineers в продуктивность.
+Главный навык на уровне L5 — измерять **time-to-on-call** как метрику. «Выйдет в ротацию, когда будет готов» — без даты инженер тянется, команда не планирует ротацию, mentor не понимает, что подтянуть. Целевая дата (8 недель до supervised on-call, 12 недель до самостоятельного) даёт структуру и accountability. Я регулярно вижу разницу: команды с явным time-to-on-call быстрее выводят новых инженеров в продуктивность.
 
 - **L4** — Следует onboarding curriculum команды как mentor: ведёт pair sessions, code walkthrough, runbook review с onboardee.
-- **L4** — Пишет короткий onboarding plan для конкретного engineer: что осваивает в первые 2 / 4 / 12 недель, какие artefacts, кто mentor.
+- **L4** — Пишет короткий onboarding plan для конкретного инженера: что осваивает в первые 2 / 4 / 12 недель, какие artefacts, кто mentor.
 - **L4** — Участвует в wheel of misfortune вместе с onboardee как фасилитатор или scribe.
 - **L5** — Проектирует onboarding curriculum для команды: список artefacts, последовательность освоения, milestones, требования к mentor, критерий «готов к on-call».
 - **L5** — Оценивает прогресс onboardee через regular check-ins (1 / 2 / 4 / 8 / 12 weeks), корректирует curriculum по фактическому опыту.
-- **L5** — Связывает onboarding с production-готовностью: до какого момента engineer не дежурит самостоятельно, как первое on-call происходит под supervision.
+- **L5** — Связывает onboarding с production-готовностью: до какого момента инженер не дежурит самостоятельно, как первое on-call происходит под supervision.
 - **L6+** — Внедряет onboarding-программу для нескольких команд: shared baseline + team-specific extension, mentor rotation, метрики time-to-on-call.
-- **L6+** — Связывает onboarding с hiring / retention strategy: что должны уметь candidates на входе, как сохраняем engineers после первых 12 месяцев.
+- **L6+** — Связывает onboarding с hiring / retention strategy: что должны уметь candidates на входе, как сохраняем инженеров после первых 12 месяцев.
 - **L6+** — Защищает onboarding capacity от давления «у нас сейчас инциденты, не до того»; без защиты onboarding деградирует первым.
 
 ## Материалы
@@ -48,19 +48,19 @@ description: Систематическое введение нового SRE �
 
 **Короткие правила:**
 
-- **Curriculum явный, а не «учитесь на боевых задачах».** Через 3 месяца bezствуктурного onboarding имеем разочарование и churn; через 6 — увольнение. Curriculum = контракт между командой и onboardee: что осваивает, в какие сроки, кто mentor.
-- **Mentor определён до выхода engineer, а не «найди кого-нибудь потом».** «У нас все помогут» = никто не отвечает. Mentor — конкретный человек с явно выделенным временем (1–2 часа в неделю минимум на первый месяц).
-- **Time-to-on-call — измеримая метрика, а не «когда готов».** Без даты engineer тянется, команда не планирует ротацию. Целевая дата (8 недель до supervised, 12 — до самостоятельного) даёт структуру и accountability.
+- **Curriculum явный, а не «учитесь на боевых задачах».** Через 3 месяца бесструктурного onboarding имеем разочарование и churn; через 6 — увольнение. Curriculum = контракт между командой и onboardee: что осваивает, в какие сроки, кто mentor.
+- **Mentor определён до выхода инженера, а не «найди кого-нибудь потом».** «У нас все помогут» = никто не отвечает. Mentor — конкретный человек с явно выделенным временем (1–2 часа в неделю минимум на первый месяц).
+- **Time-to-on-call — измеримая метрика, а не «когда готов».** Без даты инженер тянется, команда не планирует ротацию. Целевая дата (8 недель до supervised, 12 — до самостоятельного) даёт структуру и accountability.
 
 Подробнее:
 
-**Regular check-ins с явной повесткой.** «Не спрашивает — значит ОК» — через 2 месяца выясняется, что engineer стесняется задавать «глупые» вопросы и зашёл в тупик. 1:1 еженедельно с явной повесткой (что освоено, что неясно, что блокирует) ловит проблемы рано. Я регулярно вижу: новые engineers, которые не задают вопросов в первый месяц, чаще уходят на испытательном сроке — не потому, что они не подходят, а потому что не получили нужной поддержки.
+**Regular check-ins с явной повесткой.** «Не спрашивает — значит ОК» — через 2 месяца выясняется, что инженер стесняется задавать «глупые» вопросы и зашёл в тупик. 1:1 еженедельно с явной повесткой (что освоено, что неясно, что блокирует) ловит проблемы рано. Я регулярно вижу: новые инженеры, которые не задают вопросов в первый месяц, чаще уходят на испытательном сроке — не потому, что они не подходят, а потому что не получили нужной поддержки.
 
 **Wheel of misfortune до первого реального инцидента.** Первое incident response — настоящий production-инцидент в 3 ночи. Engineer паникует, mentor спит, MTTR растёт, onboardee теряет уверенность. Тренировка реакции в безопасной среде формирует мышечную память; без неё knowledge не превращается в skill.
 
-**Onboarding capacity защищён в planning.** «Training/mentorship режутся первыми при давлении бизнеса» — через год команда не может вырастить никого; новые engineers уходят. Mentor time — планируемая часть capacity, не «свободное время». Это политическая позиция, которую защищает senior engineer / EM в конфликте с product-pressure.
+**Onboarding capacity защищён в planning.** «Training/mentorship режутся первыми при давлении бизнеса» — через год команда не может вырастить никого; новые инженеры уходят. Mentor time — планируемая часть capacity, не «свободное время». Это политическая позиция, которую защищает senior-инженер / EM в конфликте с product-pressure.
 
-**Knowledge transfer регулярный, не только во время onboarding.** «Учим только новых» — через год знания распределены так же неравномерно, как до. Onboarding-практики (brown bag, pair sessions, runbook review) применяются и к существующим engineers — иначе при уходе одного человека команда теряет компетенцию.
+**Knowledge transfer регулярный, не только во время onboarding.** «Учим только новых» — через год знания распределены так же неравномерно, как до. Onboarding-практики (brown bag, pair sessions, runbook review) применяются и к существующим инженерам — иначе при уходе одного человека команда теряет компетенцию.
 
 ## Связанные листья
 
@@ -70,7 +70,7 @@ description: Систематическое введение нового SRE �
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — embedded SRE onboarding включает погружение в product-команду, не только в production-сервисы.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service catalog — точка входа onboardee в production.
 - **[Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/)** — onboarding curriculum обычно maps к L3 → L4 progression в первый год.
-- **[Communities of Practice](/The-Way-of-SRE/leaves/culture/communities-of-practice/)** — после первых 12 недель CoP — место, где new engineer находит cross-team peer learning.
+- **[Communities of Practice](/The-Way-of-SRE/leaves/culture/communities-of-practice/)** — после первых 12 недель CoP — место, где новый инженер находит cross-team peer learning.
 
 ## Открытые вопросы
 
