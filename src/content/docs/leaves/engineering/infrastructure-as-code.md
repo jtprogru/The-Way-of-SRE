@@ -41,7 +41,7 @@ description: Production-инфраструктура как версиониру
 
 ### Инструменты
 
-- **[Terraform](https://www.terraform.io/)** / **[OpenTofu](https://opentofu.org/)** — cloud-agnostic IaC, declarative HCL. По моим наблюдениям, OpenTofu активно набирает momentum после изменения лицензии HashiCorp в 2023 — Linux Foundation fork с активным community.
+- **[Terraform](https://www.terraform.io/)** / **[OpenTofu](https://opentofu.org/)** — cloud-agnostic IaC, declarative HCL. По моим наблюдениям, OpenTofu активно набирает обороты после изменения лицензии HashiCorp в 2023 — Linux Foundation fork с активным community.
 - **[Pulumi](https://www.pulumi.com/)** — IaC через мейнстрим языки (TypeScript / Python / Go / C# / Java); альтернатива HCL для команд, у которых уже есть software engineering practices.
 - **[Helm](https://helm.sh/)** — package manager для Kubernetes; chart = template + values; стандарт для распространяемого софта.
 - **[Kustomize](https://kustomize.io/)** — template-free customization через patches; встроен в `kubectl apply -k`. Альтернатива Helm для команд, не любящих шаблоны.
@@ -79,4 +79,4 @@ description: Production-инфраструктура как версиониру
 - **Policy as Code** *(TBD)* — OPA / Conftest / Sentinel — самостоятельная практика на стыке `Configuration Management` и `Information Security`.
 - **Secrets Management** *(TBD)* — Vault / Secrets Manager / Sealed Secrets — отдельная подтема на стыке с `Information Security`.
 - **Multi-cloud / hybrid IaC strategy** — отдельная тема (когда multi-cloud оправдан, vendor lock-in vs operational simplicity).
-- Я не уверен в правильности выбора Terraform vs OpenTofu для команды на 2026. OpenTofu обещает community-driven путь, но executive момент по поводу долгосрочной стратегии я не вижу пока консенсуса. Команды, которые я наблюдаю, делятся примерно поровну — wait-and-see vs migrated.
+- Я не уверен в правильности выбора Terraform vs OpenTofu для команды на 2026. OpenTofu обещает community-driven путь, но по поводу долгосрочной стратегии консенсуса пока не вижу. Команды, которые я наблюдаю, делятся примерно поровну — wait-and-see vs migrated.

@@ -25,7 +25,7 @@ description: Инженерная сторона SLO — определение 
 - **L5** — Инструментирует сервис: на стороне клиента (synthetic, RUM) где возможно; на серверной стороне — через Prometheus client / OpenTelemetry SDK; пишет recording rules для агрегации на разных окнах.
 - **L5** — Декомпозирует составной запрос на компонентные SLI и понимает, какой SLI ловит какую часть деградации.
 - **L6+** — Внедряет SLO-инфраструктуру в команде: recording rules, дашборды burn rate, error budget calculation как код (sloth/pyrra/Nobl9), документированная Error Budget Policy.
-- **L6+** — Согласует SLO target с business expectations: 99.99% vs 99.9% — это разница в dollar cost; обосновывает выбор через user pain и cost, не «99.9% потому что круто».
+- **L6+** — Согласует SLO target с business expectations: 99.99% vs 99.9% — это разница в деньгах; обосновывает выбор через user pain и cost, не «99.9% потому что круто».
 
 ## Материалы
 
@@ -78,4 +78,4 @@ description: Инженерная сторона SLO — определение 
 
 ## Открытые вопросы
 - **Real-time vs synthetic SLI** — когда какие, в какой комбинации, как избежать gap'ов.
-- Я регулярно вижу sloppy формулировки SLI в командах после первой настройки («≥ 99% requests success»). Без conkretики «что такое request», «что такое success», «что такое window» это не SLI, это слоган. Хороший SLI читается как `count(http_requests{status!~"5.."} | window_5m) / count(http_requests{is_synthetic="false"} | window_5m) > 0.999`. Если в команде нет такой строгости — стоит обсудить, как её внедрить.
+- Я регулярно вижу sloppy формулировки SLI в командах после первой настройки («≥ 99% requests success»). Без конкретики «что такое request», «что такое success», «что такое window» это не SLI, это слоган. Хороший SLI читается как `count(http_requests{status!~"5.."} | window_5m) / count(http_requests{is_synthetic="false"} | window_5m) > 0.999`. Если в команде нет такой строгости — стоит обсудить, как её внедрить.

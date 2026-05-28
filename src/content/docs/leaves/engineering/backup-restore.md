@@ -15,7 +15,7 @@ description: Резервное копирование с проверенным
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — превратить restore-test из task в ritual. Я регулярно встречаю команды, в которых restore-drill «сделали в прошлом году, тогда работало». Через год environment изменился, ключи ротированы, runbook устарел, а главное — engineer, который делал прошлый раз, в другой команде. Restore-test ценен **периодичностью**, не разовостью.
+Главный навык на уровне L5 — превратить restore-test из task в ritual. Я регулярно встречаю команды, в которых restore-drill «сделали в прошлом году, тогда работало». Через год environment изменился, ключи ротированы, runbook устарел, а главное — инженер, который делал прошлый раз, в другой команде. Restore-test ценен **периодичностью**, не разовостью.
 
 - **L3** — Различает RPO (сколько данных потерять допустимо) и RTO (сколько времени на восстановление); знает, где backups для его сервиса и кто их owner.
 - **L3** — Находит backup конкретного сервиса; может выполнить базовый restore по существующему runbook в staging.
@@ -61,13 +61,13 @@ description: Резервное копирование с проверенным
 
 **RPO/RTO явные, не «максимально часто».** Vague targets «делаем backup'ы каждый день, восстановимся быстро» не позволяют ни проектировать backup strategy, ни проверять достижение цели. RPO/RTO определяются исходя из business-требований: часы простоя × revenue impact (если они известны), пользовательский ущерб от потери N часов данных. Фиксируются в SLO-документе сервиса, пересматриваются регулярно. Без явных чисел любая backup-strategy — это «выглядит достаточно».
 
-**Restore drills с измеряемым MTTR — ритуал, а не «когда-нибудь».** «Мы делали restore-test год назад, тогда работало» — частая фраза, которую я слышу. Через год environment изменился, нужные тулзы не установлены, ключи ротированы, runbook устарел, а главное — engineer, который тогда делал, в другой команде. Регулярные drills (квартал — норма) с измерением MTTR от detect → restore → service-back: эти числа — реальные RTO. Всё остальное — wishful thinking.
+**Restore drills с измеряемым MTTR — ритуал, а не «когда-нибудь».** «Мы делали restore-test год назад, тогда работало» — частая фраза, которую я слышу. Через год environment изменился, нужные инструменты не установлены, ключи ротированы, runbook устарел, а главное — инженер, который тогда делал, в другой команде. Регулярные drills (квартал — норма) с измерением MTTR от detect → restore → service-back: эти числа — реальные RTO. Всё остальное — благие надежды.
 
-**Restore procedure в runbook, не «помнит Вася».** Знание процедуры restore у одного senior — типичный риск, который проявляется в худший момент: senior в отпуске, в command line ничего не работает, через 6 месяцев он сам не помнит точные шаги. Runbook на restore — one-page checklist с конкретными командами, env переменными, expected output на каждом шаге. Тестируется в каждом drill: engineer, впервые делающий drill, должен пройти runbook без помощи. Если не получилось — runbook сломан, не engineer.
+**Restore procedure в runbook, не «помнит Вася».** Знание процедуры restore у одного senior — типичный риск, который проявляется в худший момент: senior в отпуске, в command line ничего не работает, через 6 месяцев он сам не помнит точные шаги. Runbook на restore — one-page checklist с конкретными командами, env переменными, ожидаемым выводом на каждом шаге. Тестируется в каждом drill: инженер, впервые делающий drill, должен пройти runbook без помощи. Если не получилось — runbook сломан, не инженер.
 
 ## Связанные листья
 
-- **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service catalog содержит backup-метаданные сервиса: где хранится, кем owner, RPO/RTO, ссылку на restore runbook. Без catalog на момент disaster engineers ищут backup'ы вслепую.
+- **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service catalog содержит backup-метаданные сервиса: где хранится, кем owner, RPO/RTO, ссылку на restore runbook. Без catalog на момент disaster инженеры ищут backup'ы вслепую.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook на restore — обязательный артефакт; качество runbook определяет MTTR в момент disaster.
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — backup configuration (S3 buckets, IAM policies, KMS keys, schedules) сама описывается как IaC; восстановление из git как fallback для всего, что окружает backup-pipeline.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — data loss / corruption — отдельный класс инцидентов с собственным набором escalation paths.

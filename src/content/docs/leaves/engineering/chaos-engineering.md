@@ -58,7 +58,7 @@ description: Hypothesis-driven эксперименты для проверки 
 
 - **Chaos = hypothesis-driven эксперимент, не «сломаем что-нибудь».** Process: (1) baseline steady-state metric; (2) hypothesis «при injection X метрика Y сохранится в пределах Z»; (3) injection; (4) compare to baseline; (5) findings → action items. Если SSM не зафиксирован до старта — это не chaos engineering, это outage.
 - **Start in staging, expand to production через minimal blast radius.** Путь: dev → staging → 1% prod traffic / 1 instance / 1 region → expand с явными success criteria на каждом шаге. Первый chaos сразу в prod = реальный incident, и команда теряет trust в практику.
-- **Auto-abort на observability signal, не «оператор нажмёт кнопку».** SLO burn rate threshold, error rate spike, p99 latency above X → experiment автоматически прекращается. Когнитивная нагрузка + reaction time оператора → real customer impact. Litmus probes, Chaos Toolkit rollback hooks, Gremlin halt-conditions — все это поддерживают.
+- **Auto-abort на observability signal, не «оператор нажмёт кнопку».** SLO burn rate threshold, error rate spike, p99 latency above X → experiment автоматически прекращается. Когнитивная нагрузка + reaction time оператора → реальный impact на клиентов. Litmus probes, Chaos Toolkit rollback hooks, Gremlin halt-conditions — все это поддерживают.
 
 Подробнее:
 
@@ -66,7 +66,7 @@ description: Hypothesis-driven эксперименты для проверки 
 
 **Chaos требует observability как пре-условие — не «подтянем по ходу».** Я регулярно вижу попытки «начнём chaos, observability допилим параллельно». Без метрик / трейсов / логов impact chaos незаметен — критерий «измерить эффект» проваливается, выводов нет. Готовность к chaos: SLI/SLO определены, дашборды собраны, alerts работают, runbook'и существуют. Это **pre-check** перед adoption, не задача в параллель.
 
-**Cultural prerequisites: blameless-постмортем, error budget, runbook-практика.** Я наблюдаю чёткое разделение: команды, у которых эти три практики работают, успешно адоптируют chaos; команды, у которых нет, — либо chaos не приживается, либо превращается в blame после первого выявленного gap. Эксперимент **найдёт** реальную проблему — это его цель. Если в команде сбои karма́ются — feedback loop сломан, найденный gap превращается в «кто виноват», и chaos переставает быть инструментом. Pre-check: [blameless-постмортем](/The-Way-of-SRE/leaves/practices/blameless-postmortem/) → error budget → chaos в этом порядке.
+**Cultural prerequisites: blameless-постмортем, error budget, runbook-практика.** Я наблюдаю чёткое разделение: команды, у которых эти три практики работают, успешно адоптируют chaos; команды, у которых нет, — либо chaos не приживается, либо превращается в blame после первого выявленного gap. Эксперимент **найдёт** реальную проблему — это его цель. Если в команде сбои караются — feedback loop сломан, найденный gap превращается в «кто виноват», и chaos перестаёт быть инструментом. Pre-check: [blameless-постмортем](/The-Way-of-SRE/leaves/practices/blameless-postmortem/) → error budget → chaos в этом порядке.
 
 **Связь с error budget: chaos в окне budget headroom.** Chaos сам по себе тратит budget. Правило, которое я считаю объективным: запуск только при ≥50% budget headroom; high-risk experiments — ≥75%; experimental chaos in production — никогда при burning budget. Спор не «можно ли запускать», а «есть ли headroom». Это снимает субъективность из решений.
 

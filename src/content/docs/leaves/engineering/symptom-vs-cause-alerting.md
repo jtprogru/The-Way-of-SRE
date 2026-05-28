@@ -76,7 +76,7 @@ description: Дисциплина alert design — page на симптомы (�
 - **[Alert Fatigue Management](/The-Way-of-SRE/leaves/engineering/alert-fatigue-management/)** — что делать, когда alert portfolio уже шумит; этот — как с самого начала не разводить шум.
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — symptom-side алерты привязаны к SLO; budget burn rate — каноническая формула.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — каждый алерт ссылается на runbook, где cause-side metrics — diagnostic step, не trigger.
-- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — actionable алерт = первый шаг IR; неactionable алерт ломает IR с самого начала.
+- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — actionable алерт = первый шаг IR; non-actionable алерт ломает IR с самого начала.
 - **[Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/)** — circuit breaker / retry / shed metrics — это secondary indicators (показывают, что patterns активны), не primary alerts.
 
 ## Открытые вопросы

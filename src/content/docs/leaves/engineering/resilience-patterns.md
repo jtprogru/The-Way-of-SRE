@@ -15,7 +15,7 @@ Resilience — не магия, а **набор явных правил**: circu
 
 ## Что должен уметь
 
-Главный навык на уровне L4 — реализовать **exponential backoff + jitter** правильно. Я регулярно вижу команды, которые написали retry «с backoff», но не добавили jitter — и при первом downtime получили retry-storm, добивший downstream. Marc Brooker написал лучший explainer (AWS Architecture Blog 2015) — full jitter vs equal jitter vs decorrelated jitter с симуляциями. Это материал на час чтения и год пользы.
+Главный навык на уровне L4 — реализовать **exponential backoff + jitter** правильно. Я регулярно вижу команды, которые написали retry «с backoff», но не добавили jitter — и при первом downtime получили retry-storm, добивший downstream. Marc Brooker написал лучший разбор (AWS Architecture Blog 2015) — full jitter vs equal jitter vs decorrelated jitter с симуляциями. Это материал на час чтения и год пользы.
 
 - **L3** — Знает базовый набор паттернов (circuit breaker, retry, timeout, fallback); применяет их через библиотеки своего стека (Polly / resilience4j / Tenacity / retry-axios), не изобретая велосипед.
 - **L3** — Понимает разницу между liveness и readiness probes; пишет адекватные health checks (shallow «процесс жив» vs deep «зависимости доступны»).

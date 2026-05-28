@@ -56,7 +56,7 @@ description: SRE-практика управления стоимостью об
 
 **Короткие правила:**
 
-- **Unit economics, а не absolute spend.** «Потратили $500K» — невозможно интерпретировать. «$0.0012 на активного пользователя, рост 8% при росте users 5%» — управляемая величина с явным «тревожным сигналом».
+- **Unit economics, а не absolute spend.** «Потратили $500K» — невозможно интерпретировать. «$0.0012 на активного пользователя, рост 8% при росте пользователей 5%» — управляемая величина с явным «тревожным сигналом».
 - **Tagging discipline — пре-условие cost allocation.** Без tags (`team / service / environment / cost-center`) cost report показывает агрегат «по аккаунту» — нельзя обсуждать в команде, нельзя owned. Enforced tags в IaC + drift detection — минимум.
 - **Cost — это SLI.** «80% утилизации reserved capacity» / «cost per request < threshold» / «anomaly alert при отклонении ≥ 20%» — SLI с alerting и dashboard, не excel-отчёт раз в квартал.
 
@@ -68,7 +68,7 @@ description: SRE-практика управления стоимостью об
 
 **Reserved capacity ≠ free money.** Reserved instances / savings plans дают экономию 30–60%, но создают commitment — under-utilized reservation хуже, чем on-demand. Базовое правило: reserved покрывает stable baseline (predictable 24/7 workload); burst — on-demand или spot. Commit ratio 60–70% baseline — типовая стартовая точка; выше — нужен высокий уровень уверенности в forecast.
 
-**Engineering ≠ Finance, но они говорят одним языком.** Cost-conversation с финансами через engineering-метрики («cores / memory / IOPS») — не работает. Conversion в unit economics + business outcomes (cost per user, cost as % of revenue) — единственный shared language. Это работа SRE / platform-team, не финансов: преобразовать infrastructure cost в форму, в которой business может принимать решения.
+**Engineering ≠ Finance, но они говорят одним языком.** Cost-conversation с финансами через engineering-метрики («cores / memory / IOPS») — не работает. Conversion в unit economics + business-результаты (cost per user, cost as % of revenue) — единственный общий язык. Это работа SRE / platform-team, не финансов: преобразовать infrastructure cost в форму, в которой business может принимать решения.
 
 ## Связанные листья
 
