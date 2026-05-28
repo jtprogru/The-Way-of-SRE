@@ -446,6 +446,16 @@ export const roadmap: Roadmap = {
               label: 'Workload Identity',
               href: '/leaves/practices/workload-identity/',
             },
+            {
+              id: 'security-code-review',
+              label: 'Security Code Review',
+              href: '/leaves/practices/security-code-review/',
+            },
+            {
+              id: 'security-chaos-engineering',
+              label: 'Security Chaos Engineering',
+              href: '/leaves/practices/security-chaos-engineering/',
+            },
           ],
         },
         {
