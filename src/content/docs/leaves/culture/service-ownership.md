@@ -50,7 +50,7 @@ description: Систематическое владение production-серв
 
 - **Service owner — конкретный человек или команда, никогда «общая инфра».** «Owner: SRE team» без указания конкретной команды/лида — через год при инциденте никто не помнит, кто принимает решения; обновления откладываются, sunset невозможен.
 - **Catalog — единый источник истины, а не один из источников.** Метаданные расползаются по wiki, Confluence, spreadsheet, устным договорённостям — через полгода ни один документ не соответствует реальности. Catalog должен быть единственным местом, на которое ссылаются остальные.
-- **Sunset — явный статус с дедлайном.** «Сервис вроде не используется» — через 3 года zombie с уязвимостями и cloud spend. Sunset = запись в catalog со статусом, ответственным и датой выключения.
+- **Sunset — явный статус с дедлайном.** «Сервис вроде не используется» — через 3 года зомби с уязвимостями и облачными расходами. Sunset = запись в catalog со статусом, ответственным и датой выключения.
 
 Подробнее:
 
@@ -66,7 +66,7 @@ description: Систематическое владение production-серв
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — owner отвечает за актуальность runbook своего сервиса; catalog связывает service ↔ runbook URL.
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — engagement contract предполагает явное ownership; без него partnership деградирует в «SRE решает всё».
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — incident commander смотрит в catalog, чтобы узнать owner и эскалационный путь.
-- **[Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/)** — caталог содержит backup-метаданные сервиса; без catalog на момент disaster engineers ищут backup вслепую.
+- **[Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/)** — каталог содержит backup-метаданные сервиса; без catalog на момент disaster инженеры ищут backup вслепую.
 - **[Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)** — каталог содержит cost-метаданные: текущий spend, budget, trend. Cost ownership = service ownership.
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — каталог содержит upstream vendor dependencies сервиса; vendor incident playbook привязан к owner.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — каталог содержит PRR status: passed / not passed / in progress. Часть «есть ли owner и готовность к prod».

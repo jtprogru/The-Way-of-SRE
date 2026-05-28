@@ -17,11 +17,11 @@ description: Дисциплина выполнения action items после �
 
 ## Что должен уметь
 
-Главный навык на уровне L4 — **completion rate как метрика качества всего постмортем-процесса**. По моим наблюдениям, ни одна команда, которая не трекает completion rate, не имеет здорового AI-flow — потому что без метрики невозможно увидеть, что system сломан, пока тот же incident не вернётся. Healthy команда мерит rate ежеквартально; при padении < 70% — root-cause analysis самого AI-process, не уход в «надо лучше стараться».
+Главный навык на уровне L4 — **completion rate как метрика качества всего постмортем-процесса**. По моим наблюдениям, ни одна команда, которая не трекает completion rate, не имеет здорового AI-flow — потому что без метрики невозможно увидеть, что система сломана, пока тот же incident не вернётся. Healthy команда мерит rate ежеквартально; при падении < 70% — root-cause analysis самого AI-process, не уход в «надо лучше стараться».
 
 - **L3** — Каждый AI имеет: owner (named individual, не team), deadline, success criterion («что значит — сделано»). Без всех трёх AI не считается AI.
 - **L3** — AIs живут в issue tracker рядом с обычной работой (Jira / Linear / GitHub Issues), не в постмортем-документе. Документ — статичный snapshot; AIs — живые tickets.
-- **L4** — Прайорити AI явно лейблится: P0 prevent recurrence vs P3 nice-to-have. Без приоритизации все AI размываются.
+- **L4** — Приоритет AI явно помечается: P0 prevent recurrence vs P3 nice-to-have. Без приоритизации все AI размываются.
 - **L4** — Регулярный AI review ritual (monthly / после каждого крупного incident): что closed, что overdue, что нужно escalate / re-scope / drop.
 - **L5** — Трекает completion rate как leading indicator quality постмортем-процесса; при тренде вниз — root-cause AI-process, не давление на исполнителей.
 - **L5** — AI escalation policy: что происходит, если AI overdue на 1 cycle, 2 cycles, 3 cycles. Без явной escalation overdue AIs накапливаются как тихий долг.
@@ -51,7 +51,7 @@ description: Дисциплина выполнения action items после �
 
 ## Best practices
 
-Главный публичный кейс — **GitLab database incident, January 31 2017**. Команда опубликовала [подробный postmortem](https://about.gitlab.com/blog/2017/02/10/postmortem-of-database-outage-of-january-31/) — пример blameless write-up. Менее известно, но публично прослеживается через их issue tracker: GitLab публично трекали выполнение AI («Better backups», «Better monitoring», «Database restore testing») с visible status updates и закрытыми tickets через несколько месяцев. Это образец того, как **execution side постмортема может быть transparent**: не только «мы написали постмортем», но «вот ticket, вот merged PR, вот изменённый runbook». Сравнить с командами, у которых postmortem публикуется, а AIs исчезают в private project, — разница в trust для customer и для самой команды.
+Главный публичный кейс — **GitLab database incident, January 31 2017**. Команда опубликовала [подробный postmortem](https://about.gitlab.com/blog/2017/02/10/postmortem-of-database-outage-of-january-31/) — пример blameless write-up. Менее известно, но публично прослеживается через их issue tracker: GitLab публично трекали выполнение AI («Better backups», «Better monitoring», «Database restore testing») с visible status updates и закрытыми tickets через несколько месяцев. Это образец того, как **execution side постмортема может быть transparent**: не только «мы написали постмортем», но «вот ticket, вот merged PR, вот изменённый runbook». Сравнить с командами, у которых postmortem публикуется, а AIs исчезают в private project, — разница в trust для клиента и для самой команды.
 
 **Короткие правила:**
 
@@ -63,9 +63,9 @@ description: Дисциплина выполнения action items после �
 
 **Owner — individual, не team.** «Backend team will improve monitoring» — типовой failure mode: команда as owner означает no owner. Кто-то конкретно подписывается, даже если работа потом распределится. Без named individual AI становится sub-task feature backlog и проигрывает любой product priority. Я регулярно вижу команды, которые искренне думают, что «team owns it» — и через 6 месяцев AI не сделан, и никто не виноват, потому что виноваты все.
 
-**AI с приоритетом, а не равнозначные.** «Postmortem produced 12 AIs» — нездоровая ситуация без приоритизации: 12 равноценных AIs означают 0 priorities. Healthy подход: 2–3 P0 (prevent recurrence), 3–5 P1 (substantial improvement), остальные — P2/P3 (nice-to-have, можно reasonably drop). Без приоритизации команда тратит ресурсы равномерно — и в результате P0 не закрыт, а P3 закрыт «потому что был easier».
+**AI с приоритетом, а не равнозначные.** «Postmortem produced 12 AIs» — нездоровая ситуация без приоритизации: 12 равноценных AIs означают 0 priorities. Healthy подход: 2–3 P0 (prevent recurrence), 3–5 P1 (substantial improvement), остальные — P2/P3 (nice-to-have, можно reasonably drop). Без приоритизации команда тратит ресурсы равномерно — и в результате P0 не закрыт, а P3 закрыт «потому что был проще».
 
-**Sознательный drop — это здоровое решение.** Не все AIs должны быть выполнены. Иногда правильный ответ — «риск принят, мы не будем это делать», и это лучше, чем тихо overdue. Healthy AI process включает явный path «re-scope / drop / accept risk»; нездоровый — только path «complete», поэтому все incomplete AIs становятся тихим долгом. Регулярно (раз в квартал) — review overdue AIs с явным решением: продолжаем / re-scope / закрываем как «принятый риск» с обоснованием.
+**Сознательный drop — это здоровое решение.** Не все AIs должны быть выполнены. Иногда правильный ответ — «риск принят, мы не будем это делать», и это лучше, чем тихо overdue. Healthy AI process включает явный path «re-scope / drop / accept risk»; нездоровый — только path «complete», поэтому все incomplete AIs становятся тихим долгом. Регулярно (раз в квартал) — review overdue AIs с явным решением: продолжаем / re-scope / закрываем как «принятый риск» с обоснованием.
 
 **Action items theatre — антипаттерн, который трудно увидеть.** Формально AI закрыт: PR смержен, monitoring добавлен, runbook обновлён. Реально incident повторится, потому что закрыли формальность, а не root-cause. По моим наблюдениям, единственный способ ловить theatre — это recurring incident review: тот же incident вернулся через 6 месяцев? Какие AIs были? Что мы сделали с ними? Если AIs «выполнены», но incident вернулся — у нас theatre. Это не повод обвинять — это сигнал переделать класс AI на более глубокий вопрос.
 

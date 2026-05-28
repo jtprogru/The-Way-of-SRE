@@ -21,7 +21,7 @@ description: Систематическое выявление угроз на d
 - **L3** — Читает существующие threat models; понимает trust boundaries в DFD (data flow diagram); идентифицирует свой сервис на карте.
 - **L4** — Пишет threat model для нового feature: DFD с trust boundaries → identified threats per STRIDE category для каждого элемента → mitigations с явным статусом (implemented / planned / accepted).
 - **L4** — Участвует в threat modeling sessions соседних команд как peer-reviewer; задаёт вопросы, выявляет упущенное; не «утверждает», а помогает.
-- **L5** — Facilitates threat modeling session: собирает нужных people (dev + ops + security), ведёт через STRIDE/PASTA, prioritizing threats по risk = likelihood × impact.
+- **L5** — Facilitates threat modeling session: собирает нужных людей (разработчик + ops + security), ведёт через STRIDE/PASTA, prioritizing threats по risk = likelihood × impact.
 - **L5** — Связывает threat model с кодом: каждое identified mitigation имеет ссылку на код / config / runbook / test; security tests в CI отвечают за известные категории.
 - **L5** — Применяет attack tree / kill chain analysis для complex multi-step threats; использует MITRE ATT&CK как vocabulary.
 - **L6+** — Устанавливает threat modeling как часть SDLC: когда обязателен, какой framework (STRIDE для большинства, PASTA для высокорискового), кто reviews, exit criteria.
@@ -36,7 +36,7 @@ description: Систематическое выявление угроз на d
 ### Статьи и фреймворки
 
 - **[OWASP Threat Modeling Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html)**. Structured reference с STRIDE / PASTA / OCTAVE / LINDDUN / VAST; четыре foundational questions из Threat Modeling Manifesto.
-- **[Threat Modeling Manifesto](https://www.threatmodelingmanifesto.org/)**. Values и principles от индустрии (Shostack, Brook Schoenfield и др.); подчёркивает early analysis, dialog over documentation. **Antipatterns** (Hero Threat Modeler, Admiration for Problem, Tendency to Overfocus, Perfect Representation) — обязательное чтение.
+- **[Threat Modeling Manifesto](https://www.threatmodelingmanifesto.org/)**. Ценности и принципы от индустрии (Shostack, Brook Schoenfield и др.); подчёркивает early analysis, dialog over documentation. **Antipatterns** (Hero Threat Modeler, Admiration for Problem, Tendency to Overfocus, Perfect Representation) — обязательное чтение.
 - **[MITRE ATT&CK](https://attack.mitre.org/)**. Knowledge base of adversary tactics & techniques; 15 tactics × hundreds techniques; vocabulary для описания complex / multi-step threats.
 
 ### Инструменты
@@ -50,7 +50,7 @@ description: Систематическое выявление угроз на d
 
 **Короткие правила:**
 
-- **Threat model на design phase, не «security review за день до релиза».** Стоимость fix фундаментальной проблемы дизайна после написания кода сравнима со стоимостью feature. Threat model — первый артефакт design phase, до написания кода; security или senior engineer участвует как peer.
+- **Threat model на design phase, не «security review за день до релиза».** Стоимость fix фундаментальной проблемы дизайна после написания кода сравнима со стоимостью feature. Threat model — первый артефакт design phase, до написания кода; security или senior инженер участвует как peer.
 - **DFD first, threat second — не «вот код, найди уязвимости».** Без data flow diagram непонятно, что входит в систему, какие boundaries пересекают данные, кому доверяем. DFD — основа: components → data flows → trust boundaries → STRIDE per element.
 - **STRIDE per element of DFD, не «угрозы вообще».** Brainstorm «какие угрозы возможны» даёт длинный список несвязанных пунктов. STRIDE применяется к конкретному element — exhaustive, проверяемый результат.
 
