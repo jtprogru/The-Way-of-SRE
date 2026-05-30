@@ -73,6 +73,7 @@ description: Норма безвиновного разбора инцидент
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — каждый постмортем должен порождать обновление runbook; иначе lesson learned не закреплён.
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — joint postmortem с product-командой — обязательное условие сохранения partnership.
 - **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — game day findings обрабатываются через постмортем-формат; cultural prerequisite адопции — работающая blameless-норма.
+- **[Postmortem Database](/The-Way-of-SRE/leaves/culture/postmortem-database/)** — норма разбора (этот лист) vs система хранения и извлечения уроков. Без культуры database заполняется поверхностными документами; без database культура теряет 60-70% долгосрочной ценности.
 
 ## Открытые вопросы
 

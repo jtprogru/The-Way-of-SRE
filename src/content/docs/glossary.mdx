@@ -344,11 +344,17 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 ## P
 
+### playbook
+
+Сценарий реагирования для **класса** инцидентов: роли (IC / Deputy / Scribe / SME), первые действия, decision points, escalation criteria, comms cadence. Не путать с [runbook](#runbook): runbook = «что делать» для одного симптома; playbook = «что решать и кого звать» для класса инцидентов. Google SRE Workbook использует термины как синонимы; incident-response сообщество после PagerDuty / incident.io в 2020-х закрепило различение.
+
+*Категория A*. См. [`Playbooks`](/The-Way-of-SRE/leaves/culture/playbooks/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/).
+
 ### postmortem
 
 Документ, фиксирующий разбор инцидента после его завершения: timeline, contributing factors, action items с владельцем и дедлайном, lessons learned. В SRE-практике норма — [blameless](#blameless) постмортем.
 
-*Категория A* как документ; «провести разбор» допустим как процесс. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/). Источник: Beyer et al., *SRE Book*, гл. 15.
+*Категория A* как документ; «провести разбор» допустим как процесс. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/), [`Postmortem Database`](/The-Way-of-SRE/leaves/culture/postmortem-database/). Источник: Beyer et al., *SRE Book*, гл. 15.
 
 ### principle of least privilege
 

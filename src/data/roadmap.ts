@@ -135,6 +135,18 @@ export const roadmap: Roadmap = {
               href: '/leaves/culture/runbooks/',
               priority: 'must',
             },
+            {
+              id: 'playbooks',
+              label: 'Playbooks',
+              href: '/leaves/culture/playbooks/',
+              priority: 'mandatory',
+            },
+            {
+              id: 'postmortem-database',
+              label: 'Postmortem Database',
+              href: '/leaves/culture/postmortem-database/',
+              priority: 'mandatory',
+            },
           ],
         },
         {

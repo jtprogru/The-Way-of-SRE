@@ -79,6 +79,8 @@ description: Координация реагирования на инциден
 - **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — современные incident-инструменты (incident.io, Netflix Dispatch, FireHydrant) — Slack-native ChatOps; declare / coordinate / sitrep живут в chat с встроенным audit trail.
 - **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — public status page update — часть IC checklist в моменте инцидента.
 - **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — регулярная тренировка этого процесса до того, как он понадобится; разница в MTTR между командами с game day и без — 2–3 раза.
+- **[Playbooks](/The-Way-of-SRE/leaves/culture/playbooks/)** — главный артефакт incident response practice; коэффициент использования playbook'ов в моменте — прямой индикатор зрелости IR.
+- **[Postmortem Database](/The-Way-of-SRE/leaves/culture/postmortem-database/)** — incident-management платформы автоматически связывают incident ↔ postmortem ↔ database; tooling-side этой пары практик.
 
 ## Открытые вопросы
 

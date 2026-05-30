@@ -70,8 +70,7 @@ description: Инструкции по реагированию на инцид�
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — каждый постмортем порождает обновление runbook (новый или правки существующего); без обновления lesson learned не закреплён.
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — co-ownership: runbook'и пишутся совместно с product-командой; иначе SRE дежурит вслепую по чужому сервису.
 - **[Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/)** — automatable runbook steps мигрируют в automation; «runbook говорит сделать X — пусть делает скрипт» как естественный следующий шаг.
+- **[Playbooks](/The-Way-of-SRE/leaves/culture/playbooks/)** — runbook отвечает «как делать», playbook — «что решать и кого звать». Runbook'и встраиваются в playbook'и как ссылки на конкретные шаги; разделение явное.
 
 ## Открытые вопросы
-
-- Граница между «runbook» и «playbook» — терминологический разнобой. Google SRE Workbook использует «playbook», DevOps-индустрия чаще «runbook»; некоторые команды разделяют («playbook» = высокоуровневый сценарий, «runbook» = конкретные команды). В этом листе — единый термин «runbook»; обсуждение разделения — на следующей итерации.
 - Я не знаю хорошего ответа на «когда runbook превращается в automated remediation». В тривиальных случаях — alert + 3-step runbook → Lambda или k8s operator. В нетривиальных — runbook содержит ветвление по контексту, и автоматизация рискует выстрелить в ногу при первом edge-case. Граница «можно автоматизировать» / «надо оставить человеческое решение» в публичной литературе чёткой не вижу. Если есть опыт — расскажите PR'ом.
