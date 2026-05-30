@@ -15,26 +15,51 @@
 import { roadmap, priorityLabels, type Priority } from '../data/roadmap.ts';
 import { BRANCH_ICONS } from '../data/branchIcons.ts';
 
+interface Props {
+  /**
+   * Если задан — рендерится только колонка этой ветки (мини-карта для
+   * `/sre-{branch}/` обзорных страниц). Иначе — все три колонки.
+   */
+  branchFilter?: 'culture' | 'engineering' | 'practices';
+  /**
+   * Компактный режим: без toolbar, root-заголовка, легенды и кнопок-
+   * шевронов. Листья всегда развёрнуты. Используется вместе с
+   * branchFilter для встраивания мини-карты в обзорные страницы.
+   */
+  compact?: boolean;
+}
+
+const { branchFilter, compact = false } = Astro.props;
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const link = (path: string) => `${base}${path}`;
 const priorities = Object.keys(priorityLabels) as Priority[];
+
+const branches = branchFilter
+  ? roadmap.branches.filter((b) => b.id === branchFilter)
+  : roadmap.branches;
+const isSingle = branches.length === 1;
 ---
 
-<figure class="board-figure not-content">
-  <div class="board-toolbar">
-    <button type="button" class="board-collapse-all" data-collapsed="true" aria-pressed="true">
-      <span class="board-collapse-all-label">Развернуть всё</span>
-    </button>
-    <label class="board-toggle">
-      <input type="checkbox" id="board-only-required" />
-      <span>Только обязательное</span>
-    </label>
-  </div>
+<figure class={`board-figure not-content ${compact ? 'board-figure--compact' : ''}`}>
+  {!compact && (
+    <div class="board-toolbar">
+      <button type="button" class="board-collapse-all" data-collapsed="true" aria-pressed="true">
+        <span class="board-collapse-all-label">Развернуть всё</span>
+      </button>
+      <label class="board-toggle">
+        <input type="checkbox" id="board-only-required" />
+        <span>Только обязательное</span>
+      </label>
+    </div>
+  )}
 
-  <div class="board-root" aria-label="Корень карты">{roadmap.root}</div>
+  {!compact && (
+    <div class="board-root" aria-label="Корень карты">{roadmap.root}</div>
+  )}
 
-  <div class="board" data-priority-filter="off">
-    {roadmap.branches.map((branch) => (
+  <div class="board" data-priority-filter="off" data-single={isSingle ? 'true' : 'false'}>
+    {branches.map((branch) => (
       <section class="board-column" data-branch={branch.id} aria-label={branch.label}>
         <a class="board-branch" href={link(branch.href)}>
           <svg class="branch-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -46,8 +71,10 @@ const priorities = Object.keys(priorityLabels) as Priority[];
         <ul class="board-l1-list">
           {branch.l1.map((l1) => {
             const hasLeaves = !!(l1.leaves && l1.leaves.length > 0);
+            // В compact-режиме листья всегда развёрнуты, шевронов нет
+            const expanded = compact ? 'true' : 'false';
             return (
-              <li class="board-l1" data-priority={l1.priority} data-expanded="false">
+              <li class="board-l1" data-priority={l1.priority} data-expanded={expanded}>
                 <div class="board-l1-head">
                   <a class="board-l1-link" href={link(`${branch.href}#${l1.id}`)}>
                     <span
@@ -58,7 +85,7 @@ const priorities = Object.keys(priorityLabels) as Priority[];
                     ></span>
                     <span class="board-l1-label">{l1.label}</span>
                   </a>
-                  {hasLeaves && (
+                  {hasLeaves && !compact && (
                     <button
                       type="button"
                       class="board-l1-toggle"
@@ -93,21 +120,25 @@ const priorities = Object.keys(priorityLabels) as Priority[];
     ))}
   </div>
 
-  <ul class="board-legend" aria-label="Легенда приоритетов">
-    {priorities.map((p) => (
-      <li>
-        <span class="priority-dot" data-priority={p} aria-hidden="true"></span>
-        <span>{priorityLabels[p].ru}</span>
-      </li>
-    ))}
-  </ul>
+  {!compact && (
+    <ul class="board-legend" aria-label="Легенда приоритетов">
+      {priorities.map((p) => (
+        <li>
+          <span class="priority-dot" data-priority={p} aria-hidden="true"></span>
+          <span>{priorityLabels[p].ru}</span>
+        </li>
+      ))}
+    </ul>
+  )}
 </figure>
 
 <script is:inline>
   (function () {
     var PRIO_KEY = 'sre-board-only-required';
     var COLLAPSE_KEY = 'sre-board-collapsed';
-    var board = document.querySelector('.board');
+    // Берём первую НЕ-compact .board: на L1-обзорных страницах есть мини-карта
+    // (.board внутри .board-figure--compact), и script-логика к ней не относится.
+    var board = document.querySelector('.board-figure:not(.board-figure--compact) .board');
     var prioToggle = document.getElementById('board-only-required');
     var collapseBtn = document.querySelector('.board-collapse-all');
     if (!board) return;
@@ -249,6 +280,19 @@ const priorities = Object.keys(priorityLabels) as Priority[];
     .board {
       grid-template-columns: 1fr;
     }
+  }
+
+  /*
+   * Compact-режим — мини-карта на L1-обзорных страницах. Single column
+   * (одна ветка) центрируется и ограничивается по ширине, чтобы не
+   * растягиваться на всю content-panel и не выглядеть растянуто.
+   */
+  .board-figure--compact {
+    margin: 0 0 1.5rem;
+  }
+  .board-figure--compact .board[data-single='true'] {
+    grid-template-columns: minmax(0, 480px);
+    justify-content: center;
   }
 
   /*
