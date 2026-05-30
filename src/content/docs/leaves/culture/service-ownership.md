@@ -71,6 +71,7 @@ description: Систематическое владение production-серв
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — каталог содержит upstream vendor dependencies сервиса; vendor incident playbook привязан к owner.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — каталог содержит PRR status: passed / not passed / in progress. Часть «есть ли owner и готовность к prod».
 - **[Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)** — service ownership — артефакт topology: stream-aligned team владеет сервисом end-to-end, platform team владеет инфраструктурой. Без явной topology catalog становится неполным.
+- **[DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/)** — service catalog содержит per-service tier (1/2/3) с RTO/RPO targets и DR strategy. DR Policy задаёт рамки tier-классификации; catalog — per-service инстанциация.
 
 ## Открытые вопросы
 

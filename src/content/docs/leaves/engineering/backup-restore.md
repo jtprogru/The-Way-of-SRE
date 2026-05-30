@@ -73,6 +73,7 @@ description: Резервное копирование с проверенным
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — data loss / corruption — отдельный класс инцидентов с собственным набором escalation paths.
 - **[Secrets Management](/The-Way-of-SRE/leaves/practices/secrets-management/)** — encryption keys для backup'ов сами должны управляться через Vault / KMS с rotation; компрометация key = потеря всех backup'ов, защищённых этим key.
 - **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — backup freshness — отдельный SLI («last successful backup ≤ N часов»); алертинг на пропавший backup — обязательный сигнал.
+- **[DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/)** — без работающего backup-restore любая DR policy — обещание; без DR policy backup-restore не имеет org-level правил применения. Этот лист — per-service технический слой; DR Policy — org-level governance.
 
 ## Открытые вопросы
 

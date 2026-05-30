@@ -82,10 +82,9 @@ description: Hypothesis-driven эксперименты для проверки 
 - **[Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)** — game day scenarios варьируются по severity, тренируют correct severity declaration.
 - **[Security Chaos Engineering](/The-Way-of-SRE/leaves/practices/security-chaos-engineering/)** — тот же метод, объект — security-контролы вместо reliability-свойств: проверяем, срабатывает ли detection / response, а не остаётся ли система живой.
 - **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — chaos engineering = метод проверки гипотез о системе; game day = ритуал тренировки команды. Пересекаются по tooling, но разные по scope: continuous / automated chaos vs scheduled team drill.
+- **[DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/)** — DR drills (regional failover, DB failure, full data center loss) — большие chaos experiments верхнего уровня; здесь — про метод, там — про policy и stakeholder map, под которые они проводятся.
 
 ## Открытые вопросы
-
-- **Disaster Recovery Testing** *(TBD)* — DR drills (regional failover, DB failure, full data center loss) — большие chaos experiments верхнего уровня со своим scope и cadence.
 - **Security Chaos Engineering** — выделен в отдельный лист (Practices / Information Security; см. Связанные листья).
 - **Failure Modes Catalog** *(TBD)* — систематический каталог known failure modes для сервиса/системы как корень chaos scenarios.
 - Я не знаю, как корректно делать chaos в regulated industries (banking / healthcare / payments) — Federal Reserve guidance / FDA / PCI-DSS накладывают ограничения, и публичной литературы про практику chaos в банках я не видел. Если есть опыт — расскажите PR'ом.
