@@ -167,6 +167,12 @@ export const roadmap: Roadmap = {
               href: '/leaves/culture/career-ladders/',
               priority: 'nice',
             },
+            {
+              id: 'team-topologies',
+              label: 'Team Topologies',
+              href: '/leaves/culture/team-topologies/',
+              priority: 'mandatory',
+            },
           ],
         },
       ],

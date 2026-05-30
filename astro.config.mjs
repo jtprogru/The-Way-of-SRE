@@ -73,6 +73,7 @@ export default defineConfig({
                 { label: 'Service Ownership', link: '/leaves/culture/service-ownership/' },
                 { label: 'SRE Onboarding', link: '/leaves/culture/sre-onboarding/' },
                 { label: 'Career Ladders', link: '/leaves/culture/career-ladders/' },
+                { label: 'Team Topologies', link: '/leaves/culture/team-topologies/' },
               ],
             },
             {
