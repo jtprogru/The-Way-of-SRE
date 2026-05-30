@@ -72,6 +72,7 @@ description: Регулярный ритуал ревью SLO и расходо�
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — ревью с участием dev-команды — основной канал, где partnership проявляется в работе с общим бюджетом.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — крупные инциденты резко съедают бюджет; их влияние видно на ревью.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — качество runbook прямо влияет на MTTR и, следовательно, на budget consumption.
+- **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — SLO review — главный регулярный ритуал, на котором translation tech ↔ business происходит на практике; качество stakeholder management виден по составу и тону этого ритуала.
 
 ## Открытые вопросы
 

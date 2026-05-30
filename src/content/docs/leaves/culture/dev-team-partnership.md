@@ -76,6 +76,7 @@ description: Партнёрство SRE с продуктовыми команд
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — PRR — формализованная граница «product team готов к продакшен», описан там как gate.
 - **[DORA Metrics](/The-Way-of-SRE/leaves/culture/dora-metrics/)** — joint reading DORA-метрик с dev-командой — основной канал, где shared accountability за delivery проявляется в работе с общими цифрами.
 - **[Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)** — этот лист про **динамику** партнёрства; Team Topologies задаёт **режим** (collaboration / X-as-a-Service / facilitating). Без topology partnership остаётся подразумеваемым.
+- **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — partnership с engineering — частный случай; Stakeholder Management расширяет scope на non-engineering (product, exec, finance, legal). Engineering ↔ engineering vs engineering ↔ non-engineering — разные skill set'ы.
 
 ## Открытые вопросы
 

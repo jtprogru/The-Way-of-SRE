@@ -73,6 +73,7 @@ description: Документированные уровни и переходы
 - **[Personal Growth Plan](/The-Way-of-SRE/leaves/practices/personal-growth-plan/)** — personal-level артефакт, target state обычно формулируется как «достижение L5 expectations»; ladder — input для plan.
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — leveling в Embedded SRE / Consulting SRE моделях может отличаться.
 - **[Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)** — career path SRE-инженера часто пересекает topology types (embedded → platform → enabling); ladder без понимания topology читается плоско.
+- **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — критерий L5+ в большинстве хороших ladder; staff/principal track напрямую требует cross-org influence. Без stakeholder management ladder становится плоским на верхних уровнях.
 
 ## Открытые вопросы
 
