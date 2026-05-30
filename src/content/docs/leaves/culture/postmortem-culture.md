@@ -72,6 +72,7 @@ description: Норма безвиновного разбора инцидент
 - **[SLO / Budget Review](/The-Way-of-SRE/leaves/culture/slo-budget-review/)** — постмортемы выявляют источники сжигания бюджета; ритуал ревью — точка, где lessons learned превращаются в приоритеты.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — каждый постмортем должен порождать обновление runbook; иначе lesson learned не закреплён.
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — joint postmortem с product-командой — обязательное условие сохранения partnership.
+- **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — game day findings обрабатываются через постмортем-формат; cultural prerequisite адопции — работающая blameless-норма.
 
 ## Открытые вопросы
 

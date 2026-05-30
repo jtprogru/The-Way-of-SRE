@@ -74,6 +74,7 @@ description: Организация дежурства команды — кто
 - **[SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/)** — supervised on-call как мост от curriculum к самостоятельной ротации.
 - **[One-on-Ones](/The-Way-of-SRE/leaves/practices/one-on-ones/)** — discussion on-call health на 1:1 — встроенный sustainability check.
 - **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — `/oncall`, `/escalate`, `/page` через chat — стандартные ChatOps queries и actions для on-call workflow.
+- **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — game day с participation новых on-call инженеров — основная подготовка перед первой неделей; снижает MTTR и тревожность.
 
 ## Открытые вопросы
 

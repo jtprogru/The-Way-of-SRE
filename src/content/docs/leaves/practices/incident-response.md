@@ -78,6 +78,7 @@ description: Координация реагирования на инциден
 - **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — close-out incident включает создание AIs с owner / deadline / criterion; этот лист — про дисциплину их выполнения.
 - **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — современные incident-инструменты (incident.io, Netflix Dispatch, FireHydrant) — Slack-native ChatOps; declare / coordinate / sitrep живут в chat с встроенным audit trail.
 - **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — public status page update — часть IC checklist в моменте инцидента.
+- **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — регулярная тренировка этого процесса до того, как он понадобится; разница в MTTR между командами с game day и без — 2–3 раза.
 
 ## Открытые вопросы
 

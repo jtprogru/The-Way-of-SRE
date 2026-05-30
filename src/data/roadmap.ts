@@ -92,6 +92,12 @@ export const roadmap: Roadmap = {
               priority: 'must',
             },
             {
+              id: 'game-day',
+              label: 'Game Day / Chaos Drills',
+              href: '/leaves/culture/game-day/',
+              priority: 'must',
+            },
+            {
               id: 'communities-of-practice',
               label: 'Communities of Practice',
               href: '/leaves/culture/communities-of-practice/',

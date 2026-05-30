@@ -67,6 +67,7 @@ export default defineConfig({
                 { label: 'DORA Metrics', link: '/leaves/culture/dora-metrics/' },
                 { label: 'Runbooks', link: '/leaves/culture/runbooks/' },
                 { label: 'Postmortem Culture', link: '/leaves/culture/postmortem-culture/' },
+                { label: 'Game Day / Chaos Drills', link: '/leaves/culture/game-day/' },
                 { label: 'Communities of Practice', link: '/leaves/culture/communities-of-practice/' },
                 { label: 'Dev Team Partnership', link: '/leaves/culture/dev-team-partnership/' },
                 { label: 'Service Ownership', link: '/leaves/culture/service-ownership/' },

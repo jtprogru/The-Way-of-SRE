@@ -81,10 +81,10 @@ description: Hypothesis-driven эксперименты для проверки 
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — game day валидирует runbook'и: если шаги не сработали, runbook outdated.
 - **[Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)** — game day scenarios варьируются по severity, тренируют correct severity declaration.
 - **[Security Chaos Engineering](/The-Way-of-SRE/leaves/practices/security-chaos-engineering/)** — тот же метод, объект — security-контролы вместо reliability-свойств: проверяем, срабатывает ли detection / response, а не остаётся ли система живой.
+- **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — chaos engineering = метод проверки гипотез о системе; game day = ритуал тренировки команды. Пересекаются по tooling, но разные по scope: continuous / automated chaos vs scheduled team drill.
 
 ## Открытые вопросы
 
-- **Continuous Chaos vs GameDay** — scheduled monthly GameDay (low-cost / high-engagement) vs continuous chaos в pipeline (high-confidence / catches regressions). Возможно отдельный лист на детализацию.
 - **Disaster Recovery Testing** *(TBD)* — DR drills (regional failover, DB failure, full data center loss) — большие chaos experiments верхнего уровня со своим scope и cadence.
 - **Security Chaos Engineering** — выделен в отдельный лист (Practices / Information Security; см. Связанные листья).
 - **Failure Modes Catalog** *(TBD)* — систематический каталог known failure modes для сервиса/системы как корень chaos scenarios.
