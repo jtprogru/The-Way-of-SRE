@@ -78,10 +78,11 @@ Resilience — не магия, а **набор явных правил**: circu
 - **[Chaos Engineering](/The-Way-of-SRE/leaves/engineering/chaos-engineering/)** — chaos валидирует patterns: circuit breaker реально открывается? retry с backoff не амплифицирует? bulkhead изолирует?
 - **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — canary с health gate использует readiness probes и circuit-breaker метрики.
 - **[Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)** — OS-level health (open file descriptors, conntrack, page cache pressure) — то, на что часто реагирует graceful degradation; resilience pattern triggers — kernel signals.
+- **[Service Mesh](/The-Way-of-SRE/leaves/engineering/service-mesh/)** — Envoy/Istio sidecar реализует circuit breaking / outlier detection / retry policies без изменения кода; mesh — одна из инфра-реализаций паттернов из этого листа.
+- **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — PDB / HPA / topology spread / liveness-readiness probes — k8s-native реализации resilience patterns.
 
 ## Открытые вопросы
 
-- **Service Mesh patterns** *(TBD)* — реализация resilience на уровне Envoy/Istio sidecar (circuit breaking, outlier detection, retry policies без изменения кода).
 - **Idempotency Patterns** *(TBD)* — отдельный лист: idempotency keys, ETags, conditional writes, transaction outbox, exactly-once illusion.
 - **Backpressure & Load Shedding** *(TBD)* — «downstream direction» graceful degradation: criticality classification, admission control, queue management, retry budgets.
 - **Resilience SLIs** — какой SLI выбрать для самих patterns (circuit-open ratio, retry success rate, shed rate)?

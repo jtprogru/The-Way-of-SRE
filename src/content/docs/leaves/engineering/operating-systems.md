@@ -90,12 +90,13 @@ description: OS как SRE-инструмент — namespaces, cgroups, syscall
 - **[Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/)** — language runtime sits on OS; GC pauses, scheduler interactions, syscall patterns — это intersection.
 - **[Capacity Planning](/The-Way-of-SRE/leaves/engineering/capacity-planning/)** — saturation indicators (run queue length, IO wait, page faults) — OS-level metrics.
 - **[Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/)** — health probes на OS-level (TCP listening?, process alive?, file descriptor exhaust?) — overlap.
+- **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — container = процесс в namespaces/cgroups; дебаг pod'а — это OS-debugging.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — non-trivial incident часто требует OS-debugging; первая минута — `dmesg`, `/proc`, `nsenter`.
 
 ## Открытые вопросы
 
-- **Containerization & Orchestration как отдельный лист** *(TBD)* — Docker / containerd / runc internals, k8s primitives, OCI specs. Соседняя тема под IT Infrastructure.
-- **Service Mesh патчит OS-layer** *(TBD)* — Envoy / Istio sidecar — что реально делают на networking stack. Соседняя тема.
+- **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — выделен в отдельный лист; OS-knowledge — пре-условие для дебага pod'ов (container = процесс в namespaces/cgroups).
+- **[Service Mesh](/The-Way-of-SRE/leaves/engineering/service-mesh/)** — выделен в отдельный лист; sidecar-proxy интерактирует с network stack через iptables — OS-debugging применимы.
 - **macOS / Windows как dev environment** — большинство OS-knowledge линейно переносится на Linux production; некоторые тонкости (file system semantics, signal handling) — другие.
 - **eBPF Production Readiness** *(TBD)* — best practices для написания custom eBPF programs (vs using pre-built tools); verifier limits, kernel version compatibility.
 - **kernel Tuning Patterns for k8s nodes** *(TBD)* — typical sysctl set для k8s-worker'ов; обоснование, не cargo-cult.
