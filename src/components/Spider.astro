@@ -1,436 +1,343 @@
 ---
-// Spider.astro — главная карта компетенций SRE.
-// Читает структуру из ../data/roadmap.ts и рендерит inline SVG-схему:
-//   - root (SRE)
-//   - 3 branches (Culture/Engineering/Practices)
-//   - все L1 под каждой branch
-//   - leaves под L1 (если есть)
-// Кликается ТОЛЬКО текст внутри узла, не сама фигура.
+// Spider.astro — карта компетенций SRE (board-layout, PR #74).
+//
+// Архитектура: DOM-grid, без SVG/edges. Раньше был горизонтальный
+// SVG-«паучок» с 4 колонками (root → branch → L1 → leaf) и нарисованными
+// рёбрами; на мобильном требовал горизонтального скролла. Сейчас:
+//   - root заголовок сверху по центру
+//   - под ним CSS-grid 3×1fr: одна колонка на каждую ветку
+//   - в колонке: branch-header → стек L1-карточек, под L1 — leaves чипами
+//   - точки приоритета на L1, toggle «только обязательное» гасит nice/ondemand
+//
+// Цветовая палитра ветвей (amber/teal/indigo) сохранена из старого SVG —
+// единая семантика «ветвь = цвет» используется и в BranchView.astro.
 
-import { roadmap } from '../data/roadmap.ts';
-import { BRANCH_ICONS, BRANCH_ICON_W, BRANCH_ICON_GAP } from '../data/branchIcons.ts';
+import { roadmap, priorityLabels, type Priority } from '../data/roadmap.ts';
+import { BRANCH_ICONS } from '../data/branchIcons.ts';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const link = (path: string) => `${base}${path}`;
-
-// Layout constants
-const ROW_H = 34;
-const BRANCH_GAP = 26;
-const ROOT_X = 60;
-const COLUMN_GAP = 60;
-const MIN_NODE_W = 180;
-const NODE_H = 28; // L1 / leaf height
-const BRANCH_H = 40; // branch-узлы крупнее — они «опорные»
-const NODE_PAD_X = 28;
-const ROOT_W = 150; // root заметно крупнее, доминирует визуально
-const ROOT_H = 84;
-const TOP_PAD = 32;
-// Approximate char widths in px at our font-size (13px, weight 500/600).
-// Estimates are conservative so wide glyphs (W/M/—) don't clip.
-const CHAR_W_BRANCH = 8.2; // 14px / 600
-const CHAR_W_L1 = 7.4; // 13px / 500
-const CHAR_W_LEAF = 7.4;
-
-function estimateWidth(label: string, charW: number): number {
-  return Math.max(MIN_NODE_W, Math.round(label.length * charW) + NODE_PAD_X);
-}
-
-interface Node {
-  kind: 'root' | 'branch' | 'l1' | 'leaf';
-  branchId?: string;
-  label: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  href?: string;
-}
-
-interface Edge {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  branchId?: string;
-}
-
-const nodes: Node[] = [];
-const edges: Edge[] = [];
-
-// Per-column widths — растягиваем колонку под самый длинный label,
-// чтобы все узлы в колонке были одной ширины (выравнивание сохраняется).
-// Branch-колонка дополнительно резервирует место под иконку.
-let branchColW = MIN_NODE_W;
-let l1ColW = MIN_NODE_W;
-let leafColW = MIN_NODE_W;
-for (const branch of roadmap.branches) {
-  const branchEstimate =
-    estimateWidth(branch.label, CHAR_W_BRANCH) + BRANCH_ICON_W + BRANCH_ICON_GAP;
-  branchColW = Math.max(branchColW, branchEstimate);
-  for (const l1 of branch.l1) {
-    l1ColW = Math.max(l1ColW, estimateWidth(l1.label, CHAR_W_L1));
-    for (const leaf of l1.leaves ?? []) {
-      leafColW = Math.max(leafColW, estimateWidth(leaf.label, CHAR_W_LEAF));
-    }
-  }
-}
-
-const BRANCH_X = ROOT_X + ROOT_W + COLUMN_GAP;
-const L1_X = BRANCH_X + branchColW + COLUMN_GAP;
-const LEAF_X = L1_X + l1ColW + COLUMN_GAP;
-
-// Compute Y positions: leaves drive vertical layout — каждый leaf занимает свою
-// строку, L1 центрируется между своими leaves, ветвь центрируется между L1.
-// Если у L1 нет leaves — он сам занимает одну строку.
-let cursorY = TOP_PAD;
-const branchCenters: number[] = [];
-const l1Centers: number[][] = [];
-const leafCenters: number[][][] = []; // [branchIdx][l1Idx][leafIdx] → y
-
-for (const branch of roadmap.branches) {
-  const branchL1Ys: number[] = [];
-  const branchLeafYs: number[][] = [];
-
-  for (const l1 of branch.l1) {
-    const leafYs: number[] = [];
-    const slotCount = Math.max(1, l1.leaves?.length ?? 0);
-    for (let i = 0; i < slotCount; i++) {
-      leafYs.push(cursorY + NODE_H / 2);
-      cursorY += ROW_H;
-    }
-    branchLeafYs.push(leafYs);
-    branchL1Ys.push((leafYs[0] + leafYs[leafYs.length - 1]) / 2);
-  }
-
-  l1Centers.push(branchL1Ys);
-  leafCenters.push(branchLeafYs);
-  branchCenters.push((branchL1Ys[0] + branchL1Ys[branchL1Ys.length - 1]) / 2);
-  cursorY += BRANCH_GAP;
-}
-
-const totalHeight = cursorY - BRANCH_GAP + TOP_PAD;
-const rootY = (branchCenters[0] + branchCenters[branchCenters.length - 1]) / 2;
-
-// Build nodes and edges
-nodes.push({
-  kind: 'root',
-  label: roadmap.root,
-  x: ROOT_X,
-  y: rootY - ROOT_H / 2,
-  width: ROOT_W,
-  height: ROOT_H,
-});
-
-for (const [bi, branch] of roadmap.branches.entries()) {
-  edges.push({
-    x1: ROOT_X + ROOT_W,
-    y1: rootY,
-    x2: BRANCH_X,
-    y2: branchCenters[bi],
-    branchId: branch.id,
-  });
-  nodes.push({
-    kind: 'branch',
-    branchId: branch.id,
-    label: branch.label,
-    x: BRANCH_X,
-    y: branchCenters[bi] - BRANCH_H / 2,
-    width: branchColW,
-    height: BRANCH_H,
-    href: branch.href,
-  });
-
-  for (const [l1i, l1] of branch.l1.entries()) {
-    edges.push({
-      x1: BRANCH_X + branchColW,
-      y1: branchCenters[bi],
-      x2: L1_X,
-      y2: l1Centers[bi][l1i],
-      branchId: branch.id,
-    });
-    nodes.push({
-      kind: 'l1',
-      branchId: branch.id,
-      label: l1.label,
-      x: L1_X,
-      y: l1Centers[bi][l1i] - NODE_H / 2,
-      width: l1ColW,
-      height: NODE_H,
-      href: `${branch.href}#${l1.id}`,
-    });
-
-    for (const [leafI, leaf] of (l1.leaves ?? []).entries()) {
-      const leafY = leafCenters[bi][l1i][leafI];
-      edges.push({
-        x1: L1_X + l1ColW,
-        y1: l1Centers[bi][l1i],
-        x2: LEAF_X,
-        y2: leafY,
-        branchId: branch.id,
-      });
-      nodes.push({
-        kind: 'leaf',
-        branchId: branch.id,
-        label: leaf.label,
-        x: LEAF_X,
-        y: leafY - NODE_H / 2,
-        width: leafColW,
-        height: NODE_H,
-        href: leaf.href,
-      });
-    }
-  }
-}
-
-const viewBoxW = LEAF_X + leafColW + 20;
-const viewBoxH = totalHeight;
+const priorities = Object.keys(priorityLabels) as Priority[];
 ---
 
-<figure class="spider-figure">
-  <svg
-    class="spider"
-    viewBox={`0 0 ${viewBoxW} ${viewBoxH}`}
-    xmlns="http://www.w3.org/2000/svg"
-    role="img"
-    aria-label="Карта компетенций SRE — кликабельный паучок"
-  >
-    <defs>
-      {/* Лёгкое свечение под root — root «семя» карты, должен доминировать. */}
-      <filter id="spider-root-glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
-        <feMerge>
-          <feMergeNode in="blur" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-    {edges.map((e) => (
-      <line
-        class="edge"
-        data-branch={e.branchId}
-        x1={e.x1}
-        y1={e.y1}
-        x2={e.x2}
-        y2={e.y2}
-      />
-    ))}
+<figure class="board-figure">
+  <div class="board-toolbar">
+    <label class="board-toggle">
+      <input type="checkbox" id="board-only-required" />
+      <span>Только обязательное</span>
+    </label>
+  </div>
 
-    {nodes.map((n) => {
-      const cx = n.x + n.width / 2;
-      const cy = n.y + n.height / 2 + 5;
-      const rx = n.kind === 'root' ? n.height / 2 : 6;
-      const groupFilter = n.kind === 'root' ? 'url(#spider-root-glow)' : undefined;
-      const iconPath = n.kind === 'branch' && n.branchId ? BRANCH_ICONS[n.branchId] : undefined;
-      // Когда есть иконка — рисуем «иконка + текст» как единый блок,
-      // центрированный внутри rect. Иначе — обычный центрированный текст.
-      let textX = cx;
-      let textAnchor: 'middle' | 'start' = 'middle';
-      let iconX = 0;
-      let iconY = 0;
-      if (iconPath) {
-        const estTextW = Math.round(n.label.length * CHAR_W_BRANCH);
-        const totalW = BRANCH_ICON_W + BRANCH_ICON_GAP + estTextW;
-        const contentLeft = n.x + (n.width - totalW) / 2;
-        iconX = contentLeft;
-        iconY = n.y + (n.height - BRANCH_ICON_W) / 2;
-        textX = contentLeft + BRANCH_ICON_W + BRANCH_ICON_GAP;
-        textAnchor = 'start';
-      }
-      return (
-        <g class={`node node-${n.kind}`} data-branch={n.branchId} filter={groupFilter}>
-          <rect x={n.x} y={n.y} width={n.width} height={n.height} rx={rx} ry={rx} />
-          {iconPath && (
-            <g
-              class="branch-icon"
-              transform={`translate(${iconX}, ${iconY}) scale(${BRANCH_ICON_W / 24})`}
-            >
-              <path d={iconPath} />
-            </g>
-          )}
-          {n.href ? (
-            <a href={link(n.href)}>
-              <text x={textX} y={cy} text-anchor={textAnchor}>{n.label}</text>
-            </a>
-          ) : (
-            <text x={textX} y={cy} text-anchor={textAnchor}>{n.label}</text>
-          )}
-        </g>
-      );
-    })}
-  </svg>
+  <div class="board-root" aria-label="Корень карты">{roadmap.root}</div>
+
+  <div class="board" data-priority-filter="off">
+    {roadmap.branches.map((branch) => (
+      <section class="board-column" data-branch={branch.id} aria-label={branch.label}>
+        <a class="board-branch" href={link(branch.href)}>
+          <svg class="branch-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d={BRANCH_ICONS[branch.id]} />
+          </svg>
+          <span class="board-branch-label">{branch.label}</span>
+        </a>
+
+        <ul class="board-l1-list">
+          {branch.l1.map((l1) => (
+            <li class="board-l1" data-priority={l1.priority}>
+              <a class="board-l1-head" href={link(`${branch.href}#${l1.id}`)}>
+                <span
+                  class="priority-dot"
+                  data-priority={l1.priority}
+                  title={priorityLabels[l1.priority].ru}
+                  aria-label={`Приоритет: ${priorityLabels[l1.priority].ru}`}
+                ></span>
+                <span class="board-l1-label">{l1.label}</span>
+              </a>
+              {l1.leaves && l1.leaves.length > 0 && (
+                <ul class="board-leaves">
+                  {l1.leaves.map((leaf) => (
+                    <li>
+                      <a class="board-leaf" href={link(leaf.href)}>{leaf.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+
+  <ul class="board-legend" aria-label="Легенда приоритетов">
+    {priorities.map((p) => (
+      <li>
+        <span class="priority-dot" data-priority={p} aria-hidden="true"></span>
+        <span>{priorityLabels[p].ru}</span>
+      </li>
+    ))}
+  </ul>
 </figure>
 
+<script is:inline>
+  (function () {
+    var KEY = 'sre-board-only-required';
+    var board = document.querySelector('.board');
+    var toggle = document.getElementById('board-only-required');
+    if (!board || !toggle) return;
+    var saved = localStorage.getItem(KEY) === 'on';
+    toggle.checked = saved;
+    board.setAttribute('data-priority-filter', saved ? 'on' : 'off');
+    toggle.addEventListener('change', function () {
+      var on = toggle.checked;
+      board.setAttribute('data-priority-filter', on ? 'on' : 'off');
+      localStorage.setItem(KEY, on ? 'on' : 'off');
+    });
+  })();
+</script>
+
 <style>
-  .spider-figure {
+  .board-figure {
     margin: 1.5rem 0 2rem;
   }
 
-  .spider {
-    width: 100%;
-    height: auto;
-    display: block;
+  .board-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.75rem;
   }
 
-  /*
-   * Мобильный режим: ниже 900px SVG сжимается так, что текст становится
-   * нечитаем (~5pt). Делаем контейнер горизонтально скроллируемым,
-   * SVG получает фиксированную min-width и масштабируется по высоте.
-   * Снизу — подсказка «↔ листай горизонтально», скрывается на десктопе.
-   */
-  @media (max-width: 900px) {
-    .spider-figure {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin-inline: -1rem; /* визуально вытягиваем под полные поля */
-      padding-inline: 1rem;
-      padding-bottom: 0.25rem;
-    }
-    .spider {
-      width: 960px;
-      min-width: 960px;
-    }
-    .spider-figure::after {
-      content: '↔ карта шире экрана — листай горизонтально';
-      display: block;
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--sl-color-gray-3);
-      margin-top: 0.5rem;
-      padding-inline: 1rem;
-    }
-  }
-
-  /*
-   * Палитра по ветвям. Каждая ветка задаёт свой акцентный цвет (--bc)
-   * и его «низкую» версию (--bc-low). Дальше стили узлов читают эти
-   * переменные через data-branch, и одно правило раскрашивает три ветки.
-   *
-   * Light-тема: насыщенные средние оттенки (контраст к белому фону).
-   * Dark-тема: чуть осветлённые (контраст к тёмному фону).
-   */
-  .spider [data-branch='culture'] {
-    --bc: #d97706; /* amber-600 — про людей и нормы, тёплый */
-    --bc-low: #fef3c7; /* amber-100 */
-    --bc-text: #78350f; /* amber-900 */
-  }
-  .spider [data-branch='engineering'] {
-    --bc: #0d9488; /* teal-600 — про железо и код, холодный */
-    --bc-low: #ccfbf1; /* teal-100 */
-    --bc-text: #134e4a; /* teal-900 */
-  }
-  .spider [data-branch='practices'] {
-    --bc: #6366f1; /* indigo-500 — про процессы, нейтральный фиолетовый */
-    --bc-low: #e0e7ff; /* indigo-100 */
-    --bc-text: #312e81; /* indigo-900 */
-  }
-  :root[data-theme='dark'] .spider [data-branch='culture'] {
-    --bc: #f59e0b; /* amber-500 */
-    --bc-low: #44301a; /* deep amber tint */
-    --bc-text: #fde68a; /* amber-200 */
-  }
-  :root[data-theme='dark'] .spider [data-branch='engineering'] {
-    --bc: #2dd4bf; /* teal-400 */
-    --bc-low: #133b37; /* deep teal tint */
-    --bc-text: #99f6e4; /* teal-200 */
-  }
-  :root[data-theme='dark'] .spider [data-branch='practices'] {
-    --bc: #818cf8; /* indigo-400 */
-    --bc-low: #1f1f4e; /* deep indigo tint */
-    --bc-text: #c7d2fe; /* indigo-200 */
-  }
-
-  /* Edges — fallback серый, окрашенные перебивают */
-  .spider .edge {
-    stroke: var(--sl-color-gray-4);
-    stroke-width: 1.6;
-    opacity: 0.85;
-  }
-  .spider .edge[data-branch] {
-    stroke: var(--bc);
-    stroke-width: 2;
-    opacity: 0.55;
-  }
-
-  /* Base node — для root и fallback */
-  .spider .node rect {
-    fill: var(--sl-color-bg-nav);
-    stroke: var(--sl-color-gray-4);
-    stroke-width: 1.5;
-  }
-
-  .spider .node text {
-    fill: var(--sl-color-text);
-    font-family: var(--sl-font);
-    font-size: 13px;
-    font-weight: 500;
-    pointer-events: auto;
+  .board-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-2);
+    cursor: pointer;
     user-select: none;
   }
-
-  /* Root — «семя» карты, доминанта */
-  .spider .node-root rect {
-    fill: var(--sl-color-accent);
-    stroke: var(--sl-color-accent);
-    stroke-width: 2;
+  .board-toggle input {
+    cursor: pointer;
+    margin: 0;
   }
-  .spider .node-root text {
-    fill: var(--sl-color-white);
+
+  .board-root {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-white);
     font-weight: 800;
-    font-size: 24px;
+    font-size: 1.5rem;
     letter-spacing: 0.06em;
+    text-align: center;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    width: max-content;
+    margin: 0 auto 1.25rem;
+    box-shadow: 0 6px 24px -10px var(--sl-color-accent);
   }
 
-  /* Branch — крупнее L1, фон цвета ветки */
-  .spider .node-branch[data-branch] rect {
-    fill: var(--bc);
-    stroke: var(--bc);
-    stroke-width: 2;
+  /* 3 колонки на широком, 1 — на узком; никакого горизонтального скролла */
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    align-items: start;
   }
-  .spider .node-branch[data-branch] text {
-    fill: #fff;
+  @media (max-width: 900px) {
+    .board {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /*
+   * Палитра по ветвям — те же значения, что в BranchView.astro (PR #44, #46).
+   * При изменении синхронизировать оба компонента: одна цветовая семантика
+   * «ветвь = цвет» для всего сайта.
+   */
+  .board [data-branch='culture'] {
+    --bc: #d97706;
+    --bc-low: #fef3c7;
+    --bc-text: #78350f;
+  }
+  .board [data-branch='engineering'] {
+    --bc: #0d9488;
+    --bc-low: #ccfbf1;
+    --bc-text: #134e4a;
+  }
+  .board [data-branch='practices'] {
+    --bc: #6366f1;
+    --bc-low: #e0e7ff;
+    --bc-text: #312e81;
+  }
+  :root[data-theme='dark'] .board [data-branch='culture'] {
+    --bc: #f59e0b;
+    --bc-low: #44301a;
+    --bc-text: #fde68a;
+  }
+  :root[data-theme='dark'] .board [data-branch='engineering'] {
+    --bc: #2dd4bf;
+    --bc-low: #133b37;
+    --bc-text: #99f6e4;
+  }
+  :root[data-theme='dark'] .board [data-branch='practices'] {
+    --bc: #818cf8;
+    --bc-low: #1f1f4e;
+    --bc-text: #c7d2fe;
+  }
+
+  .board-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+
+  /* Branch header — заливка цвета ветки, иконка + текст */
+  .board-branch {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--bc);
+    color: #fff !important;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 0.95rem;
     letter-spacing: 0.02em;
+    padding: 0.55rem 0.8rem;
+    border-radius: 8px;
+    text-decoration: none !important;
+    transition: filter 0.15s ease;
   }
-
-  /* Иконка ветки — белый stroke, lucide-style */
-  .spider .branch-icon path {
+  .board-branch:hover,
+  .board-branch:focus-visible {
+    filter: brightness(1.08);
+  }
+  .board-branch-label {
+    flex: 1;
+  }
+  .board-branch .branch-icon {
+    width: 20px;
+    height: 20px;
     fill: none;
     stroke: #fff;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+    flex-shrink: 0;
   }
 
-  /* L1 — рамка цвета ветки, светлый фон */
-  .spider .node-l1[data-branch] rect {
-    fill: var(--sl-color-bg);
-    stroke: var(--bc);
-    stroke-width: 1.5;
+  /* L1-список — карточки с рамкой цвета ветки */
+  .board-l1-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
   }
 
-  /* Leaf — приглушённая заливка цвета ветки + цветной текст */
-  .spider .node-leaf[data-branch] rect {
-    fill: var(--bc-low);
-    stroke: var(--bc);
-    stroke-width: 1.8;
+  .board-l1 {
+    background: var(--sl-color-bg);
+    border: 1.5px solid var(--bc);
+    border-radius: 8px;
+    padding: 0.5rem 0.65rem;
+    transition: opacity 0.2s ease;
   }
-  .spider .node-leaf[data-branch] text {
-    fill: var(--bc-text);
+
+  .board-l1-head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--sl-color-text) !important;
+    text-decoration: none !important;
     font-weight: 600;
+    font-size: 0.88rem;
+    line-height: 1.25;
   }
-
-  .spider a {
-    cursor: pointer;
-  }
-
-  .spider a text {
-    transition: fill 0.15s ease;
-  }
-
-  .spider a:hover text,
-  .spider a:focus text {
+  .board-l1-head:hover .board-l1-label,
+  .board-l1-head:focus-visible .board-l1-label {
     text-decoration: underline;
     text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+
+  /* Leaves — компактные чипы под L1 */
+  .board-leaves {
+    list-style: none;
+    padding: 0;
+    margin: 0.45rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.22rem;
+  }
+
+  .board-leaf {
+    display: block;
+    background: var(--bc-low);
+    color: var(--bc-text) !important;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.22rem 0.5rem;
+    border-radius: 4px;
+    text-decoration: none !important;
+    line-height: 1.3;
+    transition: filter 0.15s ease;
+  }
+  .board-leaf:hover,
+  .board-leaf:focus-visible {
+    filter: brightness(0.96);
+    text-decoration: underline !important;
+    text-decoration-thickness: 1.5px !important;
+    text-underline-offset: 2px;
+  }
+  :root[data-theme='dark'] .board-leaf:hover,
+  :root[data-theme='dark'] .board-leaf:focus-visible {
+    filter: brightness(1.18);
+  }
+
+  /* Точки приоритета — must / mandatory / nice / ondemand */
+  .priority-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+  :root[data-theme='dark'] .priority-dot {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+  .priority-dot[data-priority='must'] {
+    background: #dc2626;
+  }
+  .priority-dot[data-priority='mandatory'] {
+    background: #f59e0b;
+  }
+  .priority-dot[data-priority='nice'] {
+    background: #10b981;
+  }
+  .priority-dot[data-priority='ondemand'] {
+    background: #3b82f6;
+  }
+
+  /* Toggle «только обязательное» — гасит L1 с приоритетом nice/ondemand */
+  .board[data-priority-filter='on'] .board-l1[data-priority='nice'],
+  .board[data-priority-filter='on'] .board-l1[data-priority='ondemand'] {
+    opacity: 0.4;
+  }
+
+  /* Легенда — компактная, под картой */
+  .board-legend {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.1rem;
+    justify-content: center;
+    font-size: 0.78rem;
+    color: var(--sl-color-gray-2);
+  }
+  .board-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 </style>
