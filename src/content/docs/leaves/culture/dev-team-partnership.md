@@ -75,7 +75,8 @@ description: Партнёрство SRE с продуктовыми команд
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — модель ролей (IC и др.) распределяется между SRE и разработчиками в зависимости от engagement model.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — PRR — формализованная граница «product team готов к продакшен», описан там как gate.
 - **[DORA Metrics](/The-Way-of-SRE/leaves/culture/dora-metrics/)** — joint reading DORA-метрик с dev-командой — основной канал, где shared accountability за delivery проявляется в работе с общими цифрами.
+- **[Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)** — этот лист про **динамику** партнёрства; Team Topologies задаёт **режим** (collaboration / X-as-a-Service / facilitating). Без topology partnership остаётся подразумеваемым.
 
 ## Открытые вопросы
 
-- Как масштабировать engagement model на 10+ продуктовых команд при ограниченном SRE-составе? Стандартный ответ — миграция в сторону platform SRE и enabling teams (Team Topologies), но конкретные пороги (когда переключаться) — открытая тема.
+- Как масштабировать engagement model на 10+ продуктовых команд при ограниченном SRE-составе? Стандартный ответ — миграция в сторону platform SRE и enabling teams ([Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)), но конкретные пороги (когда переключаться) — открытая тема.
