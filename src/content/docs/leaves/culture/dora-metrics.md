@@ -79,6 +79,7 @@ DORA — это не «теперь у нас 4 KPI вместо двух». Э�
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — heavy change approval boards проявляются как растущий lead time; DORA — самый прямой способ показать стоимость bureaucratic gate.
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — change failure rate и MTTR — суммарный сигнал того, что выходит из постмортемов; ритуал ревью DORA — место, где этот сигнал превращается в приоритеты.
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — DORA-разговор с участием dev-команды — основной канал, где shared accountability за delivery proявляется в работе с общими цифрами.
+- **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — DORA-числа — один из лучших источников business-переводимых метрик для non-engineering audience; deployment frequency / lead time понимаются executive легче, чем p99 latency.
 
 ## Открытые вопросы
 

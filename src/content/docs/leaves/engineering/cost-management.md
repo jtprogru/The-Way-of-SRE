@@ -78,6 +78,7 @@ description: SRE-практика управления стоимостью об
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — tagging discipline и cost allocation реализуются через IaC; cost-changes — через PR.
 - **[Toil Tracking](/The-Way-of-SRE/leaves/engineering/toil-tracking/)** — manual cost analysis / monthly bill review — toil; автоматизированные dashboards и alerts — целевая форма.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каталог сервиса содержит cost-метаданные: owner, budget, current spend, trend.
+- **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — cost-translation для finance — отдельный навык внутри stakeholder management; conversation с CFO требует unit economics, не engineering-метрик.
 
 ## Открытые вопросы
 

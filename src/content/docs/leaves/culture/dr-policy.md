@@ -84,6 +84,7 @@ description: Политика реагирования на катастрофи
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — DR policy включает vendor-dependent сценарии (cloud provider outage, SaaS vendor incident); vendor exit strategy — DR concern.
 - **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — SOC 2 Availability, PCI-DSS 12.10, ISO 22301 требуют документированную DR policy с testing evidence; DR policy — артефакт audit.
 - **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — DR scenario требует extended status page cadence (часы → дни), стратегия communications должна быть задана policy заранее.
+- **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — DR stakeholder map — scenario-specific governance в моменте disaster; тот лист — про continuous stakeholder relationship, этот — про crisis-specific.
 
 ## Открытые вопросы
 
