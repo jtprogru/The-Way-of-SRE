@@ -92,6 +92,12 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория C* — двойная форма «карьерная лестница (career ladder)» при первом упоминании. См. [`Career Ladders`](/The-Way-of-SRE/leaves/culture/career-ladders/). Источник: Will Larson, *Staff Engineer*; [Progression.fyi](https://progression.fyi/) (75+ публичных ladders).
 
+### change failure rate
+
+Доля изменений в production, которые приводят к degraded service: rollback, hotfix или customer-facing incident. Одна из четырёх [DORA](#dora)-метрик. Считается из связи `deploy ↔ incident`; требует явного определения «failure» на команду, чтобы цифры разных команд были сопоставимы.
+
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Change Governance`](/The-Way-of-SRE/leaves/practices/change-governance/).
+
 ### chaos engineering
 
 Дисциплина hypothesis-driven экспериментов, в которых система вводится в контролируемый сбой ради проверки её resilience-свойств. Не «сломаем что-нибудь», а явная steady-state hypothesis → инъекция → измерение → вывод.
@@ -160,11 +166,17 @@ Dynamic Application Security Testing — поиск уязвимостей в **
 
 *Категория C* — двойная форма «осознанная практика (deliberate practice)» при первом упоминании. См. [`Personal Growth Plan`](/The-Way-of-SRE/leaves/practices/personal-growth-plan/). Источник: Anders Ericsson, *Peak: Secrets from the New Science of Expertise* (2016).
 
+### deployment frequency
+
+Как часто команда успешно выкатывает изменения в production. Одна из четырёх [DORA](#dora)-метрик. Считается из CI/CD-логов: число успешных prod-deploys за период. Главная ловушка — vanity-улучшение через дробление коммитов на микро-изменения без бизнес-смысла; читается только в связке с [`change failure rate`](#change-failure-rate).
+
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/).
+
 ### DORA
 
-DevOps Research and Assessment — исследование (Forsgren / Humble / Kim), которое выделяет 4 ключевые метрики: deployment frequency, lead time for changes, change failure rate, MTTR. Используются вместе; оптимизация одной метрики за счёт другой — Goodhart's law.
+DevOps Research and Assessment — исследование (Forsgren / Humble / Kim), которое выделяет 4 ключевые метрики: [`deployment frequency`](#deployment-frequency), [`lead time for changes`](#lead-time-for-changes), [`change failure rate`](#change-failure-rate), [`MTTR`](#mttr). Используются вместе; оптимизация одной метрики за счёт другой — Goodhart's law.
 
-*Категория A*. См. [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/). Источник: Forsgren et al., *Accelerate* (IT Revolution, 2018).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/). Источник: Forsgren et al., *Accelerate* (IT Revolution, 2018).
 
 ### dotfiles
 
@@ -244,6 +256,12 @@ CISA Known Exploited Vulnerabilities — публичный каталог уя�
 
 ## L
 
+### lead time for changes
+
+Время от первого коммита изменения до его выкатки в production. Одна из четырёх [DORA](#dora)-метрик. Считается из git-истории: `prod-deploy timestamp − first commit timestamp`. Растущий lead time чаще всего указывает на heavy approval gates ([change governance](/The-Way-of-SRE/leaves/practices/change-governance/)) или медленный pipeline; короткий lead time при низкой [`deployment frequency`](#deployment-frequency) — сигнал, что блокирует release decision, а не pipeline.
+
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/).
+
 ### least privilege
 
 Принцип, по которому идентичность (человек или сервис) имеет минимальный необходимый набор прав — не больше. Снижает blast radius при компрометации. Реализуется через IAM/RBAC scoping и just-in-time elevation.
@@ -266,9 +284,9 @@ Mutual TLS — TLS с двусторонней аутентификацией: �
 
 ### MTTR
 
-Mean Time To Repair / Resolve / Recovery (зависит от источника). Среднее время от обнаружения инцидента до восстановления сервиса. Одна из четырёх DORA-метрик.
+Mean Time To Repair / Resolve / Recovery (зависит от источника). Среднее время от обнаружения инцидента до восстановления сервиса. Одна из четырёх [DORA](#dora)-метрик. Как KPI с премией — путь к манипуляции (инциденты закрываются как resolved до реальной mitigation); как индикатор тренда — полезен.
 
-*Категория A*. См. [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/).
 
 ## O
 
