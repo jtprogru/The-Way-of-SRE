@@ -75,7 +75,12 @@ const priorities = Object.keys(priorityLabels) as Priority[];
                   <ul class="board-leaves">
                     {l1.leaves!.map((leaf) => (
                       <li>
-                        <a class="board-leaf" href={link(leaf.href)}>{leaf.label}</a>
+                        <a
+                          class="board-leaf"
+                          href={link(leaf.href)}
+                          data-priority={leaf.priority}
+                          title={`Приоритет: ${priorityLabels[leaf.priority].ru}`}
+                        >{leaf.label}</a>
                       </li>
                     ))}
                   </ul>
@@ -419,11 +424,25 @@ const priorities = Object.keys(priorityLabels) as Priority[];
     color: var(--bc-text) !important;
     font-size: 0.8rem;
     font-weight: 500;
-    padding: 0.22rem 0.5rem;
+    padding: 0.22rem 0.5rem 0.22rem 0.45rem;
+    border-left: 3px solid transparent;
     border-radius: 4px;
     text-decoration: none !important;
     line-height: 1.3;
-    transition: filter 0.15s ease;
+    transition: filter 0.15s ease, opacity 0.2s ease;
+  }
+  /* Полоска приоритета слева — цвета такие же, как у точек L1 */
+  .board-leaf[data-priority='must'] {
+    border-left-color: #dc2626;
+  }
+  .board-leaf[data-priority='mandatory'] {
+    border-left-color: #f59e0b;
+  }
+  .board-leaf[data-priority='nice'] {
+    border-left-color: #10b981;
+  }
+  .board-leaf[data-priority='ondemand'] {
+    border-left-color: #3b82f6;
   }
   .board-leaf:hover,
   .board-leaf:focus-visible {
@@ -462,9 +481,23 @@ const priorities = Object.keys(priorityLabels) as Priority[];
     background: #3b82f6;
   }
 
-  /* Toggle «только обязательное» — гасит L1 с приоритетом nice/ondemand */
+  /*
+   * Toggle «только обязательное» гасит:
+   * 1) Целиком L1 с priority nice/ondemand (вся карточка + её листья).
+   * 2) Индивидуальные nice/ondemand листья внутри must/mandatory L1.
+   * Селектор для (2) исключает L1, которая уже погашена в (1) — иначе
+   * двойное умножение opacity делает чипы нечитаемыми.
+   */
   .board[data-priority-filter='on'] .board-l1[data-priority='nice'],
   .board[data-priority-filter='on'] .board-l1[data-priority='ondemand'] {
+    opacity: 0.4;
+  }
+  .board[data-priority-filter='on']
+    .board-l1:not([data-priority='nice']):not([data-priority='ondemand'])
+    .board-leaf[data-priority='nice'],
+  .board[data-priority-filter='on']
+    .board-l1:not([data-priority='nice']):not([data-priority='ondemand'])
+    .board-leaf[data-priority='ondemand'] {
     opacity: 0.4;
   }
 
