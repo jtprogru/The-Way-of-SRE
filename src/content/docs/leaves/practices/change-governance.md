@@ -80,11 +80,11 @@ description: Дисциплина границ изменения в production 
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — change as primary suspect: первое, что смотрит IC после page — recent deploys.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service catalog содержит PRR status сервиса (passed / not passed / in progress); это часть «есть ли owner и готовность к prod».
 - **[Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/)** — change-related incidents → post-mortem AIs часто касаются governance (отсутствие PRR, broken rollback, missed approval).
+- **[DORA Metrics](/The-Way-of-SRE/leaves/culture/dora-metrics/)** — change failure rate и lead time для changes — прямой DORA-сигнал о качестве governance: heavy approval gates растят lead time, слабая review-discipline растит change failure rate.
 
 ## Открытые вопросы
 
 - **Production Readiness Review как отдельный лист** *(TBD)* — детальный checklist, ownership, scaling PRR на 50+ сервисов.
 - **Change Risk Assessment Frameworks** *(TBD)* — heuristics для оценки risk: blast radius × probability × reversibility. Нет canonical модели; разные команды строят свои.
-- **Change Failure Rate как DORA-метрика** — измерение качества change governance через post-change incident rate; связь с deployment frequency (Accelerate). Может стать частью SLO Engineering или separate leaf.
 - **Compliance-Driven Change Management** *(TBD)* — SOX / PCI-DSS / SOC2 формальные требования к change records; пересечение с regulatory leaves.
 - Я не уверен, **где правильная граница** между Change Governance и Progressive Delivery для команд, где governance lightweight (deploy on push, no explicit review). Если у вас есть рабочая модель — расскажите через PR.
