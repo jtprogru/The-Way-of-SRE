@@ -64,6 +64,7 @@ export default defineConfig({
               collapsed: false,
               items: [
                 { label: 'SLO / Budget Review', link: '/leaves/culture/slo-budget-review/' },
+                { label: 'DORA Metrics', link: '/leaves/culture/dora-metrics/' },
                 { label: 'Runbooks', link: '/leaves/culture/runbooks/' },
                 { label: 'Postmortem Culture', link: '/leaves/culture/postmortem-culture/' },
                 { label: 'Communities of Practice', link: '/leaves/culture/communities-of-practice/' },

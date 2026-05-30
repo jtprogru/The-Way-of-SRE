@@ -110,6 +110,12 @@ export const roadmap: Roadmap = {
               href: '/leaves/culture/slo-budget-review/',
               priority: 'must',
             },
+            {
+              id: 'dora-metrics',
+              label: 'DORA Metrics',
+              href: '/leaves/culture/dora-metrics/',
+              priority: 'mandatory',
+            },
           ],
         },
         {
