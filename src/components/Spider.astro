@@ -20,8 +20,11 @@ const link = (path: string) => `${base}${path}`;
 const priorities = Object.keys(priorityLabels) as Priority[];
 ---
 
-<figure class="board-figure">
+<figure class="board-figure not-content">
   <div class="board-toolbar">
+    <button type="button" class="board-collapse-all" data-collapsed="false" aria-pressed="false">
+      <span class="board-collapse-all-label">Свернуть всё</span>
+    </button>
     <label class="board-toggle">
       <input type="checkbox" id="board-only-required" />
       <span>Только обязательное</span>
@@ -41,28 +44,45 @@ const priorities = Object.keys(priorityLabels) as Priority[];
         </a>
 
         <ul class="board-l1-list">
-          {branch.l1.map((l1) => (
-            <li class="board-l1" data-priority={l1.priority}>
-              <a class="board-l1-head" href={link(`${branch.href}#${l1.id}`)}>
-                <span
-                  class="priority-dot"
-                  data-priority={l1.priority}
-                  title={priorityLabels[l1.priority].ru}
-                  aria-label={`Приоритет: ${priorityLabels[l1.priority].ru}`}
-                ></span>
-                <span class="board-l1-label">{l1.label}</span>
-              </a>
-              {l1.leaves && l1.leaves.length > 0 && (
-                <ul class="board-leaves">
-                  {l1.leaves.map((leaf) => (
-                    <li>
-                      <a class="board-leaf" href={link(leaf.href)}>{leaf.label}</a>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
+          {branch.l1.map((l1) => {
+            const hasLeaves = !!(l1.leaves && l1.leaves.length > 0);
+            return (
+              <li class="board-l1" data-priority={l1.priority} data-expanded="true">
+                <div class="board-l1-head">
+                  <a class="board-l1-link" href={link(`${branch.href}#${l1.id}`)}>
+                    <span
+                      class="priority-dot"
+                      data-priority={l1.priority}
+                      title={priorityLabels[l1.priority].ru}
+                      aria-label={`Приоритет: ${priorityLabels[l1.priority].ru}`}
+                    ></span>
+                    <span class="board-l1-label">{l1.label}</span>
+                  </a>
+                  {hasLeaves && (
+                    <button
+                      type="button"
+                      class="board-l1-toggle"
+                      aria-expanded="true"
+                      aria-label={`Свернуть подкомпетенции: ${l1.label}`}
+                    >
+                      <svg viewBox="0 0 24 24" aria-hidden="true" class="chevron">
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+                {hasLeaves && (
+                  <ul class="board-leaves">
+                    {l1.leaves!.map((leaf) => (
+                      <li>
+                        <a class="board-leaf" href={link(leaf.href)}>{leaf.label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </section>
     ))}
@@ -80,18 +100,75 @@ const priorities = Object.keys(priorityLabels) as Priority[];
 
 <script is:inline>
   (function () {
-    var KEY = 'sre-board-only-required';
+    var PRIO_KEY = 'sre-board-only-required';
+    var COLLAPSE_KEY = 'sre-board-collapsed';
     var board = document.querySelector('.board');
-    var toggle = document.getElementById('board-only-required');
-    if (!board || !toggle) return;
-    var saved = localStorage.getItem(KEY) === 'on';
-    toggle.checked = saved;
-    board.setAttribute('data-priority-filter', saved ? 'on' : 'off');
-    toggle.addEventListener('change', function () {
-      var on = toggle.checked;
-      board.setAttribute('data-priority-filter', on ? 'on' : 'off');
-      localStorage.setItem(KEY, on ? 'on' : 'off');
+    var prioToggle = document.getElementById('board-only-required');
+    var collapseBtn = document.querySelector('.board-collapse-all');
+    if (!board) return;
+
+    // Toggle «только обязательное»
+    if (prioToggle) {
+      var prioSaved = localStorage.getItem(PRIO_KEY) === 'on';
+      prioToggle.checked = prioSaved;
+      board.setAttribute('data-priority-filter', prioSaved ? 'on' : 'off');
+      prioToggle.addEventListener('change', function () {
+        var on = prioToggle.checked;
+        board.setAttribute('data-priority-filter', on ? 'on' : 'off');
+        localStorage.setItem(PRIO_KEY, on ? 'on' : 'off');
+      });
+    }
+
+    // Per-L1 collapse (chevron)
+    function setL1Expanded(l1, expanded) {
+      l1.setAttribute('data-expanded', expanded ? 'true' : 'false');
+      var btn = l1.querySelector('.board-l1-toggle');
+      if (btn) {
+        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        var label = l1.querySelector('.board-l1-label');
+        var labelText = label ? label.textContent : '';
+        btn.setAttribute(
+          'aria-label',
+          (expanded ? 'Свернуть подкомпетенции: ' : 'Развернуть подкомпетенции: ') + labelText
+        );
+      }
+    }
+
+    board.querySelectorAll('.board-l1-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var l1 = btn.closest('.board-l1');
+        if (!l1) return;
+        var isExpanded = l1.getAttribute('data-expanded') !== 'false';
+        setL1Expanded(l1, !isExpanded);
+      });
     });
+
+    // Global «свернуть всё» / «развернуть всё»
+    function applyGlobalCollapse(collapsed) {
+      board.querySelectorAll('.board-l1').forEach(function (l1) {
+        // Только L1 с листьями — у безлистовых нет кнопки и нечего сворачивать
+        if (l1.querySelector('.board-leaves')) {
+          setL1Expanded(l1, !collapsed);
+        }
+      });
+      if (collapseBtn) {
+        collapseBtn.setAttribute('data-collapsed', collapsed ? 'true' : 'false');
+        collapseBtn.setAttribute('aria-pressed', collapsed ? 'true' : 'false');
+        var lbl = collapseBtn.querySelector('.board-collapse-all-label');
+        if (lbl) lbl.textContent = collapsed ? 'Развернуть всё' : 'Свернуть всё';
+      }
+    }
+
+    if (collapseBtn) {
+      var collapseSaved = localStorage.getItem(COLLAPSE_KEY) === 'on';
+      if (collapseSaved) applyGlobalCollapse(true);
+      collapseBtn.addEventListener('click', function () {
+        var currentlyCollapsed = collapseBtn.getAttribute('data-collapsed') === 'true';
+        var next = !currentlyCollapsed;
+        applyGlobalCollapse(next);
+        localStorage.setItem(COLLAPSE_KEY, next ? 'on' : 'off');
+      });
+    }
   })();
 </script>
 
@@ -103,7 +180,10 @@ const priorities = Object.keys(priorityLabels) as Priority[];
   .board-toolbar {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 1.25rem;
     margin-bottom: 0.75rem;
+    flex-wrap: wrap;
   }
 
   .board-toggle {
@@ -118,6 +198,23 @@ const priorities = Object.keys(priorityLabels) as Priority[];
   .board-toggle input {
     cursor: pointer;
     margin: 0;
+  }
+
+  .board-collapse-all {
+    background: transparent;
+    border: 1px solid var(--sl-color-gray-5);
+    color: var(--sl-color-gray-2);
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .board-collapse-all:hover,
+  .board-collapse-all:focus-visible {
+    background: var(--sl-color-gray-6);
+    border-color: var(--sl-color-gray-4);
   }
 
   .board-root {
@@ -241,21 +338,67 @@ const priorities = Object.keys(priorityLabels) as Priority[];
     transition: opacity 0.2s ease;
   }
 
+  /* L1-head = ссылка слева + кнопка-шеврон справа */
   .board-l1-head {
     display: flex;
     align-items: center;
+    gap: 0.35rem;
+  }
+
+  .board-l1-link {
+    display: flex;
+    align-items: center;
     gap: 0.45rem;
+    flex: 1;
+    min-width: 0;
     color: var(--sl-color-text) !important;
     text-decoration: none !important;
     font-weight: 600;
     font-size: 0.88rem;
     line-height: 1.25;
   }
-  .board-l1-head:hover .board-l1-label,
-  .board-l1-head:focus-visible .board-l1-label {
+  .board-l1-link:hover .board-l1-label,
+  .board-l1-link:focus-visible .board-l1-label {
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 2px;
+  }
+
+  /* Кнопка-шеврон сворачивания */
+  .board-l1-toggle {
+    background: transparent;
+    border: 0;
+    padding: 0.15rem;
+    margin: 0;
+    cursor: pointer;
+    color: var(--sl-color-gray-3);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease, background 0.15s ease;
+    flex-shrink: 0;
+  }
+  .board-l1-toggle:hover,
+  .board-l1-toggle:focus-visible {
+    color: var(--bc);
+    background: var(--bc-low);
+  }
+  .board-l1-toggle .chevron {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.2s ease;
+  }
+  .board-l1[data-expanded='false'] .chevron {
+    transform: rotate(-90deg);
+  }
+  .board-l1[data-expanded='false'] .board-leaves {
+    display: none;
   }
 
   /* Leaves — компактные чипы под L1 */
