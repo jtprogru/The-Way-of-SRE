@@ -569,3 +569,29 @@ export const roadmap: Roadmap = {
 export function getBranch(id: string): Branch | undefined {
   return roadmap.branches.find((b) => b.id === id);
 }
+
+export interface LeafContext {
+  branch: Branch;
+  l1: L1;
+  leaf: Leaf;
+  siblings: Leaf[];
+}
+
+/**
+ * Найти контекст листа по branchId + leafId. Используется Footer.astro
+ * для рендеринга «↑ Раздел» + блока соседних практик на leaf-страницах.
+ * Возвращает null, если лист не зарегистрирован в roadmap.ts — это OK,
+ * Footer просто не отрисует контекстный блок.
+ */
+export function findLeafContext(branchId: string, leafId: string): LeafContext | null {
+  const branch = roadmap.branches.find((b) => b.id === branchId);
+  if (!branch) return null;
+  for (const l1 of branch.l1) {
+    const leaf = (l1.leaves ?? []).find((l) => l.id === leafId);
+    if (leaf) {
+      const siblings = (l1.leaves ?? []).filter((l) => l.id !== leafId);
+      return { branch, l1, leaf, siblings };
+    }
+  }
+  return null;
+}

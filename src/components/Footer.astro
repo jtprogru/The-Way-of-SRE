@@ -10,9 +10,22 @@ import EditLink from 'virtual:starlight/components/EditLink';
 import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import Pagination from 'virtual:starlight/components/Pagination';
 import { Icon } from '@astrojs/starlight/components';
+import { findLeafContext, priorityLabels } from '../data/roadmap.ts';
 
 const year = new Date().getFullYear();
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+/*
+ * Leaf-context: на страницах /leaves/{branch}/{slug}/ показываем над
+ * стандартным футером блок «↑ Раздел L1» + соседние практики. Помогает
+ * не теряться при глубоком переходе и видеть связанные листья без
+ * возврата на главную карту.
+ */
+const localPath = Astro.url.pathname.startsWith(base)
+  ? Astro.url.pathname.slice(base.length)
+  : Astro.url.pathname;
+const leafMatch = localPath.match(/^\/leaves\/([^/]+)\/([^/]+)\/?$/);
+const leafCtx = leafMatch ? findLeafContext(leafMatch[1], leafMatch[2]) : null;
 
 const docNav = [
   { label: 'Мотивация', href: `${base}/about/` },
@@ -30,6 +43,53 @@ const socials = [
 ---
 
 <footer class="sl-flex">
+  {leafCtx && (
+    <aside class="leaf-context" data-branch={leafCtx.branch.id}>
+      <a class="leaf-context-parent" href={`${base}${leafCtx.branch.href}#${leafCtx.l1.id}`}>
+        <span class="leaf-context-arrow" aria-hidden="true">↑</span>
+        <span class="leaf-context-parent-text">
+          <span class="leaf-context-parent-prefix">Раздел:</span>
+          <span class="leaf-context-parent-name">{leafCtx.l1.label}</span>
+        </span>
+      </a>
+      {leafCtx.siblings.length > 0 ? (
+        <div class="leaf-context-siblings">
+          <div class="leaf-context-label">Соседние практики</div>
+          <ul>
+            {leafCtx.siblings.map((s) => (
+              <li>
+                <a
+                  class="leaf-context-chip"
+                  href={`${base}${s.href}`}
+                  data-priority={s.priority}
+                  title={`Приоритет: ${priorityLabels[s.priority].ru}`}
+                >{s.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div class="leaf-context-siblings">
+          <div class="leaf-context-label">Эта практика — единственная в L1. Другие разделы {leafCtx.branch.label}:</div>
+          <ul>
+            {leafCtx.branch.l1
+              .filter((l) => l.id !== leafCtx.l1.id)
+              .map((l) => (
+                <li>
+                  <a
+                    class="leaf-context-chip leaf-context-chip--l1"
+                    href={`${base}${leafCtx.branch.href}#${l.id}`}
+                    data-priority={l.priority}
+                    title={`Приоритет: ${priorityLabels[l.priority].ru}`}
+                  >{l.label}</a>
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
+    </aside>
+  )}
+
   <div class="meta sl-flex">
     <EditLink />
     <LastUpdated />
@@ -66,6 +126,141 @@ const socials = [
   footer {
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  /*
+   * Leaf-context — компактный блок на leaf-страницах: родитель L1 + соседи.
+   * Палитра по ветке через data-branch (синхронно с Spider.astro). На светлой
+   * теме фон чуть подкрашен в цвет ветки, на тёмной — тонкий тёмный card.
+   */
+  .leaf-context {
+    --bc: var(--sl-color-accent);
+    --bc-low: var(--sl-color-bg-nav);
+    --bc-text: var(--sl-color-text);
+    margin-top: 2.5rem;
+    padding: 1rem 1.1rem;
+    border-left: 3px solid var(--bc);
+    border-radius: 8px;
+    background: var(--bc-low);
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .leaf-context[data-branch='culture'] {
+    --bc: #d97706;
+    --bc-low: #fef3c7;
+    --bc-text: #78350f;
+  }
+  .leaf-context[data-branch='engineering'] {
+    --bc: #0d9488;
+    --bc-low: #ccfbf1;
+    --bc-text: #134e4a;
+  }
+  .leaf-context[data-branch='practices'] {
+    --bc: #6366f1;
+    --bc-low: #e0e7ff;
+    --bc-text: #312e81;
+  }
+  :root[data-theme='dark'] .leaf-context[data-branch='culture'] {
+    --bc: #f59e0b;
+    --bc-low: #2a1c0e;
+    --bc-text: #fde68a;
+  }
+  :root[data-theme='dark'] .leaf-context[data-branch='engineering'] {
+    --bc: #2dd4bf;
+    --bc-low: #0d2622;
+    --bc-text: #99f6e4;
+  }
+  :root[data-theme='dark'] .leaf-context[data-branch='practices'] {
+    --bc: #818cf8;
+    --bc-low: #16163a;
+    --bc-text: #c7d2fe;
+  }
+
+  .leaf-context-parent {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    color: var(--bc-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    width: max-content;
+    max-width: 100%;
+  }
+  .leaf-context-parent:hover .leaf-context-parent-name,
+  .leaf-context-parent:focus-visible .leaf-context-parent-name {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+  .leaf-context-arrow {
+    color: var(--bc);
+    font-weight: 700;
+  }
+  .leaf-context-parent-prefix {
+    color: var(--bc-text);
+    opacity: 0.7;
+    font-weight: 500;
+    margin-right: 0.3rem;
+  }
+
+  .leaf-context-siblings ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.4rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .leaf-context-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--bc-text);
+    opacity: 0.75;
+  }
+
+  .leaf-context-chip {
+    display: inline-block;
+    background: var(--sl-color-bg);
+    color: var(--bc-text) !important;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    border-left: 3px solid transparent;
+    text-decoration: none !important;
+    transition: filter 0.15s ease;
+  }
+  .leaf-context-chip:hover,
+  .leaf-context-chip:focus-visible {
+    text-decoration: underline !important;
+    text-decoration-thickness: 1.5px !important;
+    text-underline-offset: 2px;
+    filter: brightness(0.97);
+  }
+  :root[data-theme='dark'] .leaf-context-chip:hover,
+  :root[data-theme='dark'] .leaf-context-chip:focus-visible {
+    filter: brightness(1.15);
+  }
+  /* Полоска приоритета на чипе — те же цвета, что у leaf-чипов карты */
+  .leaf-context-chip[data-priority='must'] {
+    border-left-color: #dc2626;
+  }
+  .leaf-context-chip[data-priority='mandatory'] {
+    border-left-color: #f59e0b;
+  }
+  .leaf-context-chip[data-priority='nice'] {
+    border-left-color: #10b981;
+  }
+  .leaf-context-chip[data-priority='ondemand'] {
+    border-left-color: #3b82f6;
+  }
+  /* Fallback-вариант (L1 в одиночном-leaf случае) — чуть жирнее */
+  .leaf-context-chip--l1 {
+    font-weight: 600;
   }
   .meta {
     gap: 0.75rem 3rem;
