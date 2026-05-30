@@ -66,6 +66,8 @@ export default defineConfig({
                 { label: 'SLO / Budget Review', link: '/leaves/culture/slo-budget-review/' },
                 { label: 'DORA Metrics', link: '/leaves/culture/dora-metrics/' },
                 { label: 'Runbooks', link: '/leaves/culture/runbooks/' },
+                { label: 'Playbooks', link: '/leaves/culture/playbooks/' },
+                { label: 'Postmortem Database', link: '/leaves/culture/postmortem-database/' },
                 { label: 'Postmortem Culture', link: '/leaves/culture/postmortem-culture/' },
                 { label: 'Game Day / Chaos Drills', link: '/leaves/culture/game-day/' },
                 { label: 'Communities of Practice', link: '/leaves/culture/communities-of-practice/' },
