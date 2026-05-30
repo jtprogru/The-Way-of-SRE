@@ -74,6 +74,7 @@ description: Партнёрство SRE с продуктовыми команд
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — joint postmortems с обеими сторонами — обязательное условие сохранения partnership.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — модель ролей (IC и др.) распределяется между SRE и разработчиками в зависимости от engagement model.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — PRR — формализованная граница «product team готов к продакшен», описан там как gate.
+- **[DORA Metrics](/The-Way-of-SRE/leaves/culture/dora-metrics/)** — joint reading DORA-метрик с dev-командой — основной канал, где shared accountability за delivery проявляется в работе с общими цифрами.
 
 ## Открытые вопросы
 
