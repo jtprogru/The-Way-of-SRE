@@ -70,6 +70,7 @@ description: Ритуал разбора инцидента — timeline на ф
 - **[SLO / Budget Review](/The-Way-of-SRE/leaves/culture/slo-budget-review/)** — постмортемы выявляют источники бюджет-сжигания; ревью — точка, где lessons learned превращаются в приоритеты.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — owner сервиса — accountable person за постмортем и его action items.
 - **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — соседняя практика: постмортем генерирует AIs, action items tracking — про их выполнение. Без обоих cycle разорван.
+- **[Postmortem Database](/The-Way-of-SRE/leaves/culture/postmortem-database/)** — куда отправляется готовый постмортем; tagging schema определяет, найдётся ли документ через год; pattern review поверх database — точка превращения single-incident learning в team-level.
 
 ## Открытые вопросы
 
