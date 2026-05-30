@@ -76,6 +76,8 @@ description: Сетевой стек как фундамент надёжнос�
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — сетевые инциденты (DNS, TLS, peer'ы, certs, mesh) — отдельный класс с собственным набором диагностических действий.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook'и для типичных сетевых сценариев (cert expired, DNS resolver down, mesh control plane unhealthy).
 - **[Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)** — kernel networking, TCP-стек ядра, network namespaces — соседняя по domain'у тема; границы пересекаются на `tcpdump` / `ss` / `conntrack` / namespaces.
+- **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — CNI plugins, NetworkPolicy, kube-proxy / IPVS, ingress controllers — k8s-native слой сетевой инфраструктуры.
+- **[Service Mesh](/The-Way-of-SRE/leaves/engineering/service-mesh/)** — sidecar-proxy для mTLS / traffic shifting / L7-наблюдаемости — отдельная axis сетевой инфраструктуры со своим failure-классом.
 
 ## Открытые вопросы
 

@@ -73,6 +73,7 @@ description: Pull-based reconciliation — git как источник исти�
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каталог сервиса содержит ссылку на GitOps Application и repo; owner отвечает за PR-flow.
 - **[Architecture Decision Records](/The-Way-of-SRE/leaves/practices/architecture-decision-records/)** — выбор GitOps tooling (Argo CD vs Flux), структуры repos, secret-workflow — типичные ADR.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — emergency rollback через git revert + Argo CD sync; mitigation pattern.
+- **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — Kubernetes — основной runtime для GitOps; ArgoCD/Flux синхронизируют git с состоянием кластера.
 
 ## Открытые вопросы
 

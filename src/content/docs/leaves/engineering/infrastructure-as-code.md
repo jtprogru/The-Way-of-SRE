@@ -73,6 +73,8 @@ description: Production-инфраструктура как версиониру
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook'и для типичных IaC-инцидентов (state corruption / drift recovery / manual revert) — обязательный набор.
 - **[Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/)** — Pulumi через мейнстрим языки делает IaC частью обычного software engineering.
 - **[Networking](/The-Way-of-SRE/leaves/engineering/networking/)** — network policies, ingress, load balancer config — частая часть IaC.
+- **[Cloud Providers](/The-Way-of-SRE/leaves/engineering/cloud-providers/)** — cloud-ресурсы (VPC, IAM, managed-сервисы) — главный target IaC; shared-responsibility модель провайдера определяет, что вообще можно описать кодом.
+- **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — k8s-кластер провижится через IaC; манифесты приложений — следующий декларативный слой того же подхода.
 
 ## Открытые вопросы
 

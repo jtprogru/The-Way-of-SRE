@@ -272,6 +272,12 @@ CISA Known Exploited Vulnerabilities — публичный каталог уя�
 
 *Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
 
+### Kubernetes
+
+Container orchestrator, выросший из Google Borg и переданный CNCF в 2015. Де-факто стандарт runtime для container workload'ов в 2026. Архитектурно — набор контроллеров поверх etcd: kube-apiserver / scheduler / controller-manager / kubelet. Core abstractions — Pod (unit scheduling), Service (stable endpoint), Deployment / StatefulSet (управление lifecycle). Доступен как managed-сервис у всех hyperscaler'ов (EKS / GKE / AKS / Yandex Managed Kubernetes).
+
+*Категория A* — пишется без склонения, иногда как **k8s** (k + 8 букв + s). См. [`Containerization & Orchestration`](/The-Way-of-SRE/leaves/engineering/container-orchestration/), [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/), [`Cloud Providers`](/The-Way-of-SRE/leaves/engineering/cloud-providers/).
+
 ## L
 
 ### lead time for changes
@@ -296,9 +302,9 @@ Multi-Factor Authentication — требование двух или более 
 
 ### mTLS
 
-Mutual TLS — TLS с двусторонней аутентификацией: и client, и server предъявляют сертификаты. Используется для service-to-service authentication вместо shared secrets / bearer tokens; в service mesh (Istio, Linkerd) — by default. Sertificate provisioning обычно через workload identity ([SPIFFE](#spiffe--spire) SVID или mesh-native).
+Mutual TLS — TLS с двусторонней аутентификацией: и client, и server предъявляют сертификаты. Используется для service-to-service authentication вместо shared secrets / bearer tokens; в [service mesh](#service-mesh) (Istio, Linkerd) — by default. Sertificate provisioning обычно через workload identity ([SPIFFE](#spiffe--spire) SVID или mesh-native).
 
-*Категория A* — пишется без склонения. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`Networking`](/The-Way-of-SRE/leaves/engineering/networking/).
+*Категория A* — пишется без склонения. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`Networking`](/The-Way-of-SRE/leaves/engineering/networking/), [`Service Mesh`](/The-Way-of-SRE/leaves/engineering/service-mesh/).
 
 ### MTTR
 
@@ -408,11 +414,23 @@ Software Composition Analysis — анализ сторонних dependencies �
 
 *Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
 
+### service mesh
+
+Инфраструктурный слой для service-to-service коммуникации, реализованный через sidecar-прокси (обычно Envoy) рядом с каждым pod'ом + control plane (Istio / Linkerd / Consul Connect). Даёт три функции из коробки: [mTLS](#mtls), traffic management (routing, retry, timeout), L7-observability (RED-метрики, distributed tracing). Альтернатива sidecar — per-node proxy через eBPF (Cilium Service Mesh, Istio Ambient).
+
+*Категория A* — пишется без склонения. См. [`Service Mesh`](/The-Way-of-SRE/leaves/engineering/service-mesh/), [`Networking`](/The-Way-of-SRE/leaves/engineering/networking/).
+
 ### severity
 
 Классификация серьёзности инцидента — `SEV0..SEV3` (или эквивалент). Выводится из `impact × scope`; определяет response intensity, audience для customer comms, требования к постмортему. Severity не статична: upgrade/downgrade в ходе инцидента — нормально.
 
 *Категория A*. См. [`Severity Classification`](/The-Way-of-SRE/leaves/practices/severity-classification/).
+
+### shared responsibility model
+
+Модель распределения ответственности между cloud-провайдером и клиентом для каждого сервиса. Провайдер отвечает за «security/availability of the cloud» (физическая инфра, hypervisor, control plane managed-сервисов); клиент — за «security/availability in the cloud» (конфигурация, IAM, данные, workload-level reliability). Граница смещается между IaaS / PaaS / SaaS — у managed-Kubernetes провайдер берёт control plane, клиент остаётся с worker nodes и workload'ами. Public-документация: AWS / Azure / GCP / Yandex Cloud — у каждого своя версия матрицы.
+
+*Категория B* — «модель shared responsibility». См. [`Cloud Providers`](/The-Way-of-SRE/leaves/engineering/cloud-providers/), [`DR Policy & Stakeholders`](/The-Way-of-SRE/leaves/culture/dr-policy/).
 
 ### single source of truth
 

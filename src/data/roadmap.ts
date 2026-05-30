@@ -286,6 +286,24 @@ export const roadmap: Roadmap = {
               href: '/leaves/engineering/operating-systems/',
               priority: 'must',
             },
+            {
+              id: 'container-orchestration',
+              label: 'Containerization & Orchestration',
+              href: '/leaves/engineering/container-orchestration/',
+              priority: 'must',
+            },
+            {
+              id: 'service-mesh',
+              label: 'Service Mesh',
+              href: '/leaves/engineering/service-mesh/',
+              priority: 'nice',
+            },
+            {
+              id: 'cloud-providers',
+              label: 'Cloud Providers',
+              href: '/leaves/engineering/cloud-providers/',
+              priority: 'must',
+            },
           ],
         },
         {
