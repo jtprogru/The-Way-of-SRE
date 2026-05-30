@@ -72,6 +72,7 @@ description: Систематическое введение нового SRE �
 - **[Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/)** — onboarding curriculum обычно maps к L3 → L4 progression в первый год.
 - **[Communities of Practice](/The-Way-of-SRE/leaves/culture/communities-of-practice/)** — после первых 12 недель CoP — место, где новый инженер находит cross-team peer learning.
 - **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — Wheel of Misfortune для onboardee — частный случай. Здесь — onboarding-скрипт первых недель; там — continuous calibration команды.
+- **[Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)** — onboarding-скрипт зависит от того, в какую topology попадает новый инженер (embedded / platform / enabling). Без понимания topology curriculum получается универсальным и неточным.
 
 ## Открытые вопросы
 

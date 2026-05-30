@@ -70,6 +70,7 @@ description: Систематическое владение production-серв
 - **[Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)** — каталог содержит cost-метаданные: текущий spend, budget, trend. Cost ownership = service ownership.
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — каталог содержит upstream vendor dependencies сервиса; vendor incident playbook привязан к owner.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — каталог содержит PRR status: passed / not passed / in progress. Часть «есть ли owner и готовность к prod».
+- **[Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)** — service ownership — артефакт topology: stream-aligned team владеет сервисом end-to-end, platform team владеет инфраструктурой. Без явной topology catalog становится неполным.
 
 ## Открытые вопросы
 

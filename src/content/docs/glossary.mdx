@@ -116,11 +116,23 @@ Operations через chat-интерфейс с встроенным audit trai
 
 *Категория A* — пишется без склонения. См. [`ChatOps`](/The-Way-of-SRE/leaves/engineering/chatops/), [`Severity Classification`](/The-Way-of-SRE/leaves/practices/severity-classification/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/).
 
+### cognitive load
+
+Объём знаний и контекста, который команда удерживает «в голове», чтобы продолжать работать с системой. Skelton/Pais выделяют три типа (intrinsic, extraneous, germane); рабочая SRE-эвристика — «сколько сервисов и технологий держит команда без потери качества». Превышение → degraded incident response, устаревающие runbook'и, on-call lottery. Решается либо split на меньшие team boundaries, либо инвестицией в платформу, которая снимает extraneous load.
+
+*Категория C* — «когнитивная нагрузка (cognitive load)» при первом упоминании. См. [`Team Topologies`](/The-Way-of-SRE/leaves/culture/team-topologies/), [`Toil`](/The-Way-of-SRE/leaves/engineering/toil-tracking/). Источник: Skelton & Pais, *Team Topologies* (IT Revolution, 2019).
+
 ### contributing factors
 
 Множество условий, **совместное** наступление которых вызвало инцидент. Подход NBJS (Necessary But Only Jointly Sufficient) альтернативен наивному поиску «root cause»: вместо одной причины — список факторов, каждый из которых отдельно предотвратил бы инцидент.
 
 *Категория C* — двойная форма «факторы вклада (contributing factors)» при первом упоминании. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/). Источник: Allspaw, *Each Necessary, But Only Jointly Sufficient*.
+
+### Conway's Law
+
+«Любая организация, которая проектирует систему, неизбежно произведёт design, чья структура повторяет структуру коммуникации этой организации» (Mel Conway, 1968). В Team Topologies используется не как наблюдение, а как инструмент — **inverse Conway maneuver**: сначала проектируется желаемая архитектура, отсюда выводятся team boundaries.
+
+*Категория A* — устоявшийся англицизм. См. [`Team Topologies`](/The-Way-of-SRE/leaves/culture/team-topologies/). Источник: Conway, *How Do Committees Invent?* (Datamation, 1968).
 
 ### coverage
 
@@ -443,6 +455,12 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 *Категория A*. См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/). Источник: Shostack, *Threat Modeling: Designing for Security* (Wiley, 2014).
 
 ## T
+
+### Team Topologies
+
+Диагностическая рамка Matthew Skelton и Manuel Pais (2019): четыре фундаментальных типа команд (stream-aligned, platform, enabling, complicated-subsystem) и три режима взаимодействия (collaboration, X-as-a-Service, facilitating). Применяется в SRE-контексте для сознательного дизайна SRE-функции на уровне org: embedded → enabling → platform — не альтернативы, а разные interaction modes под разные стадии зрелости.
+
+*Категория A* — пишется без склонения. См. [`Team Topologies`](/The-Way-of-SRE/leaves/culture/team-topologies/). Источник: Skelton & Pais, *Team Topologies* (IT Revolution, 2019).
 
 ### threat model
 
