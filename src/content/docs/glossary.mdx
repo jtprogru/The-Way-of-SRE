@@ -196,6 +196,12 @@ DevOps Research and Assessment — исследование (Forsgren / Humble /
 
 *Категория A* — пишется без склонения. См. [`Personal SRE Toolkit`](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/). Источник: [dotfiles.github.io](https://dotfiles.github.io/) (community catalog).
 
+### DR
+
+Disaster Recovery — стратегия и политика реагирования на катастрофические сценарии (потеря региона, datacenter fire, cyber-attack, cloud account compromise). DR ≠ backup: backup — технологический слой; DR Policy — governance с decision rights, stakeholder map, RTO/RPO на уровне org. AWS-канонические 4 tier (Backup & Restore / Pilot Light / Warm Standby / Multi-Site Active-Active) — trade-off cost × RTO, выбор per service tier.
+
+*Категория A* — пишется заглавными. См. [`DR Policy & Stakeholders`](/The-Way-of-SRE/leaves/culture/dr-policy/), [`Backup & Restore`](/The-Way-of-SRE/leaves/engineering/backup-restore/), [`RPO / RTO`](#rpo).
+
 ### drift
 
 Расхождение между желаемым состоянием (в git) и фактическим (в кластере / cloud). В GitOps controller непрерывно сводит drift к нулю; click-ops в проде — источник drift и операционный инцидент.

@@ -79,6 +79,7 @@ description: Внешняя коммуникация во время инцид�
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service owner отвечает за customer comms своего сервиса; key accounts знает CSM, кого уведомлять.
 - **[Threat Modeling](/The-Way-of-SRE/leaves/practices/threat-modeling/)** — security incidents имеют специфические regulatory comms; threat modeling определяет, какие данные требуют какого уведомления.
 - **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — operational practice самой платформы: subscriber model, uptime transparency policy, scheduled maintenance pre-announce, decoupled infrastructure. Этот лист — про *что говорить*; SPM — про *как устроен канал*.
+- **[DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/)** — communication tree для DR-сценариев (executive → board → regulators → customers → public) — часть DR policy; обычная severity-based audience matrix отсюда расширяется до DR-scope.
 
 ## Открытые вопросы
 

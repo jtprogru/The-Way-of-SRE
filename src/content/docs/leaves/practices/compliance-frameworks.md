@@ -90,6 +90,7 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — SOC 2 CC8.1 / ISO 27001 A.8.32 — change management process с approvals, testing, rollback.
 - **[GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)** — git history как audit trail; continuous reconciliation как evidence для CC6 (access) и CC8 (change).
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — control ownership matrix маппится на service ownership; без явных owners большая часть controls — orphan.
+- **[DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/)** — SOC 2 Availability / PCI-DSS Req 12.10 / ISO 22301 требуют документированную DR / BCP с evidence of testing. DR Policy — mandatory audit artifact в regulated industries.
 
 ## Открытые вопросы
 

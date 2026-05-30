@@ -84,9 +84,8 @@ Game day и chaos engineering — разные инструменты с пер�
 - **[Communities of Practice](/The-Way-of-SRE/leaves/culture/communities-of-practice/)** — cross-team game day и sharing сценариев между командами — типичная активность CoP по reliability.
 - **[Postmortem Database](/The-Way-of-SRE/leaves/culture/postmortem-database/)** — главный источник сценариев game day; реальные прошлые инциденты лучше любых вымышленных.
 - **[Playbooks](/The-Way-of-SRE/leaves/culture/playbooks/)** — playbook без training работает один раз; game day — место, где playbook'и тренируются и обнаруживаются их пропуски.
+- **[DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/)** — annual DR exercise (full-scale tabletop + functional drill) — это game day в DR-scope. Здесь — training-сторона; там — policy и stakeholder map, которые exercise валидирует.
 
 ## Открытые вопросы
-
-- **Full-scale DR exercise (DiRT-style) как отдельный лист** *(TBD)* — multi-team, multi-day, multi-region drill. Своя сложность (command center, executive buy-in, regulatory exposure, business continuity scope), которая не помещается в team-level game day. Может стать отдельным листом под IT Management / DR Policy & Stakeholders.
 - Cadence на команду (раз в месяц / квартал / полугодие) зависит от размера команды, ротации on-call, скорости изменений инфраструктуры. Универсальной формулы я не нашёл; квартальный встречается чаще всего.
 - Я не уверен, как корректно проводить game day в командах, где on-call rotation 24/7 и любой scheduled drill совпадает с реальной нагрузкой. Возможно, ответ — async tabletop-формат, но рабочей публичной практики я не видел. Если есть опыт — расскажите PR'ом.

@@ -73,6 +73,7 @@ export default defineConfig({
                 { label: 'Communities of Practice', link: '/leaves/culture/communities-of-practice/' },
                 { label: 'Dev Team Partnership', link: '/leaves/culture/dev-team-partnership/' },
                 { label: 'Service Ownership', link: '/leaves/culture/service-ownership/' },
+                { label: 'DR Policy & Stakeholders', link: '/leaves/culture/dr-policy/' },
                 { label: 'SRE Onboarding', link: '/leaves/culture/sre-onboarding/' },
                 { label: 'Career Ladders', link: '/leaves/culture/career-ladders/' },
                 { label: 'Team Topologies', link: '/leaves/culture/team-topologies/' },
