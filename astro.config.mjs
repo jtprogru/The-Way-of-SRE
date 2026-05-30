@@ -72,6 +72,7 @@ export default defineConfig({
                 { label: 'Game Day / Chaos Drills', link: '/leaves/culture/game-day/' },
                 { label: 'Communities of Practice', link: '/leaves/culture/communities-of-practice/' },
                 { label: 'Dev Team Partnership', link: '/leaves/culture/dev-team-partnership/' },
+                { label: 'Stakeholder Management', link: '/leaves/culture/stakeholder-management/' },
                 { label: 'Service Ownership', link: '/leaves/culture/service-ownership/' },
                 { label: 'DR Policy & Stakeholders', link: '/leaves/culture/dr-policy/' },
                 { label: 'SRE Onboarding', link: '/leaves/culture/sre-onboarding/' },

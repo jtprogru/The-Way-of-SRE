@@ -78,6 +78,12 @@ export const roadmap: Roadmap = {
               href: '/leaves/culture/dev-team-partnership/',
               priority: 'must',
             },
+            {
+              id: 'stakeholder-management',
+              label: 'Stakeholder Management',
+              href: '/leaves/culture/stakeholder-management/',
+              priority: 'mandatory',
+            },
           ],
         },
         {
