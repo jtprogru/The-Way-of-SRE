@@ -22,8 +22,8 @@ const priorities = Object.keys(priorityLabels) as Priority[];
 
 <figure class="board-figure not-content">
   <div class="board-toolbar">
-    <button type="button" class="board-collapse-all" data-collapsed="false" aria-pressed="false">
-      <span class="board-collapse-all-label">Свернуть всё</span>
+    <button type="button" class="board-collapse-all" data-collapsed="true" aria-pressed="true">
+      <span class="board-collapse-all-label">Развернуть всё</span>
     </button>
     <label class="board-toggle">
       <input type="checkbox" id="board-only-required" />
@@ -47,7 +47,7 @@ const priorities = Object.keys(priorityLabels) as Priority[];
           {branch.l1.map((l1) => {
             const hasLeaves = !!(l1.leaves && l1.leaves.length > 0);
             return (
-              <li class="board-l1" data-priority={l1.priority} data-expanded="true">
+              <li class="board-l1" data-priority={l1.priority} data-expanded="false">
                 <div class="board-l1-head">
                   <a class="board-l1-link" href={link(`${branch.href}#${l1.id}`)}>
                     <span
@@ -62,8 +62,8 @@ const priorities = Object.keys(priorityLabels) as Priority[];
                     <button
                       type="button"
                       class="board-l1-toggle"
-                      aria-expanded="true"
-                      aria-label={`Свернуть подкомпетенции: ${l1.label}`}
+                      aria-expanded="false"
+                      aria-label={`Развернуть подкомпетенции: ${l1.label}`}
                     >
                       <svg viewBox="0 0 24 24" aria-hidden="true" class="chevron">
                         <path d="M6 9l6 6 6-6" />
@@ -160,8 +160,10 @@ const priorities = Object.keys(priorityLabels) as Priority[];
     }
 
     if (collapseBtn) {
-      var collapseSaved = localStorage.getItem(COLLAPSE_KEY) === 'on';
-      if (collapseSaved) applyGlobalCollapse(true);
+      // Default = свёрнуто (HTML уже в свёрнутом состоянии).
+      // Разворачиваем только если пользователь явно сохранил «развёрнуто».
+      var collapseSaved = localStorage.getItem(COLLAPSE_KEY);
+      if (collapseSaved === 'off') applyGlobalCollapse(false);
       collapseBtn.addEventListener('click', function () {
         var currentlyCollapsed = collapseBtn.getAttribute('data-collapsed') === 'true';
         var next = !currentlyCollapsed;
