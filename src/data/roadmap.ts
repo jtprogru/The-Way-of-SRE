@@ -160,6 +160,12 @@ export const roadmap: Roadmap = {
               href: '/leaves/culture/service-ownership/',
               priority: 'mandatory',
             },
+            {
+              id: 'dr-policy',
+              label: 'DR Policy & Stakeholders',
+              href: '/leaves/culture/dr-policy/',
+              priority: 'mandatory',
+            },
           ],
         },
         {
