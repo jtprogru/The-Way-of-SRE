@@ -17,15 +17,22 @@ Resilience — не магия, а **набор явных правил**: circu
 
 Главный навык на уровне L4 — реализовать **exponential backoff + jitter** правильно. Я регулярно вижу команды, которые написали retry «с backoff», но не добавили jitter — и при первом downtime получили retry-storm, добивший downstream. Marc Brooker написал лучший разбор (AWS Architecture Blog 2015) — full jitter vs equal jitter vs decorrelated jitter с симуляциями. Это материал на час чтения и год пользы.
 
-- **L3** — Знает базовый набор паттернов (circuit breaker, retry, timeout, fallback); применяет их через библиотеки своего стека (Polly / resilience4j / Tenacity / retry-axios), не изобретая велосипед.
-- **L3** — Понимает разницу между liveness и readiness probes; пишет адекватные health checks (shallow «процесс жив» vs deep «зависимости доступны»).
-- **L4** — Реализует retry с **exponential backoff + jitter**; знает, почему «retry без jitter = thundering herd» и почему «infinite retry без circuit breaker = retry amplification cascade».
-- **L4** — Управляет timeouts иерархически: cascading timeouts (внутренний < внешнего с запасом на retry), отказ от bare network defaults, deadline propagation между микросервисами.
-- **L5** — Проектирует bulkhead-изоляцию: connection pools / thread pools / queue partitions, чтобы перегрузка одной зависимости не съедала ресурсы остальных.
-- **L5** — Реализует graceful degradation с явными criticality levels: feature flags для отключения некритичных функций, fallback responses, кешированные данные. Degraded mode описан и тестируется в game day.
-- **L5** — Делает idempotency requirement для всех retry-safe операций: idempotency keys, ETags, conditional writes, transaction outbox.
-- **L6+** — Проектирует load shedding и backpressure: criticality-based prioritization, drop low-criticality traffic при overload, queue-depth-based admission control, retry budget на уровне сервиса.
-- **L6+** — Внедряет [chaos engineering](/The-Way-of-SRE/leaves/engineering/chaos-engineering/) как практику проверки resilience patterns в действии.
+**L3**
+- Знает базовый набор паттернов (circuit breaker, retry, timeout, fallback); применяет их через библиотеки своего стека (Polly / resilience4j / Tenacity / retry-axios), не изобретая велосипед.
+- Понимает разницу между liveness и readiness probes; пишет адекватные health checks (shallow «процесс жив» vs deep «зависимости доступны»).
+
+**L4**
+- Реализует retry с **exponential backoff + jitter**; знает, почему «retry без jitter = thundering herd» и почему «infinite retry без circuit breaker = retry amplification cascade».
+- Управляет timeouts иерархически: cascading timeouts (внутренний < внешнего с запасом на retry), отказ от bare network defaults, deadline propagation между микросервисами.
+
+**L5**
+- Проектирует bulkhead-изоляцию: connection pools / thread pools / queue partitions, чтобы перегрузка одной зависимости не съедала ресурсы остальных.
+- Реализует graceful degradation с явными criticality levels: feature flags для отключения некритичных функций, fallback responses, кешированные данные. Degraded mode описан и тестируется в game day.
+- Делает idempotency requirement для всех retry-safe операций: idempotency keys, ETags, conditional writes, transaction outbox.
+
+**L6+**
+- Проектирует load shedding и backpressure: criticality-based prioritization, drop low-criticality traffic при overload, queue-depth-based admission control, retry budget на уровне сервиса.
+- Внедряет [chaos engineering](/The-Way-of-SRE/leaves/engineering/chaos-engineering/) как практику проверки resilience patterns в действии.
 
 ## Материалы
 

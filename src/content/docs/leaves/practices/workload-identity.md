@@ -17,16 +17,23 @@ description: Cryptographic identity для сервисов (SPIFFE, IRSA, OIDC 
 
 Главный навык на уровне L5 — **проектирование service-to-service auth модели для всего стека**. Workload identity — это не «настроим IRSA для одного сервиса», это решение для каждого сервиса в кластере, каждого CI workflow, каждой serverless функции, каждой cron job. Без unified подхода рождается зоопарк: половина сервисов через IRSA, половина через long-lived AWS keys, CI через OIDC, Lambda через resource-based policy. Каждый exception — потенциальный leak surface; unified модель сокращает attack surface на порядок.
 
-- **L3** — Понимает разницу human identity (user account, SSO, MFA) и workload identity (service account, machine credential, ephemeral token).
-- **L3** — Использует cloud-native workload identity для своего сервиса (IRSA на EKS, Workload Identity на GKE, Managed Identity на Azure) вместо long-lived access keys.
-- **L4** — Конфигурирует OIDC federation для CI/CD (GitHub Actions OIDC → AWS / GCP / Azure, GitLab JWT → AWS), убирает long-lived CI credentials из repository secrets.
-- **L4** — Различает SPIFFE ID, SVID (X.509 или JWT), trust bundle, attestation; читает SPIFFE spec для понимания, как identity issuance работает «под капотом».
-- **L4** — Настраивает mTLS между сервисами через workload identity (Istio + SPIFFE SVID, Linkerd identity, manual SPIRE integration) — service-to-service authentication без shared secrets.
-- **L5** — Проектирует workload identity strategy для всего org: выбор SPIRE (cross-cloud, multi-platform) vs cloud-native (только в одном cloud, но zero ops); model для cross-cloud workloads.
-- **L5** — Внедряет attestation policy — какой workload получает какую identity. Pod-level (k8s service account), node-level (instance metadata), build-attestation (workload identity связана с конкретным CI build artifact).
-- **L5** — Координирует с [Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/) — workload identity в SLSA build pipeline; signed artifact + signed workload = end-to-end trust chain.
-- **L6+** — Дизайнит trust federation для multi-cluster / multi-cloud / multi-org scenarios — federated SPIRE servers, cross-trust-domain federation, JWT SVID exchange между federation partners.
-- **L6+** — Принимает strategic decisions — SPIRE self-hosted vs managed (HashiCorp HCP Boundary, AWS Roles Anywhere для non-EC2 workloads); buy-vs-build identity infrastructure; integration с existing PKI.
+**L3**
+- Понимает разницу human identity (user account, SSO, MFA) и workload identity (service account, machine credential, ephemeral token).
+- Использует cloud-native workload identity для своего сервиса (IRSA на EKS, Workload Identity на GKE, Managed Identity на Azure) вместо long-lived access keys.
+
+**L4**
+- Конфигурирует OIDC federation для CI/CD (GitHub Actions OIDC → AWS / GCP / Azure, GitLab JWT → AWS), убирает long-lived CI credentials из repository secrets.
+- Различает SPIFFE ID, SVID (X.509 или JWT), trust bundle, attestation; читает SPIFFE spec для понимания, как identity issuance работает «под капотом».
+- Настраивает mTLS между сервисами через workload identity (Istio + SPIFFE SVID, Linkerd identity, manual SPIRE integration) — service-to-service authentication без shared secrets.
+
+**L5**
+- Проектирует workload identity strategy для всего org: выбор SPIRE (cross-cloud, multi-platform) vs cloud-native (только в одном cloud, но zero ops); model для cross-cloud workloads.
+- Внедряет attestation policy — какой workload получает какую identity. Pod-level (k8s service account), node-level (instance metadata), build-attestation (workload identity связана с конкретным CI build artifact).
+- Координирует с [Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/) — workload identity в SLSA build pipeline; signed artifact + signed workload = end-to-end trust chain.
+
+**L6+**
+- Дизайнит trust federation для multi-cluster / multi-cloud / multi-org scenarios — federated SPIRE servers, cross-trust-domain federation, JWT SVID exchange между federation partners.
+- Принимает strategic decisions — SPIRE self-hosted vs managed (HashiCorp HCP Boundary, AWS Roles Anywhere для non-EC2 workloads); buy-vs-build identity infrastructure; integration с existing PKI.
 
 ## Материалы
 

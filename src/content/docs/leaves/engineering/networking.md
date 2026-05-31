@@ -17,15 +17,22 @@ description: Сетевой стек как фундамент надёжнос�
 
 Главный навык на уровне L4 — снимать и читать **packet capture**. Когда `curl` падает по timeout — это симптом, но не диагноз. Снять `tcpdump`, увидеть, что handshake завершён, а ACK на первый payload не приходит — это уже сужает проблему до 2–3 hypothesis. Я регулярно вижу команды, в которых tcpdump знает один senior; остальные считают сетевые инциденты «магией балансировщика». Этот навык не требует год обучения — нужно один раз пройти Julia Evans zines и регулярно практиковаться.
 
-- **L3** — Понимает базовую модель: TCP, IP, HTTP, DNS, TLS — что каждый слой обеспечивает. Знает, что такое 3-way handshake, RST, ACK, TLS ClientHello.
-- **L3** — Использует `ping`, `traceroute`, `dig`, `curl` для базовой диагностики; читает их вывод и отличает «host недоступен» / «DNS не резолвит» / «TLS-handshake падает» / «connection refused» по симптому.
-- **L4** — Снимает packet capture (`tcpdump` / `tshark` / Wireshark), читает основные события: handshake, retransmissions, RST, slow ACK. Анализирует TCP-проблемы через `ss` / `netstat` / `iptables` / `nftables`.
-- **L4** — Понимает HTTP/2 multiplexing и gRPC поверх него; знает, чем отличаются keep-alive стратегии и как они взаимодействуют с TCP idle timeouts.
-- **L4** — Настраивает client/server timeouts на всех слоях (connect / read / write / total); понимает связь с TCP retransmission timer и idle keepalive.
-- **L5** — Проектирует resilience сети для сервиса: retries с exponential backoff и jitter, circuit breakers, timeouts на каждом слое, идемпотентность; различает L4 (TCP) и L7 (HTTP) load balancing и знает, когда нужен какой.
-- **L5** — Проектирует observability сетевых границ: distributed tracing через сервис-вызовы, RED-метрики на каждом hop, latency budget; диагностирует DNS как часть приложения (resolver behaviour, caching, propagation).
-- **L6+** — Дизайнит сетевую архитектуру сервиса/области: ingress, internal vs external traffic, network policies в k8s, multi-region / multi-AZ, service mesh там, где он оправдан; разбирается в data egress costs.
-- **L6+** — Учит команду: проводит сетевую диагностику в инцидентах как demonstration, ведёт wheel of misfortune по сетевым сценариям.
+**L3**
+- Понимает базовую модель: TCP, IP, HTTP, DNS, TLS — что каждый слой обеспечивает. Знает, что такое 3-way handshake, RST, ACK, TLS ClientHello.
+- Использует `ping`, `traceroute`, `dig`, `curl` для базовой диагностики; читает их вывод и отличает «host недоступен» / «DNS не резолвит» / «TLS-handshake падает» / «connection refused» по симптому.
+
+**L4**
+- Снимает packet capture (`tcpdump` / `tshark` / Wireshark), читает основные события: handshake, retransmissions, RST, slow ACK. Анализирует TCP-проблемы через `ss` / `netstat` / `iptables` / `nftables`.
+- Понимает HTTP/2 multiplexing и gRPC поверх него; знает, чем отличаются keep-alive стратегии и как они взаимодействуют с TCP idle timeouts.
+- Настраивает client/server timeouts на всех слоях (connect / read / write / total); понимает связь с TCP retransmission timer и idle keepalive.
+
+**L5**
+- Проектирует resilience сети для сервиса: retries с exponential backoff и jitter, circuit breakers, timeouts на каждом слое, идемпотентность; различает L4 (TCP) и L7 (HTTP) load balancing и знает, когда нужен какой.
+- Проектирует observability сетевых границ: distributed tracing через сервис-вызовы, RED-метрики на каждом hop, latency budget; диагностирует DNS как часть приложения (resolver behaviour, caching, propagation).
+
+**L6+**
+- Дизайнит сетевую архитектуру сервиса/области: ingress, internal vs external traffic, network policies в k8s, multi-region / multi-AZ, service mesh там, где он оправдан; разбирается в data egress costs.
+- Учит команду: проводит сетевую диагностику в инцидентах как demonstration, ведёт wheel of misfortune по сетевым сценариям.
 
 ## Материалы
 

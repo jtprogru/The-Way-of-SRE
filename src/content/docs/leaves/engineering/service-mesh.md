@@ -19,15 +19,20 @@ description: Sidecar-proxy слой для mTLS, traffic shifting и L7-observab
 
 Главный навык на уровне L5 — **честно отвечать на вопрос «нужен ли нам mesh»**. По моим наблюдениям, в большинстве команд (до сотни сервисов, один регион, нет жёстких compliance-требований на mTLS) ответ «нет, пока». Mesh выигрывает, когда: (1) нужен mTLS между всеми сервисами как compliance baseline; (2) много языков/фреймворков, и стандартизировать retries/timeouts/tracing в коде дороже, чем поднять sidecar; (3) сложные сценарии traffic shifting (canary, A/B, mirror) — а не один-два, которые покрываются ingress controller'ом. Команда, которая сначала задаёт эти вопросы и потом ставит mesh, эксплуатирует его осознанно; команда, которая ставит «потому что Istio в каждом докладе» — добавляет операционный долг.
 
-- **L4** — Понимает архитектуру mesh: data plane (sidecar proxy, обычно Envoy) + control plane (Istio / Linkerd / Consul Connect). Знает, что sidecar инжектится через mutating admission webhook и перехватывает трафик через iptables.
-- **L4** — Различает три core-функции mesh: **mTLS** (взаимная аутентификация сервисов), **traffic management** (routing, retry, timeout), **observability** (RED-метрики, distributed tracing, access logs). Понимает, что эти три можно получать раздельно (cert-manager + retries в коде + OpenTelemetry SDK) — mesh упаковывает их в один пакет.
-- **L4** — Дебажит mesh-инцидент: `istioctl proxy-status` / `istioctl proxy-config`, Envoy admin endpoint (`localhost:15000/clusters`, `/listeners`, `/stats`), логи sidecar через `kubectl logs -c istio-proxy`. Знает, что 503 от mesh ≠ 503 от приложения.
-- **L5** — Оценивает overhead: latency (+1–5 мс на hop через sidecar), CPU/memory footprint sidecar (50–200 МБ memory на pod при дефолтах), startup time. Делает осознанный выбор «mesh за это платит».
-- **L5** — Различает Istio vs Linkerd vs eBPF-based решения (Cilium Service Mesh, Ambient Mesh): trade-offs по сложности control plane, footprint, feature-set. По моим наблюдениям, Linkerd чаще выбирают за «делает три вещи хорошо», Istio — за богатство фич, ambient/eBPF — за «без sidecar в каждом pod».
-- **L5** — Управляет mesh upgrade strategy: canary control plane, ревизии Istio (`istio-injection=disabled` + `istio.io/rev`), параллельное существование двух версий control plane.
-- **L5** — Понимает security model: mTLS cert rotation cadence, root-of-trust (внешний CA vs Istio's built-in), AuthorizationPolicy / PeerAuthentication как RBAC-эквивалент на L7.
-- **L6+** — Решает «mesh или нет» для конкретной системы: формулирует критерии «когда оправдан» в [ADR](/The-Way-of-SRE/leaves/practices/architecture-decision-records/), готов аргументировать «пока без него» так же убедительно, как «давайте поставим».
-- **L6+** — Готов к incident'ам уровня «mesh лёг»: rollback control plane, disable injection через namespace label, fallback на direct pod-to-pod трафик. Имеет [runbook](/The-Way-of-SRE/leaves/culture/runbooks/) на «mesh control plane unhealthy».
+**L4**
+- Понимает архитектуру mesh: data plane (sidecar proxy, обычно Envoy) + control plane (Istio / Linkerd / Consul Connect). Знает, что sidecar инжектится через mutating admission webhook и перехватывает трафик через iptables.
+- Различает три core-функции mesh: **mTLS** (взаимная аутентификация сервисов), **traffic management** (routing, retry, timeout), **observability** (RED-метрики, distributed tracing, access logs). Понимает, что эти три можно получать раздельно (cert-manager + retries в коде + OpenTelemetry SDK) — mesh упаковывает их в один пакет.
+- Дебажит mesh-инцидент: `istioctl proxy-status` / `istioctl proxy-config`, Envoy admin endpoint (`localhost:15000/clusters`, `/listeners`, `/stats`), логи sidecar через `kubectl logs -c istio-proxy`. Знает, что 503 от mesh ≠ 503 от приложения.
+
+**L5**
+- Оценивает overhead: latency (+1–5 мс на hop через sidecar), CPU/memory footprint sidecar (50–200 МБ memory на pod при дефолтах), startup time. Делает осознанный выбор «mesh за это платит».
+- Различает Istio vs Linkerd vs eBPF-based решения (Cilium Service Mesh, Ambient Mesh): trade-offs по сложности control plane, footprint, feature-set. По моим наблюдениям, Linkerd чаще выбирают за «делает три вещи хорошо», Istio — за богатство фич, ambient/eBPF — за «без sidecar в каждом pod».
+- Управляет mesh upgrade strategy: canary control plane, ревизии Istio (`istio-injection=disabled` + `istio.io/rev`), параллельное существование двух версий control plane.
+- Понимает security model: mTLS cert rotation cadence, root-of-trust (внешний CA vs Istio's built-in), AuthorizationPolicy / PeerAuthentication как RBAC-эквивалент на L7.
+
+**L6+**
+- Решает «mesh или нет» для конкретной системы: формулирует критерии «когда оправдан» в [ADR](/The-Way-of-SRE/leaves/practices/architecture-decision-records/), готов аргументировать «пока без него» так же убедительно, как «давайте поставим».
+- Готов к incident'ам уровня «mesh лёг»: rollback control plane, disable injection через namespace label, fallback на direct pod-to-pod трафик. Имеет [runbook](/The-Way-of-SRE/leaves/culture/runbooks/) на «mesh control plane unhealthy».
 
 ## Материалы
 

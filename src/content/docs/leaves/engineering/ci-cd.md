@@ -17,15 +17,22 @@ description: Pipeline сборки и доставки кода как кодо�
 
 Главный навык на уровне L4 — настраивать pipeline сервиса с нуля так, чтобы он давал feedback на PR за 10 минут. Это не «прочитать туториал и сделать stages». Это понимать caching (dependencies, build artefacts, Docker layers), parallelism (тесты по shard'ам), fail-fast на ранних stages, и zero-tolerance к flaky тестам. Я регулярно вижу команды с 30-минутным pipeline, в котором 60% времени — повторное скачивание зависимостей.
 
-- **L3** — Различает CI и CD; использует существующий pipeline сервиса: запускает job, читает логи, разбирается с failure, делает rerun. Знает branching strategy команды.
-- **L3** — Пишет автоматизированные тесты в CI: unit, integration. Понимает test pyramid (см. [Test Strategy](/The-Way-of-SRE/leaves/engineering/test-strategy/)).
-- **L4** — Настраивает pipeline сервиса с нуля: stages (build → test → security scan → deploy), artifact management (immutable, semantically versioned), environment progression. Pipeline-as-Code в репо сервиса, ревьюится через PR.
-- **L4** — Применяет trunk-based development: small frequent commits в main, feature flags для незаконченной функциональности, branch lifetime — часы/дни. Знает trade-off против GitFlow.
-- **L4** — Управляет secrets в pipeline безопасно: OIDC federation вместо long-lived access keys; scoping; маскирование в логах.
-- **L5** — Проектирует CI/CD как **платформу команды/организации**: shared templates, golden paths для типовых сервисов, self-service onboarding.
-- **L5** — Оптимизирует pipeline performance: caching, parallelism, fail-fast, flaky тесты в quarantine. Целевая длительность — **≤ 10 минут до feedback на PR**.
-- **L5** — Использует DORA метрики как health indicator: deployment frequency, lead time for changes, change failure rate, MTTR. Понимает, что **все четыре одновременно** — иначе Goodhart's law ломает оптимизацию.
-- **L6+** — Проектирует deployment governance в крупных организациях: regulatory constraints (SOX / PCI-DSS / GDPR), журнал аудита, signed artifacts (Sigstore / cosign), SLSA / SBOM, reproducible builds. CI/CD становится compliance-инструментом.
+**L3**
+- Различает CI и CD; использует существующий pipeline сервиса: запускает job, читает логи, разбирается с failure, делает rerun. Знает branching strategy команды.
+- Пишет автоматизированные тесты в CI: unit, integration. Понимает test pyramid (см. [Test Strategy](/The-Way-of-SRE/leaves/engineering/test-strategy/)).
+
+**L4**
+- Настраивает pipeline сервиса с нуля: stages (build → test → security scan → deploy), artifact management (immutable, semantically versioned), environment progression. Pipeline-as-Code в репо сервиса, ревьюится через PR.
+- Применяет trunk-based development: small frequent commits в main, feature flags для незаконченной функциональности, branch lifetime — часы/дни. Знает trade-off против GitFlow.
+- Управляет secrets в pipeline безопасно: OIDC federation вместо long-lived access keys; scoping; маскирование в логах.
+
+**L5**
+- Проектирует CI/CD как **платформу команды/организации**: shared templates, golden paths для типовых сервисов, self-service onboarding.
+- Оптимизирует pipeline performance: caching, parallelism, fail-fast, flaky тесты в quarantine. Целевая длительность — **≤ 10 минут до feedback на PR**.
+- Использует DORA метрики как health indicator: deployment frequency, lead time for changes, change failure rate, MTTR. Понимает, что **все четыре одновременно** — иначе Goodhart's law ломает оптимизацию.
+
+**L6+**
+- Проектирует deployment governance в крупных организациях: regulatory constraints (SOX / PCI-DSS / GDPR), журнал аудита, signed artifacts (Sigstore / cosign), SLSA / SBOM, reproducible builds. CI/CD становится compliance-инструментом.
 
 ## Материалы
 

@@ -19,14 +19,21 @@ description: SRE-практика управления стоимостью об
 
 Главный навык на уровне L4 — считать **unit economics**: cost per request / per active user / per GB processed. Я регулярно вижу команды, которые отчитываются абсолютными числами («в этом квартале потратили $500K на compute»), но не могут ответить на вопрос «а на одного активного пользователя — это сколько и куда движется тренд». Без unit-метрик невозможно отличить здоровый рост (cost-per-user стабилен) от неэффективности (cost-per-user растёт быстрее revenue). Это та точка, где «engineering bill» превращается из чёрного ящика в управляемую величину.
 
-- **L3** — Читает свой cloud bill: структура (compute / storage / data egress / managed services / support), где найти cost per service, как сравнить с прошлым месяцем.
-- **L3** — Знает базовые cost levers: rightsizing, schedule off-hours, reserved / savings plans, spot / preemptible.
-- **L4** — Считает unit economics для своего сервиса (cost per request / per active user / per GB), сравнивает с прошлыми периодами.
-- **L4** — Применяет tagging discipline: каждый ресурс размечен по `team / service / environment / cost-center`; cost allocation reports реально отражают, кто что тратит.
-- **L5** — Проектирует cost-aware architecture: storage tiering (hot / warm / cold), auto-scaling policy с учётом cost (не только load), choice managed vs self-hosted с явным TCO calculation.
-- **L5** — Внедряет FinOps-ритуалы в команду: monthly review с обсуждением anomalies, cost budget / SLO как явный artifact, anomaly alerts при отклонении ≥ N%.
-- **L6+** — Связывает cost decisions с SLO и error budget: где можно деградировать ради economy (low-criticality traffic), где нельзя (revenue-critical paths).
-- **L6+** — Vendor commitment strategy: reserved capacity vs on-demand mix, multi-cloud risk, enterprise discount negotiation, exit cost оценка.
+**L3**
+- Читает свой cloud bill: структура (compute / storage / data egress / managed services / support), где найти cost per service, как сравнить с прошлым месяцем.
+- Знает базовые cost levers: rightsizing, schedule off-hours, reserved / savings plans, spot / preemptible.
+
+**L4**
+- Считает unit economics для своего сервиса (cost per request / per active user / per GB), сравнивает с прошлыми периодами.
+- Применяет tagging discipline: каждый ресурс размечен по `team / service / environment / cost-center`; cost allocation reports реально отражают, кто что тратит.
+
+**L5**
+- Проектирует cost-aware architecture: storage tiering (hot / warm / cold), auto-scaling policy с учётом cost (не только load), choice managed vs self-hosted с явным TCO calculation.
+- Внедряет FinOps-ритуалы в команду: monthly review с обсуждением anomalies, cost budget / SLO как явный artifact, anomaly alerts при отклонении ≥ N%.
+
+**L6+**
+- Связывает cost decisions с SLO и error budget: где можно деградировать ради economy (low-criticality traffic), где нельзя (revenue-critical paths).
+- Vendor commitment strategy: reserved capacity vs on-demand mix, multi-cloud risk, enterprise discount negotiation, exit cost оценка.
 
 ## Материалы
 

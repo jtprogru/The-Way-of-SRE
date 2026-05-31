@@ -17,15 +17,22 @@ description: Дисциплина проектирования testing portfolio
 
 Главный навык на уровне L4 — проектировать testing portfolio под конкретную систему. Test pyramid (много unit → меньше integration → мало e2e) — guideline для большинства систем, но не догма. Для distributed systems по моим наблюдениям лучше работает honeycomb (упор на integration / contract). Для backend без сложной UI — trophy (Kent C. Dodds). Цена ошибки в выборе формы — годы накопления медленного / хрупкого suite.
 
-- **L3** — Пишет unit-тесты для своего кода (фокус — public API, не private internals); понимает разницу `unit` / `integration` / `e2e`.
-- **L3** — Применяет table-driven tests / property-based testing для покрытия input space; не пишет N однотипных копий с разными константами.
-- **L4** — Проектирует testing portfolio для сервиса: какие слои, какие dependencies реальные vs замокированные, где живут integration-тесты (in-process testcontainers vs shared staging vs ephemeral env).
-- **L4** — Применяет **contract testing** между сервисами (Pact / Spring Cloud Contract / Hoverfly) — consumer-driven contracts проверяются обеими сторонами в CI.
-- **L4** — Управляет **flaky tests** как operational задачей: измеряет flake rate, изолирует / quarantine'ит flaky tests, докладывает root cause не «retry'ем покрыли».
-- **L5** — Проектирует **test data strategy** — fixtures vs factories vs builders vs golden data sets; persistent test DB vs ephemeral per-test; PII / GDPR considerations.
-- **L5** — Внедряет **mutation testing** как метрику качества test suite (Pitest / Stryker / Cosmic Ray / `go-mutesting`).
-- **L5** — Проектирует **non-functional testing** — performance / load / stress / soak как отдельные категории со своими environments, baselines и acceptance criteria.
-- **L6+** — Внедряет org-level testing standards — minimum bar (coverage / mutation thresholds per criticality bucket), CI gates, shared test infrastructure, test ownership и maintenance ritual.
+**L3**
+- Пишет unit-тесты для своего кода (фокус — public API, не private internals); понимает разницу `unit` / `integration` / `e2e`.
+- Применяет table-driven tests / property-based testing для покрытия input space; не пишет N однотипных копий с разными константами.
+
+**L4**
+- Проектирует testing portfolio для сервиса: какие слои, какие dependencies реальные vs замокированные, где живут integration-тесты (in-process testcontainers vs shared staging vs ephemeral env).
+- Применяет **contract testing** между сервисами (Pact / Spring Cloud Contract / Hoverfly) — consumer-driven contracts проверяются обеими сторонами в CI.
+- Управляет **flaky tests** как operational задачей: измеряет flake rate, изолирует / quarantine'ит flaky tests, докладывает root cause не «retry'ем покрыли».
+
+**L5**
+- Проектирует **test data strategy** — fixtures vs factories vs builders vs golden data sets; persistent test DB vs ephemeral per-test; PII / GDPR considerations.
+- Внедряет **mutation testing** как метрику качества test suite (Pitest / Stryker / Cosmic Ray / `go-mutesting`).
+- Проектирует **non-functional testing** — performance / load / stress / soak как отдельные категории со своими environments, baselines и acceptance criteria.
+
+**L6+**
+- Внедряет org-level testing standards — minimum bar (coverage / mutation thresholds per criticality bucket), CI gates, shared test infrastructure, test ownership и maintenance ritual.
 
 ## Материалы
 

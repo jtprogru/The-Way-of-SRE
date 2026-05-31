@@ -19,14 +19,21 @@ description: Дисциплина alert design — page на симптомы (�
 
 Главный навык на уровне L4 — формулировать **golden signals** (latency / errors / traffic / saturation) для своего сервиса так, чтобы symptom-side покрывал «что пользователь почувствует», а cause-side покрывал «куда смотреть в дебаге». Я регулярно вижу команды, которые знают слова «golden signals» наизусть — но в их alert config 80% правил cause-based (CPU / memory / disk / connections), и при downstream outage on-call просто тонет в шуме. Различение видно не в формулировке принципа, а в том, какие правила реально active при `page` priority.
 
-- **L3** — Отличает symptom-based от cause-based алерта на примере конкретного правила; объясняет, почему `error rate > 1%` — symptom, а `connection pool > 80%` — cause.
-- **L3** — Понимает alert amplification: при downstream outage cause-based алерты на dependencies + cascading effects дают N-кратный шум на тот же incident.
-- **L4** — Проектирует **golden signals** для своего сервиса: latency (per percentile), errors (rate + share), traffic (qps / req/min), saturation (utilization vs capacity). Все 4 — symptom-side; cause-side — отдельный набор.
-- **L4** — Использует cause-based данные как **secondary** в runbook'е, а не **primary** в alert. Cause-метрики в dashboard, симптомы — в пейджере.
-- **L5** — Применяет multi-burn-rate alerting для symptom-side SLI: быстрая burn (fast burn 1h / 5min) и медленная (slow burn 6h / 30min) — один алерт, два window'а.
-- **L5** — Регулярно (раз в квартал) пересматривает alert portfolio: какие cause-based выкинуть как noise / понизить до dashboard / оставить как secondary; какие symptom-side добавить, если incident прошёл без алерта.
-- **L6+** — Внедряет alert-as-code дисциплину: каждое alert rule имеет owner, runbook link, SLI / threshold rationale, severity, ожидание частоты (alert per quarter), review cycle.
-- **L6+** — Связывает alerting policy с SLO program: paging-level алерты только на SLO burn; ticket-level — на внутренние saturation indicators; dashboard-only — на cause-side и diagnostic signals.
+**L3**
+- Отличает symptom-based от cause-based алерта на примере конкретного правила; объясняет, почему `error rate > 1%` — symptom, а `connection pool > 80%` — cause.
+- Понимает alert amplification: при downstream outage cause-based алерты на dependencies + cascading effects дают N-кратный шум на тот же incident.
+
+**L4**
+- Проектирует **golden signals** для своего сервиса: latency (per percentile), errors (rate + share), traffic (qps / req/min), saturation (utilization vs capacity). Все 4 — symptom-side; cause-side — отдельный набор.
+- Использует cause-based данные как **secondary** в runbook'е, а не **primary** в alert. Cause-метрики в dashboard, симптомы — в пейджере.
+
+**L5**
+- Применяет multi-burn-rate alerting для symptom-side SLI: быстрая burn (fast burn 1h / 5min) и медленная (slow burn 6h / 30min) — один алерт, два window'а.
+- Регулярно (раз в квартал) пересматривает alert portfolio: какие cause-based выкинуть как noise / понизить до dashboard / оставить как secondary; какие symptom-side добавить, если incident прошёл без алерта.
+
+**L6+**
+- Внедряет alert-as-code дисциплину: каждое alert rule имеет owner, runbook link, SLI / threshold rationale, severity, ожидание частоты (alert per quarter), review cycle.
+- Связывает alerting policy с SLO program: paging-level алерты только на SLO burn; ticket-level — на внутренние saturation indicators; dashboard-only — на cause-side и diagnostic signals.
 
 ## Материалы
 

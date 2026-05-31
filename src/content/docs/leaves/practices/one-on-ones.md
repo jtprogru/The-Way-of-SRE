@@ -17,15 +17,22 @@ description: Регулярные 1:1 с manager / tech lead — простра�
 
 Главный навык на уровне L5 — формулировать **growth conversations** конкретно. «Хочу расти в seniority» — не conversation, это пожелание. «Я закрываю L4-expectations через X / Y / Z; в L5 expectations N и M я ещё не закрываю — как двинуться в эту сторону на следующий квартал?» — это conversation. Без конкретики 1:1 деградируют в status, потому что говорить про абстрактный рост труднее, чем про абстрактные тикеты.
 
-- **L3** — Приходит на 1:1 с конкретной повесткой (хотя бы 1–2 темы), а не «ну, что у тебя?»; фиксирует action items со своей стороны после встречи.
-- **L3** — Различает 1:1 и status update: 1:1 — про то, что **не покрыто** другими ритуалами, а не пересказ заданий из Jira.
-- **L4** — Готовит focused agenda за день до 1:1: список тем (status, blockers, growth, feedback, personal); делится с собеседником заранее.
-- **L4** — Даёт peer-feedback после совместной работы по модели SBI — Situation / Behavior / Impact — а не «было нормально».
-- **L5** — Ведёт 1:1 с менее опытным инженером или mentee: balance professional + technical + personal topics; держит «their meeting, not yours» — повестка ведомого выше повестки ведущего.
-- **L5** — Формулирует career growth conversations: где сейчас, куда хочется (1–2 квартала / год), какие компетенции прокачивать, конкретные next steps.
-- **L5** — Даёт structured feedback по SBI или radical candor (care personally + challenge directly); не сваливается ни в «ты молодец», ни в «всё плохо без обоснований».
-- **L6+** — Внедряет 1:1 cadence в команде: ожидаемая частота, shared notes template, expectations для руководителя и IC; защищает 1:1 от «cancel-first».
-- **L6+** — Связывает 1:1 с performance review cycle: 1:1 — **не** review (no surprises rule); review informed by 1:1 history, но не заменяет её.
+**L3**
+- Приходит на 1:1 с конкретной повесткой (хотя бы 1–2 темы), а не «ну, что у тебя?»; фиксирует action items со своей стороны после встречи.
+- Различает 1:1 и status update: 1:1 — про то, что **не покрыто** другими ритуалами, а не пересказ заданий из Jira.
+
+**L4**
+- Готовит focused agenda за день до 1:1: список тем (status, blockers, growth, feedback, personal); делится с собеседником заранее.
+- Даёт peer-feedback после совместной работы по модели SBI — Situation / Behavior / Impact — а не «было нормально».
+
+**L5**
+- Ведёт 1:1 с менее опытным инженером или mentee: balance professional + technical + personal topics; держит «their meeting, not yours» — повестка ведомого выше повестки ведущего.
+- Формулирует career growth conversations: где сейчас, куда хочется (1–2 квартала / год), какие компетенции прокачивать, конкретные next steps.
+- Даёт structured feedback по SBI или radical candor (care personally + challenge directly); не сваливается ни в «ты молодец», ни в «всё плохо без обоснований».
+
+**L6+**
+- Внедряет 1:1 cadence в команде: ожидаемая частота, shared notes template, expectations для руководителя и IC; защищает 1:1 от «cancel-first».
+- Связывает 1:1 с performance review cycle: 1:1 — **не** review (no surprises rule); review informed by 1:1 history, но не заменяет её.
 
 ## Материалы
 

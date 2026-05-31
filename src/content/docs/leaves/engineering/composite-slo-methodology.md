@@ -19,16 +19,21 @@ description: Математика multi-component SLO — серийные / п�
 
 Главный навык на уровне L5 — отличать **serial** от **parallel** dependencies и применять правильную формулу. Я регулярно вижу команды, которые перемножают SLA всех зависимостей подряд — но если CDN имеет fallback на origin, это **parallel** (отказ только при двойном отказе), и формула совсем другая: `1 − (1 − SLA_cdn)(1 − SLA_origin)`. Различить serial vs parallel — это не «формальность», это разница между 99.5% и 99.99% при том же наборе компонентов. Если граф нарисован, формула механическая; если граф «в голове» — composite math всегда оптимистичнее реальности.
 
-- **L4** — Понимает базовую арифметику: для serial dependencies own SLO ≤ product(deps SLAs); знает, что vendor SLA — нижняя граница (worst case), а не expectation.
-- **L4** — Идентифицирует **critical path** через service graph своего сервиса: какие dependencies в request-path каждого user-facing endpoint.
-- **L4** — Считает composite math для своего user journey: serial path × required-uptime parallel components × shared infrastructure.
-- **L5** — Различает serial vs parallel dependencies и применяет правильные формулы. Parallel: `1 − ∏(1 − SLA_i)`, serial: `∏ SLA_i`.
-- **L5** — Включает **vendor SLAs как нижнюю границу** в composite math, не как ожидаемый uptime. SLA — contractual floor (vendor готов вернуть credit); real uptime может быть выше, но planning под SLA, не под наблюдаемое.
-- **L5** — Разделяет **mandatory vs best-effort dependencies**: observability backplane / logging pipeline / async analytics — не часть user-facing composite (их падение не означает «пользователь страдает»); auth / payment / DB — часть.
-- **L5** — Применяет multi-burn-rate alerting **per critical path / per journey**, не только per service. SLI собирается на journey-уровне (synthetic / RUM / business event), не только на endpoint.
-- **L6+** — Org-level composite portfolio: какие user journeys получают SLO commitment, какие остаются best-effort. Не каждый journey стоит SLO — обоснование выбора явное.
-- **L6+** — Composite math как **input для capacity и cost decisions**: где redundancy оправдана (revenue-critical journey), где нет (low-traffic admin tool). Связь с [Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/) явная.
-- **L6+** — Refresh composite math после каждой major dependency change (new vendor, removed redundancy, schema change затрагивающий fan-out). Без refresh composite SLO становится stale за квартал.
+**L4**
+- Понимает базовую арифметику: для serial dependencies own SLO ≤ product(deps SLAs); знает, что vendor SLA — нижняя граница (worst case), а не expectation.
+- Идентифицирует **critical path** через service graph своего сервиса: какие dependencies в request-path каждого user-facing endpoint.
+- Считает composite math для своего user journey: serial path × required-uptime parallel components × shared infrastructure.
+
+**L5**
+- Различает serial vs parallel dependencies и применяет правильные формулы. Parallel: `1 − ∏(1 − SLA_i)`, serial: `∏ SLA_i`.
+- Включает **vendor SLAs как нижнюю границу** в composite math, не как ожидаемый uptime. SLA — contractual floor (vendor готов вернуть credit); real uptime может быть выше, но planning под SLA, не под наблюдаемое.
+- Разделяет **mandatory vs best-effort dependencies**: observability backplane / logging pipeline / async analytics — не часть user-facing composite (их падение не означает «пользователь страдает»); auth / payment / DB — часть.
+- Применяет multi-burn-rate alerting **per critical path / per journey**, не только per service. SLI собирается на journey-уровне (synthetic / RUM / business event), не только на endpoint.
+
+**L6+**
+- Org-level composite portfolio: какие user journeys получают SLO commitment, какие остаются best-effort. Не каждый journey стоит SLO — обоснование выбора явное.
+- Composite math как **input для capacity и cost decisions**: где redundancy оправдана (revenue-critical journey), где нет (low-traffic admin tool). Связь с [Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/) явная.
+- Refresh composite math после каждой major dependency change (new vendor, removed redundancy, schema change затрагивающий fan-out). Без refresh composite SLO становится stale за квартал.
 
 ## Материалы
 

@@ -17,17 +17,24 @@ description: Identity + authorization-модель + JIT-доступ + phishing
 
 Главный навык на уровне L5 — **проектирование IAM модели под конкретный threat profile, а не «как у всех»**. RBAC хорошо работает для команды в 20 человек с пятью ролями; ломается на 500 человек с пересечениями (data scientist + on-call + finance approver). ABAC решает scale, но требует attribute hygiene (откуда attributes, кто их валидирует). ReBAC (Zanzibar-style) красив для multi-tenant SaaS с sharing-семантикой. Выбор не доктринёрский — производный от модели threats и операционных constraints команды.
 
-- **L3** — Различает authentication (кто это) и authorization (что разрешено); знает basic flows OAuth 2.0 / OIDC / SAML на уровне «что куда передаётся».
-- **L3** — Использует MFA для своего account; понимает разницу TOTP / push / phishing-resistant (FIDO2/WebAuthn).
-- **L4** — Применяет принцип наименьших привилегий — запрашивает минимальный нужный scope, escalation только при необходимости, не «попроси sysadmin прав на всё, потом разберёмся».
-- **L4** — Конфигурирует RBAC в k8s / cloud IAM для своего сервиса: явные roles, явные bindings, no wildcard `*` в production permissions.
-- **L4** — Внедряет SSO через corporate IdP для всех app-уровневых сервисов; локальные accounts — exception с задокументированным основанием.
-- **L5** — Проектирует IAM модель команды/org: выбор RBAC vs ABAC vs гибрид, role taxonomy, ownership ролей, lifecycle (provisioning при join, revocation при leave / role change).
-- **L5** — Внедряет JIT access для privileged операций — temporal escalation через approval workflow (Teleport / StrongDM / AWS IAM Identity Center session policies); standing admin-доступ только у break-glass accounts.
-- **L5** — Координирует quarterly access review — каждый owner подтверждает или revoke'ает доступ участников команды; orphaned permissions (ушедшие пользователи, role changes) удаляются. Без cadence — privilege creep гарантированно.
-- **L5** — Внедряет phishing-resistant MFA (FIDO2/WebAuthn, hardware keys) для admin и production access; TOTP/SMS — для low-risk операций, не для критики.
-- **L6+** — Дизайнит strategy на уровне org: federation между acquired companies, multi-IdP architecture (employees + contractors + клиенты), break-glass policy, governance audit cadence, integration с HRIS для automated provisioning/deprovisioning.
-- **L6+** — Принимает trade-off решения — централизованный IAM (один IdP, всё под ним) vs federated (несколько IdP с trust), monolithic vs domain-specific IAM, build vs buy для fine-grained authorization (Zanzibar-style).
+**L3**
+- Различает authentication (кто это) и authorization (что разрешено); знает basic flows OAuth 2.0 / OIDC / SAML на уровне «что куда передаётся».
+- Использует MFA для своего account; понимает разницу TOTP / push / phishing-resistant (FIDO2/WebAuthn).
+
+**L4**
+- Применяет принцип наименьших привилегий — запрашивает минимальный нужный scope, escalation только при необходимости, не «попроси sysadmin прав на всё, потом разберёмся».
+- Конфигурирует RBAC в k8s / cloud IAM для своего сервиса: явные roles, явные bindings, no wildcard `*` в production permissions.
+- Внедряет SSO через corporate IdP для всех app-уровневых сервисов; локальные accounts — exception с задокументированным основанием.
+
+**L5**
+- Проектирует IAM модель команды/org: выбор RBAC vs ABAC vs гибрид, role taxonomy, ownership ролей, lifecycle (provisioning при join, revocation при leave / role change).
+- Внедряет JIT access для privileged операций — temporal escalation через approval workflow (Teleport / StrongDM / AWS IAM Identity Center session policies); standing admin-доступ только у break-glass accounts.
+- Координирует quarterly access review — каждый owner подтверждает или revoke'ает доступ участников команды; orphaned permissions (ушедшие пользователи, role changes) удаляются. Без cadence — privilege creep гарантированно.
+- Внедряет phishing-resistant MFA (FIDO2/WebAuthn, hardware keys) для admin и production access; TOTP/SMS — для low-risk операций, не для критики.
+
+**L6+**
+- Дизайнит strategy на уровне org: federation между acquired companies, multi-IdP architecture (employees + contractors + клиенты), break-glass policy, governance audit cadence, integration с HRIS для automated provisioning/deprovisioning.
+- Принимает trade-off решения — централизованный IAM (один IdP, всё под ним) vs federated (несколько IdP с trust), monolithic vs domain-specific IAM, build vs buy для fine-grained authorization (Zanzibar-style).
 
 ## Материалы
 

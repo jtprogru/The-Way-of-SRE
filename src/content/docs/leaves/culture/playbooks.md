@@ -19,14 +19,21 @@ description: Сценарии реагирования на класс инци�
 
 Главный навык на уровне L5 — **проектировать playbook так, чтобы он работал при стрессе IC, а не выглядел красиво на ревью**. Я регулярно вижу 12-страничные playbook'и с decision matrix на 30 строк — они не открываются в моменте инцидента, потому что IC не успевает их прочитать. Хороший playbook помещается на одну страницу для quick reference: роли (2-3 строки), первые действия (5-7 шагов), decision points (3-4 явных вопроса), escalation (когда + кому), comms cadence (когда обновлять статус). Всё остальное — в приложениях, которые открываются по ссылке.
 
-- **L3** — Понимает разницу между playbook и runbook; знает, какие playbook'и команда использует; следует роли, назначенной в playbook (responder, scribe, comms).
-- **L4** — Пишет playbook для известного класса инцидентов своего сервиса: роли, первые действия, decision points, escalation criteria, comms cadence. Обновляет после каждого инцидента, в котором playbook использовался.
-- **L4** — Различает severity-зависимые playbook'и: SEV1 playbook ≠ SEV3 playbook (разные роли, intensity, comms). Не использует один playbook на все severity.
-- **L5** — Проектирует семейство playbook'ов для команды/сервиса: incident response, security incident, data corruption, capacity emergency, vendor outage. Согласует общую структуру между ними.
-- **L5** — Встраивает playbook в incident workflow: ChatOps-команда (`/incident declare`) подтягивает playbook в war room channel, роли распределяются автоматически, checklist рендерится.
-- **L5** — Проводит quarterly review playbook'ов: какие открывались и как часто, какие шаги работали, какие — нет. Playbook без использования за полгода либо удаляется, либо инспектируется.
-- **L6+** — Внедряет playbook-практику на уровне org: единая структура, шаблоны, шаринг между командами, governance актуальности.
-- **L6+** — Связывает playbook с regulatory обязательствами там, где они есть (PCI-DSS incident response, GDPR breach notification, SOC 2): playbook — артефакт compliance, не только operational tool.
+**L3**
+- Понимает разницу между playbook и runbook; знает, какие playbook'и команда использует; следует роли, назначенной в playbook (responder, scribe, comms).
+
+**L4**
+- Пишет playbook для известного класса инцидентов своего сервиса: роли, первые действия, decision points, escalation criteria, comms cadence. Обновляет после каждого инцидента, в котором playbook использовался.
+- Различает severity-зависимые playbook'и: SEV1 playbook ≠ SEV3 playbook (разные роли, intensity, comms). Не использует один playbook на все severity.
+
+**L5**
+- Проектирует семейство playbook'ов для команды/сервиса: incident response, security incident, data corruption, capacity emergency, vendor outage. Согласует общую структуру между ними.
+- Встраивает playbook в incident workflow: ChatOps-команда (`/incident declare`) подтягивает playbook в war room channel, роли распределяются автоматически, checklist рендерится.
+- Проводит quarterly review playbook'ов: какие открывались и как часто, какие шаги работали, какие — нет. Playbook без использования за полгода либо удаляется, либо инспектируется.
+
+**L6+**
+- Внедряет playbook-практику на уровне org: единая структура, шаблоны, шаринг между командами, governance актуальности.
+- Связывает playbook с regulatory обязательствами там, где они есть (PCI-DSS incident response, GDPR breach notification, SOC 2): playbook — артефакт compliance, не только operational tool.
 
 ## Материалы
 

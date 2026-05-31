@@ -17,15 +17,22 @@ description: Рамка измерения серьёзности инциден
 
 Главный навык на уровне L5 — связывать **SLO burn rate с severity** через автоматическое правило. Severity отдельно от alerting — это субъективная оценка IC «по ощущениям». High burn rate (5% бюджета за час) — это уже сигнал severity 1: customer impact в данный момент. Auto-escalation rule в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity становится subjective, и в разных инцидентах одинаковая ситуация получает разный severity.
 
-- **L3** — Знает severity scheme своей команды; применяет корректную severity при declare, не «всё SEV1 потому что страшно».
-- **L3** — Знает escalation path для своего сервиса; где это документировано.
-- **L4** — Использует severity-based response: SEV0 — war room + leadership notify + customer comms, SEV1 — IC + senior eng, SEV2 — on-call + уведомление руководителя, SEV3 — async fix без paging других.
-- **L4** — Делает escalation по правилам: time-based (5 мин без ack → secondary, 15 мин → IC, 30 мин → leadership при SEV1+), criteria-based (data integrity / regulatory triggers → CISO / Legal).
-- **L5** — Проектирует severity matrix: **impact** (data loss / customer-facing degradation / internal-only) × **scope** (один пользователь / blast radius / global) → severity. Численные пороги (% затронутых пользователей, $/min revenue impact).
-- **L5** — Связывает severity с SLO burn rate: high burn rate автоматически elevates severity; SLO breach с пользовательским impact = минимум SEV1.
-- **L5** — Калибрует scheme на основе lookback (квартальный ревью): distribution по severity, false-positives, missed cases.
-- **L6+** — Проектирует org-level severity governance: единая scheme через все команды, regulatory hooks (GDPR breach → CISO/Legal), customer comms gates.
-- **L6+** — Принимает strategic severity decisions: external comm strategy для major incidents, board-level reporting threshold, regulatory disclosure timing.
+**L3**
+- Знает severity scheme своей команды; применяет корректную severity при declare, не «всё SEV1 потому что страшно».
+- Знает escalation path для своего сервиса; где это документировано.
+
+**L4**
+- Использует severity-based response: SEV0 — war room + leadership notify + customer comms, SEV1 — IC + senior eng, SEV2 — on-call + уведомление руководителя, SEV3 — async fix без paging других.
+- Делает escalation по правилам: time-based (5 мин без ack → secondary, 15 мин → IC, 30 мин → leadership при SEV1+), criteria-based (data integrity / regulatory triggers → CISO / Legal).
+
+**L5**
+- Проектирует severity matrix: **impact** (data loss / customer-facing degradation / internal-only) × **scope** (один пользователь / blast radius / global) → severity. Численные пороги (% затронутых пользователей, $/min revenue impact).
+- Связывает severity с SLO burn rate: high burn rate автоматически elevates severity; SLO breach с пользовательским impact = минимум SEV1.
+- Калибрует scheme на основе lookback (квартальный ревью): distribution по severity, false-positives, missed cases.
+
+**L6+**
+- Проектирует org-level severity governance: единая scheme через все команды, regulatory hooks (GDPR breach → CISO/Legal), customer comms gates.
+- Принимает strategic severity decisions: external comm strategy для major incidents, board-level reporting threshold, regulatory disclosure timing.
 
 ## Материалы
 

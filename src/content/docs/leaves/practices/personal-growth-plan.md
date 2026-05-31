@@ -19,15 +19,22 @@ description: Личный план развития инженера — current
 
 Главный навык на уровне L5 — применять **deliberate practice**. Курсы и книги — это input; learning происходит, когда input применяется на реальной задаче с feedback от практики или ревьюера. Один написанный ADR / прочитанный chapter с применением в коде стоит больше десяти просмотренных видео. Я регулярно вижу инженеров, которые «учатся» — но при ближайшем рассмотрении 90% времени passive consumption: курсы, книги, статьи без обратной связи. Это не обучение, это чтение.
 
-- **L3** — Имеет рабочее представление о своей зоне развития: называет 1–2 компетенции, в которых «слаб», и 1–2, которые хочет прокачать ближайшие 3 месяца.
-- **L3** — Ведёт learning log (markdown / Notion / Obsidian): фиксирует, что прочитал / посмотрел / попрактиковал, **со своими takeaways**, а не списком ссылок «на потом».
-- **L4** — Пишет Personal Growth Plan как документ: current state, target state, конкретные milestones с дедлайнами, метрики и артефакты как доказательство.
-- **L4** — Применяет deliberate practice: формулирует учебные цели с измеримым outcome. Не «выучу Kubernetes», а «развёрну stateful-сервис в k8s с HA, задокументирую дизайн в ADR, проведу review с senior».
-- **L5** — Использует multi-format learning: pair sessions с senior, code review соседних команд, написание ADR / TDD по новой технологии, публичный talk или внутренний brown bag, статья в команде / блоге.
-- **L5** — Приносит план на 1:1 с руководителем ежеквартально: что сработало, что нет, что меняется в target.
-- **L5** — Deliberately выбирает stretch projects: подписывается на работу outside комфорта с явной learning goal.
-- **L6+** — Проектирует портфолио на multi-year horizon: балансирует specialist depth vs generalist breadth, технические vs people skills, internal contribution vs external visibility.
-- **L6+** — Конвертирует собственные learnings в community capital: менторит junior, выступает на конференциях, пишет статьи, contributes в open source.
+**L3**
+- Имеет рабочее представление о своей зоне развития: называет 1–2 компетенции, в которых «слаб», и 1–2, которые хочет прокачать ближайшие 3 месяца.
+- Ведёт learning log (markdown / Notion / Obsidian): фиксирует, что прочитал / посмотрел / попрактиковал, **со своими takeaways**, а не списком ссылок «на потом».
+
+**L4**
+- Пишет Personal Growth Plan как документ: current state, target state, конкретные milestones с дедлайнами, метрики и артефакты как доказательство.
+- Применяет deliberate practice: формулирует учебные цели с измеримым outcome. Не «выучу Kubernetes», а «развёрну stateful-сервис в k8s с HA, задокументирую дизайн в ADR, проведу review с senior».
+
+**L5**
+- Использует multi-format learning: pair sessions с senior, code review соседних команд, написание ADR / TDD по новой технологии, публичный talk или внутренний brown bag, статья в команде / блоге.
+- Приносит план на 1:1 с руководителем ежеквартально: что сработало, что нет, что меняется в target.
+- Deliberately выбирает stretch projects: подписывается на работу outside комфорта с явной learning goal.
+
+**L6+**
+- Проектирует портфолио на multi-year horizon: балансирует specialist depth vs generalist breadth, технические vs people skills, internal contribution vs external visibility.
+- Конвертирует собственные learnings в community capital: менторит junior, выступает на конференциях, пишет статьи, contributes в open source.
 
 ## Материалы
 

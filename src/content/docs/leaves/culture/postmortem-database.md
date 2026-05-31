@@ -19,15 +19,22 @@ description: Систематический архив постмортемов 
 
 Главный навык на уровне L5 — **проектировать схему тегирования так, чтобы поиск работал**. «Tag по сервису» — недостаточно; через год search «database» вернёт 40 постмортемов, никто не будет читать все. Хорошая схема: service + failure category (data loss / unavailability / degraded / security / config drift) + contributing factor categories (deployment / config / capacity / dependency / human / monitoring gap) + severity. По этим осям ищется «постмортемы про data loss из config drift на сервисе X за последние 2 года» — три PR'ов, не сорок.
 
-- **L3** — Знает, где живёт postmortem database команды; умеет искать прошлые постмортемы по тегам или симптому. Перед написанием нового постмортема проверяет похожие в архиве.
-- **L3** — В каждом новом постмортеме явно ссылается на похожие из архива («это четвёртый раз похожий config drift на сервисе X в этом году») — это превращает single-postmortem в pattern signal.
-- **L4** — Тегирует свой постмортем по командной схеме: service, failure category, contributing factors, severity. Не «забыли тег» — без тега postmortem не находится через год.
-- **L4** — Регулярно (например, monthly) reviews recent postmortems команды и фиксирует recurring failure modes; формулирует pattern-level findings, которые шире одного инцидента.
-- **L5** — Проектирует схему тегирования для команды или функции: какие оси, какая granularity, как evolve со временем. Без явного дизайна tagging schema становится inconsistent через 6 месяцев.
-- **L5** — Проводит quarterly database review: какие categories доминируют, какие contributing factors повторяются, где systemic patterns. Это **input для priorities** на следующий период (где инвестировать в reliability).
-- **L5** — Использует database как источник сценариев для [Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/): прошлые инциденты — лучший материал для тренировки команды.
-- **L6+** — Внедряет cross-team postmortem sharing: систематический обмен постмортемами между командами, чтобы lessons learned распространялись шире одного team boundary.
-- **L6+** — Аргументирует **public postmortems** как стандарт для significant incidents: GitLab / Cloudflare / Stripe модель публикации. Ведёт переговоры с legal / PR в спорных случаях.
+**L3**
+- Знает, где живёт postmortem database команды; умеет искать прошлые постмортемы по тегам или симптому. Перед написанием нового постмортема проверяет похожие в архиве.
+- В каждом новом постмортеме явно ссылается на похожие из архива («это четвёртый раз похожий config drift на сервисе X в этом году») — это превращает single-postmortem в pattern signal.
+
+**L4**
+- Тегирует свой постмортем по командной схеме: service, failure category, contributing factors, severity. Не «забыли тег» — без тега postmortem не находится через год.
+- Регулярно (например, monthly) reviews recent postmortems команды и фиксирует recurring failure modes; формулирует pattern-level findings, которые шире одного инцидента.
+
+**L5**
+- Проектирует схему тегирования для команды или функции: какие оси, какая granularity, как evolve со временем. Без явного дизайна tagging schema становится inconsistent через 6 месяцев.
+- Проводит quarterly database review: какие categories доминируют, какие contributing factors повторяются, где systemic patterns. Это **input для priorities** на следующий период (где инвестировать в reliability).
+- Использует database как источник сценариев для [Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/): прошлые инциденты — лучший материал для тренировки команды.
+
+**L6+**
+- Внедряет cross-team postmortem sharing: систематический обмен постмортемами между командами, чтобы lessons learned распространялись шире одного team boundary.
+- Аргументирует **public postmortems** как стандарт для significant incidents: GitLab / Cloudflare / Stripe модель публикации. Ведёт переговоры с legal / PR в спорных случаях.
 
 ## Материалы
 

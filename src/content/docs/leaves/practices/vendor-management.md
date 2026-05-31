@@ -19,14 +19,21 @@ description: Engineering-практика управления зависимо�
 
 Главный навык на уровне L5 — измерять **vendor's contribution to own SLO** через composite math: если vendor SLA — 99.9%, и vendor — критическая зависимость в request path, наш user-facing SLO не может быть выше 99.9% без явной redundancy / fallback / degraded mode. Я регулярно вижу команды, которые декларируют 99.95% SLO, при этом зависят от 3 vendors с 99.9% SLA — арифметика не сходится с самого начала. Это не значит «не использовать vendor»: это значит признать, что без redundancy наш SLO — composite, и формула должна быть явной.
 
-- **L3** — Знает critical vendors своего сервиса (cloud / DNS / CDN / auth / payment / observability / messaging); читает их public status page и historical incidents.
-- **L3** — Подписан на vendor status updates; в incident на vendor — проверяет dashboard через 5 минут, не через час.
-- **L4** — Поддерживает **vendor incident playbook** для критичных vendors: что делать, когда Cloudflare / AWS region / Stripe / Auth0 down. Конкретные steps, не «свяжемся с support».
-- **L4** — Регулярно проверяет vendor SLA против actual uptime: vendor public commitments vs measured performance. Расхождение — input для review.
-- **L5** — Композитный SLO math: какая часть бюджета остаётся под нашу собственную работу после вычитания vendor budget. Без явной арифметики SLO theatre.
-- **L5** — Vendor risk assessment: dependency graph, concentration risk (single vendor handles N critical paths), switching cost, vendor lock-in metrics.
-- **L6+** — Strategic vendor portfolio: multi-cloud / multi-CDN trade-off (cost vs availability vs ops overhead), vendor diversification policy, escape hatch design.
-- **L6+** — Vendor exit planning: что делать, когда vendor acquires / shuts down / radically изменяет pricing. Tested escape path для критичных vendors (не tabletop — реально проверенный).
+**L3**
+- Знает critical vendors своего сервиса (cloud / DNS / CDN / auth / payment / observability / messaging); читает их public status page и historical incidents.
+- Подписан на vendor status updates; в incident на vendor — проверяет dashboard через 5 минут, не через час.
+
+**L4**
+- Поддерживает **vendor incident playbook** для критичных vendors: что делать, когда Cloudflare / AWS region / Stripe / Auth0 down. Конкретные steps, не «свяжемся с support».
+- Регулярно проверяет vendor SLA против actual uptime: vendor public commitments vs measured performance. Расхождение — input для review.
+
+**L5**
+- Композитный SLO math: какая часть бюджета остаётся под нашу собственную работу после вычитания vendor budget. Без явной арифметики SLO theatre.
+- Vendor risk assessment: dependency graph, concentration risk (single vendor handles N critical paths), switching cost, vendor lock-in metrics.
+
+**L6+**
+- Strategic vendor portfolio: multi-cloud / multi-CDN trade-off (cost vs availability vs ops overhead), vendor diversification policy, escape hatch design.
+- Vendor exit planning: что делать, когда vendor acquires / shuts down / radically изменяет pricing. Tested escape path для критичных vendors (не tabletop — реально проверенный).
 
 ## Материалы
 

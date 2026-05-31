@@ -17,16 +17,23 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 
 Главный навык на уровне L5 — **mapping контролов на технические практики**. SOC 2 CC6.1 («logical access controls») — это не «напишем policy документ», это IAM модель + [принцип наименьших привилегий](/The-Way-of-SRE/glossary/#least-privilege) + audit log + access review cadence. PCI-DSS Requirement 8 — это MFA + password policy + session management. Когда compliance трактуется как «техническая работа, которую всё равно нужно делать», audits проходят без героизма. Когда compliance трактуется как «отдельная работа поверх инженерии» — рождается *compliance theater*.
 
-- **L3** — Знает, какие compliance-фреймворки применяются к продукту команды (SOC 2 / PCI-DSS / HIPAA / FedRAMP / GDPR), и понимает, какие части кода/инфраструктуры в scope.
-- **L3** — Понимает разницу regulation (закон, GDPR / HIPAA — обязательны при условии applicable) vs framework (стандарт сертификации, SOC 2 / ISO 27001 / PCI-DSS — добровольны, но требуются клиентами).
-- **L4** — Mapping компонентов системы на конкретные контролы; знает, какой control покрывается каким техническим артефактом (IaC модулем, IAM policy, runbook'ом, дашбордом).
-- **L4** — Автоматизирует evidence collection — снимок IAM state, screenshot patch SLA дашборда, IaC diff history, audit log export — через cron / event-driven hooks в GRC platform, а не вручную перед аудитом.
-- **L4** — Различает SOC 2 Type I (control design в момент аудита) и Type II (operational effectiveness за период 3–12 месяцев); Type II требует доказательств за весь период, что меняет всё в evidence collection.
-- **L5** — Проектирует control framework команды/org — выбор фреймворков по клиентскому спросу, scope definition, control catalogue, ownership matrix (кто ответствен за каждый control), audit cadence.
-- **L5** — Внедряет *compliance-as-code* — policy через OPA / Sentinel / Cloud Custodian, automated drift detection, continuous control testing. «Контроль зелёный» = «automated check прошёл в последние 24 часа», не «policy документ написан год назад».
-- **L5** — Координирует с external auditors — scoping, evidence requests, walkthroughs, finding remediation. Понимает, что auditor может принять *compensating control* (альтернативу) — это переговоры, не команда сверху.
-- **L6+** — Дизайнит strategy на уровне org: какие certifications нужны (SOC 2 Type II baseline + ISO 27001 если EU enterprise + HITRUST если healthcare), inheritance модель (parent org аудит покрывает subsidiary), budget audit вендоров vs внутреннее content, board reporting.
-- **L6+** — Использует compliance как leverage для приоритизации security investment, который без external pressure не получает support — «PCI-DSS требует, иначе теряем merchant agreement» работает лучше, чем «это правильная security practice».
+**L3**
+- Знает, какие compliance-фреймворки применяются к продукту команды (SOC 2 / PCI-DSS / HIPAA / FedRAMP / GDPR), и понимает, какие части кода/инфраструктуры в scope.
+- Понимает разницу regulation (закон, GDPR / HIPAA — обязательны при условии applicable) vs framework (стандарт сертификации, SOC 2 / ISO 27001 / PCI-DSS — добровольны, но требуются клиентами).
+
+**L4**
+- Mapping компонентов системы на конкретные контролы; знает, какой control покрывается каким техническим артефактом (IaC модулем, IAM policy, runbook'ом, дашбордом).
+- Автоматизирует evidence collection — снимок IAM state, screenshot patch SLA дашборда, IaC diff history, audit log export — через cron / event-driven hooks в GRC platform, а не вручную перед аудитом.
+- Различает SOC 2 Type I (control design в момент аудита) и Type II (operational effectiveness за период 3–12 месяцев); Type II требует доказательств за весь период, что меняет всё в evidence collection.
+
+**L5**
+- Проектирует control framework команды/org — выбор фреймворков по клиентскому спросу, scope definition, control catalogue, ownership matrix (кто ответствен за каждый control), audit cadence.
+- Внедряет *compliance-as-code* — policy через OPA / Sentinel / Cloud Custodian, automated drift detection, continuous control testing. «Контроль зелёный» = «automated check прошёл в последние 24 часа», не «policy документ написан год назад».
+- Координирует с external auditors — scoping, evidence requests, walkthroughs, finding remediation. Понимает, что auditor может принять *compensating control* (альтернативу) — это переговоры, не команда сверху.
+
+**L6+**
+- Дизайнит strategy на уровне org: какие certifications нужны (SOC 2 Type II baseline + ISO 27001 если EU enterprise + HITRUST если healthcare), inheritance модель (parent org аудит покрывает subsidiary), budget audit вендоров vs внутреннее content, board reporting.
+- Использует compliance как leverage для приоритизации security investment, который без external pressure не получает support — «PCI-DSS требует, иначе теряем merchant agreement» работает лучше, чем «это правильная security practice».
 
 ## Материалы
 

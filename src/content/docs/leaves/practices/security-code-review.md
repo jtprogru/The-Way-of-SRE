@@ -17,14 +17,21 @@ description: Проверка собственного кода на security-д
 
 Главный навык на уровне L4 — отличать **security finding от стилистического nitpick** и проверять то, что SAST принципиально не видит. Pattern-matching хорошо ловит конкатенацию SQL-строк или захардкоженный ключ, но broken access control — уязвимость №1 в [OWASP Top 10](/The-Way-of-SRE/glossary/#owasp-top-10) — это **логика**: «на этом endpoint проверяется, что пользователь владеет ресурсом, или любой авторизованный может прочитать чужой объект по id?». Такое находит человек, который читает код с вопросом «как это сломать», а не сканер. Я регулярно вижу команды, которые поставили SAST и считают security review закрытым — automated tooling это пол-дела, вторая половина в голове ревьюера.
 
-- **L3** — Знает категории [OWASP Top 10](/The-Way-of-SRE/glossary/#owasp-top-10) (injection, broken access control, insecure design, ...); находит очевидные дефекты в собственном PR — захардкоженный секрет, конкатенация SQL, отсутствующая проверка авторизации, небезопасная десериализация.
-- **L3** — Запускает SAST и secret scanning локально перед push: pre-commit hook (`gitleaks` / `detect-secrets`) + language-линтер (`gosec` / `bandit` / `eslint-plugin-security`).
-- **L4** — Проводит security-focused review чужого PR: input validation, авторизация на **каждом** endpoint, output encoding, корректное использование crypto (не самописное), управление секретами. Отличает finding от nitpick.
-- **L4** — Встраивает SAST (Semgrep / CodeQL / gosec) + SCA (govulncheck / Snyk / Dependabot) + secret scanning в CI как **gate**, а не advisory; тюнит правила, чтобы срезать false positives до уровня, при котором гейту доверяют.
-- **L5** — Проектирует процесс review для команды: когда security review **обязателен** (risk-based — auth / crypto / payment / PII-код), как назначается security-ревьюер, secure-coding guideline, security-критерии в definition of done.
-- **L5** — Пишет и поддерживает custom SAST-правила (Semgrep registry) под org-specific анти-паттерны; снижает false-positive fatigue, из-за которого гейты начинают игнорировать.
-- **L6+** — Внедряет secure SDLC: threat model → secure coding standard → SAST/SCA gates → security review → pen test; запускает security champions program, чтобы security-экспертиза не была бутылочным горлышком из одной команды.
-- **L6+** — Балансирует velocity против gating; ведёт метрики (escaped vulnerabilities, MTTR на review-найденное, покрытие risk-классов) и принимает решения, где гейт hard-fail, а где warning.
+**L3**
+- Знает категории [OWASP Top 10](/The-Way-of-SRE/glossary/#owasp-top-10) (injection, broken access control, insecure design, ...); находит очевидные дефекты в собственном PR — захардкоженный секрет, конкатенация SQL, отсутствующая проверка авторизации, небезопасная десериализация.
+- Запускает SAST и secret scanning локально перед push: pre-commit hook (`gitleaks` / `detect-secrets`) + language-линтер (`gosec` / `bandit` / `eslint-plugin-security`).
+
+**L4**
+- Проводит security-focused review чужого PR: input validation, авторизация на **каждом** endpoint, output encoding, корректное использование crypto (не самописное), управление секретами. Отличает finding от nitpick.
+- Встраивает SAST (Semgrep / CodeQL / gosec) + SCA (govulncheck / Snyk / Dependabot) + secret scanning в CI как **gate**, а не advisory; тюнит правила, чтобы срезать false positives до уровня, при котором гейту доверяют.
+
+**L5**
+- Проектирует процесс review для команды: когда security review **обязателен** (risk-based — auth / crypto / payment / PII-код), как назначается security-ревьюер, secure-coding guideline, security-критерии в definition of done.
+- Пишет и поддерживает custom SAST-правила (Semgrep registry) под org-specific анти-паттерны; снижает false-positive fatigue, из-за которого гейты начинают игнорировать.
+
+**L6+**
+- Внедряет secure SDLC: threat model → secure coding standard → SAST/SCA gates → security review → pen test; запускает security champions program, чтобы security-экспертиза не была бутылочным горлышком из одной команды.
+- Балансирует velocity против gating; ведёт метрики (escaped vulnerabilities, MTTR на review-найденное, покрытие risk-классов) и принимает решения, где гейт hard-fail, а где warning.
 
 ## Материалы
 

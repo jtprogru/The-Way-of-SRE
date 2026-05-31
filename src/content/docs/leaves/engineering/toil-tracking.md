@@ -17,15 +17,22 @@ description: Обнаружение, классификация и измере�
 
 Главный навык на уровне L5 — поддерживать **toil budget команды** в реальности, а не на бумаге. Google SRE convention — ≤ 50% на инженера; на практике в командах, которые я наблюдаю, это либо игнорируется (80%+ toil как норма), либо превращается в KPI без обратной связи. Toil budget работает, только когда over budget автоматически означает приоритизацию автоматизации **выше** feature work — иначе это просто число.
 
-- **L3** — Понимает каноническое определение toil (5 критериев); различает toil и project work, не сваливает всё «нелюбимое» в toil.
-- **L3** — Фиксирует свой toil еженедельно (что / сколько времени / категория); делает это **в момент** работы, не «вспомню в пятницу».
-- **L4** — Проводит inventory toil команды: список повторяющихся операционных задач, кто их делает, как часто, средняя продолжительность; формирует baseline.
-- **L4** — Классифицирует toil по канонической таксономии: alert response, deploy operations, capacity events, account management, build/release noise, fire-fighting context-switch.
-- **L5** — Устанавливает team toil tracking как ritual: cadence, простой tool (spreadsheet / form / Slack-bot), агрегация в дашборд; baseline за квартал минимум.
-- **L5** — Использует toil data для приоритизации автоматизации: highest volume × frequency × annoyance — что устранить первым.
-- **L5** — Устанавливает toil budget команды: соглашение на максимальный % времени на toil на инженера (Google SRE convention ≤ 50%); over budget → автоматизация приоритетнее features.
-- **L6+** — Внедряет внутренние toil dashboards: aggregated метрики по сервисам / командам для org-level pattern detection.
-- **L6+** — Связывает toil с capacity planning и hiring: высокий и растущий toil → либо автоматизировать, либо нанимать; **toil — это hidden capacity ceiling**.
+**L3**
+- Понимает каноническое определение toil (5 критериев); различает toil и project work, не сваливает всё «нелюбимое» в toil.
+- Фиксирует свой toil еженедельно (что / сколько времени / категория); делает это **в момент** работы, не «вспомню в пятницу».
+
+**L4**
+- Проводит inventory toil команды: список повторяющихся операционных задач, кто их делает, как часто, средняя продолжительность; формирует baseline.
+- Классифицирует toil по канонической таксономии: alert response, deploy operations, capacity events, account management, build/release noise, fire-fighting context-switch.
+
+**L5**
+- Устанавливает team toil tracking как ritual: cadence, простой tool (spreadsheet / form / Slack-bot), агрегация в дашборд; baseline за квартал минимум.
+- Использует toil data для приоритизации автоматизации: highest volume × frequency × annoyance — что устранить первым.
+- Устанавливает toil budget команды: соглашение на максимальный % времени на toil на инженера (Google SRE convention ≤ 50%); over budget → автоматизация приоритетнее features.
+
+**L6+**
+- Внедряет внутренние toil dashboards: aggregated метрики по сервисам / командам для org-level pattern detection.
+- Связывает toil с capacity planning и hiring: высокий и растущий toil → либо автоматизировать, либо нанимать; **toil — это hidden capacity ceiling**.
 
 ## Материалы
 

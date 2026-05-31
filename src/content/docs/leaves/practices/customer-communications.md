@@ -17,15 +17,22 @@ description: Внешняя коммуникация во время инцид�
 
 Главный навык на уровне L4 — выдерживать **sitrep cadence как обещание**, даже когда «нечего сказать». Клиенты видят молчание как «они растеряны / не работают над проблемой». Update вида «в 14:30 — статус: расследуем; пробовали X (не помогло); сейчас проверяем Y; следующее сообщение в 15:00» — это валидное сообщение, и оно строит trust лучше, чем 20-минутное молчание с последующим «всё починили».
 
-- **L3** — Знает channel/audience матрицу команды — какие incidents идут на public statuspage, какие на internal Slack, какие на email customer success.
-- **L3** — Знает базовые правила тона: honest без alarm; acknowledge impact; what we know; what we don't know; ETA только при ≥80% уверенности.
-- **L4** — Ведёт customer comms во время incident в роли Comms Lead — sitrep cadence ≤30 минут при SEV0+ active, обновления статусов `investigating / identified / monitoring / resolved` в правильном lifecycle.
-- **L4** — Координирует с customer success и sales — уведомление key accounts, шаблоны «что говорить клиенту, который звонит», сегментированные уведомления (только affected клиенты).
-- **L5** — Проектирует severity → communications matrix для команды — какой SEV → какие channels (statuspage / email / in-app banner / executive notify / regulators); cadence per severity; templates per комбинация, ревьюнутые legal / customer success.
-- **L5** — Делает regulatory communications — GDPR 72h breach notification (стартовый таймер с discovery, не подтверждения), SEC 8-K material event disclosure (4 business days), HIPAA Breach Notification Rule.
-- **L5** — Использует statuspage стратегически — subscriber management, uptime history transparency trade-off, localization для international клиентской базы.
-- **L6+** — Проектирует org-level customer comms framework — coordination с регуляторами через legal/CISO, board-level reporting threshold, post-mortem публикация как deliberate trust-building.
-- **L6+** — Принимает strategic comms decisions — когда incident `public vs private`, pre-emptive comms до confirmed impact, post-incident «what we learned» публикация как часть бренда.
+**L3**
+- Знает channel/audience матрицу команды — какие incidents идут на public statuspage, какие на internal Slack, какие на email customer success.
+- Знает базовые правила тона: honest без alarm; acknowledge impact; what we know; what we don't know; ETA только при ≥80% уверенности.
+
+**L4**
+- Ведёт customer comms во время incident в роли Comms Lead — sitrep cadence ≤30 минут при SEV0+ active, обновления статусов `investigating / identified / monitoring / resolved` в правильном lifecycle.
+- Координирует с customer success и sales — уведомление key accounts, шаблоны «что говорить клиенту, который звонит», сегментированные уведомления (только affected клиенты).
+
+**L5**
+- Проектирует severity → communications matrix для команды — какой SEV → какие channels (statuspage / email / in-app banner / executive notify / regulators); cadence per severity; templates per комбинация, ревьюнутые legal / customer success.
+- Делает regulatory communications — GDPR 72h breach notification (стартовый таймер с discovery, не подтверждения), SEC 8-K material event disclosure (4 business days), HIPAA Breach Notification Rule.
+- Использует statuspage стратегически — subscriber management, uptime history transparency trade-off, localization для international клиентской базы.
+
+**L6+**
+- Проектирует org-level customer comms framework — coordination с регуляторами через legal/CISO, board-level reporting threshold, post-mortem публикация как deliberate trust-building.
+- Принимает strategic comms decisions — когда incident `public vs private`, pre-emptive comms до confirmed impact, post-incident «what we learned» публикация как часть бренда.
 
 ## Материалы
 

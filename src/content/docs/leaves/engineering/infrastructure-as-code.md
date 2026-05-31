@@ -17,16 +17,23 @@ description: Production-инфраструктура как версиониру
 
 Главный навык на уровне L5 — управление **state**. Я регулярно вижу инциденты, начинающиеся с corrupted state file: два параллельных `terraform apply` без locking, локальный state в git, потерянный backend config. Remote state с locking — это не «удобно», это пре-условие безопасной работы с IaC. Если в вашей команде state в локальном файле — это не «пока работает», это таймер до инцидента.
 
-- **L3** — Понимает разницу declarative vs imperative IaC; читает чужой Terraform / Helm / Kustomize код и понимает, какой ресурс создаётся.
-- **L3** — Применяет изменения через CI pipeline (`terraform plan` → review → `apply`); не редактирует state руками, не делает изменений через cloud UI «по-быстрому».
-- **L4** — Пишет module / chart для нового ресурса или сервиса: переменные, outputs, README с примером использования, semantic versioning.
-- **L4** — Управляет remote state: backend config (S3 + DynamoDB, GCS + Cloud Storage, Terraform Cloud), state locking, разделение state по environment.
-- **L4** — Использует Helm charts / Kustomize для k8s манифестов; понимает разницу (Helm = template + values, Kustomize = patches без шаблонов) и когда какой.
-- **L5** — Проектирует структуру IaC repo: per-env directory vs workspace, DRY через модули, секреты через Vault / Secrets Manager / Sealed Secrets с reference в коде.
-- **L5** — Внедряет drift detection (regular `terraform plan` на main, alerts на изменения вне pipeline); рассматривает click-ops в проде как операционный инцидент.
-- **L5** — Реализует policy-as-code (OPA / Conftest / Sentinel) в pipeline: compliance / security checks (S3 bucket без public access, IAM role без `*:*` permissions) автоматически блокируют PR.
-- **L6+** — Дизайнит IaC strategy для org: выбор tooling, структура repos (mono vs multi), workflow (CI-based vs GitOps), интеграция со service catalog.
-- **L6+** — Балансирует blast radius IaC-изменений: критические (IAM, network policies, DNS, prod DB) — больше gate и явный pre-apply review; routine — auto-merge при passing checks.
+**L3**
+- Понимает разницу declarative vs imperative IaC; читает чужой Terraform / Helm / Kustomize код и понимает, какой ресурс создаётся.
+- Применяет изменения через CI pipeline (`terraform plan` → review → `apply`); не редактирует state руками, не делает изменений через cloud UI «по-быстрому».
+
+**L4**
+- Пишет module / chart для нового ресурса или сервиса: переменные, outputs, README с примером использования, semantic versioning.
+- Управляет remote state: backend config (S3 + DynamoDB, GCS + Cloud Storage, Terraform Cloud), state locking, разделение state по environment.
+- Использует Helm charts / Kustomize для k8s манифестов; понимает разницу (Helm = template + values, Kustomize = patches без шаблонов) и когда какой.
+
+**L5**
+- Проектирует структуру IaC repo: per-env directory vs workspace, DRY через модули, секреты через Vault / Secrets Manager / Sealed Secrets с reference в коде.
+- Внедряет drift detection (regular `terraform plan` на main, alerts на изменения вне pipeline); рассматривает click-ops в проде как операционный инцидент.
+- Реализует policy-as-code (OPA / Conftest / Sentinel) в pipeline: compliance / security checks (S3 bucket без public access, IAM role без `*:*` permissions) автоматически блокируют PR.
+
+**L6+**
+- Дизайнит IaC strategy для org: выбор tooling, структура repos (mono vs multi), workflow (CI-based vs GitOps), интеграция со service catalog.
+- Балансирует blast radius IaC-изменений: критические (IAM, network policies, DNS, prod DB) — больше gate и явный pre-apply review; routine — auto-merge при passing checks.
 
 ## Материалы
 

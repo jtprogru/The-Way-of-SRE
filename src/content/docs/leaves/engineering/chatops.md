@@ -17,15 +17,22 @@ ChatOps как термин ввёл GitHub около 2011, выпустив [H
 
 Главный навык на уровне L5 — **проектирование bot-permission model** под конкретный threat profile. Bot — это identity с правами доступа в production-системы; неосторожный design = новая critical surface. Read-only by default, opt-in destructive actions с явным confirmation, разные bot identities под разные scopes (один super-bot со всеми permissions — анти-паттерн), интеграция с central IAM (см. [Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/)). Я регулярно вижу команды, которые делают bot с admin-доступом «для удобства», и через год не понимают, кто его действия аудитит.
 
-- **L3** — Понимает три уровня ChatOps: **push** (bot сам шлёт информацию — alerts, CI-статусы, deploys), **pull** (bot отвечает на query — `/status service-x`), **action** (bot выполняет операцию — `/deploy v2.3.4`, `/incident declare SEV1`).
-- **L3** — Использует существующие ChatOps-интеграции своей команды (incident.io / PagerDuty Slack / Dispatch); знает базовые команды для declare-incident / page-on-call / start-war-room.
-- **L4** — Пишет простые bots для push-уведомлений — CI-status, deploy completion, alert-routing. Уровень: composite GitHub Action ([notiflow](https://github.com/jtprogru/notiflow)) или standalone bot ([owl_clerk_bot](https://github.com/jtprogru/owl_clerk_bot)).
-- **L4** — Внедряет pull-queries через bot — статус сервиса, последний deploy, on-call дежурный. Bot как UX-обёртка над существующими API; добавленная ценность — accessibility, не функция.
-- **L5** — Проектирует action-команды через bot грамотно — explicit confirmation для destructive operations, dry-run по умолчанию, automatic post в audit channel.
-- **L5** — Интегрирует bot identity с центральной IAM — bot не должен иметь permissions, которых нет у requester'а; используется делегирование (bot выполняет action *от имени* пользователя, проверяет права пользователя против central IAM).
-- **L5** — Различает chat-as-incident-channel и chat-as-control-plane — в incident важна communication и audit, в control-plane важна safety и authorization. Один канал для обоих — путь к путанице.
-- **L6+** — Дизайнит ChatOps strategy на уровне org: build vs buy для incident-platform, bot ownership model (платформенная team vs federated), integration с existing toolchain.
-- **L6+** — Принимает trade-off решения — ChatOps depth vs maintaining custom bot framework; миграция между chat-платформами (Slack ↔ Teams ↔ Mattermost) и lock-in implications.
+**L3**
+- Понимает три уровня ChatOps: **push** (bot сам шлёт информацию — alerts, CI-статусы, deploys), **pull** (bot отвечает на query — `/status service-x`), **action** (bot выполняет операцию — `/deploy v2.3.4`, `/incident declare SEV1`).
+- Использует существующие ChatOps-интеграции своей команды (incident.io / PagerDuty Slack / Dispatch); знает базовые команды для declare-incident / page-on-call / start-war-room.
+
+**L4**
+- Пишет простые bots для push-уведомлений — CI-status, deploy completion, alert-routing. Уровень: composite GitHub Action ([notiflow](https://github.com/jtprogru/notiflow)) или standalone bot ([owl_clerk_bot](https://github.com/jtprogru/owl_clerk_bot)).
+- Внедряет pull-queries через bot — статус сервиса, последний deploy, on-call дежурный. Bot как UX-обёртка над существующими API; добавленная ценность — accessibility, не функция.
+
+**L5**
+- Проектирует action-команды через bot грамотно — explicit confirmation для destructive operations, dry-run по умолчанию, automatic post в audit channel.
+- Интегрирует bot identity с центральной IAM — bot не должен иметь permissions, которых нет у requester'а; используется делегирование (bot выполняет action *от имени* пользователя, проверяет права пользователя против central IAM).
+- Различает chat-as-incident-channel и chat-as-control-plane — в incident важна communication и audit, в control-plane важна safety и authorization. Один канал для обоих — путь к путанице.
+
+**L6+**
+- Дизайнит ChatOps strategy на уровне org: build vs buy для incident-platform, bot ownership model (платформенная team vs federated), integration с existing toolchain.
+- Принимает trade-off решения — ChatOps depth vs maintaining custom bot framework; миграция между chat-платформами (Slack ↔ Teams ↔ Mattermost) и lock-in implications.
 
 ## Материалы
 

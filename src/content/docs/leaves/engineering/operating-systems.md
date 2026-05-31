@@ -19,17 +19,24 @@ description: OS как SRE-инструмент — namespaces, cgroups, syscall
 
 Главный навык на уровне L4 — читать **`/proc`** как реальный source of truth для процесса: `/proc/[pid]/status`, `/proc/[pid]/maps`, `/proc/[pid]/limits`, `/proc/[pid]/fd/`. По моим наблюдениям, разница между debug'ом «процесс жив, но что-то с ним» — это разница между «знаю, что в /proc лежит» и «использую только `top` / `ps`». В incident под высоким стрессом первый прыгает в /proc сразу, второй стучится в kubernetes UI. Один день на reading `proc(5)` manpage и Reading the Linux Kernel — заметная разница для всех будущих on-call смен.
 
-- **L3** — Понимает processes / threads / fork / exec; разбирается в exit codes, signals (SIGKILL vs SIGTERM); читает `ps`, `top`, `htop`, `pgrep`, `kill`.
-- **L3** — Знает базовые file system concepts: inode, hard link vs symlink, mount points, basic permissions (`chmod`, `chown`); читает `df`, `du`, `lsof`.
-- **L4** — Различает **virtual memory vs RSS vs working set**; знает, что show `top` (`VIRT` / `RES` / `SHR`) и почему `free` показывает «used» иначе, чем интуиция. Понимает page cache и почему «high used memory» — обычно норма.
-- **L4** — Использует **`strace`** для syscall debugging: `strace -f -e trace=network nginx`, `strace -p PID`. Понимает overhead и применяет осторожно в prod.
-- **L4** — Понимает **namespaces и cgroups**: что Docker / k8s container — это процесс с собственным mount/network/pid namespace и cgroup limits, а не VM. Знает, как читать `/proc/[pid]/cgroup`, `/sys/fs/cgroup/`.
-- **L4** — Различает signals: `SIGTERM` (graceful), `SIGKILL` (kernel kill), `SIGSEGV` (programming bug); знает, что OOM-killer выбирает victim и как читать `dmesg` для post-mortem.
-- **L5** — Применяет **eBPF / bpftrace** для production observability: `execsnoop`, `tcplife`, `runqlat`, `biolatency`. Понимает, что eBPF не magic — это compiled bytecode in kernel sandbox.
-- **L5** — Знает kernel scheduling basics: CFS, run queue, scheduler latency, NUMA affinity, hyper-threading effects.
-- **L5** — Debug containers без `docker exec`: `nsenter` в pid/net namespace, `cat /proc/[container-pid]/...`, attach к stuck container через kernel-level tools.
-- **L6+** — Tuning производственного OS: sysctl baseline (`net.core.somaxconn`, `vm.swappiness`, `fs.file-max`), kernel parameter rationale, аудит изменений после OS upgrades.
-- **L6+** — Реагирует на новые kernel CVE / features со знанием контекста: Spectre / Meltdown / Dirty Pipe (CVE-2022-0847), io_uring evolution, eBPF security model.
+**L3**
+- Понимает processes / threads / fork / exec; разбирается в exit codes, signals (SIGKILL vs SIGTERM); читает `ps`, `top`, `htop`, `pgrep`, `kill`.
+- Знает базовые file system concepts: inode, hard link vs symlink, mount points, basic permissions (`chmod`, `chown`); читает `df`, `du`, `lsof`.
+
+**L4**
+- Различает **virtual memory vs RSS vs working set**; знает, что show `top` (`VIRT` / `RES` / `SHR`) и почему `free` показывает «used» иначе, чем интуиция. Понимает page cache и почему «high used memory» — обычно норма.
+- Использует **`strace`** для syscall debugging: `strace -f -e trace=network nginx`, `strace -p PID`. Понимает overhead и применяет осторожно в prod.
+- Понимает **namespaces и cgroups**: что Docker / k8s container — это процесс с собственным mount/network/pid namespace и cgroup limits, а не VM. Знает, как читать `/proc/[pid]/cgroup`, `/sys/fs/cgroup/`.
+- Различает signals: `SIGTERM` (graceful), `SIGKILL` (kernel kill), `SIGSEGV` (programming bug); знает, что OOM-killer выбирает victim и как читать `dmesg` для post-mortem.
+
+**L5**
+- Применяет **eBPF / bpftrace** для production observability: `execsnoop`, `tcplife`, `runqlat`, `biolatency`. Понимает, что eBPF не magic — это compiled bytecode in kernel sandbox.
+- Знает kernel scheduling basics: CFS, run queue, scheduler latency, NUMA affinity, hyper-threading effects.
+- Debug containers без `docker exec`: `nsenter` в pid/net namespace, `cat /proc/[container-pid]/...`, attach к stuck container через kernel-level tools.
+
+**L6+**
+- Tuning производственного OS: sysctl baseline (`net.core.somaxconn`, `vm.swappiness`, `fs.file-max`), kernel parameter rationale, аудит изменений после OS upgrades.
+- Реагирует на новые kernel CVE / features со знанием контекста: Spectre / Meltdown / Dirty Pipe (CVE-2022-0847), io_uring evolution, eBPF security model.
 
 ## Материалы
 

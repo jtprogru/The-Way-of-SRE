@@ -19,16 +19,23 @@ description: Композиция unix-tools как инструмент SRE —
 
 Главный навык на уровне L4 — знать **где shell кончается, а где начинается язык**. Я регулярно вижу обе крайности: одни пишут 200-строчные bash-monsters с `function`, `getopts`, `trap` (это уже Python с худшим синтаксисом — лучше переписать), другие тянут Python для одностроки `awk '{sum += $1} END {print sum}'` (overkill). Правило, которое работает на практике: если в скрипте появляется три или больше команд `if`, или сложная структура данных, или нетривиальные ошибки, — это уже не shell. Если задача — «прогнать поток через 4 трансформации» — это shell, и любой Python будет проигрывать.
 
-- **L3** — Свободно использует базовый набор: `grep` (с `-r`, `-E`, `-l`, `-c`), `find`, `sort`, `uniq`, `wc`, `head/tail`, `cut`, `tr`, `xargs`. Пишет однострочные pipelines для ad-hoc анализа без выхода в редактор.
-- **L3** — Знает разницу между `'single'` и `"double"` quoting; не цитирует переменные через `$var`, а через `"$var"` (или `"${var}"`); проверяет результат через ShellCheck.
-- **L4** — Бегло пишет `awk` для пост-обработки колоночных данных (одно из самых underused tools в индустрии); читает `sed` без открытия документации для простых замен.
-- **L4** — Использует `jq` для JSON (де-факто стандарт в API-driven debugging); понимает `--arg`, `select()`, `map()`, `to_entries`.
-- **L4** — Пишет on-call shell scripts с минимальной hygiene: `set -euo pipefail`, `trap` для cleanup, явный exit codes, явная error messages в `stderr` (`>&2`).
-- **L5** — Различает interactive shell (короткие команды, alias'ы, history) и scripting shell (defensive style); не путает стиль одного с другим. Pipefail / nounset / errexit — defaults для scripts, не для terminal.
-- **L5** — Знает modern alternatives и осознанно выбирает: `rg` (ripgrep) вместо `grep -r`, `fd` вместо `find`, `bat` вместо `cat` для интерактивного просмотра, `duf` вместо `df`. Понимает, когда modern tool оправдан, а когда POSIX-портабельность важнее.
-- **L5** — Применяет `xargs -P` для параллелизации; `parallel` для более сложных случаев; понимает, когда concurrency в shell ломает мысль и пора уходить в полноценный язык.
-- **L6+** — Выстраивает team-level shell discipline: pinned tool versions в CI / devcontainer, shared profile / aliases, shellcheck в CI, naming convention для on-call scripts.
-- **L6+** — Стратегически: какие задачи в org-shell library (shared bin/, terraform exec scripts, monitoring-pull scripts) — а какие настало время мигрировать в полноценный сервис.
+**L3**
+- Свободно использует базовый набор: `grep` (с `-r`, `-E`, `-l`, `-c`), `find`, `sort`, `uniq`, `wc`, `head/tail`, `cut`, `tr`, `xargs`. Пишет однострочные pipelines для ad-hoc анализа без выхода в редактор.
+- Знает разницу между `'single'` и `"double"` quoting; не цитирует переменные через `$var`, а через `"$var"` (или `"${var}"`); проверяет результат через ShellCheck.
+
+**L4**
+- Бегло пишет `awk` для пост-обработки колоночных данных (одно из самых underused tools в индустрии); читает `sed` без открытия документации для простых замен.
+- Использует `jq` для JSON (де-факто стандарт в API-driven debugging); понимает `--arg`, `select()`, `map()`, `to_entries`.
+- Пишет on-call shell scripts с минимальной hygiene: `set -euo pipefail`, `trap` для cleanup, явный exit codes, явная error messages в `stderr` (`>&2`).
+
+**L5**
+- Различает interactive shell (короткие команды, alias'ы, history) и scripting shell (defensive style); не путает стиль одного с другим. Pipefail / nounset / errexit — defaults для scripts, не для terminal.
+- Знает modern alternatives и осознанно выбирает: `rg` (ripgrep) вместо `grep -r`, `fd` вместо `find`, `bat` вместо `cat` для интерактивного просмотра, `duf` вместо `df`. Понимает, когда modern tool оправдан, а когда POSIX-портабельность важнее.
+- Применяет `xargs -P` для параллелизации; `parallel` для более сложных случаев; понимает, когда concurrency в shell ломает мысль и пора уходить в полноценный язык.
+
+**L6+**
+- Выстраивает team-level shell discipline: pinned tool versions в CI / devcontainer, shared profile / aliases, shellcheck в CI, naming convention для on-call scripts.
+- Стратегически: какие задачи в org-shell library (shared bin/, terraform exec scripts, monitoring-pull scripts) — а какие настало время мигрировать в полноценный сервис.
 
 ## Материалы
 

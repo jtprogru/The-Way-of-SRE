@@ -17,15 +17,22 @@ description: Координация реагирования на инциден
 
 Главный навык на уровне L5 — балансировать **mitigation vs investigation** во время инцидента. На 40-й минуте сервис всё ещё лежит, потому что команда копает в код, ищет причину — а цель в моменте вернуть сервис: rollback, failover, graceful degradation, scale out, traffic redirect. Разбор причин — после, в постмортеме. Сначала пациент стабилизирован, потом диагноз. Я регулярно вижу IC, которые позволяют команде уйти в investigation — это путь к 2-часовому MTTR.
 
-- **L3** — Понимает базовые роли (IC, Comms Lead, Ops Lead); знает, кому пинговать в инциденте; зовёт IC при неясности.
-- **L3** — Следует runbook для типового сценария; фиксирует свои действия в incident log с timestamp; эскалирует, если шаги не работают.
-- **L4** — Выступает Operations Lead в малых инцидентах: ведёт диагностику, применяет mitigation, координирует с командой; знает rollback procedure для своих сервисов.
-- **L4** — Ведёт incident log как narrative: что произошло, что попробовали, что сработало; этот лог становится основой timeline для постмортема.
-- **L5** — Выступает Incident Commander: координирует действия команды, делает sync-апдейты каждые 15–30 минут, принимает решения о rollback / эскалации / привлечении дополнительных людей.
-- **L5** — Балансирует mitigation vs investigation: понимает, когда достаточно временного fix (вернуть сервис → постмортем), а когда нужно копать сразу.
-- **L5** — Проводит structured handoff между сменами в multi-shift инцидентах: краткое summary, текущие активные действия, неясности.
-- **L6+** — Внедряет incident response process в команде/организации: формализованные роли, шаблоны коммуникации, training (game day, wheel of misfortune), severity-based response.
-- **L6+** — Связывает incident response с org-level: customer communications policy, regulatory disclosure, executive escalation; защищает blameless-tone в high-pressure инцидентах.
+**L3**
+- Понимает базовые роли (IC, Comms Lead, Ops Lead); знает, кому пинговать в инциденте; зовёт IC при неясности.
+- Следует runbook для типового сценария; фиксирует свои действия в incident log с timestamp; эскалирует, если шаги не работают.
+
+**L4**
+- Выступает Operations Lead в малых инцидентах: ведёт диагностику, применяет mitigation, координирует с командой; знает rollback procedure для своих сервисов.
+- Ведёт incident log как narrative: что произошло, что попробовали, что сработало; этот лог становится основой timeline для постмортема.
+
+**L5**
+- Выступает Incident Commander: координирует действия команды, делает sync-апдейты каждые 15–30 минут, принимает решения о rollback / эскалации / привлечении дополнительных людей.
+- Балансирует mitigation vs investigation: понимает, когда достаточно временного fix (вернуть сервис → постмортем), а когда нужно копать сразу.
+- Проводит structured handoff между сменами в multi-shift инцидентах: краткое summary, текущие активные действия, неясности.
+
+**L6+**
+- Внедряет incident response process в команде/организации: формализованные роли, шаблоны коммуникации, training (game day, wheel of misfortune), severity-based response.
+- Связывает incident response с org-level: customer communications policy, regulatory disclosure, executive escalation; защищает blameless-tone в high-pressure инцидентах.
 
 ## Материалы
 

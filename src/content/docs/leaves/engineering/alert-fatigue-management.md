@@ -17,15 +17,22 @@ description: Систематическое снижение alert fatigue — a
 
 Главный навык на уровне L4 — **измерять качество алертов**, не «у нас вроде нормально». Actionable rate (% pages с реальным действием), alerts/week, time-to-ack p50/p99, MTTR per alert type — это базовый набор. Без чисел невозможно установить target, увидеть ухудшение, объяснить менеджменту, почему нужно инвестировать в alert hygiene.
 
-- **L3** — Различает actionable alert (требует немедленного действия) и informational; знает, что noisy on-call смена — операционная проблема, не норма.
-- **L3** — После своей смены отчитывается о quality: какие alerts были actionable, какие false-positive, какие требовали ненужную escalation.
-- **L4** — Измеряет alert quality для своего сервиса: alerts/week, **actionable rate**, time-to-ack p50/p99, MTTR per alert type.
-- **L4** — Удаляет / молчит alerts без runbook или повторяющиеся false-positive (с явным owner и дедлайном «либо исправлен root cause, либо удалён»).
-- **L5** — Проектирует team-level alert review ritual: еженедельно или раз в две недели, что обсуждается, какие решения принимаются; ritual интегрирован с SLO Review и постмортемами.
-- **L5** — Реализует Alertmanager-уровень шумоподавление: `group_by` для batch'инга, `inhibition` rules (если упал A, не пейджи об B/C/D зависимостях), silencing для known issues с TTL.
-- **L5** — Связывает повторяющиеся alerts с auto-remediation: где alert срабатывает регулярно и runbook известный — кандидат на automation.
-- **L6+** — Внедряет org-level alert hygiene: cross-team метрики (alerts per oncaller, fatigue index, churn correlation), SLO для самого алертинга («≥ 95% pages actionable»).
-- **L6+** — Балансирует sensitivity vs noise: при каких условиях допустима меньшая sensitivity vs обязательная high sensitivity (payment-critical).
+**L3**
+- Различает actionable alert (требует немедленного действия) и informational; знает, что noisy on-call смена — операционная проблема, не норма.
+- После своей смены отчитывается о quality: какие alerts были actionable, какие false-positive, какие требовали ненужную escalation.
+
+**L4**
+- Измеряет alert quality для своего сервиса: alerts/week, **actionable rate**, time-to-ack p50/p99, MTTR per alert type.
+- Удаляет / молчит alerts без runbook или повторяющиеся false-positive (с явным owner и дедлайном «либо исправлен root cause, либо удалён»).
+
+**L5**
+- Проектирует team-level alert review ritual: еженедельно или раз в две недели, что обсуждается, какие решения принимаются; ritual интегрирован с SLO Review и постмортемами.
+- Реализует Alertmanager-уровень шумоподавление: `group_by` для batch'инга, `inhibition` rules (если упал A, не пейджи об B/C/D зависимостях), silencing для known issues с TTL.
+- Связывает повторяющиеся alerts с auto-remediation: где alert срабатывает регулярно и runbook известный — кандидат на automation.
+
+**L6+**
+- Внедряет org-level alert hygiene: cross-team метрики (alerts per oncaller, fatigue index, churn correlation), SLO для самого алертинга («≥ 95% pages actionable»).
+- Балансирует sensitivity vs noise: при каких условиях допустима меньшая sensitivity vs обязательная high sensitivity (payment-critical).
 
 ## Материалы
 

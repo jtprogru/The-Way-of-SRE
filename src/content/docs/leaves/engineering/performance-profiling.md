@@ -19,16 +19,23 @@ description: Измерение перед оптимизацией — pprof, p
 
 Главный навык на уровне L4 — **измерять до того, как трогать код**. По моим наблюдениям, разница между junior'ом и senior'ом в perf-задачах — не в знании tooling (Гугл найдёт), а в дисциплине «сначала flame graph, потом гипотеза». Junior читает код, формулирует гипотезу «вот тут O(n²)», переписывает — оказывается, hotspot в другом месте. Senior запускает profile, смотрит реальное распределение, потом формулирует гипотезу. Это разница в одну привычку, которая экономит часы каждую неделю.
 
-- **L3** — Знает, что профилировать (CPU / memory / I/O / network); понимает разницу между sampling profilers (perf, async-profiler) и instrumenting profilers (pprof для Go runtime); запускает базовый pprof / py-spy / async-profiler.
-- **L3** — Читает flame graph: где burning width (количество samples), где stack depth, какие функции в top.
-- **L4** — Применяет **USE method**: для каждого ресурса (CPU, memory, disk, network) — utilization (% времени busy), saturation (queue depth / wait time), errors (drop / retransmit). Brendan Gregg's checklist — стандартная отправная точка.
-- **L4** — Профилирует **перед** изменением кода, не **после**. Формулирует optimization hypothesis на основе измеренных данных, проверяет гипотезу повторным profile.
-- **L4** — Знает classic perf anti-patterns: N+1 queries, hot lock contention, unbounded GC, allocation in hot loop, memory leak vs memory growth, false sharing.
-- **L5** — Применяет **continuous profiling** в production (Pyroscope / Parca / Grafana Cloud Profiles / Datadog Continuous Profiler): regression detection, on-demand drill-down, без impact на сервис.
-- **L5** — Использует **differential profiling**: snapshot до и после release, сравнение через `pprof -base`. Каждый release — потенциальный perf regression; без differential profiling regressions копятся незаметно.
-- **L5** — Профилирует **production**, не «локально на ноуте». Microbenchmarks и synthetic load дают неправильные hotspots в 50% случаев — locality, GC pressure, IO patterns отличаются.
-- **L6+** — Строит perf budget / latency budget программу: каждый сервис имеет latency budget по компонентам (network / CPU / IO / downstream), tracked over time, regression alerts при отклонении.
-- **L6+** — Связывает performance discipline с SLO program: profile-driven optimization targets SLI deltas, а не «общую скорость»; resource efficiency как explicit metric (cost-per-request, см. [Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)).
+**L3**
+- Знает, что профилировать (CPU / memory / I/O / network); понимает разницу между sampling profilers (perf, async-profiler) и instrumenting profilers (pprof для Go runtime); запускает базовый pprof / py-spy / async-profiler.
+- Читает flame graph: где burning width (количество samples), где stack depth, какие функции в top.
+
+**L4**
+- Применяет **USE method**: для каждого ресурса (CPU, memory, disk, network) — utilization (% времени busy), saturation (queue depth / wait time), errors (drop / retransmit). Brendan Gregg's checklist — стандартная отправная точка.
+- Профилирует **перед** изменением кода, не **после**. Формулирует optimization hypothesis на основе измеренных данных, проверяет гипотезу повторным profile.
+- Знает classic perf anti-patterns: N+1 queries, hot lock contention, unbounded GC, allocation in hot loop, memory leak vs memory growth, false sharing.
+
+**L5**
+- Применяет **continuous profiling** в production (Pyroscope / Parca / Grafana Cloud Profiles / Datadog Continuous Profiler): regression detection, on-demand drill-down, без impact на сервис.
+- Использует **differential profiling**: snapshot до и после release, сравнение через `pprof -base`. Каждый release — потенциальный perf regression; без differential profiling regressions копятся незаметно.
+- Профилирует **production**, не «локально на ноуте». Microbenchmarks и synthetic load дают неправильные hotspots в 50% случаев — locality, GC pressure, IO patterns отличаются.
+
+**L6+**
+- Строит perf budget / latency budget программу: каждый сервис имеет latency budget по компонентам (network / CPU / IO / downstream), tracked over time, regression alerts при отклонении.
+- Связывает performance discipline с SLO program: profile-driven optimization targets SLI deltas, а не «общую скорость»; resource efficiency как explicit metric (cost-per-request, см. [Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)).
 
 ## Материалы
 

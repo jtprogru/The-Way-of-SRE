@@ -17,15 +17,20 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 
 Главный навык на уровне L5 — проектировать **SLSA-compliant pipeline** под нужный target level. SLSA Level 2 (provenance generated, hosted build) — достижимый baseline для большинства команд. Level 3 (provenance non-forgeable, isolated build) — для production-critical артефактов. Level 4 (hermetic, two-party review) — для regulated industries. По моим наблюдениям, команды без SLSA-фреймворка ставят defenses неконсистентно — что-то pin'нут, что-то не pin'нут, что-то sign'нут, что-то нет.
 
-- **L4** — Понимает scope `software supply chain` — это не только OSS dependencies, а **вся** цепочка: source repository → build runner → artifact registry → deployment → runtime.
-- **L4** — Применяет **signed commits** (GPG / Sigstore gitsign) и **branch protection** (signed-only merge в protected branches).
-- **L4** — Внедряет **Pipeline-as-Code в репо** (не в UI), все CI/CD secrets через **OIDC federation** (короткоживущие токены), а не long-lived PATs. Build steps pinned by digest (`@sha256:...`), не by mutable tag.
-- **L5** — Проектирует **SLSA-compliant pipeline** — выбирает target level (1–4) по compliance/criticality.
-- **L5** — Генерирует и публикует **SBOM** (Software Bill of Materials) — SPDX или CycloneDX, генерация в CI каждого артефакта (Syft / cdxgen), attestation подписан.
-- **L5** — Применяет **artifact signing & verification** — Sigstore cosign для container images и release artifacts, keyless signing через OIDC, admission policies в k8s для verify-on-deploy.
-- **L5** — Защищается от **dependency confusion и typosquatting** — internal packages с reserved namespace в public registry, strict resolver config (no fallback от private к public), allow-list maintained internal-mirror.
-- **L6+** — Внедряет org-level supply chain security program — SLSA roadmap по сервисам, centralized signing infrastructure, policy-as-code для verification, vendor security assessment process, regulatory mapping (EO 14028, EU CRA, NIST SSDF).
-- **L6+** — Принимает strategic decisions — build-vs-buy для critical OSS dependencies, insurance implications, incident response планирование под supply chain compromise (revoke-and-rotate scope).
+**L4**
+- Понимает scope `software supply chain` — это не только OSS dependencies, а **вся** цепочка: source repository → build runner → artifact registry → deployment → runtime.
+- Применяет **signed commits** (GPG / Sigstore gitsign) и **branch protection** (signed-only merge в protected branches).
+- Внедряет **Pipeline-as-Code в репо** (не в UI), все CI/CD secrets через **OIDC federation** (короткоживущие токены), а не long-lived PATs. Build steps pinned by digest (`@sha256:...`), не by mutable tag.
+
+**L5**
+- Проектирует **SLSA-compliant pipeline** — выбирает target level (1–4) по compliance/criticality.
+- Генерирует и публикует **SBOM** (Software Bill of Materials) — SPDX или CycloneDX, генерация в CI каждого артефакта (Syft / cdxgen), attestation подписан.
+- Применяет **artifact signing & verification** — Sigstore cosign для container images и release artifacts, keyless signing через OIDC, admission policies в k8s для verify-on-deploy.
+- Защищается от **dependency confusion и typosquatting** — internal packages с reserved namespace в public registry, strict resolver config (no fallback от private к public), allow-list maintained internal-mirror.
+
+**L6+**
+- Внедряет org-level supply chain security program — SLSA roadmap по сервисам, centralized signing infrastructure, policy-as-code для verification, vendor security assessment process, regulatory mapping (EO 14028, EU CRA, NIST SSDF).
+- Принимает strategic decisions — build-vs-buy для critical OSS dependencies, insurance implications, incident response планирование под supply chain compromise (revoke-and-rotate scope).
 
 ## Материалы
 
