@@ -65,6 +65,17 @@ body:has(.hero) {
 }
 
 /*
+ * Центрируем H1 + tagline. Starlight задаёт .copy как flex-column с
+ * align-items: flex-start (вариант с image справа). У нас одна колонка
+ * и нет image — без override H1/tagline прижимаются влево к расширенной
+ * области и выглядят оторванно от branches-strip ниже.
+ */
+.hero .copy {
+  align-items: center !important;
+  text-align: center;
+}
+
+/*
  * Intro-blurb на главной — короткий «зачем это нужно» между hero и карточками.
  * Используем <div> вместо <p>, потому что MDX внутри prose-обёртки автоматически
  * оборачивает текст в <p>, и nested-p в HTML невалиден.
