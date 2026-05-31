@@ -50,16 +50,29 @@ body:has(.hero) {
   grid-template-columns: 100% !important;
   max-width: none !important;
   /*
-   * Starlight даёт hero на ≥50rem `padding-block: clamp(2.5rem, ..., 10rem)`
-   * — снизу на широких экранах до 160px пустоты между CTA и следующим блоком.
-   * Урезаем bottom; top оставляем по Starlight для дыхания между navbar и title.
+   * Starlight даёт hero на ≥50rem `padding-block: clamp(2.5rem, calc(1rem + 6vw), 10rem)`
+   * — снизу до 160px пустоты под CTA, сверху столько же между navbar и H1.
+   * Урезаем оба: bottom — фиксированно 2rem, top — clamp с шагом ~85% от
+   * starlight-дефолта, чтобы навигация дышала, но не отрывалась от title.
    */
+  padding-top: clamp(2rem, calc(0.85rem + 5.1vw), 8.5rem) !important;
   padding-bottom: 2rem !important;
 }
 
 .hero .copy,
 .hero .tagline {
   max-width: none !important;
+}
+
+/*
+ * Центрируем H1 + tagline. Starlight задаёт .copy как flex-column с
+ * align-items: flex-start (вариант с image справа). У нас одна колонка
+ * и нет image — без override H1/tagline прижимаются влево к расширенной
+ * области и выглядят оторванно от branches-strip ниже.
+ */
+.hero .copy {
+  align-items: center !important;
+  text-align: center;
 }
 
 /*
@@ -79,6 +92,46 @@ body:has(.hero) {
 
 .intro-blurb > p {
   margin: 0;
+}
+
+/*
+ * Intro-CTA — компактный «куда дальше» под intro-blurb. Раньше эта роль
+ * принадлежала primary-LinkButton в hero, но один одинокий button в hero у
+ * Starlight выглядит несоразмерно; текстовая стрелка-ссылка с подсказкой
+ * лучше масштабируется и не дублирует branches-strip.
+ */
+.intro-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.4rem 0.75rem;
+  margin: -1.25rem 0 2rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.intro-cta a {
+  font-weight: 600;
+  color: var(--sl-color-accent-high);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--sl-color-accent);
+}
+
+.intro-cta a:hover,
+.intro-cta a:focus-visible {
+  color: var(--sl-color-white);
+  border-bottom-style: solid;
+}
+
+:root[data-theme='light'] .intro-cta a:hover,
+:root[data-theme='light'] .intro-cta a:focus-visible {
+  color: var(--sl-color-text);
+}
+
+.intro-cta-hint {
+  color: var(--sl-color-gray-3);
+  font-size: 0.92rem;
 }
 
 /* Meta-strip: счётчики и open source метка */
@@ -108,35 +161,77 @@ body:has(.hero) {
 }
 
 /*
- * Pillar-карточки на главной — тонируем в палитру их ветки.
- * Согласованность с Spider: Culture amber, Engineering teal, Practices indigo.
- * Цвет проявляется как левый borderr и переход на hover.
+ * Branches-strip — компактная замена CardGrid+LinkCard для трёх ветвей.
+ * Цель: не съедать пол-экрана большими карточками, но сохранить цветовой
+ * якорь (amber/teal/indigo), общий с Spider и L1-страницами.
  */
-.sl-link-card:has(a[href*='/sre-culture']) {
-  border-inline-start: 4px solid #d97706;
-}
-.sl-link-card:has(a[href*='/sre-engineering']) {
-  border-inline-start: 4px solid #0d9488;
-}
-.sl-link-card:has(a[href*='/sre-practices']) {
-  border-inline-start: 4px solid #6366f1;
+.branches-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.75rem;
+  padding: 0;
+  list-style: none;
 }
 
-:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-culture']) {
+.branches-strip > li {
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-inline-start-width: 4px;
+  border-radius: 0.4rem;
+  background: var(--sl-color-gray-7);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.branches-strip > li:hover {
+  transform: translateY(-1px);
+}
+
+.branches-strip a {
+  display: block;
+  font-weight: 600;
+  font-size: 0.98rem;
+  text-decoration: none;
+  color: var(--sl-color-white);
+}
+
+:root[data-theme='light'] .branches-strip a {
+  color: var(--sl-color-text);
+}
+
+.branches-strip span {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--sl-color-gray-3);
+}
+
+.branches-strip > li[data-branch='culture'] {
+  border-inline-start-color: #d97706;
+}
+.branches-strip > li[data-branch='engineering'] {
+  border-inline-start-color: #0d9488;
+}
+.branches-strip > li[data-branch='practices'] {
+  border-inline-start-color: #6366f1;
+}
+
+:root[data-theme='dark'] .branches-strip > li[data-branch='culture'] {
   border-inline-start-color: #f59e0b;
 }
-:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-engineering']) {
+:root[data-theme='dark'] .branches-strip > li[data-branch='engineering'] {
   border-inline-start-color: #2dd4bf;
 }
-:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-practices']) {
+:root[data-theme='dark'] .branches-strip > li[data-branch='practices'] {
   border-inline-start-color: #818cf8;
 }
 
-.sl-link-card:has(a[href*='/sre-culture']):hover,
-.sl-link-card:has(a[href*='/sre-engineering']):hover,
-.sl-link-card:has(a[href*='/sre-practices']):hover {
-  transform: translateY(-2px);
-  transition: transform 0.15s ease;
+@media (max-width: 50rem) {
+  .branches-strip {
+    grid-template-columns: 1fr;
+  }
 }
 
 /*
@@ -176,54 +271,3 @@ body:has(.hero) {
   margin: 0;
 }
 
-/*
- * Глоссарий «Как читать карту»: dl, разбитый на пары через
- * обёртку <div>, чтобы grid лёг по парам термин/определение.
- */
-.terms {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  text-align: left;
-  margin: 1rem 0 0;
-}
-
-.terms > div {
-  display: grid;
-  grid-template-columns: minmax(8rem, 12rem) 1fr;
-  gap: 1rem;
-  align-items: baseline;
-}
-
-.terms dt {
-  font-weight: 700;
-  color: var(--sl-color-white);
-  font-size: 0.95rem;
-}
-
-:root[data-theme='light'] .terms dt {
-  color: var(--sl-color-text);
-}
-
-.terms dd {
-  margin: 0;
-  color: var(--sl-color-gray-2);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-@media (max-width: 640px) {
-  .terms > div {
-    grid-template-columns: 1fr;
-    gap: 0.25rem;
-  }
-}
-
-/* CTA-row: три LinkButton'а в горизонтальный ряд с переносом на узком */
-.cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-}

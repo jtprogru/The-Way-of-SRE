@@ -29,23 +29,11 @@
 
 ## Карта компетенций
 
-Узлы на схеме **кликабельны** — клик по ветви ведёт к её L1-карте на сайте. Полная интерактивная карта с листьями (конкретные умения, материалы, best practices) — <https://jtprogru.github.io/The-Way-of-SRE/>.
-
-```mermaid
-graph LR
-    SRE{SRE}
-    SRE --> SRECulture[SRE Culture]
-    SRE --> SREEngineering[SRE Engineering]
-    SRE --> SREPractices[SRE Practices]
-
-    click SRECulture "https://jtprogru.github.io/The-Way-of-SRE/sre-culture/" "Перейти к SRE Culture"
-    click SREEngineering "https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/" "Перейти к SRE Engineering"
-    click SREPractices "https://jtprogru.github.io/The-Way-of-SRE/sre-practices/" "Перейти к SRE Practices"
-```
+Полная интерактивная карта с листьями (конкретные умения, материалы, best practices) живёт на сайте: <https://jtprogru.github.io/The-Way-of-SRE/>. Карта делится на три ветви:
 
 - **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/sre-culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **15 листьев** на полной глубине.
-- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **23 листа** на полной глубине.
-- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **23 листа** на полной глубине.
+- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **26 листьев** на полной глубине.
+- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **25 листьев** на полной глубине.
 
 Принцип разделения ветвей, политика контроля детализации, оси priority и SFIA — в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
 
