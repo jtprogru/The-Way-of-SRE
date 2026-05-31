@@ -3,23 +3,9 @@ title: The Way of SRE
 description: Карта компетенций для развития в роли Site Reliability Engineer
 template: splash
 hero:
-  tagline: Карта направлений в SRE — три ветви, 20 компетенций верхнего уровня, листья с конкретными умениями, материалами и best practices.
-  actions:
-    - text: Roadmap по приоритетам
-      link: /The-Way-of-SRE/priorities/
-      icon: right-arrow
-      variant: primary
-    - text: Чат в Telegram
-      link: https://t.me/jtprogru_chat
-      icon: external
-      variant: secondary
-    - text: GitHub
-      link: https://github.com/jtprogru/The-Way-of-SRE
-      icon: external
-      variant: minimal
+  tagline: Карта направлений в SRE — три ветви, 22 компетенции верхнего уровня, листья с конкретными умениями, материалами и best practices.
 ---
 
-import { LinkButton } from '@astrojs/starlight/components';
 import Spider from '../../components/Spider.astro';
 import { roadmap } from '../../data/roadmap.ts';
 
@@ -37,6 +23,11 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
   external references и SFIA-уровнями для самооценки.
   Глубже — <a href={`${base}/about/`}>Мотивация</a>, <a href={`${base}/format/`}>Формат проекта</a>, <a href={`${base}/methodology/`}>Методология</a> и <a href={`${base}/glossary/`}>Глоссарий</a>.
 </div>
+
+<p class="intro-cta">
+  <a href={`${base}/priorities/`}>Roadmap по приоритетам <span aria-hidden="true">→</span></a>
+  <span class="intro-cta-hint">какие компетенции качать в первую очередь</span>
+</p>
 
 <ul class="branches-strip">
   <li data-branch="culture">
@@ -66,7 +57,7 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
 <Spider />
 
 <section class="home-section">
-  ## Цель проекта
+  ## О проекте
 
   <div class="section-lede">
     Карта собирает единое видение развития SRE-компетенций в русскоязычном
@@ -80,52 +71,10 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
     серебряная пуля. Сверяйте с контекстом своей команды, индустрии и текущей
     зрелости систем.
   </div>
-</section>
-
-<section class="home-section">
-  ## Как читать карту
-
-  <dl class="terms">
-    <div>
-      <dt>Ветвь</dt>
-      <dd>Главный объект деятельности: <strong>Culture</strong> — люди и нормы,
-        <strong>Engineering</strong> — технические артефакты, <strong>Practices</strong> — процессы и ритуалы.</dd>
-    </div>
-    <div>
-      <dt>L1-компетенция</dt>
-      <dd>Верхнеуровневое умение внутри ветви: «Observability», «Incident Management»,
-        «Knowledge Management». На карте всего около {totalL1}.</dd>
-    </div>
-    <div>
-      <dt>Лист</dt>
-      <dd>Конкретная практика внутри L1 со своей страницей: «SLI-based Alerting»,
-        «Blameless Postmortem», «Career Ladders». В каждом — умения, best practices
-        с антипаттернами, инструменты, SFIA-уровни для самооценки.</dd>
-    </div>
-    <div>
-      <dt>Цвет L1</dt>
-      <dd>Приоритет для роли: 🔴 Must Have, 🟡 Mandatory, 🟢 Nice to have, 🔵 On Demand.
-        Подробнее — на странице <a href={`${base}/priorities/`}>Roadmap по приоритетам</a>.</dd>
-    </div>
-  </dl>
-</section>
-
-<section class="home-section">
-  ## Обсудить и контрибутить
 
   <div class="section-lede">
-    Проект открытый. Что куда писать — зависит от формата:
-  </div>
-
-  <div class="cta-row">
-    <LinkButton href="https://t.me/jtprogru_chat" variant="primary" icon="external">
-      Чат — обсудить, задать вопрос
-    </LinkButton>
-    <LinkButton href="https://github.com/jtprogru/The-Way-of-SRE" variant="secondary" icon="external">
-      GitHub — PR, issues
-    </LinkButton>
-    <LinkButton href="https://t.me/jtprogru_channel" variant="minimal" icon="external">
-      Канал — новые листья, анонсы
-    </LinkButton>
+    Проект открытый: правки и новые листья — через <a href="https://github.com/jtprogru/The-Way-of-SRE/pulls" rel="noopener">pull requests</a>,
+    вопросы и предложения — в <a href="https://github.com/jtprogru/The-Way-of-SRE/issues" rel="noopener">issues</a>.
+    Чат, канал и остальные соцссылки — в подвале страницы.
   </div>
 </section>

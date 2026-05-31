@@ -4,10 +4,12 @@
 // Архитектура: DOM-grid, без SVG/edges. Раньше был горизонтальный
 // SVG-«паучок» с 4 колонками (root → branch → L1 → leaf) и нарисованными
 // рёбрами; на мобильном требовал горизонтального скролла. Сейчас:
-//   - root заголовок сверху по центру
-//   - под ним CSS-grid 3×1fr: одна колонка на каждую ветку
+//   - сверху toolbar (свернуть всё / только обязательное)
+//   - CSS-grid 3×1fr: одна колонка на каждую ветку
 //   - в колонке: branch-header → стек L1-карточек, под L1 — leaves чипами
 //   - точки приоритета на L1, toggle «только обязательное» гасит nice/ondemand
+// Root-bubble «SRE» убран: H1 страницы и tagline уже задают контекст,
+// заметная pill-плашка лишь перегружала верх главной.
 //
 // Цветовая палитра ветвей (amber/teal/indigo) сохранена из старого SVG —
 // единая семантика «ветвь = цвет» используется и в BranchView.astro.
@@ -52,10 +54,6 @@ const isSingle = branches.length === 1;
         <span>Только обязательное</span>
       </label>
     </div>
-  )}
-
-  {!compact && (
-    <div class="board-root" aria-label="Корень карты">{roadmap.root}</div>
   )}
 
   <div class="board" data-priority-filter="off" data-single={isSingle ? 'true' : 'false'}>
@@ -253,20 +251,6 @@ const isSingle = branches.length === 1;
   .board-collapse-all:focus-visible {
     background: var(--sl-color-gray-6);
     border-color: var(--sl-color-gray-4);
-  }
-
-  .board-root {
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
-    font-weight: 800;
-    font-size: 1.5rem;
-    letter-spacing: 0.06em;
-    text-align: center;
-    padding: 0.65rem 1.5rem;
-    border-radius: 999px;
-    width: max-content;
-    margin: 0 auto 1.25rem;
-    box-shadow: 0 6px 24px -10px var(--sl-color-accent);
   }
 
   /* 3 колонки на широком, 1 — на узком; никакого горизонтального скролла */
