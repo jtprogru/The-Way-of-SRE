@@ -17,15 +17,22 @@ description: Систематическое выявление угроз на d
 
 Главный навык на уровне L4 — применять **STRIDE per element of DFD**, не «угрозы вообще». Я регулярно вижу threat models, которые начинаются с brainstorm «какие угрозы возможны в системе» — получается длинный список несвязанных пунктов. STRIDE применяется к **конкретному** элементу DFD (внешний actor, process, data store, data flow) — 6 категорий per element, не все релевантны, но каждая рассматривается systematically. Результат — exhaustive, проверяемый, не «возможно мы что-то забыли».
 
-- **L3** — Понимает базовые threat categories по STRIDE: **S**poofing, **T**ampering, **R**epudiation, **I**nformation Disclosure, **D**enial of Service, **E**levation of Privilege. Различает угрозу и mitigation.
-- **L3** — Читает существующие threat models; понимает trust boundaries в DFD (data flow diagram); идентифицирует свой сервис на карте.
-- **L4** — Пишет threat model для нового feature: DFD с trust boundaries → identified threats per STRIDE category для каждого элемента → mitigations с явным статусом (implemented / planned / accepted).
-- **L4** — Участвует в threat modeling sessions соседних команд как peer-reviewer; задаёт вопросы, выявляет упущенное; не «утверждает», а помогает.
-- **L5** — Facilitates threat modeling session: собирает нужных людей (разработчик + ops + security), ведёт через STRIDE/PASTA, prioritizing threats по risk = likelihood × impact.
-- **L5** — Связывает threat model с кодом: каждое identified mitigation имеет ссылку на код / config / runbook / test; security tests в CI отвечают за известные категории.
-- **L5** — Применяет attack tree / kill chain analysis для complex multi-step threats; использует MITRE ATT&CK как vocabulary.
-- **L6+** — Устанавливает threat modeling как часть SDLC: когда обязателен, какой framework (STRIDE для большинства, PASTA для высокорискового), кто reviews, exit criteria.
-- **L6+** — Связывает threat modeling с compliance (SOC 2 / PCI-DSS / ISO 27001 / GDPR), vulnerability management, security incident response.
+**L3**
+- Понимает базовые threat categories по STRIDE: **S**poofing, **T**ampering, **R**epudiation, **I**nformation Disclosure, **D**enial of Service, **E**levation of Privilege. Различает угрозу и mitigation.
+- Читает существующие threat models; понимает trust boundaries в DFD (data flow diagram); идентифицирует свой сервис на карте.
+
+**L4**
+- Пишет threat model для нового feature: DFD с trust boundaries → identified threats per STRIDE category для каждого элемента → mitigations с явным статусом (implemented / planned / accepted).
+- Участвует в threat modeling sessions соседних команд как peer-reviewer; задаёт вопросы, выявляет упущенное; не «утверждает», а помогает.
+
+**L5**
+- Facilitates threat modeling session: собирает нужных людей (разработчик + ops + security), ведёт через STRIDE/PASTA, prioritizing threats по risk = likelihood × impact.
+- Связывает threat model с кодом: каждое identified mitigation имеет ссылку на код / config / runbook / test; security tests в CI отвечают за известные категории.
+- Применяет attack tree / kill chain analysis для complex multi-step threats; использует MITRE ATT&CK как vocabulary.
+
+**L6+**
+- Устанавливает threat modeling как часть SDLC: когда обязателен, какой framework (STRIDE для большинства, PASTA для высокорискового), кто reviews, exit criteria.
+- Связывает threat modeling с compliance (SOC 2 / PCI-DSS / ISO 27001 / GDPR), vulnerability management, security incident response.
 
 ## Материалы
 

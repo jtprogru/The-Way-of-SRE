@@ -17,15 +17,22 @@ description: Организация дежурства команды — кто
 
 Главный навык на уровне L5 — **поддерживать on-call health** как метрику, а не «когда заметим». Sleep disruption rate, comp pay totals, fair load distribution — это объективные сигналы, которые видны до того, как инженер уходит. «No hero» culture (любой pager должен быть ack'нут, не «я разобрался без alert'а») — это часть этой дисциплины: без visibility один инженер становится bottleneck, и команда не видит проблем до его ухода.
 
-- **L3** — Понимает структуру ротации команды (cadence, primary vs secondary, escalation paths); знает свои следующие смены; принимает (acknowledge) page и проводит базовую triage.
-- **L3** — Перед сменой выполняет короткий pre-shift review: недавние deploys, изменённые runbook, активные incidents-in-progress, известные хрупкие подсистемы.
-- **L4** — Настраивает свой schedule в paging tool; понимает escalation policy и timeouts (acknowledge → escalate → next person); знает, как brief заменить если внезапно недоступен.
-- **L4** — Выполняет structured post-shift handoff: что было, что осталось open, что требует внимания; обновляет runbook по итогам нетривиальных pages.
-- **L5** — Проектирует rotation: cadence (неделя — норма), follow-the-sun vs single-timezone, primary / secondary roles, holidays / vacation handling, comp time.
-- **L5** — Ведёт alert hygiene: еженедельный / ежемесячный review pages, удаление false positives, повышение signal-to-noise; шумная смена (≥ N pages в час, не привёдших к действию) — инцидент с постмортемом.
-- **L5** — Поддерживает on-call health: tracks sleep disruption, fair load distribution, явный recovery day после ночных pages, защищает «no hero» culture.
-- **L6+** — Внедряет org-level on-call policy: who pays on-call comp, mandatory rest после multi-page nights, sustainability metrics, правила скидки нагрузки между командами.
-- **L6+** — Балансирует scale: новый сервис — это новая ротация или расширение существующей? Защищает команду от unbounded expansion ротации без roster growth.
+**L3**
+- Понимает структуру ротации команды (cadence, primary vs secondary, escalation paths); знает свои следующие смены; принимает (acknowledge) page и проводит базовую triage.
+- Перед сменой выполняет короткий pre-shift review: недавние deploys, изменённые runbook, активные incidents-in-progress, известные хрупкие подсистемы.
+
+**L4**
+- Настраивает свой schedule в paging tool; понимает escalation policy и timeouts (acknowledge → escalate → next person); знает, как brief заменить если внезапно недоступен.
+- Выполняет structured post-shift handoff: что было, что осталось open, что требует внимания; обновляет runbook по итогам нетривиальных pages.
+
+**L5**
+- Проектирует rotation: cadence (неделя — норма), follow-the-sun vs single-timezone, primary / secondary roles, holidays / vacation handling, comp time.
+- Ведёт alert hygiene: еженедельный / ежемесячный review pages, удаление false positives, повышение signal-to-noise; шумная смена (≥ N pages в час, не привёдших к действию) — инцидент с постмортемом.
+- Поддерживает on-call health: tracks sleep disruption, fair load distribution, явный recovery day после ночных pages, защищает «no hero» culture.
+
+**L6+**
+- Внедряет org-level on-call policy: who pays on-call comp, mandatory rest после multi-page nights, sustainability metrics, правила скидки нагрузки между командами.
+- Балансирует scale: новый сервис — это новая ротация или расширение существующей? Защищает команду от unbounded expansion ротации без roster growth.
 
 ## Материалы
 

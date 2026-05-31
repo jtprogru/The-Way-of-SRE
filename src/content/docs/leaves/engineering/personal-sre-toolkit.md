@@ -17,15 +17,20 @@ description: Свой набор CLI-утилит и shell-функций под
 
 Главный навык на уровне L4 — **знать, когда shell-alias уже не хватает, и пора писать CLI**. Alias или функция выгодна для 1-2 простых команд с фиксированными аргументами; CLI оправдан, когда нужны subcommands, валидация флагов, completions, документация. Я регулярно вижу две крайности — engineer держит 200-строчную bash-функцию с case'ами и nested-if'ами (надо переписать на Go / Python), либо пишет полноценный CLI с cobra для команды-однострочника (over-engineering). Mental model: если функция начала иметь подкоманды, флаги, exit codes — это уже CLI, оформи её как CLI.
 
-- **L3** — Ведёт собственные dotfiles в git (`.zshrc` / `.bashrc` / `.config/nvim` / `.config/tmux` и т.д.); может развернуть свой setup на новой машине одной командой.
-- **L3** — Знает базовый набор productivity CLI: [fzf](https://github.com/junegunn/fzf), [ripgrep](https://github.com/BurntSushi/ripgrep), [fd](https://github.com/sharkdp/fd), [jq](https://jqlang.org/), [yq](https://mikefarah.gitbook.io/yq); умеет комбинировать через pipe.
-- **L3** — Использует [Taskfile](https://taskfile.dev/) или Makefile для разработки своих проектов (self-documenting commands вместо «как же я тут билдил»).
-- **L4** — Пишет небольшие CLI на Go / Python / Rust под повторяющиеся задачи, которых нет в готовых инструментах; знает, когда `alias` уже не хватает, а полный CLI ещё избыточен (промежуточный уровень — shell-функция в dotfiles).
-- **L4** — Распространяет свои инструменты (homebrew tap, `go install`, релизы на GitHub) для синхронизации между машинами и в команде.
-- **L4** — Соблюдает CLI design conventions — стандартные флаги (`--help`, `--version`, `--dry-run`, `--json`), правильные exit codes, structured logs / errors на stderr, output на stdout (12-Factor CLI / [clig.dev](https://clig.dev/)).
-- **L5** — Эволюционирует личный toolkit как team toolkit — то, что регулярно использую сам, проходит через team retro и становится shared (или отвергается с обоснованием).
-- **L5** — Управляет жизненным циклом toolkit — периодическая чистка устаревших aliases / scripts (например, ≥ 6 месяцев без использования = удалить), обновление зависимостей, миграция на современные альтернативы (eza вместо ls, bat вместо cat, ripgrep вместо grep).
-- **L5** — Знает границы — что НЕ автоматизировать в personal toolkit (security-критичные операции с прод, multi-actor coordination, business logic); делегирует в team-level automation или operator pattern.
+**L3**
+- Ведёт собственные dotfiles в git (`.zshrc` / `.bashrc` / `.config/nvim` / `.config/tmux` и т.д.); может развернуть свой setup на новой машине одной командой.
+- Знает базовый набор productivity CLI: [fzf](https://github.com/junegunn/fzf), [ripgrep](https://github.com/BurntSushi/ripgrep), [fd](https://github.com/sharkdp/fd), [jq](https://jqlang.org/), [yq](https://mikefarah.gitbook.io/yq); умеет комбинировать через pipe.
+- Использует [Taskfile](https://taskfile.dev/) или Makefile для разработки своих проектов (self-documenting commands вместо «как же я тут билдил»).
+
+**L4**
+- Пишет небольшие CLI на Go / Python / Rust под повторяющиеся задачи, которых нет в готовых инструментах; знает, когда `alias` уже не хватает, а полный CLI ещё избыточен (промежуточный уровень — shell-функция в dotfiles).
+- Распространяет свои инструменты (homebrew tap, `go install`, релизы на GitHub) для синхронизации между машинами и в команде.
+- Соблюдает CLI design conventions — стандартные флаги (`--help`, `--version`, `--dry-run`, `--json`), правильные exit codes, structured logs / errors на stderr, output на stdout (12-Factor CLI / [clig.dev](https://clig.dev/)).
+
+**L5**
+- Эволюционирует личный toolkit как team toolkit — то, что регулярно использую сам, проходит через team retro и становится shared (или отвергается с обоснованием).
+- Управляет жизненным циклом toolkit — периодическая чистка устаревших aliases / scripts (например, ≥ 6 месяцев без использования = удалить), обновление зависимостей, миграция на современные альтернативы (eza вместо ls, bat вместо cat, ripgrep вместо grep).
+- Знает границы — что НЕ автоматизировать в personal toolkit (security-критичные операции с прод, multi-actor coordination, business logic); делегирует в team-level automation или operator pattern.
 
 ## Материалы
 

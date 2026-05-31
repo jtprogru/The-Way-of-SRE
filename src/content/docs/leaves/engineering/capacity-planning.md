@@ -17,15 +17,22 @@ description: Прогнозирование потребности в ресур
 
 Главный навык на уровне L5 — формулировать **SLO-driven saturation thresholds**, а не «80% CPU = паника». У одного сервиса 95% CPU — норма (CPU-bound batch worker); у другого 50% — уже SLO breach (network-bound, deadline-sensitive). Threshold для capacity action определяется эмпирически: при каком уровне утилизации начинается деградация relevant SLI? Это и есть ваш threshold. Magic numbers из guidelines чужих команд — не работают.
 
-- **L3** — Понимает типы ресурсов (CPU, memory, disk, network, file descriptors, DB connections, IOPS); знает, где смотреть текущую утилизацию.
-- **L3** — Читает forecast / capacity plan для своего сервиса; понимает, что значит «headroom 30%», «текущая capacity покрывает next quarter».
-- **L4** — Считает headroom: текущее использование vs целевая saturation threshold; оценивает trajectory — когда достигнет limit при текущем growth rate.
-- **L4** — Обрабатывает capacity events: знает процедуру scale-up (auto-scaling triggers / manual provisioning / cloud quotas / vendor escalation).
-- **L5** — Проектирует capacity model: какие saturation indicators (USE-method approach), SLO-driven thresholds, explicit headroom budget, lead times для cloud / managed / on-prem.
-- **L5** — Делает demand forecast на 1–4 квартала: активные пользователи, traffic patterns, seasonality, feature rollouts, marketing campaigns, M&A. Не «по ощущениям», а timeseries + assumptions.
-- **L5** — Интегрирует с finance: трекит cost-per-unit (per request, per active user, per GB) как efficiency-метрику.
-- **L6+** — Multi-service / org-level capacity planning: shared resource pools, cross-service dependencies, regional capacity strategy, vendor concentration risk.
-- **L6+** — Strategic capacity decisions: vertical vs horizontal scaling в долгую, multi-region growth, build vs buy.
+**L3**
+- Понимает типы ресурсов (CPU, memory, disk, network, file descriptors, DB connections, IOPS); знает, где смотреть текущую утилизацию.
+- Читает forecast / capacity plan для своего сервиса; понимает, что значит «headroom 30%», «текущая capacity покрывает next quarter».
+
+**L4**
+- Считает headroom: текущее использование vs целевая saturation threshold; оценивает trajectory — когда достигнет limit при текущем growth rate.
+- Обрабатывает capacity events: знает процедуру scale-up (auto-scaling triggers / manual provisioning / cloud quotas / vendor escalation).
+
+**L5**
+- Проектирует capacity model: какие saturation indicators (USE-method approach), SLO-driven thresholds, explicit headroom budget, lead times для cloud / managed / on-prem.
+- Делает demand forecast на 1–4 квартала: активные пользователи, traffic patterns, seasonality, feature rollouts, marketing campaigns, M&A. Не «по ощущениям», а timeseries + assumptions.
+- Интегрирует с finance: трекит cost-per-unit (per request, per active user, per GB) как efficiency-метрику.
+
+**L6+**
+- Multi-service / org-level capacity planning: shared resource pools, cross-service dependencies, regional capacity strategy, vendor concentration risk.
+- Strategic capacity decisions: vertical vs horizontal scaling в долгую, multi-region growth, build vs buy.
 
 ## Материалы
 

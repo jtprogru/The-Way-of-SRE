@@ -17,15 +17,22 @@ description: Pull-based reconciliation — git как источник исти�
 
 Главный навык на уровне L4 — bootstrap'ить GitOps для нового сервиса так, чтобы он работал без ручного вмешательства. Это значит: написать `Application` (Argo CD) или `Kustomization` (Flux) manifest правильно, настроить sync policy (manual / auto), self-heal, prune. Я регулярно вижу команды, у которых GitOps стоит, но половина сервисов — в `OutOfSync`, потому что bootstrap делался «впопыхах» и self-heal не включён.
 
-- **L3** — Понимает разницу push-based (CI применяет) и pull-based (controller сам подтягивает); находит desired-state repo для своего сервиса; знает, где смотреть статус деплоя.
-- **L3** — Делает изменения через PR в GitOps-repo; понимает, что rollback = git revert; не делает `kubectl apply` напрямую вручную.
-- **L4** — Bootstrap'ает GitOps для нового сервиса: пишет ArgoCD `Application` или Flux `Kustomization` manifest; настраивает sync policy, self-heal, prune.
-- **L4** — Диагностирует sync issues: drift в `Application` status, ошибки apply, ImagePullBackOff после nightly image rebuild; использует Argo CD UI / `flux get` / `kubectl describe` + events.
-- **L5** — Проектирует структуру repos: разделение application code repo и config repo; environment overlays (Kustomize bases + overlays per env, или Helm values per env); app-of-apps или ApplicationSet для управления множеством apps.
-- **L5** — Реализует secrets workflow в GitOps: Sealed Secrets / External Secrets Operator / SOPS; никогда plain secrets в репозитории.
-- **L5** — Интегрирует progressive delivery: Argo Rollouts поверх Argo CD или Flagger поверх Flux. Canary / blue-green выполняются GitOps-нативно — promotion через PR.
-- **L6+** — Multi-cluster GitOps strategy: hub-spoke, fan-out через ApplicationSet или Flux Kustomization-targets, regional fail-over для критичных систем.
-- **L6+** — Governance / policy: who can change what через CODEOWNERS + branch protection; policy enforcement через Kyverno / OPA Gatekeeper / Argo CD CMP; audit retention под compliance.
+**L3**
+- Понимает разницу push-based (CI применяет) и pull-based (controller сам подтягивает); находит desired-state repo для своего сервиса; знает, где смотреть статус деплоя.
+- Делает изменения через PR в GitOps-repo; понимает, что rollback = git revert; не делает `kubectl apply` напрямую вручную.
+
+**L4**
+- Bootstrap'ает GitOps для нового сервиса: пишет ArgoCD `Application` или Flux `Kustomization` manifest; настраивает sync policy, self-heal, prune.
+- Диагностирует sync issues: drift в `Application` status, ошибки apply, ImagePullBackOff после nightly image rebuild; использует Argo CD UI / `flux get` / `kubectl describe` + events.
+
+**L5**
+- Проектирует структуру repos: разделение application code repo и config repo; environment overlays (Kustomize bases + overlays per env, или Helm values per env); app-of-apps или ApplicationSet для управления множеством apps.
+- Реализует secrets workflow в GitOps: Sealed Secrets / External Secrets Operator / SOPS; никогда plain secrets в репозитории.
+- Интегрирует progressive delivery: Argo Rollouts поверх Argo CD или Flagger поверх Flux. Canary / blue-green выполняются GitOps-нативно — promotion через PR.
+
+**L6+**
+- Multi-cluster GitOps strategy: hub-spoke, fan-out через ApplicationSet или Flux Kustomization-targets, regional fail-over для критичных систем.
+- Governance / policy: who can change what через CODEOWNERS + branch protection; policy enforcement через Kyverno / OPA Gatekeeper / Argo CD CMP; audit retention под compliance.
 
 ## Материалы
 

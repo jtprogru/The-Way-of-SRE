@@ -19,15 +19,20 @@ description: Работа с не-инженерными стейкхолдер�
 
 Главный навык на уровне L5 — **переводить технические показатели в business-релевантные числа** так, чтобы стейкхолдер мог принять решение. Не «у нас burn rate 14×» (стейкхолдер не знает, что это), а «текущее ухудшение означает потерю SLO к концу квартала, что эквивалентно ~$200k revenue impact если запустим feature freeze — или ~$50k если catch up на следующем спринте». Не «toil 70%», а «команда тратит 28 engineer-weeks в год на ручную работу, которую можно автоматизировать за 4». Я регулярно вижу senior SRE, которые приходят к exec с техническими цифрами и удивляются, что решение не принимается — потому что **цифры нерелевантны** для уровня этого стейкхолдера.
 
-- **L4** — Идентифицирует стейкхолдеров для своего сервиса / проекта: product manager, exec sponsor, finance owner, customer success contact. Знает, кто принимает решения о приоритетах, бюджете, доступе.
-- **L4** — Переводит технические показатели своего сервиса в business-язык: SLO → customer impact, downtime → revenue impact, toil → opportunity cost. Не использует SRE-жаргон без объяснения.
-- **L4** — Готовит short status update для product / exec sync: 2-3 цифры + что они означают + что нужно решить. Не презентация на 20 слайдов; не «всё хорошо / всё плохо» без контекста.
-- **L5** — Проектирует stakeholder map для своей SRE-функции: кто, какая роль, какая cadence коммуникации, какие триггеры эскалации. Не «у меня в голове»; явный документ, который можно показать новому инженеру.
-- **L5** — Ведёт regular cadence с ключевыми стейкхолдерами: weekly с product, monthly с exec, quarterly с board (где применимо). Каждая встреча имеет повестку, decision points, follow-up.
-- **L5** — Говорит «нет» с данными: «эта фича требует X недель reliability work перед запуском; иначе вероятность SEV1 в первом квартале — N%, исторический cost — $Y». Без данных «нет» — это блок; с данными — это negotiation.
-- **L5** — Аргументирует reliability-инвестиции (headcount, tooling, infrastructure) в business-логике: payback period, avoided incidents × cost, customer retention impact. Не «нам нужно больше».
-- **L6+** — Управляет SRE-функцией как product перед exec stakeholders: roadmap, OKRs, budget, headcount planning, success metrics. Ведёт quarterly business review SRE-функции.
-- **L6+** — Ведёт переговоры по reliability с C-level и board: SLA коммитменты для key accounts, regulatory-driven reliability investments, M&A integration reliability assessment, public outage communications strategy.
+**L4**
+- Идентифицирует стейкхолдеров для своего сервиса / проекта: product manager, exec sponsor, finance owner, customer success contact. Знает, кто принимает решения о приоритетах, бюджете, доступе.
+- Переводит технические показатели своего сервиса в business-язык: SLO → customer impact, downtime → revenue impact, toil → opportunity cost. Не использует SRE-жаргон без объяснения.
+- Готовит short status update для product / exec sync: 2-3 цифры + что они означают + что нужно решить. Не презентация на 20 слайдов; не «всё хорошо / всё плохо» без контекста.
+
+**L5**
+- Проектирует stakeholder map для своей SRE-функции: кто, какая роль, какая cadence коммуникации, какие триггеры эскалации. Не «у меня в голове»; явный документ, который можно показать новому инженеру.
+- Ведёт regular cadence с ключевыми стейкхолдерами: weekly с product, monthly с exec, quarterly с board (где применимо). Каждая встреча имеет повестку, decision points, follow-up.
+- Говорит «нет» с данными: «эта фича требует X недель reliability work перед запуском; иначе вероятность SEV1 в первом квартале — N%, исторический cost — $Y». Без данных «нет» — это блок; с данными — это negotiation.
+- Аргументирует reliability-инвестиции (headcount, tooling, infrastructure) в business-логике: payback period, avoided incidents × cost, customer retention impact. Не «нам нужно больше».
+
+**L6+**
+- Управляет SRE-функцией как product перед exec stakeholders: roadmap, OKRs, budget, headcount planning, success metrics. Ведёт quarterly business review SRE-функции.
+- Ведёт переговоры по reliability с C-level и board: SLA коммитменты для key accounts, regulatory-driven reliability investments, M&A integration reliability assessment, public outage communications strategy.
 
 ## Материалы
 

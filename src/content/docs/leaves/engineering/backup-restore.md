@@ -17,15 +17,22 @@ description: Резервное копирование с проверенным
 
 Главный навык на уровне L5 — превратить restore-test из task в ritual. Я регулярно встречаю команды, в которых restore-drill «сделали в прошлом году, тогда работало». Через год environment изменился, ключи ротированы, runbook устарел, а главное — инженер, который делал прошлый раз, в другой команде. Restore-test ценен **периодичностью**, не разовостью.
 
-- **L3** — Различает RPO (сколько данных потерять допустимо) и RTO (сколько времени на восстановление); знает, где backups для его сервиса и кто их owner.
-- **L3** — Находит backup конкретного сервиса; может выполнить базовый restore по существующему runbook в staging.
-- **L4** — Определяет RPO/RTO для своего сервиса исходя из business-требований; фиксирует в SLO-документе сервиса; согласует с product-командой.
-- **L4** — Верифицирует backup'ы регулярным restore-test'ом в staging (минимум раз в квартал); фиксирует MTTR теста; проблемы → ticket с дедлайном.
-- **L5** — Проектирует backup strategy: full / incremental / log-shipping cadence, retention policy (с учётом регуляторики), encryption (KMS), cross-region replication для DR.
-- **L5** — Автоматизирует restore drill как ritual: рандомная неделя в квартал — restore в изолированном окружении, измеряется MTTR.
-- **L5** — Реализует point-in-time recovery (PITR) для источников, которые это поддерживают (PostgreSQL WAL archiving, MySQL binlog, MongoDB oplog, S3 versioning); понимает trade-off cost vs RPO.
-- **L6+** — Проектирует disaster recovery strategy для org: multi-region restore, RTO targets для критичных систем, runbook на DR-сценарий (потеря всего региона), regulatory compliance.
-- **L6+** — Балансирует backup strategy с cost и compliance: storage tiering (hot → cold → archive), retention policy с явным cleanup, encryption-at-rest с rotation, audit access logging.
+**L3**
+- Различает RPO (сколько данных потерять допустимо) и RTO (сколько времени на восстановление); знает, где backups для его сервиса и кто их owner.
+- Находит backup конкретного сервиса; может выполнить базовый restore по существующему runbook в staging.
+
+**L4**
+- Определяет RPO/RTO для своего сервиса исходя из business-требований; фиксирует в SLO-документе сервиса; согласует с product-командой.
+- Верифицирует backup'ы регулярным restore-test'ом в staging (минимум раз в квартал); фиксирует MTTR теста; проблемы → ticket с дедлайном.
+
+**L5**
+- Проектирует backup strategy: full / incremental / log-shipping cadence, retention policy (с учётом регуляторики), encryption (KMS), cross-region replication для DR.
+- Автоматизирует restore drill как ritual: рандомная неделя в квартал — restore в изолированном окружении, измеряется MTTR.
+- Реализует point-in-time recovery (PITR) для источников, которые это поддерживают (PostgreSQL WAL archiving, MySQL binlog, MongoDB oplog, S3 versioning); понимает trade-off cost vs RPO.
+
+**L6+**
+- Проектирует disaster recovery strategy для org: multi-region restore, RTO targets для критичных систем, runbook на DR-сценарий (потеря всего региона), regulatory compliance.
+- Балансирует backup strategy с cost и compliance: storage tiering (hot → cold → archive), retention policy с явным cleanup, encryption-at-rest с rotation, audit access logging.
 
 ## Материалы
 

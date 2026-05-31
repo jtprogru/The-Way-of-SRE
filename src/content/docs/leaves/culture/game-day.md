@@ -19,15 +19,22 @@ Game day и chaos engineering — разные инструменты с пер�
 
 Главный навык на уровне L5 — **проектировать game day так, чтобы сценарий учил, а не превращался в шоу**. Я регулярно вижу две крайности: либо сценарий тривиальный («перезагрузим pod, посмотрим как HPA отработает») и команда теряет интерес ко второй итерации, либо сценарий нагромождён («кладём БД + DNS + Kafka одновременно») и команда теряет понимание, что именно она сейчас тренирует. Хороший сценарий тренирует **одну явную способность** (escalation discipline, runbook execution, comms cadence, role handoff) и оставляет место для realistic confusion, но не для коллапса.
 
-- **L3** — Понимает разницу между game day, wheel of misfortune и chaos experiment. Участвует в game day своей команды как responder.
-- **L3** — Читает runbook'и заранее перед game day; в момент тренировки следует им, фиксирует места, где runbook был неясен или устарел.
-- **L4** — Фасилитирует Wheel of Misfortune для своей команды: выбирает прошлый или придуманный инцидент, описывает входной сигнал, ведёт обсуждение, фиксирует «что бы вы сделали → почему → откуда узнаете, что сработало».
-- **L4** — Готовит staging-сценарий: injection (через chaos tooling или вручную), observability checklist для проверки signal, runbook walk-through, abort-condition, post-game review template.
-- **L5** — Проектирует quarterly game day календарь для команды: scenarios варьируются (network / dependency / data / human-error / process), сложность растёт инкрементально, каждый game day тренирует одну явную способность.
-- **L5** — Запускает game day в production с minimal blast radius (1% traffic / 1 instance / single region) с явными abort-conditions и observability gates. Только когда staging-цикл стабильно работает.
-- **L5** — Ведёт post-game review: factual timeline, findings (что сработало / что нет), action items с владельцем и дедлайном; следит за их закрытием до следующего game day.
-- **L6+** — Внедряет game day как регулярную практику в нескольких командах / org-wide. Согласует cadence, scenarios sharing, cross-team drill, executive buy-in.
-- **L6+** — Проектирует full-scale exercise (DiRT-style): multi-team, multi-day, multi-region. Включая communications protocol, command center, regulatory implications.
+**L3**
+- Понимает разницу между game day, wheel of misfortune и chaos experiment. Участвует в game day своей команды как responder.
+- Читает runbook'и заранее перед game day; в момент тренировки следует им, фиксирует места, где runbook был неясен или устарел.
+
+**L4**
+- Фасилитирует Wheel of Misfortune для своей команды: выбирает прошлый или придуманный инцидент, описывает входной сигнал, ведёт обсуждение, фиксирует «что бы вы сделали → почему → откуда узнаете, что сработало».
+- Готовит staging-сценарий: injection (через chaos tooling или вручную), observability checklist для проверки signal, runbook walk-through, abort-condition, post-game review template.
+
+**L5**
+- Проектирует quarterly game day календарь для команды: scenarios варьируются (network / dependency / data / human-error / process), сложность растёт инкрементально, каждый game day тренирует одну явную способность.
+- Запускает game day в production с minimal blast radius (1% traffic / 1 instance / single region) с явными abort-conditions и observability gates. Только когда staging-цикл стабильно работает.
+- Ведёт post-game review: factual timeline, findings (что сработало / что нет), action items с владельцем и дедлайном; следит за их закрытием до следующего game day.
+
+**L6+**
+- Внедряет game day как регулярную практику в нескольких командах / org-wide. Согласует cadence, scenarios sharing, cross-team drill, executive buy-in.
+- Проектирует full-scale exercise (DiRT-style): multi-team, multi-day, multi-region. Включая communications protocol, command center, regulatory implications.
 
 ## Материалы
 

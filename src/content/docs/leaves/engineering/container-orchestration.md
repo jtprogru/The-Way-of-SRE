@@ -19,19 +19,26 @@ description: Контейнеры как packaging, Kubernetes как orchestrat
 
 Главный навык на уровне L4 — отлаживать pod, **не открывая kubectl-cheatsheet**. Когда pod в `CrashLoopBackOff`, последовательность примерно одна и та же: `kubectl describe pod` → events / restart count / exit code → `kubectl logs --previous` → если контейнер падает до логов, `kubectl get events --sort-by=.lastTimestamp` → если scheduler не размещает, `kubectl describe node` → taints / resource pressure / affinity. Это не про память — про mental model: что k8s контроллер делает на каждом шаге и где он оставляет следы. Я регулярно вижу команды, в которых эта последовательность есть только у двух senior'ов; все остальные открывают Grafana и ждут «оно само починится». Один день на чтение [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) и `kubectl explain` для базовых ресурсов — заметная разница для всех будущих on-call смен.
 
-- **L3** — Понимает, что container — это процесс в namespaces/cgroups (см. [Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)), а pod — группа контейнеров с общим network namespace. Различает `Deployment` / `StatefulSet` / `DaemonSet` / `Job` / `CronJob` и знает, для чего каждый.
-- **L3** — Работает с базовым `kubectl`: `get`, `describe`, `logs`, `exec`, `apply`, `delete`; читает manifest как YAML с `apiVersion` / `kind` / `metadata` / `spec` / `status`.
-- **L4** — Дебажит pod самостоятельно: `describe` → events → logs (включая `--previous`) → `kubectl get events --sort-by=.lastTimestamp`. Различает `ImagePullBackOff` / `CrashLoopBackOff` / `Pending` / `Evicted` / `OOMKilled` по симптому и знает, где искать root cause.
-- **L4** — Понимает **resource requests vs limits**: requests управляют scheduling, limits — cgroup. Знает, что CPU throttling без OOM — типичная причина «pod жив, но медленный».
-- **L4** — Настраивает probes: `liveness` (когда перезапускать), `readiness` (когда исключить из service endpoints), `startup` (для медленно стартующих). Понимает, почему liveness без readiness — частая причина «rolling update положил сервис».
-- **L4** — Дебажит networking внутри кластера: `kubectl get svc` / `endpoints`, проверка DNS через `nslookup` из debug-pod'а, NetworkPolicy, ingress controller logs.
-- **L5** — Управляет workload через GitOps-flow (см. [GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)): Helm/Kustomize шаблоны, разделение значений по окружениям, ArgoCD/Flux sync drift detection. На petproject'е [`orb-k8s-gitops`](https://github.com/jtprogru/orb-k8s-gitops) — пример паттерна «приложение / окружение / values».
-- **L5** — Понимает control plane: kube-apiserver / etcd / controller-manager / scheduler / kubelet; видит, где живут tokens (`/var/run/secrets/kubernetes.io/serviceaccount/`), как работает RBAC (`Role` / `ClusterRole` / `Binding`), что значит «admission webhook fail».
-- **L5** — Дизайнит cluster-wide policies: PodSecurity (или PSA в современных версиях), ResourceQuotas, LimitRanges на namespace, NetworkPolicy по умолчанию-deny с явными allow.
-- **L5** — Различает statefulness: ephemeral storage (`emptyDir`) vs persistent (`PersistentVolume` / `PersistentVolumeClaim` / `StorageClass`) vs external (managed DB через `Service` / `ExternalName`). Знает, что `StatefulSet` гарантирует stable identity, а не reliability.
-- **L6+** — Оценивает trade-off self-hosted vs managed (EKS / GKE / AKS / managed-k8s облака — см. [Cloud Providers](/The-Way-of-SRE/leaves/engineering/cloud-providers/)). Понимает, что отдаётся провайдеру (control plane uptime, etcd, upgrades) и что остаётся у команды (worker nodes, addons, networking, observability).
-- **L6+** — Планирует upgrade strategy: minor version cadence, deprecated APIs (`pluto` / `kube-no-trouble`), node pool rotation, backup etcd перед мажорным upgrade. Готов к non-trivial cases: stuck PDB, immortal pods, webhook циклы.
-- **L6+** — Учит команду: проводит k8s-разборы инцидентов как demonstration, ведёт upgrade-планы, документирует cluster invariants (что нельзя сломать) в [runbook'ах](/The-Way-of-SRE/leaves/culture/runbooks/).
+**L3**
+- Понимает, что container — это процесс в namespaces/cgroups (см. [Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)), а pod — группа контейнеров с общим network namespace. Различает `Deployment` / `StatefulSet` / `DaemonSet` / `Job` / `CronJob` и знает, для чего каждый.
+- Работает с базовым `kubectl`: `get`, `describe`, `logs`, `exec`, `apply`, `delete`; читает manifest как YAML с `apiVersion` / `kind` / `metadata` / `spec` / `status`.
+
+**L4**
+- Дебажит pod самостоятельно: `describe` → events → logs (включая `--previous`) → `kubectl get events --sort-by=.lastTimestamp`. Различает `ImagePullBackOff` / `CrashLoopBackOff` / `Pending` / `Evicted` / `OOMKilled` по симптому и знает, где искать root cause.
+- Понимает **resource requests vs limits**: requests управляют scheduling, limits — cgroup. Знает, что CPU throttling без OOM — типичная причина «pod жив, но медленный».
+- Настраивает probes: `liveness` (когда перезапускать), `readiness` (когда исключить из service endpoints), `startup` (для медленно стартующих). Понимает, почему liveness без readiness — частая причина «rolling update положил сервис».
+- Дебажит networking внутри кластера: `kubectl get svc` / `endpoints`, проверка DNS через `nslookup` из debug-pod'а, NetworkPolicy, ingress controller logs.
+
+**L5**
+- Управляет workload через GitOps-flow (см. [GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)): Helm/Kustomize шаблоны, разделение значений по окружениям, ArgoCD/Flux sync drift detection. На petproject'е [`orb-k8s-gitops`](https://github.com/jtprogru/orb-k8s-gitops) — пример паттерна «приложение / окружение / values».
+- Понимает control plane: kube-apiserver / etcd / controller-manager / scheduler / kubelet; видит, где живут tokens (`/var/run/secrets/kubernetes.io/serviceaccount/`), как работает RBAC (`Role` / `ClusterRole` / `Binding`), что значит «admission webhook fail».
+- Дизайнит cluster-wide policies: PodSecurity (или PSA в современных версиях), ResourceQuotas, LimitRanges на namespace, NetworkPolicy по умолчанию-deny с явными allow.
+- Различает statefulness: ephemeral storage (`emptyDir`) vs persistent (`PersistentVolume` / `PersistentVolumeClaim` / `StorageClass`) vs external (managed DB через `Service` / `ExternalName`). Знает, что `StatefulSet` гарантирует stable identity, а не reliability.
+
+**L6+**
+- Оценивает trade-off self-hosted vs managed (EKS / GKE / AKS / managed-k8s облака — см. [Cloud Providers](/The-Way-of-SRE/leaves/engineering/cloud-providers/)). Понимает, что отдаётся провайдеру (control plane uptime, etcd, upgrades) и что остаётся у команды (worker nodes, addons, networking, observability).
+- Планирует upgrade strategy: minor version cadence, deprecated APIs (`pluto` / `kube-no-trouble`), node pool rotation, backup etcd перед мажорным upgrade. Готов к non-trivial cases: stuck PDB, immortal pods, webhook циклы.
+- Учит команду: проводит k8s-разборы инцидентов как demonstration, ведёт upgrade-планы, документирует cluster invariants (что нельзя сломать) в [runbook'ах](/The-Way-of-SRE/leaves/culture/runbooks/).
 
 ## Материалы
 

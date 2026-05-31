@@ -19,14 +19,21 @@ description: Самоорганизующиеся сообщества инже�
 
 Главный навык на уровне L5 — facilitate CoP так, чтобы он не вырождался в social club. По моим наблюдениям, разница между живой CoP и формальной — наличие явного **charter** (зачем существует, для кого, success criteria) и **rotation of facilitation** (постоянный facilitator → burnout / single point of failure). Без charter CoP теряет focus за один квартал; без rotation — за полгода теряет facilitator'а.
 
-- **L3** — Регулярно ходит на CoP-встречи своей area; делится своим опытом, а не только consumes. Один input + один observation per quarter — минимум.
-- **L3** — Документирует learnings из CoP в command knowledge base / personal log, не «осталось в голове».
-- **L4** — Готовит и проводит CoP session: явная agenda, формат (discussion / demo / case review), takeaways, fixed time-box.
-- **L4** — Интегрирует CoP learnings в свою команду: «на CoP обсудили X — у нас вот тут аналогичная боль, попробуем».
-- **L5** — Facilitates CoP regularly: cadence, charter, rotation of facilitators, balance tactical (текущие проблемы) vs strategic (направление развития).
-- **L5** — Запускает новую CoP, когда видит cross-team боль без места для обсуждения: charter draft, sponsorship, initial cadence.
-- **L6+** — Проектирует org-wide CoP program: charter template, sponsorship model, success metrics, sunset process (CoP, которые умерли — закрыть, не делать вид, что живы).
-- **L6+** — Связывает CoP с org strategy: какие practices org хочет распространить — там и CoP. Без strategic alignment CoP финансово не оправдан для top-management.
+**L3**
+- Регулярно ходит на CoP-встречи своей area; делится своим опытом, а не только consumes. Один input + один observation per quarter — минимум.
+- Документирует learnings из CoP в command knowledge base / personal log, не «осталось в голове».
+
+**L4**
+- Готовит и проводит CoP session: явная agenda, формат (discussion / demo / case review), takeaways, fixed time-box.
+- Интегрирует CoP learnings в свою команду: «на CoP обсудили X — у нас вот тут аналогичная боль, попробуем».
+
+**L5**
+- Facilitates CoP regularly: cadence, charter, rotation of facilitators, balance tactical (текущие проблемы) vs strategic (направление развития).
+- Запускает новую CoP, когда видит cross-team боль без места для обсуждения: charter draft, sponsorship, initial cadence.
+
+**L6+**
+- Проектирует org-wide CoP program: charter template, sponsorship model, success metrics, sunset process (CoP, которые умерли — закрыть, не делать вид, что живы).
+- Связывает CoP с org strategy: какие practices org хочет распространить — там и CoP. Без strategic alignment CoP финансово не оправдан для top-management.
 
 ## Материалы
 

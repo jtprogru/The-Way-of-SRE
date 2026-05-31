@@ -17,15 +17,22 @@ description: Партнёрство SRE с продуктовыми команд
 
 Главный навык на уровне L5 — договариваться об **engagement contract** в явном виде, не «помогаем как можем». Я регулярно вижу команды, в которых SRE и разработчики «партнёры», но при первом серьёзном инциденте выясняется, что никто не знал точно, кто owns что, на каких условиях SRE engage, как происходит exit. Без письменного contract «partnership» — это игра в надежду, и она проигрывается на первом крупном инциденте.
 
-- **L3** — Различает три типовые модели сотрудничества: embedded SRE (внутри product-команды), consulting SRE (приходящий по запросу) и platform SRE (предоставляет общие сервисы).
-- **L3** — Понимает, что SRE не отвечает в одиночку за uptime; читает engagement-документы между SRE и dev-командой.
-- **L4** — Участвует в product-команде как embedded SRE: ходит на planning, даёт reliability-input на design review, помогает писать корректные SLI совместно с разработчиками.
-- **L4** — Проводит Production Readiness Review (PRR) для нового сервиса: проверяет SLO, runbook, observability, capacity, dependencies — фиксирует gap до запуска.
-- **L5** — Внедряет shared on-call с продуктовой командой (разработчики в ротации вместе с SRE) или налаживает регулярные sync-сессии.
-- **L5** — Договаривается об engagement contract: что делает SRE, что делает product team, при каких условиях SRE engage и exit. Документирует и регулярно ревьюит.
-- **L5** — Проводит handoff dev → SRE и обратный delegation back, опираясь на production-readiness checklist; не позволяет «engagement без срока».
-- **L6+** — Проектирует embed-модель SRE для продуктовой области из нескольких команд: где embedded, где consulting, где platform.
-- **L6+** — Разрешает конфликты ownership / incentives между dev-командой и SRE: пересматривает engagement contract при систематическом нарушении SLO, не прибегая к blame.
+**L3**
+- Различает три типовые модели сотрудничества: embedded SRE (внутри product-команды), consulting SRE (приходящий по запросу) и platform SRE (предоставляет общие сервисы).
+- Понимает, что SRE не отвечает в одиночку за uptime; читает engagement-документы между SRE и dev-командой.
+
+**L4**
+- Участвует в product-команде как embedded SRE: ходит на planning, даёт reliability-input на design review, помогает писать корректные SLI совместно с разработчиками.
+- Проводит Production Readiness Review (PRR) для нового сервиса: проверяет SLO, runbook, observability, capacity, dependencies — фиксирует gap до запуска.
+
+**L5**
+- Внедряет shared on-call с продуктовой командой (разработчики в ротации вместе с SRE) или налаживает регулярные sync-сессии.
+- Договаривается об engagement contract: что делает SRE, что делает product team, при каких условиях SRE engage и exit. Документирует и регулярно ревьюит.
+- Проводит handoff dev → SRE и обратный delegation back, опираясь на production-readiness checklist; не позволяет «engagement без срока».
+
+**L6+**
+- Проектирует embed-модель SRE для продуктовой области из нескольких команд: где embedded, где consulting, где platform.
+- Разрешает конфликты ownership / incentives между dev-командой и SRE: пересматривает engagement contract при систематическом нарушении SLO, не прибегая к blame.
 
 ## Материалы
 

@@ -17,15 +17,22 @@ description: Документированные уровни и переходы
 
 Главный навык на уровне L5 — формулировать **specific behavioral expectations**, а не «должен иметь impact». Vague формулировки типа «senior должен иметь large impact» неоперационализуемы — evaluator интерпретирует субъективно, инженер не знает, как закрыть. Хорошие ladders формулируют поведенчески: «independently drives features through ambiguity», «mentors at least N junior engineers», «owns reliability of one critical service», «contributes to architecture decisions через ADR». Измеримо, сравнимо, отстаиваемо в calibration.
 
-- **L3** — Знает, где живёт ladder-документ; находит свой текущий уровень и читает expectations следующего.
-- **L3** — Регулярно (минимум quarterly) перечитывает ladder для self-positioning: что закрывает, что нет, в чём gap.
-- **L4** — Использует ladder в 1:1 conversations: формулирует growth-вопросы конкретно («вот expectations L5, такие пункты я закрываю через X / Y / Z, эти — нет»).
-- **L4** — Даёт peer-feedback со ссылкой на ladder («это уже L5-level scope decision», «здесь не хватает behaviour из L5 — multi-team influence»).
-- **L5** — Калибрует собственное self-assessment с командной нормой через calibration meeting (полугодие — норма).
-- **L5** — Если играет роль руководителя / tech lead: использует ladder для promotion decisions, документирует промоушн как явный case с evidence (artifacts, projects, behaviours).
-- **L5** — Пишет promotion case на одну страницу: для какого уровня, какие expectations закрыты конкретными примерами, какие открытые вопросы; ревьюится кросс-командно.
-- **L6+** — Проектирует / обновляет ladder для org-области: балансирует specialist vs generalist, IC track vs manager track.
-- **L6+** — Поддерживает ladder во времени: industry shifts (AI-era, platform-engineering era) приходят за expectations; ladder evolves; при этом не ломаются уже выданные commitments.
+**L3**
+- Знает, где живёт ladder-документ; находит свой текущий уровень и читает expectations следующего.
+- Регулярно (минимум quarterly) перечитывает ladder для self-positioning: что закрывает, что нет, в чём gap.
+
+**L4**
+- Использует ladder в 1:1 conversations: формулирует growth-вопросы конкретно («вот expectations L5, такие пункты я закрываю через X / Y / Z, эти — нет»).
+- Даёт peer-feedback со ссылкой на ladder («это уже L5-level scope decision», «здесь не хватает behaviour из L5 — multi-team influence»).
+
+**L5**
+- Калибрует собственное self-assessment с командной нормой через calibration meeting (полугодие — норма).
+- Если играет роль руководителя / tech lead: использует ladder для promotion decisions, документирует промоушн как явный case с evidence (artifacts, projects, behaviours).
+- Пишет promotion case на одну страницу: для какого уровня, какие expectations закрыты конкретными примерами, какие открытые вопросы; ревьюится кросс-командно.
+
+**L6+**
+- Проектирует / обновляет ladder для org-области: балансирует specialist vs generalist, IC track vs manager track.
+- Поддерживает ladder во времени: industry shifts (AI-era, platform-engineering era) приходят за expectations; ladder evolves; при этом не ломаются уже выданные commitments.
 
 ## Материалы
 

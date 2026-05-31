@@ -17,15 +17,20 @@ description: Operational дисциплина multi-team incident response — I
 
 Главный навык на уровне L5 — проектировать **IC rotation**. IC не может вести инцидент дольше 2–4 часов без потери эффективности — fatigue, tunnel vision, привязанность к гипотезам. Я регулярно вижу инциденты длиной 8+ часов с одним IC, который под конец принимает решения хуже, чем on-call инженер в первый час. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает). Без rotation IC становится bottleneck.
 
-- **L4** — Понимает роли war room по PagerDuty / Google IRT model: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние коммуникации; **Scribe** — фиксирует timeline в реальном времени; **SME** — domain knowledge.
-- **L4** — Выступает как IC для **SEV2+** incident в своём домене — открывает war room channel, объявляет роли, ведёт sitrep cadence. Принимает решения 70/30: ждать 100% уверенности — терять время; 70%+ — действовать, записывать в decision log.
-- **L4** — Применяет **sitrep cadence** как explicit ritual — каждые 15 минут (SEV0/critical) или 30 минут (SEV1/major). Структура: `current status / what we tried / what we're doing now / next step / blockers / next sitrep at HH:MM`.
-- **L5** — Проектирует **role rotation** — pre-planned handoff на second IC; 5-минутный sync (current hypothesis, что попробовано, что не работает). Распространяется на Ops Lead, Comms Lead.
-- **L5** — Применяет **decision log** как separate artifact — каждое значимое решение `WHO decided WHAT at WHEN, alternatives considered, rollback plan`. Primary input для post-mortem.
-- **L5** — Проектирует **shift transition** для multi-day incidents — handoff doc, explicit reassignment всех ролей, overlap window (15–30 минут handoff sync).
-- **L5** — Управляет **incident channel hygiene** — единый источник истины, separation `incident-${id}-warroom` (executors) и `incident-${id}-stakeholders` (broadcast). Запрет DM-обсуждений «решений», запрет parallel war rooms.
-- **L6+** — Внедряет **org-level war room infrastructure** — incident management tool, recurring IC training, IC certification, review IC performance в post-mortem.
-- **L6+** — Принимает strategic decisions — 24×7 IC coverage, executive escalation thresholds, legal/PR involvement, war room compensation.
+**L4**
+- Понимает роли war room по PagerDuty / Google IRT model: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние коммуникации; **Scribe** — фиксирует timeline в реальном времени; **SME** — domain knowledge.
+- Выступает как IC для **SEV2+** incident в своём домене — открывает war room channel, объявляет роли, ведёт sitrep cadence. Принимает решения 70/30: ждать 100% уверенности — терять время; 70%+ — действовать, записывать в decision log.
+- Применяет **sitrep cadence** как explicit ritual — каждые 15 минут (SEV0/critical) или 30 минут (SEV1/major). Структура: `current status / what we tried / what we're doing now / next step / blockers / next sitrep at HH:MM`.
+
+**L5**
+- Проектирует **role rotation** — pre-planned handoff на second IC; 5-минутный sync (current hypothesis, что попробовано, что не работает). Распространяется на Ops Lead, Comms Lead.
+- Применяет **decision log** как separate artifact — каждое значимое решение `WHO decided WHAT at WHEN, alternatives considered, rollback plan`. Primary input для post-mortem.
+- Проектирует **shift transition** для multi-day incidents — handoff doc, explicit reassignment всех ролей, overlap window (15–30 минут handoff sync).
+- Управляет **incident channel hygiene** — единый источник истины, separation `incident-${id}-warroom` (executors) и `incident-${id}-stakeholders` (broadcast). Запрет DM-обсуждений «решений», запрет parallel war rooms.
+
+**L6+**
+- Внедряет **org-level war room infrastructure** — incident management tool, recurring IC training, IC certification, review IC performance в post-mortem.
+- Принимает strategic decisions — 24×7 IC coverage, executive escalation thresholds, legal/PR involvement, war room compensation.
 
 ## Материалы
 

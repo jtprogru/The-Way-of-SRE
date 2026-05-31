@@ -17,14 +17,21 @@ description: Применение chaos-экспериментов к security-�
 
 Главный навык на уровне L4 — формулировать **security steady-state hypothesis** и отличать «контрол настроен» от «контрол проверен». Пример гипотезы: «при создании security group с открытым `0.0.0.0/0:22` detection-алерт срабатывает за ≤5 минут, и auto-remediation закрывает правило за ≤10». Если такого утверждения нет до эксперимента — это не SCE, а просто тыкание в прод. Я регулярно вижу, что команды путают SCE с pen test или red team; разница в том, что SCE — **повторяемая проверка известных контролов** по гипотезе, а не adversarial-поиск неизвестного «как пролезть».
 
-- **L3** — Понимает, что SCE — это hypothesis-driven валидация security-контролов, а не pen test и не red team; различает «контрол сконфигурирован» и «контрол верифицирован».
-- **L3** — Проводит простой security-эксперимент в non-prod: создаёт намеренно мисконфигурированный ресурс (публичный бакет, открытый порт) и проверяет, что detection-алерт срабатывает.
-- **L4** — Формулирует security steady-state hypothesis, запускает эксперимент в staging с явным blast radius, измеряет MTTD (time to detect) и факт срабатывания response, документирует findings.
-- **L4** — Инструментирует security-observability, без которой эксперимент ничего не доказывает: detection-телеметрия, audit log, dashboard по security-событиям. Это тот же пре-реквизит, что observability для reliability-chaos.
-- **L5** — Проектирует security game day / purple team упражнение: сценарии из threat model и [MITRE ATT&CK](https://attack.mitre.org/), участвуют detection- и response-команды, измеряется MTTD/MTTR по security-событиям, по итогам — action items.
-- **L5** — Связывает findings с vulnerability management и incident response: контрол, который не сработал, — это finding с владельцем и SLA, а не «интересное наблюдение».
-- **L6+** — Внедряет continuous security validation: автоматические security-эксперименты в pipeline, breach-and-attack-simulation на регулярной основе, org-level governance для безопасного запуска adversarial-экспериментов.
-- **L6+** — Принимает strategic-решения: SCE в regulated-средах (banking / healthcare / payments), баланс между непрерывной валидацией и риском задеть реальные системы, координация с SOC и regulatory-ограничениями.
+**L3**
+- Понимает, что SCE — это hypothesis-driven валидация security-контролов, а не pen test и не red team; различает «контрол сконфигурирован» и «контрол верифицирован».
+- Проводит простой security-эксперимент в non-prod: создаёт намеренно мисконфигурированный ресурс (публичный бакет, открытый порт) и проверяет, что detection-алерт срабатывает.
+
+**L4**
+- Формулирует security steady-state hypothesis, запускает эксперимент в staging с явным blast radius, измеряет MTTD (time to detect) и факт срабатывания response, документирует findings.
+- Инструментирует security-observability, без которой эксперимент ничего не доказывает: detection-телеметрия, audit log, dashboard по security-событиям. Это тот же пре-реквизит, что observability для reliability-chaos.
+
+**L5**
+- Проектирует security game day / purple team упражнение: сценарии из threat model и [MITRE ATT&CK](https://attack.mitre.org/), участвуют detection- и response-команды, измеряется MTTD/MTTR по security-событиям, по итогам — action items.
+- Связывает findings с vulnerability management и incident response: контрол, который не сработал, — это finding с владельцем и SLA, а не «интересное наблюдение».
+
+**L6+**
+- Внедряет continuous security validation: автоматические security-эксперименты в pipeline, breach-and-attack-simulation на регулярной основе, org-level governance для безопасного запуска adversarial-экспериментов.
+- Принимает strategic-решения: SCE в regulated-средах (banking / healthcare / payments), баланс между непрерывной валидацией и риском задеть реальные системы, координация с SOC и regulatory-ограничениями.
 
 ## Материалы
 

@@ -19,14 +19,21 @@ description: Дисциплина выполнения action items после �
 
 Главный навык на уровне L4 — **completion rate как метрика качества всего постмортем-процесса**. По моим наблюдениям, ни одна команда, которая не трекает completion rate, не имеет здорового AI-flow — потому что без метрики невозможно увидеть, что система сломана, пока тот же incident не вернётся. Healthy команда мерит rate ежеквартально; при падении < 70% — root-cause analysis самого AI-process, не уход в «надо лучше стараться».
 
-- **L3** — Каждый AI имеет: owner (named individual, не team), deadline, success criterion («что значит — сделано»). Без всех трёх AI не считается AI.
-- **L3** — AIs живут в issue tracker рядом с обычной работой (Jira / Linear / GitHub Issues), не в постмортем-документе. Документ — статичный snapshot; AIs — живые tickets.
-- **L4** — Приоритет AI явно помечается: P0 prevent recurrence vs P3 nice-to-have. Без приоритизации все AI размываются.
-- **L4** — Регулярный AI review ritual (monthly / после каждого крупного incident): что closed, что overdue, что нужно escalate / re-scope / drop.
-- **L5** — Трекает completion rate как leading indicator quality постмортем-процесса; при тренде вниз — root-cause AI-process, не давление на исполнителей.
-- **L5** — AI escalation policy: что происходит, если AI overdue на 1 cycle, 2 cycles, 3 cycles. Без явной escalation overdue AIs накапливаются как тихий долг.
-- **L6+** — Trend analysis across incidents: какие categories AI repeated (systemic pattern), какие drop (consistent under-prioritisation), какие AI закрываем сознательно как «риск принят».
-- **L6+** — Связывает AI program с org incident strategy: budget time на reliability work (включая выполнение AI) явно зарезервирован, иначе AI всегда проигрывают feature work.
+**L3**
+- Каждый AI имеет: owner (named individual, не team), deadline, success criterion («что значит — сделано»). Без всех трёх AI не считается AI.
+- AIs живут в issue tracker рядом с обычной работой (Jira / Linear / GitHub Issues), не в постмортем-документе. Документ — статичный snapshot; AIs — живые tickets.
+
+**L4**
+- Приоритет AI явно помечается: P0 prevent recurrence vs P3 nice-to-have. Без приоритизации все AI размываются.
+- Регулярный AI review ritual (monthly / после каждого крупного incident): что closed, что overdue, что нужно escalate / re-scope / drop.
+
+**L5**
+- Трекает completion rate как leading indicator quality постмортем-процесса; при тренде вниз — root-cause AI-process, не давление на исполнителей.
+- AI escalation policy: что происходит, если AI overdue на 1 cycle, 2 cycles, 3 cycles. Без явной escalation overdue AIs накапливаются как тихий долг.
+
+**L6+**
+- Trend analysis across incidents: какие categories AI repeated (systemic pattern), какие drop (consistent under-prioritisation), какие AI закрываем сознательно как «риск принят».
+- Связывает AI program с org incident strategy: budget time на reliability work (включая выполнение AI) явно зарезервирован, иначе AI всегда проигрывают feature work.
 
 ## Материалы
 

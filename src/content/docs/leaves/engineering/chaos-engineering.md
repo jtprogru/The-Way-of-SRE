@@ -17,15 +17,22 @@ description: Hypothesis-driven эксперименты для проверки 
 
 Главный навык на уровне L4 — формулировать **steady-state hypothesis**. Это умение, которое отличает chaos от outage: до начала эксперимента ты пишешь «при инъекции X метрика Y сохранится в пределах Z». Если SSM не зафиксирован до старта — это не chaos engineering. Я наблюдаю, что команды часто пропускают этот шаг («ну ясно же, что сервис должен жить») и в итоге не могут сказать, доказал ли эксперимент что-то.
 
-- **L3** — Понимает, что такое chaos engineering и чем оно не является; знает [Principles of Chaos Engineering](http://principlesofchaos.org/); участвует в game day своей команды.
-- **L3** — Знает основные failure modes для своего сервиса: dependency outage, network latency, resource exhaustion, instance kill, region failure. Готов их репродуцировать в dev/staging.
-- **L4** — Проводит chaos experiments в staging: формулирует **steady-state hypothesis**, выбирает variables (latency / error rate / dependency kill), задаёт явный blast radius, измеряет SLI до и после, документирует findings.
-- **L4** — Использует chaos tooling для своего стека: Chaos Mesh / Litmus в k8s; AWS Fault Injection Service / Azure Chaos Studio для cloud workloads; Chaos Toolkit для declarative experiments. Не «вручную через `iptables` / `kill`».
-- **L5** — Проектирует **GameDay как регулярный ритуал** команды: квартальный календарь, scenarios на основе past incidents и known gaps, success criteria, observability checklist, post-game review с action items.
-- **L5** — Запускает chaos в production с minimal blast radius: 1% traffic / 1 instance / single region, observability gates с auto-abort, явный runbook для cleanup и rollback. Только после уверенности в staging.
-- **L5** — Связывает chaos с SLO и error budget: experiments проводятся в окне budget headroom; results feed back в SLO planning.
-- **L6+** — Внедряет continuous chaos: automated experiments в CI/CD pipeline, continuous chaos в production (Netflix-style random instance termination), org-level chaos governance.
-- **L6+** — Принимает strategic chaos decisions: chaos vs availability targets, regulatory implications (banking / healthcare / payments — отдельные правила), insurance / liability questions.
+**L3**
+- Понимает, что такое chaos engineering и чем оно не является; знает [Principles of Chaos Engineering](http://principlesofchaos.org/); участвует в game day своей команды.
+- Знает основные failure modes для своего сервиса: dependency outage, network latency, resource exhaustion, instance kill, region failure. Готов их репродуцировать в dev/staging.
+
+**L4**
+- Проводит chaos experiments в staging: формулирует **steady-state hypothesis**, выбирает variables (latency / error rate / dependency kill), задаёт явный blast radius, измеряет SLI до и после, документирует findings.
+- Использует chaos tooling для своего стека: Chaos Mesh / Litmus в k8s; AWS Fault Injection Service / Azure Chaos Studio для cloud workloads; Chaos Toolkit для declarative experiments. Не «вручную через `iptables` / `kill`».
+
+**L5**
+- Проектирует **GameDay как регулярный ритуал** команды: квартальный календарь, scenarios на основе past incidents и known gaps, success criteria, observability checklist, post-game review с action items.
+- Запускает chaos в production с minimal blast radius: 1% traffic / 1 instance / single region, observability gates с auto-abort, явный runbook для cleanup и rollback. Только после уверенности в staging.
+- Связывает chaos с SLO и error budget: experiments проводятся в окне budget headroom; results feed back в SLO planning.
+
+**L6+**
+- Внедряет continuous chaos: automated experiments в CI/CD pipeline, continuous chaos в production (Netflix-style random instance termination), org-level chaos governance.
+- Принимает strategic chaos decisions: chaos vs availability targets, regulatory implications (banking / healthcare / payments — отдельные правила), insurance / liability questions.
 
 ## Материалы
 

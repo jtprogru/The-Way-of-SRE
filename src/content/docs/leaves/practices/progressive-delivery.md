@@ -17,15 +17,22 @@ description: Выкатка изменений малыми долями с heal
 
 Главный навык на уровне L5 — реализовать **автоматический rollback по SLO burn rate**, а не «manual decision во время инцидента». Я регулярно вижу команды с canary без auto-rollback — инженер смотрит дашборд, решает в моменте остановить или продолжить. Когнитивная нагрузка + reaction time → real customer impact, иногда минуты разницы. Auto-rollback по burn rate threshold снимает решение с человека, который в момент инцидента работает хуже всего.
 
-- **L3** — Понимает разницу между rolling update, canary, blue-green и feature flag rollout; различает «deploy» и «release».
-- **L3** — Запускает деплой по существующему pipeline команды; знает, как откатить через документированную rollback procedure.
-- **L4** — Настраивает canary release для своего сервиса: traffic % steps (5 / 25 / 50 / 100), health gate по error rate или p99 latency, длительность каждой фазы.
-- **L4** — Использует feature flags для отделения deploy от release: код в проде, но функциональность включается отдельным toggle для cohort / процента трафика / внутренних пользователей.
-- **L5** — Проектирует rollout policy для сервиса: явные SLI gates, time windows, blast radius.
-- **L5** — Реализует автоматический rollback по SLO burn rate или health check failure; не требует ручного вмешательства в обычных случаях.
-- **L5** — Координирует rollout критичных изменений с непрямым кодовым путём (DB schema migration, config schema change): backward-compatible шаг → code change → forward-only cleanup.
-- **L6+** — Внедряет progressive delivery как стандарт для команды/org: pipeline templates, training, метрики DORA.
-- **L6+** — Балансирует velocity vs safety: где можно ослабить gate, где усилить.
+**L3**
+- Понимает разницу между rolling update, canary, blue-green и feature flag rollout; различает «deploy» и «release».
+- Запускает деплой по существующему pipeline команды; знает, как откатить через документированную rollback procedure.
+
+**L4**
+- Настраивает canary release для своего сервиса: traffic % steps (5 / 25 / 50 / 100), health gate по error rate или p99 latency, длительность каждой фазы.
+- Использует feature flags для отделения deploy от release: код в проде, но функциональность включается отдельным toggle для cohort / процента трафика / внутренних пользователей.
+
+**L5**
+- Проектирует rollout policy для сервиса: явные SLI gates, time windows, blast radius.
+- Реализует автоматический rollback по SLO burn rate или health check failure; не требует ручного вмешательства в обычных случаях.
+- Координирует rollout критичных изменений с непрямым кодовым путём (DB schema migration, config schema change): backward-compatible шаг → code change → forward-only cleanup.
+
+**L6+**
+- Внедряет progressive delivery как стандарт для команды/org: pipeline templates, training, метрики DORA.
+- Балансирует velocity vs safety: где можно ослабить gate, где усилить.
 
 ## Материалы
 

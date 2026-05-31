@@ -17,15 +17,22 @@ description: Инженерная сторона SLO — определение 
 
 Главный навык на уровне L4 — записывать SLI как **отношение `good events / valid events`** и обосновывать выбор знаменателя. Знаменатель решает, **про что** SLO; неаккуратный знаменатель (включающий healthcheck, ботов, internal probes) делает SLO нерелевантным. Я регулярно вижу команды, которые часами обсуждают числитель и за 5 минут принимают решение по знаменателю — это перевернутая приоритизация.
 
-- **L3** — Различает SLI / SLO / SLA. Читает чужие SLO-описания и понимает, что они формализуют.
-- **L3** — Читает существующие SLO своей команды; в инциденте может сказать, какие SLO под угрозой и сколько бюджета осталось.
-- **L4** — Записывает SLI как отношение `good events / valid events`. Обосновывает выбор знаменателя в SLO-документе сервиса.
-- **L4** — Определяет простой SLO для одного сервиса (availability и/или latency); выбирает SLI window (rolling 28-day vs calendar month) и обосновывает выбор.
-- **L5** — Проектирует набор SLI для сервиса: для онлайн-сервиса — RED (rate / errors / duration); для batch / pipeline — freshness, throughput, correctness; для пользовательского flow — composite по user journey.
-- **L5** — Инструментирует сервис: на стороне клиента (synthetic, RUM) где возможно; на серверной стороне — через Prometheus client / OpenTelemetry SDK; пишет recording rules для агрегации на разных окнах.
-- **L5** — Декомпозирует составной запрос на компонентные SLI и понимает, какой SLI ловит какую часть деградации.
-- **L6+** — Внедряет SLO-инфраструктуру в команде: recording rules, дашборды burn rate, error budget calculation как код (sloth/pyrra/Nobl9), документированная Error Budget Policy.
-- **L6+** — Согласует SLO target с business expectations: 99.99% vs 99.9% — это разница в деньгах; обосновывает выбор через user pain и cost, не «99.9% потому что круто».
+**L3**
+- Различает SLI / SLO / SLA. Читает чужие SLO-описания и понимает, что они формализуют.
+- Читает существующие SLO своей команды; в инциденте может сказать, какие SLO под угрозой и сколько бюджета осталось.
+
+**L4**
+- Записывает SLI как отношение `good events / valid events`. Обосновывает выбор знаменателя в SLO-документе сервиса.
+- Определяет простой SLO для одного сервиса (availability и/или latency); выбирает SLI window (rolling 28-day vs calendar month) и обосновывает выбор.
+
+**L5**
+- Проектирует набор SLI для сервиса: для онлайн-сервиса — RED (rate / errors / duration); для batch / pipeline — freshness, throughput, correctness; для пользовательского flow — composite по user journey.
+- Инструментирует сервис: на стороне клиента (synthetic, RUM) где возможно; на серверной стороне — через Prometheus client / OpenTelemetry SDK; пишет recording rules для агрегации на разных окнах.
+- Декомпозирует составной запрос на компонентные SLI и понимает, какой SLI ловит какую часть деградации.
+
+**L6+**
+- Внедряет SLO-инфраструктуру в команде: recording rules, дашборды burn rate, error budget calculation как код (sloth/pyrra/Nobl9), документированная Error Budget Policy.
+- Согласует SLO target с business expectations: 99.99% vs 99.9% — это разница в деньгах; обосновывает выбор через user pain и cost, не «99.9% потому что круто».
 
 ## Материалы
 

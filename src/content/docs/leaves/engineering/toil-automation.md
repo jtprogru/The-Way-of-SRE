@@ -17,16 +17,23 @@ description: Переход от tracking к elimination — паттерны а
 
 Главный навык на уровне L4 — **выбор правильного уровня автоматизации для конкретной задачи**. Не каждый повторяющийся шаг достоин Kubernetes operator'а; не каждый ежедневный workflow заслуживает только shell-alias. Уровень автоматизации производный от частоты, blast radius, multi-actor coordination и cost of maintenance. Я регулярно вижу две крайности — команды пишут operator там, где хватило бы CronJob, или живут на shell-скриптах там, где уже нужен controller. Оба варианта дороги по-разному.
 
-- **L3** — Понимает иерархию автоматизации (alias / function / CLI utility / scheduled job / event-driven trigger / controller / operator); умеет выбрать минимально достаточный уровень для своего use case.
-- **L3** — Пишет идемпотентные скрипты — повторный запуск даёт тот же результат; явное error handling, exit codes, structured logging для downstream-обработки.
-- **L4** — Реализует event-driven automation — alert → ticket / trigger → action / webhook → workflow; знает базовые анти-паттерны (silent retry без bounds, hidden state в скрипте, race condition между параллельными invocations).
-- **L4** — Различает автоматизацию-как-устранение и автоматизацию-как-перенос: «теперь скрипт каждое утро делает то же самое» — это перенос toil из инженера в cron, реального устранения нет.
-- **L4** — Интегрирует automation с tracking — каждое invocation логируется, метрики runtime / success rate / дрейф в дашборде; tracker оперативно показывает, что автоматизация перестала работать.
-- **L5** — Проектирует automation strategy команды: матрица «частота × blast radius → уровень automation»; явный budget на поддержку (≈30% от стоимости разработки в год по моим наблюдениям).
-- **L5** — Внедряет paved roads / golden paths — внутренний tooling, который снимает повторяющиеся ops-запросы с team (provisioning, configuration, deployments) через self-service.
-- **L5** — Использует operator pattern грамотно — Kubernetes operators для управления stateful workloads (DB, Kafka, certificates), не для всего. Cost: learning curve + custom CRD ownership + version churn от k8s API.
-- **L6+** — Дизайнит strategy на уровне org: platform engineering как формализация paved roads, internal developer portal (Backstage / Port), build vs buy для каждого слоя toolchain.
-- **L6+** — Принимает trade-off решения — централизованная platform team vs federated (каждая team пишет свой tooling), build vs adopt OSS, on-premise vs managed automation.
+**L3**
+- Понимает иерархию автоматизации (alias / function / CLI utility / scheduled job / event-driven trigger / controller / operator); умеет выбрать минимально достаточный уровень для своего use case.
+- Пишет идемпотентные скрипты — повторный запуск даёт тот же результат; явное error handling, exit codes, structured logging для downstream-обработки.
+
+**L4**
+- Реализует event-driven automation — alert → ticket / trigger → action / webhook → workflow; знает базовые анти-паттерны (silent retry без bounds, hidden state в скрипте, race condition между параллельными invocations).
+- Различает автоматизацию-как-устранение и автоматизацию-как-перенос: «теперь скрипт каждое утро делает то же самое» — это перенос toil из инженера в cron, реального устранения нет.
+- Интегрирует automation с tracking — каждое invocation логируется, метрики runtime / success rate / дрейф в дашборде; tracker оперативно показывает, что автоматизация перестала работать.
+
+**L5**
+- Проектирует automation strategy команды: матрица «частота × blast radius → уровень automation»; явный budget на поддержку (≈30% от стоимости разработки в год по моим наблюдениям).
+- Внедряет paved roads / golden paths — внутренний tooling, который снимает повторяющиеся ops-запросы с team (provisioning, configuration, deployments) через self-service.
+- Использует operator pattern грамотно — Kubernetes operators для управления stateful workloads (DB, Kafka, certificates), не для всего. Cost: learning curve + custom CRD ownership + version churn от k8s API.
+
+**L6+**
+- Дизайнит strategy на уровне org: platform engineering как формализация paved roads, internal developer portal (Backstage / Port), build vs buy для каждого слоя toolchain.
+- Принимает trade-off решения — централизованная platform team vs federated (каждая team пишет свой tooling), build vs adopt OSS, on-premise vs managed automation.
 
 ## Материалы
 

@@ -17,15 +17,22 @@ description: Систематическое владение production-серв
 
 Главный навык на уровне L5 — превратить catalog из «wiki для глаз» в **driver автоматизации**. Я регулярно вижу catalog'и, которые читают только люди — никакая система их не использует. В этом случае catalog устаревает за полгода: запись попала туда один раз и живёт там навсегда, через 2 года половина — про deprecated сервисы. Catalog оживает, когда из него генерируются on-call rotation, dashboards, deploy-allowlist. Пока он только для людей, его никто не поддерживает.
 
-- **L3** — Знает структуру владения сервисами своей команды; находит owner любого production-сервиса за минуту.
-- **L3** — Обновляет запись в service catalog после смены owner / on-call / runbook.
-- **L4** — Ведёт service catalog для своих сервисов: owner, on-call rotation, SLO, runbook, зависимости, текущий статус (production / deprecated / sunset).
-- **L4** — Проводит inventory «белых пятен» ownership: сервисы без owner, без runbook, без SLO; формирует список и owner для закрытия.
-- **L5** — Внедряет service catalog как единый источник истины; систематически вытесняет дублирующие записи (wiki, spreadsheet, устные договорённости).
-- **L5** — Связывает catalog с автоматизацией: deploy pipeline / on-call rotation / dashboards / SLO-метрики читают данные из catalog, а не из дублей.
-- **L5** — Проводит ownership handoff при реорганизациях (sunset сервиса, миграция, transfer владельца) с явным дедлайном и follow-up.
-- **L6+** — Проектирует ownership-модель для области из нескольких команд: где single owner, где shared, кто owner cross-team-сервисов и платформенных компонентов.
-- **L6+** — Связывает ownership с org-level compliance / audit: каждый production-сервис имеет accountable owner для security/compliance целей.
+**L3**
+- Знает структуру владения сервисами своей команды; находит owner любого production-сервиса за минуту.
+- Обновляет запись в service catalog после смены owner / on-call / runbook.
+
+**L4**
+- Ведёт service catalog для своих сервисов: owner, on-call rotation, SLO, runbook, зависимости, текущий статус (production / deprecated / sunset).
+- Проводит inventory «белых пятен» ownership: сервисы без owner, без runbook, без SLO; формирует список и owner для закрытия.
+
+**L5**
+- Внедряет service catalog как единый источник истины; систематически вытесняет дублирующие записи (wiki, spreadsheet, устные договорённости).
+- Связывает catalog с автоматизацией: deploy pipeline / on-call rotation / dashboards / SLO-метрики читают данные из catalog, а не из дублей.
+- Проводит ownership handoff при реорганизациях (sunset сервиса, миграция, transfer владельца) с явным дедлайном и follow-up.
+
+**L6+**
+- Проектирует ownership-модель для области из нескольких команд: где single owner, где shared, кто owner cross-team-сервисов и платформенных компонентов.
+- Связывает ownership с org-level compliance / audit: каждый production-сервис имеет accountable owner для security/compliance целей.
 
 ## Материалы
 

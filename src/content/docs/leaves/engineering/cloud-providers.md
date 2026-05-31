@@ -21,18 +21,25 @@ description: Облако как platform с собственным shared-respo
 
 Главный навык на уровне L4 — **читать shared-responsibility матрицу** провайдера для каждого сервиса, который команда использует. У AWS, GCP, Azure, Yandex Cloud — у всех есть публичная документация о том, кто отвечает за уровень. Managed Kubernetes: провайдер гарантирует uptime control plane, ты — worker nodes, addons, workload'ы. Managed Postgres: провайдер — backup retention, patching, failover; ты — query performance, connection pool, application-level integrity. Объектное хранилище: провайдер — durability (11 девяток), ты — bucket policy, encryption at rest, lifecycle. Эта матрица меняет capacity planning, incident response, runbook структуру. Я регулярно вижу команды, для которых «облако = надёжно», и они узнают границу через инцидент.
 
-- **L3** — Понимает базовые primitives облака: compute (VM, container instance, lambda/function), storage (block / object / file), networking (VPC, subnet, security group, load balancer), IAM (service accounts, roles, policies). Знает, что у каждого провайдера — свои названия для одних и тех же концептов.
-- **L3** — Использует CLI провайдера для базовых операций: `aws` / `gcloud` / `az` / `yc`. На petproject [`yccli`](https://github.com/jtprogru/yccli) — пример обвязки `yc` алиасами для частых операций.
-- **L4** — Различает managed vs self-hosted сервисы. Знает, какие части операций уходят к провайдеру (control plane, patching, backup), какие остаются (configuration, workload-level monitoring, capacity).
-- **L4** — Понимает quota-модель: квота — это hard limit, а не «справочная информация». На petproject [`yc-quotas-exporter`](https://github.com/jtprogru/yc-quotas-exporter) — типичная operational задача: вытаскивать квоты как Prometheus-метрику и алертить на «осталось <20%».
-- **L4** — Различает региональную / zonal архитектуру: что такое AZ, как сервисы себя ведут при zone down, что значит «multi-AZ» для managed-сервисов конкретного провайдера. Знает, что разные сервисы у одного провайдера имеют разные failure isolation модели.
-- **L4** — Работает с IAM осознанно: principle of least privilege, service accounts вместо длинноживущих ключей, audit log включён по умолчанию. Не использует root account / owner role для рутины.
-- **L5** — Дизайнит multi-AZ архитектуру: load balancer + minimum 2 AZ, managed services с автоматическим failover, состояние без single AZ. Различает, какие сервисы провайдера действительно multi-AZ, а какие zonal с replication поверх.
-- **L5** — Проектирует DR-стратегию для cloud-environment: cross-region backup'ы (managed DBs, object storage), runbook на «полный regional outage», RPO/RTO с учётом ограничений конкретного провайдера. См. [DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/).
-- **L5** — Понимает биллинговую модель: что списывается посекундно, что почасово, что фиксировано в месяц; egress traffic как hidden cost; reserved/spot/preemptible как trade-off (см. [Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)).
-- **L5** — Различает control plane vs data plane инциденты провайдера. Control plane down (API не отвечает) часто не убивает existing workloads, но блокирует deploy / scale. Data plane down кладёт сервисы. Знает, что мониторить разное.
-- **L6+** — Оценивает trade-off single-provider vs multi-cloud для конкретной системы. Готов аргументировать, что multi-cloud для большинства команд — это «увеличение operational complexity без снижения провайдер-рисков»; знает, в каких сценариях оправдано иначе.
-- **L6+** — Ведёт диалог с провайдером: enterprise support tickets, escalation для региональных инцидентов, RCA от провайдера при postmortem. Различает «провайдер не отвечает» (open ticket) и «мы делаем плохо» (внутренний root cause).
+**L3**
+- Понимает базовые primitives облака: compute (VM, container instance, lambda/function), storage (block / object / file), networking (VPC, subnet, security group, load balancer), IAM (service accounts, roles, policies). Знает, что у каждого провайдера — свои названия для одних и тех же концептов.
+- Использует CLI провайдера для базовых операций: `aws` / `gcloud` / `az` / `yc`. На petproject [`yccli`](https://github.com/jtprogru/yccli) — пример обвязки `yc` алиасами для частых операций.
+
+**L4**
+- Различает managed vs self-hosted сервисы. Знает, какие части операций уходят к провайдеру (control plane, patching, backup), какие остаются (configuration, workload-level monitoring, capacity).
+- Понимает quota-модель: квота — это hard limit, а не «справочная информация». На petproject [`yc-quotas-exporter`](https://github.com/jtprogru/yc-quotas-exporter) — типичная operational задача: вытаскивать квоты как Prometheus-метрику и алертить на «осталось <20%».
+- Различает региональную / zonal архитектуру: что такое AZ, как сервисы себя ведут при zone down, что значит «multi-AZ» для managed-сервисов конкретного провайдера. Знает, что разные сервисы у одного провайдера имеют разные failure isolation модели.
+- Работает с IAM осознанно: principle of least privilege, service accounts вместо длинноживущих ключей, audit log включён по умолчанию. Не использует root account / owner role для рутины.
+
+**L5**
+- Дизайнит multi-AZ архитектуру: load balancer + minimum 2 AZ, managed services с автоматическим failover, состояние без single AZ. Различает, какие сервисы провайдера действительно multi-AZ, а какие zonal с replication поверх.
+- Проектирует DR-стратегию для cloud-environment: cross-region backup'ы (managed DBs, object storage), runbook на «полный regional outage», RPO/RTO с учётом ограничений конкретного провайдера. См. [DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/).
+- Понимает биллинговую модель: что списывается посекундно, что почасово, что фиксировано в месяц; egress traffic как hidden cost; reserved/spot/preemptible как trade-off (см. [Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)).
+- Различает control plane vs data plane инциденты провайдера. Control plane down (API не отвечает) часто не убивает existing workloads, но блокирует deploy / scale. Data plane down кладёт сервисы. Знает, что мониторить разное.
+
+**L6+**
+- Оценивает trade-off single-provider vs multi-cloud для конкретной системы. Готов аргументировать, что multi-cloud для большинства команд — это «увеличение operational complexity без снижения провайдер-рисков»; знает, в каких сценариях оправдано иначе.
+- Ведёт диалог с провайдером: enterprise support tickets, escalation для региональных инцидентов, RCA от провайдера при postmortem. Различает «провайдер не отвечает» (open ticket) и «мы делаем плохо» (внутренний root cause).
 
 ## Материалы
 

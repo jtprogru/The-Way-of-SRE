@@ -17,15 +17,22 @@ description: Управление secrets через централизован�
 
 Главный навык на уровне L6+ — переход к **secret-less аутентификации** где это возможно. Service-to-service mTLS вместо shared secrets, ephemeral / short-lived credentials через workload identity (AWS IRSA, GCP Workload Identity, SPIFFE/SPIRE). Любой long-lived secret — это потенциальная утечка; ephemeral credentials с TTL минуты-часы убирают целый класс рисков. Я регулярно вижу команды, которые ротируют long-lived secrets, вместо того чтобы их вообще не иметь — это правильный шаг, но не финальный.
 
-- **L3** — Понимает, что считается секретом (token / password / private key / cert / SSH key); никогда не коммитит секреты в git; находит secrets своего сервиса в Vault / Secrets Manager команды.
-- **L3** — Знает rotation cadence для secrets своего сервиса; использует pre-commit hook (`gitleaks` / `detect-secrets`) локально.
-- **L4** — Настраивает доступ к secrets через IAM/RBAC по принципу наименьших привилегий: сервис A не видит secrets сервиса B; разработчик читает prod-secrets только под audit.
-- **L4** — Интегрирует Vault / Secrets Manager в сервис: sidecar / SDK / env injection / Kubernetes Secrets через External Secrets Operator; код работает с reference, не с literal.
-- **L5** — Проектирует secret lifecycle: provisioning, rotation (auto- или manual cadence), revocation, expiration (TTL); auto-rotation для DB credentials и short-lived tokens — норма.
-- **L5** — Внедряет emergency revocation procedure для случая leak: runbook, скрипты, escalation — отрепетированные на game day, не написанные впервые во время инцидента.
-- **L5** — Настраивает secrets audit: кто, когда, какой секрет запросил; интегрирует с SIEM или централизованным logging; alerting на anomaly access patterns.
-- **L6+** — Дизайнит strategy для org: выбор tooling, integration patterns, compliance (SOC2, PCI-DSS, GDPR, HIPAA).
-- **L6+** — Применяет zero-trust к secret access: service-to-service mTLS вместо shared secrets; ephemeral credentials через workload identity; secret-less как целевое состояние.
+**L3**
+- Понимает, что считается секретом (token / password / private key / cert / SSH key); никогда не коммитит секреты в git; находит secrets своего сервиса в Vault / Secrets Manager команды.
+- Знает rotation cadence для secrets своего сервиса; использует pre-commit hook (`gitleaks` / `detect-secrets`) локально.
+
+**L4**
+- Настраивает доступ к secrets через IAM/RBAC по принципу наименьших привилегий: сервис A не видит secrets сервиса B; разработчик читает prod-secrets только под audit.
+- Интегрирует Vault / Secrets Manager в сервис: sidecar / SDK / env injection / Kubernetes Secrets через External Secrets Operator; код работает с reference, не с literal.
+
+**L5**
+- Проектирует secret lifecycle: provisioning, rotation (auto- или manual cadence), revocation, expiration (TTL); auto-rotation для DB credentials и short-lived tokens — норма.
+- Внедряет emergency revocation procedure для случая leak: runbook, скрипты, escalation — отрепетированные на game day, не написанные впервые во время инцидента.
+- Настраивает secrets audit: кто, когда, какой секрет запросил; интегрирует с SIEM или централизованным logging; alerting на anomaly access patterns.
+
+**L6+**
+- Дизайнит strategy для org: выбор tooling, integration patterns, compliance (SOC2, PCI-DSS, GDPR, HIPAA).
+- Применяет zero-trust к secret access: service-to-service mTLS вместо shared secrets; ephemeral credentials через workload identity; secret-less как целевое состояние.
 
 ## Материалы
 

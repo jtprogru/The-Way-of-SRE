@@ -17,15 +17,20 @@ description: Систематическое введение нового SRE �
 
 Главный навык на уровне L5 — измерять **time-to-on-call** как метрику. «Выйдет в ротацию, когда будет готов» — без даты инженер тянется, команда не планирует ротацию, mentor не понимает, что подтянуть. Целевая дата (8 недель до supervised on-call, 12 недель до самостоятельного) даёт структуру и accountability. Я регулярно вижу разницу: команды с явным time-to-on-call быстрее выводят новых инженеров в продуктивность.
 
-- **L4** — Следует onboarding curriculum команды как mentor: ведёт pair sessions, code walkthrough, runbook review с onboardee.
-- **L4** — Пишет короткий onboarding plan для конкретного инженера: что осваивает в первые 2 / 4 / 12 недель, какие artefacts, кто mentor.
-- **L4** — Участвует в wheel of misfortune вместе с onboardee как фасилитатор или scribe.
-- **L5** — Проектирует onboarding curriculum для команды: список artefacts, последовательность освоения, milestones, требования к mentor, критерий «готов к on-call».
-- **L5** — Оценивает прогресс onboardee через regular check-ins (1 / 2 / 4 / 8 / 12 weeks), корректирует curriculum по фактическому опыту.
-- **L5** — Связывает onboarding с production-готовностью: до какого момента инженер не дежурит самостоятельно, как первое on-call происходит под supervision.
-- **L6+** — Внедряет onboarding-программу для нескольких команд: shared baseline + team-specific extension, mentor rotation, метрики time-to-on-call.
-- **L6+** — Связывает onboarding с hiring / retention strategy: что должны уметь candidates на входе, как сохраняем инженеров после первых 12 месяцев.
-- **L6+** — Защищает onboarding capacity от давления «у нас сейчас инциденты, не до того»; без защиты onboarding деградирует первым.
+**L4**
+- Следует onboarding curriculum команды как mentor: ведёт pair sessions, code walkthrough, runbook review с onboardee.
+- Пишет короткий onboarding plan для конкретного инженера: что осваивает в первые 2 / 4 / 12 недель, какие artefacts, кто mentor.
+- Участвует в wheel of misfortune вместе с onboardee как фасилитатор или scribe.
+
+**L5**
+- Проектирует onboarding curriculum для команды: список artefacts, последовательность освоения, milestones, требования к mentor, критерий «готов к on-call».
+- Оценивает прогресс onboardee через regular check-ins (1 / 2 / 4 / 8 / 12 weeks), корректирует curriculum по фактическому опыту.
+- Связывает onboarding с production-готовностью: до какого момента инженер не дежурит самостоятельно, как первое on-call происходит под supervision.
+
+**L6+**
+- Внедряет onboarding-программу для нескольких команд: shared baseline + team-specific extension, mentor rotation, метрики time-to-on-call.
+- Связывает onboarding с hiring / retention strategy: что должны уметь candidates на входе, как сохраняем инженеров после первых 12 месяцев.
+- Защищает onboarding capacity от давления «у нас сейчас инциденты, не до того»; без защиты onboarding деградирует первым.
 
 ## Материалы
 

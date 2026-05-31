@@ -19,14 +19,19 @@ description: Политика реагирования на катастрофи
 
 Главный навык на уровне L5 — **формулировать decision rights явно, до момента disaster**. В моменте disaster никто не открывает policy: телефон звенит, все паникуют, executives ждут ответа. Если до этого не закреплено «failover на secondary region — решение CTO; ad-hoc decisions в моменте — IC принимает; communication to customers — Comms Lead согласует с Legal в течение 30 минут» — каждый из этих вопросов решается ad-hoc, под давлением, с предсказуемо плохими результатами. Я регулярно вижу команды, у которых backup-restore работает, runbook'и actual, но DR policy — это полстраницы из 2019 года, которую никто не читал. В моменте disaster это эквивалентно отсутствию policy.
 
-- **L4** — Знает DR policy своей org / команды: какие сценарии в scope, какие RTO/RPO targets, кто owner. Может найти документ за 30 секунд, не «в Confluence где-то есть».
-- **L4** — Понимает свою роль в stakeholder map'е: при каких сценариях его информируют, что от него ожидается, кому он эскалирует.
-- **L5** — Пишет или ревьюит DR policy своей команды: scope (какие сценарии), strategy tier (backup-restore / pilot light / warm standby / multi-site), RTO/RPO targets, decision rights, communication tree, regulatory implications.
-- **L5** — Согласует RTO/RPO targets с business: cost of downtime × duration, customer impact, regulatory exposure. Без quantitative обоснования цифры выглядят произвольно и не выдерживают cost discussion.
-- **L5** — Проектирует annual DR exercise: full-scale tabletop минимум раз в год + functional drill (реальный failover) раз в 6-12 месяцев. См. [Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/) для training-стороны.
-- **L5** — Поддерживает DR policy как living document: ревизия раз в 6-12 месяцев, после каждого significant incident, при изменении архитектуры / vendors / regulatory requirements.
-- **L6+** — Внедряет DR policy на уровне org: согласует с executive team, legal, compliance; интегрирует с broader Business Continuity Plan (BCP); ведёт annual DR programme с budget и executive sponsorship.
-- **L6+** — Ведёт переговоры с регуляторами и аудиторами по DR-readiness: SOC 2 Trust Services Criteria (Availability), PCI-DSS req 12, GDPR breach notification, banking / healthcare-специфичные требования.
+**L4**
+- Знает DR policy своей org / команды: какие сценарии в scope, какие RTO/RPO targets, кто owner. Может найти документ за 30 секунд, не «в Confluence где-то есть».
+- Понимает свою роль в stakeholder map'е: при каких сценариях его информируют, что от него ожидается, кому он эскалирует.
+
+**L5**
+- Пишет или ревьюит DR policy своей команды: scope (какие сценарии), strategy tier (backup-restore / pilot light / warm standby / multi-site), RTO/RPO targets, decision rights, communication tree, regulatory implications.
+- Согласует RTO/RPO targets с business: cost of downtime × duration, customer impact, regulatory exposure. Без quantitative обоснования цифры выглядят произвольно и не выдерживают cost discussion.
+- Проектирует annual DR exercise: full-scale tabletop минимум раз в год + functional drill (реальный failover) раз в 6-12 месяцев. См. [Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/) для training-стороны.
+- Поддерживает DR policy как living document: ревизия раз в 6-12 месяцев, после каждого significant incident, при изменении архитектуры / vendors / regulatory requirements.
+
+**L6+**
+- Внедряет DR policy на уровне org: согласует с executive team, legal, compliance; интегрирует с broader Business Continuity Plan (BCP); ведёт annual DR programme с budget и executive sponsorship.
+- Ведёт переговоры с регуляторами и аудиторами по DR-readiness: SOC 2 Trust Services Criteria (Availability), PCI-DSS req 12, GDPR breach notification, banking / healthcare-специфичные требования.
 
 ## Материалы
 

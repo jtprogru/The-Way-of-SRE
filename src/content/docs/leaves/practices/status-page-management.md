@@ -17,18 +17,25 @@ description: Operational practice public status page — subscriber model, uptim
 
 Главный навык на уровне L5 — **проектирование component model status page**. «Всё работает» / «всё лежит» — самая частая ошибка дизайна: один component врёт, public status показывает зелёный, клиенты пишут в support «у вас же зелёное, но не работает». Слишком много components — другая крайность: клиент видит 47 строк, не понимает, какие из них влияют на его use case. Component model производна от architecture (top-level user-facing capabilities, не от internal services) и от severity matrix (mapping internal severity на public component status — `operational / degraded performance / partial outage / major outage`).
 
-- **L3** — Знает, где у команды status page, как клиент её видит; различает public status page и internal monitoring dashboard.
-- **L3** — Умеет обновлять status page как on-call — declare incident, post update с правильным template, mark as resolved.
-- **L3** — Понимает разницу между component status (operational / degraded / outage) и incident status (investigating / identified / monitoring / resolved); знает 5-stage incident lifecycle Atlassian Statuspage / Better Stack.
-- **L4** — Настраивает auto-update integration между monitoring (Datadog / Grafana / Prometheus) и status page — высокий-severity alert → автоматическое создание incident в `investigating` state с manual override.
-- **L4** — Управляет subscriber model — email / SMS / RSS / webhook / Slack notifications; знает разницу subscribed-to-component vs subscribed-to-all и UX implications.
-- **L4** — Pre-announces scheduled maintenance минимум за 7 дней для major changes, за 24 часа для minor — с конкретным time window и expected impact.
-- **L5** — Проектирует component model — top-level user-facing capabilities (не internal services), severity → component status mapping, granularity trade-off (слишком мало — обман, слишком много — шум).
-- **L5** — Определяет uptime calculation policy — что считается downtime (partial outage = X%? degraded = Y%?), какое окно (rolling 30/60/90 days), кто authorizes recalculation. По моим наблюдениям, это самое политически чувствительное решение в status page management.
-- **L5** — Хостит status page на decoupled infrastructure — отдельный cloud / отдельный provider / CDN-cached static; status page должна жить, когда prod лежит.
-- **L5** — Координирует internal incident lifecycle с public status — статус на public странице обновляется *раньше* Twitter и email; cadence promise per severity явно прописан.
-- **L6+** — Дизайнит strategy на уровне org — multi-product portfolio (один общий status или per-product), localization для international клиентов, transparency policy (публичные RCA после major incidents — стиль GitHub / Cloudflare / Stripe vs minimal updates стиль AWS).
-- **L6+** — Принимает strategic решения — buy SaaS provider (Atlassian / Better Stack) vs build (OSS Cachet / Gatus + custom UI), regulatory disclosure через status page (financial services, healthcare — где status page становится regulatory artifact).
+**L3**
+- Знает, где у команды status page, как клиент её видит; различает public status page и internal monitoring dashboard.
+- Умеет обновлять status page как on-call — declare incident, post update с правильным template, mark as resolved.
+- Понимает разницу между component status (operational / degraded / outage) и incident status (investigating / identified / monitoring / resolved); знает 5-stage incident lifecycle Atlassian Statuspage / Better Stack.
+
+**L4**
+- Настраивает auto-update integration между monitoring (Datadog / Grafana / Prometheus) и status page — высокий-severity alert → автоматическое создание incident в `investigating` state с manual override.
+- Управляет subscriber model — email / SMS / RSS / webhook / Slack notifications; знает разницу subscribed-to-component vs subscribed-to-all и UX implications.
+- Pre-announces scheduled maintenance минимум за 7 дней для major changes, за 24 часа для minor — с конкретным time window и expected impact.
+
+**L5**
+- Проектирует component model — top-level user-facing capabilities (не internal services), severity → component status mapping, granularity trade-off (слишком мало — обман, слишком много — шум).
+- Определяет uptime calculation policy — что считается downtime (partial outage = X%? degraded = Y%?), какое окно (rolling 30/60/90 days), кто authorizes recalculation. По моим наблюдениям, это самое политически чувствительное решение в status page management.
+- Хостит status page на decoupled infrastructure — отдельный cloud / отдельный provider / CDN-cached static; status page должна жить, когда prod лежит.
+- Координирует internal incident lifecycle с public status — статус на public странице обновляется *раньше* Twitter и email; cadence promise per severity явно прописан.
+
+**L6+**
+- Дизайнит strategy на уровне org — multi-product portfolio (один общий status или per-product), localization для international клиентов, transparency policy (публичные RCA после major incidents — стиль GitHub / Cloudflare / Stripe vs minimal updates стиль AWS).
+- Принимает strategic решения — buy SaaS provider (Atlassian / Better Stack) vs build (OSS Cachet / Gatus + custom UI), regulatory disclosure через status page (financial services, healthcare — где status page становится regulatory artifact).
 
 ## Материалы
 

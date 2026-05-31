@@ -19,14 +19,21 @@ description: Дисциплина границ изменения в production 
 
 Главный навык на уровне L5 — спроектировать **change classification** так, чтобы 80–90% изменений шли по fast lane (standard change, code review достаточен), 10–15% — по normal lane (PRR / change review для нестандартных изменений), 5% — по freeze-bypass procedure для emergency. По моим наблюдениям, неработающий change governance — это либо «всё normal» (вся работа замирает в CAB-meetings) либо «всё standard» (никакие нестандартные изменения не получают review). Healthy governance — это явная категория «standard» с критериями, чтобы команда знала, когда «не нужен review».
 
-- **L3** — Следует existing change governance: знает, какой класс изменения требует какого review (PR review / RFC / PRR), готовит change request с rollback plan, blast radius assessment, validation steps.
-- **L3** — Понимает разницу между standard / normal / emergency change; не маркирует normal change как emergency для bypass review.
-- **L4** — Проводит **Production Readiness Review (PRR)** для нового сервиса или major изменения: SLO defined, monitoring + alerts, runbooks, on-call coverage, capacity plan, rollback validated.
-- **L4** — Реализует change freeze policy: peak season (Black Friday, end-of-quarter close), major launches, mobile release cuts. Freeze ≠ полный stop — это явный whitelist того, что разрешено.
-- **L5** — Проектирует change classification system для команды / org: критерии standard / normal / emergency, approver chain для каждой категории, метрики performance (% standard, time-to-approval normal, post-change incident rate).
-- **L5** — Включает **error budget gating**: при сожжённом SLO budget автоматически фриз feature changes; разрешены только reliability fixes. Без gating SLO становится дашбордом, не tool принятия решений.
-- **L6+** — Связывает change governance с org SLO program: change risk assessment use SLO data (предыдущие incidents в данной области → выше risk weighting); calibration risk оценок раз в квартал.
-- **L6+** — Внедряет PRR program для новых сервисов как gate перед production: written checklist, owner of review process, follow-up на open items до GA.
+**L3**
+- Следует existing change governance: знает, какой класс изменения требует какого review (PR review / RFC / PRR), готовит change request с rollback plan, blast radius assessment, validation steps.
+- Понимает разницу между standard / normal / emergency change; не маркирует normal change как emergency для bypass review.
+
+**L4**
+- Проводит **Production Readiness Review (PRR)** для нового сервиса или major изменения: SLO defined, monitoring + alerts, runbooks, on-call coverage, capacity plan, rollback validated.
+- Реализует change freeze policy: peak season (Black Friday, end-of-quarter close), major launches, mobile release cuts. Freeze ≠ полный stop — это явный whitelist того, что разрешено.
+
+**L5**
+- Проектирует change classification system для команды / org: критерии standard / normal / emergency, approver chain для каждой категории, метрики performance (% standard, time-to-approval normal, post-change incident rate).
+- Включает **error budget gating**: при сожжённом SLO budget автоматически фриз feature changes; разрешены только reliability fixes. Без gating SLO становится дашбордом, не tool принятия решений.
+
+**L6+**
+- Связывает change governance с org SLO program: change risk assessment use SLO data (предыдущие incidents в данной области → выше risk weighting); calibration risk оценок раз в квартал.
+- Внедряет PRR program для новых сервисов как gate перед production: written checklist, owner of review process, follow-up на open items до GA.
 
 ## Материалы
 

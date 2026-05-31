@@ -19,14 +19,19 @@ description: Сознательный дизайн команд и режимо�
 
 Главный навык на уровне L5 — **распознавать, какой interaction mode уместен в моменте**, и явно выбирать его, а не сваливаться в дефолтный «как привыкли». Collaboration на полгода с продукт-командой выглядит близко и быстро, но через квартал блокирует обе команды и съедает их когнитивную ёмкость. X-as-a-Service выглядит холодно и формально, но масштабируется на 20+ команд без блокировок. Facilitating-режим выглядит как «помощь», но если у enabling-команды нет exit-критерия, она становится постоянным костылём. Каждый режим уместен в своих условиях; путать их — корень большинства org-level пробуксовок, которые я наблюдаю.
 
-- **L4** — Различает четыре типа команд (stream-aligned, platform, enabling, complicated-subsystem) и три interaction mode (collaboration, X-as-a-Service, facilitating). Читает org-структуру через эту рамку.
-- **L4** — Описывает **team API** своей команды: что мы делаем, как с нами связаться, какой response time, какие интерфейсы (service catalog, runbook'и, request flow, on-call channel).
-- **L5** — Проектирует interaction между своей SRE-командой и product-командами: какой режим (collaboration на старте → X-as-a-Service на масштабе), какие exit-критерии, какие SLA коммуникации.
-- **L5** — Применяет **inverse Conway maneuver**: формулирует, какая архитектура нужна, отсюда — какие team boundaries. Например: микросервисная архитектура → stream-aligned teams с end-to-end ownership; общий runtime/observability — platform team.
-- **L5** — Удерживает когнитивную нагрузку команды в пределах её ёмкости: если команда владеет более чем 7±2 сервисами или знаком технологий, это сигнал на split или на platform-инвестицию.
-- **L5** — Распознаёт сигналы misalignment'а: затянутая collaboration без exit, platform-team как bottleneck, enabling-team превратившаяся в permanent ops-команду.
-- **L6+** — Внедряет Team Topologies на уровне SRE-функции в org: какие SRE-команды нужны, в каком режиме они работают с продуктовыми, как растут с ростом org.
-- **L6+** — Ведёт переговоры с руководством о реорганизации команд в логике topology, а не «по головам»: обоснование через когнитивную нагрузку, flow metrics ([DORA](/The-Way-of-SRE/leaves/culture/dora-metrics/)), team API stability.
+**L4**
+- Различает четыре типа команд (stream-aligned, platform, enabling, complicated-subsystem) и три interaction mode (collaboration, X-as-a-Service, facilitating). Читает org-структуру через эту рамку.
+- Описывает **team API** своей команды: что мы делаем, как с нами связаться, какой response time, какие интерфейсы (service catalog, runbook'и, request flow, on-call channel).
+
+**L5**
+- Проектирует interaction между своей SRE-командой и product-командами: какой режим (collaboration на старте → X-as-a-Service на масштабе), какие exit-критерии, какие SLA коммуникации.
+- Применяет **inverse Conway maneuver**: формулирует, какая архитектура нужна, отсюда — какие team boundaries. Например: микросервисная архитектура → stream-aligned teams с end-to-end ownership; общий runtime/observability — platform team.
+- Удерживает когнитивную нагрузку команды в пределах её ёмкости: если команда владеет более чем 7±2 сервисами или знаком технологий, это сигнал на split или на platform-инвестицию.
+- Распознаёт сигналы misalignment'а: затянутая collaboration без exit, platform-team как bottleneck, enabling-team превратившаяся в permanent ops-команду.
+
+**L6+**
+- Внедряет Team Topologies на уровне SRE-функции в org: какие SRE-команды нужны, в каком режиме они работают с продуктовыми, как растут с ростом org.
+- Ведёт переговоры с руководством о реорганизации команд в логике topology, а не «по головам»: обоснование через когнитивную нагрузку, flow metrics ([DORA](/The-Way-of-SRE/leaves/culture/dora-metrics/)), team API stability.
 
 ## Материалы
 
