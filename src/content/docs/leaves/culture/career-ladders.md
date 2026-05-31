@@ -86,7 +86,7 @@ description: Документированные уровни и переходы
 
 ## Открытые вопросы
 
-- **Performance Review Cycle (full)** *(TBD)* — полный ритуал с rating / compensation discussion. Calibration-механика — отдельный лист [Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/); полный cycle пока TBD.
+- **Полный цикл performance review** *(TBD)* — полный ритуал с рейтингом и разговором о компенсации. Механика калибровки — отдельный лист [Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/); полный цикл пока TBD.
 - **Salary Bands связь с ladder** — отдельная org-level подтема (HR-side); шире scope.
 - **Promotion Case formats** — детальная схема (one-pager, evidence references, peer endorsements).
 - **Ladder evolution governance** — кто и как обновляет, как избежать churn от частых правок.

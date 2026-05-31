@@ -86,6 +86,6 @@ description: Регулярные 1:1 с manager / tech lead — простра�
 
 ## Открытые вопросы
 
-- **Performance Review Cycle (full)** *(TBD)* — полный годовой ритуал с rating и compensation discussion. Calibration-часть отдельно описана в [Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/); полный cycle (self-assessment → manager review → calibration → rating → compensation → delivery) — пока TBD.
+- **Полный цикл performance review** *(TBD)* — полный годовой ритуал с рейтингом и разговором о компенсации. Часть про калибровку отдельно описана в [Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/); полный цикл (самооценка → обзор руководителя → калибровка → рейтинг → компенсация → передача обратной связи) — пока TBD.
 - **Goal Setting / OKRs** *(TBD)* — формальная методология постановки целей (OKR / SMART / V2MOM).
 - **Skip-level 1:1s** — встреча с руководителем своего руководителя — отдельная разновидность с собственными правилами (квартал — норма).
