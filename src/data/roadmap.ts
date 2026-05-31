@@ -593,6 +593,12 @@ export const roadmap: Roadmap = {
               href: '/leaves/practices/personal-growth-plan/',
               priority: 'mandatory',
             },
+            {
+              id: 'mentoring-as-practice',
+              label: 'Mentoring as Practice',
+              href: '/leaves/practices/mentoring-as-practice/',
+              priority: 'nice',
+            },
           ],
         },
         {
@@ -604,6 +610,12 @@ export const roadmap: Roadmap = {
               id: 'one-on-ones',
               label: 'One-on-Ones',
               href: '/leaves/practices/one-on-ones/',
+              priority: 'mandatory',
+            },
+            {
+              id: 'calibration-meeting',
+              label: 'Calibration Meeting',
+              href: '/leaves/practices/calibration-meeting/',
               priority: 'mandatory',
             },
           ],

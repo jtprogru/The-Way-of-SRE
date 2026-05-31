@@ -82,9 +82,9 @@ description: Личный план развития инженера — current
 - **[Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/)** — ladder — vocabulary target state; план обращается к ladder для формулировки expectations следующего уровня.
 - **[Architecture Decision Records](/The-Way-of-SRE/leaves/practices/architecture-decision-records/)** — написание ADR — отличный артефакт обучения; deliberate practice в области, где hands-on опыт пока неглубок.
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — wheel of misfortune как часть собственного training — incident response не учится по книгам.
+- **[Mentoring as Practice](/The-Way-of-SRE/leaves/practices/mentoring-as-practice/)** — становление mentor'ом — отдельный навык L5+ и один из multi-format learning channels: teaching как способ understand.
 
 ## Открытые вопросы
 
-- **Mentoring as Practice** *(TBD)* — когда инженер становится mentor для junior, это отдельный набор навыков. Соседний лист.
 - **Public Engineering Output** — talks, OSS contributions, technical writing. Самостоятельная подтема.
 - **Sabbatical / Career Breaks** — long-form recovery / learning breaks как намеренная часть multi-year horizon. Редко обсуждается, может быть полезной заметкой.

@@ -81,9 +81,11 @@ description: Регулярные 1:1 с manager / tech lead — простра�
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — feedback после инцидента не валится в Slack; 1:1 даёт безопасную приватную обратную связь.
 - **[Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/)** — ladder — vocabulary growth conversations; 1:1 — ритуал, в котором ladder используется.
 - **[Personal Growth Plan](/The-Way-of-SRE/leaves/practices/personal-growth-plan/)** — план обновляется на quarterly 1:1.
+- **[Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/)** — 1:1 даёт continuous feedback, calibration — periodic alignment между руководителями; «no surprises rule» — побочный эффект первой практики, прозрачность calibration — второй.
+- **[Mentoring as Practice](/The-Way-of-SRE/leaves/practices/mentoring-as-practice/)** — менторская встреча технически — это разновидность 1:1 без manager-IC контекста; дисциплина та же, контракт другой.
 
 ## Открытые вопросы
 
-- **Performance Review Cycle** *(TBD)* — квартальный или годовой ритуал с rating, calibration, compensation discussion.
+- **Полный цикл performance review** *(TBD)* — полный годовой ритуал с рейтингом и разговором о компенсации. Часть про калибровку отдельно описана в [Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/); полный цикл (самооценка → обзор руководителя → калибровка → рейтинг → компенсация → передача обратной связи) — пока TBD.
 - **Goal Setting / OKRs** *(TBD)* — формальная методология постановки целей (OKR / SMART / V2MOM).
 - **Skip-level 1:1s** — встреча с руководителем своего руководителя — отдельная разновидность с собственными правилами (квартал — норма).

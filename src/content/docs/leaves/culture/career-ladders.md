@@ -81,11 +81,12 @@ description: Документированные уровни и переходы
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — leveling в Embedded SRE / Consulting SRE моделях может отличаться.
 - **[Team Topologies](/The-Way-of-SRE/leaves/culture/team-topologies/)** — career path SRE-инженера часто пересекает topology types (embedded → platform → enabling); ladder без понимания topology читается плоско.
 - **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — критерий L5+ в большинстве хороших ladder; staff/principal track напрямую требует cross-org influence. Без stakeholder management ladder становится плоским на верхних уровнях.
+- **[Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/)** — ритуал, в котором ladder тестируется на конкретных людях; без calibration ladder остаётся документом-альбатросом, который читается каждой командой по-своему.
+- **[Mentoring as Practice](/The-Way-of-SRE/leaves/practices/mentoring-as-practice/)** — «mentor at least N junior engineers» — типичный L5+ expectation в публичных ladder; mentoring — один из transfer mechanisms между уровнями.
 
 ## Открытые вопросы
 
-- **Performance Review Cycle** *(TBD)* — ритуал, обращающийся к ladder для решений о promotion / rating.
-- **Calibration Meeting structure** — как именно проходит calibration (cadence, attendees, format).
+- **Полный цикл performance review** *(TBD)* — полный ритуал с рейтингом и разговором о компенсации. Механика калибровки — отдельный лист [Calibration Meeting](/The-Way-of-SRE/leaves/practices/calibration-meeting/); полный цикл пока TBD.
 - **Salary Bands связь с ladder** — отдельная org-level подтема (HR-side); шире scope.
 - **Promotion Case formats** — детальная схема (one-pager, evidence references, peer endorsements).
 - **Ladder evolution governance** — кто и как обновляет, как избежать churn от частых правок.
