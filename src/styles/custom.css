@@ -108,35 +108,77 @@ body:has(.hero) {
 }
 
 /*
- * Pillar-карточки на главной — тонируем в палитру их ветки.
- * Согласованность с Spider: Culture amber, Engineering teal, Practices indigo.
- * Цвет проявляется как левый borderr и переход на hover.
+ * Branches-strip — компактная замена CardGrid+LinkCard для трёх ветвей.
+ * Цель: не съедать пол-экрана большими карточками, но сохранить цветовой
+ * якорь (amber/teal/indigo), общий с Spider и L1-страницами.
  */
-.sl-link-card:has(a[href*='/sre-culture']) {
-  border-inline-start: 4px solid #d97706;
-}
-.sl-link-card:has(a[href*='/sre-engineering']) {
-  border-inline-start: 4px solid #0d9488;
-}
-.sl-link-card:has(a[href*='/sre-practices']) {
-  border-inline-start: 4px solid #6366f1;
+.branches-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin: 1.25rem 0 1.75rem;
+  padding: 0;
+  list-style: none;
 }
 
-:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-culture']) {
+.branches-strip > li {
+  margin: 0;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-inline-start-width: 4px;
+  border-radius: 0.4rem;
+  background: var(--sl-color-gray-7);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.branches-strip > li:hover {
+  transform: translateY(-1px);
+}
+
+.branches-strip a {
+  display: block;
+  font-weight: 600;
+  font-size: 0.98rem;
+  text-decoration: none;
+  color: var(--sl-color-white);
+}
+
+:root[data-theme='light'] .branches-strip a {
+  color: var(--sl-color-text);
+}
+
+.branches-strip span {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--sl-color-gray-3);
+}
+
+.branches-strip > li[data-branch='culture'] {
+  border-inline-start-color: #d97706;
+}
+.branches-strip > li[data-branch='engineering'] {
+  border-inline-start-color: #0d9488;
+}
+.branches-strip > li[data-branch='practices'] {
+  border-inline-start-color: #6366f1;
+}
+
+:root[data-theme='dark'] .branches-strip > li[data-branch='culture'] {
   border-inline-start-color: #f59e0b;
 }
-:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-engineering']) {
+:root[data-theme='dark'] .branches-strip > li[data-branch='engineering'] {
   border-inline-start-color: #2dd4bf;
 }
-:root[data-theme='dark'] .sl-link-card:has(a[href*='/sre-practices']) {
+:root[data-theme='dark'] .branches-strip > li[data-branch='practices'] {
   border-inline-start-color: #818cf8;
 }
 
-.sl-link-card:has(a[href*='/sre-culture']):hover,
-.sl-link-card:has(a[href*='/sre-engineering']):hover,
-.sl-link-card:has(a[href*='/sre-practices']):hover {
-  transform: translateY(-2px);
-  transition: transform 0.15s ease;
+@media (max-width: 50rem) {
+  .branches-strip {
+    grid-template-columns: 1fr;
+  }
 }
 
 /*

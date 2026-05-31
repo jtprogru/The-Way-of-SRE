@@ -19,7 +19,7 @@ hero:
       variant: minimal
 ---
 
-import { CardGrid, LinkCard, LinkButton } from '@astrojs/starlight/components';
+import { LinkButton } from '@astrojs/starlight/components';
 import Spider from '../../components/Spider.astro';
 import { roadmap } from '../../data/roadmap.ts';
 
@@ -38,23 +38,20 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
   Глубже — <a href={`${base}/about/`}>Мотивация</a>, <a href={`${base}/format/`}>Формат проекта</a>, <a href={`${base}/methodology/`}>Методология</a> и <a href={`${base}/glossary/`}>Глоссарий</a>.
 </div>
 
-<CardGrid>
-  <LinkCard
-    title="SRE Culture"
-    description="Люди, нормы, обмен опытом. Партнёрство с командами, постмортем-культура, метрики надёжности как инструмент разговора."
-    href={`${base}/sre-culture/`}
-  />
-  <LinkCard
-    title="SRE Engineering"
-    description="Технические компетенции. Observability, SLO, networking, IaC, capacity planning, database reliability."
-    href={`${base}/sre-engineering/`}
-  />
-  <LinkCard
-    title="SRE Practices"
-    description="Процессы и ритуалы. Incident management, change management, on-call, security, профессиональное развитие."
-    href={`${base}/sre-practices/`}
-  />
-</CardGrid>
+<ul class="branches-strip">
+  <li data-branch="culture">
+    <a href={`${base}/sre-culture/`}>SRE Culture</a>
+    <span>Люди, нормы, постмортем-культура.</span>
+  </li>
+  <li data-branch="engineering">
+    <a href={`${base}/sre-engineering/`}>SRE Engineering</a>
+    <span>Observability, SLO, IaC, базы данных.</span>
+  </li>
+  <li data-branch="practices">
+    <a href={`${base}/sre-practices/`}>SRE Practices</a>
+    <span>Incident, change, on-call, security.</span>
+  </li>
+</ul>
 
 <p class="meta-strip">
   <span><strong>3</strong> ветви</span>
