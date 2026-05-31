@@ -84,10 +84,10 @@ description: Самоорганизующиеся сообщества инже�
 - **[Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/)** — facilitate CoP — типичный expected behavior на L5 / L6+; ladder обращается к CoP-contribution как valid evidence influence beyond team.
 - **[Personal Growth Plan](/The-Way-of-SRE/leaves/practices/personal-growth-plan/)** — CoP — один из multi-format learning channels (см. лист про deliberate practice + community contribution).
 - **[Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/)** — CoP — один из способов масштабирования SRE-практик за пределы текущей engagement-модели (SRE-developers CoP с участием обеих сторон).
+- **[Mentoring as Practice](/The-Way-of-SRE/leaves/practices/mentoring-as-practice/)** — соседняя практика: 1-on-1 mentorship вместо group learning. Pair vs group — разные mechanics; хорошие компании держат оба канала.
 
 ## Открытые вопросы
 
-- **Mentoring as Practice** *(TBD)* — соседняя практика: 1-on-1 mentorship через границы команд. Отдельный лист, потому что mechanics другие (pair vs group).
 - **Enabling Teams** *(TBD)* — выделенные команды, помогающие другим (Team Topologies). Отличается от CoP по mechanics, но решает смежные задачи.
 - **Guild vs CoP vs Chapter** *(TBD)* — Spotify-vocabulary; разграничение для тех, кто читал white paper и хочет применить.
 - Я не разобрался с тем, как **измерять долгосрочный эффект** CoP корректно. Attendance — vanity; artifacts — better, но noisy. Если у вас есть рабочая success-метрика — расскажите через PR.
