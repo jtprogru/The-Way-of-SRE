@@ -49,6 +49,7 @@ description: SRE пишет код — один-два языка на уров�
 - Steve Klabnik, Carol Nichols et al. — **[The Rust Programming Language](https://doc.rust-lang.org/book/)** (бесплатно онлайн). Канонический учебник.
 - Adam Wiggins et al. — **[The Twelve-Factor App](https://12factor.net/)**. Методология production-сервисов (config, processes, logs, disposability) — независимо от языка задаёт модель production-готового кода.
 - Mike Bland — **[Goto Fail, Heartbleed, and Unit Testing Culture](https://martinfowler.com/articles/testing-culture.html)** (martinfowler.com). Почему unit tests без культуры их писать бесполезны. Хороший аргумент при ревью pipeline без тестов.
+- **[Основы алгоритмизации и программирования](https://jtprogru.github.io/mti-oaip-lectures/)** — компактный компендиум по базе: алгоритмические конструкции, языки (Python, Go), процедуры и рекурсия, ООП, работа с файлами/HTTP/regex/БД, отладка и unit-тесты. Полезен переходящим из чистого ops в SRE и тем, кто хочет подтянуть фундамент без академического CS-фона.
 
 ### Инструменты
 
