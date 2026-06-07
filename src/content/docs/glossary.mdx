@@ -230,6 +230,12 @@ Exploit Prediction Scoring System (FIRST.org). Data-driven вероятност�
 
 ## F
 
+### Four Golden Signals
+
+Четыре метрики, которые покрывают подавляющее большинство симптомов сервиса: **latency** (длительность обработки запроса), **traffic** (нагрузка — RPS, активные соединения), **errors** (доля сбоев), **saturation** (степень загруженности ресурса до отказа). Применяются как первый проход при разборе неизвестной поломки и как baseline-набор дашбордов для нового сервиса. Комплементарны с [USE](#use-method) (для ресурсов) и [RED](#red-method) (для сервисов).
+
+*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/leaves/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 6 «Monitoring Distributed Systems».
+
 ### feature flag
 
 Toggle, отделяющий момент выкатки кода (deploy) от момента включения функциональности (release). Позволяет катить код в production в выключенном состоянии и включать для cohort / процента трафика. Категории: release / experiment / ops / permissioning.
@@ -392,6 +398,12 @@ Role-Based Access Control — модель авторизации, в котор
 
 *Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
 
+### RED method
+
+Метод первого прохода для сервиса: **Rate** (rps), **Errors** (доля сбоев), **Duration** (распределение latency, обычно через гистограмму с percentile'ями). Application-уровневый аналог [USE](#use-method); вместе с [Four Golden Signals](#four-golden-signals) формирует базовый набор сервисных метрик. Предложен Tom Wilkie (Weaveworks).
+
+*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/leaves/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/). Источник: Tom Wilkie, *The RED Method* (Weaveworks, 2018).
+
 ### RPO / RTO
 
 <a id="rpo"></a><a id="rto"></a>
@@ -527,6 +539,14 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 Граница, при пересечении которой меняется уровень доверия (network zone, deployment unit, role). На threat model рисуются явно — потому что именно на boundary threats умножаются.
 
 *Категория B* — «граница доверия». См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+
+## U
+
+### USE method
+
+Метод первого прохода для ресурсов: для каждого ресурса (CPU, memory, disk, network) проверить три показателя — **Utilization** (% времени, проведённого в обработке), **Saturation** (степень очереди / wait time), **Errors** (drop, retransmit, EIO). Brendan Gregg's формулировка: «решает 80% проблем server'а 5% усилий». Аналог [RED](#red-method) на уровне ресурса; вместе с [Four Golden Signals](#four-golden-signals) — стандартный набор для systematic troubleshooting.
+
+*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/leaves/engineering/systematic-troubleshooting/), [`Performance & Profiling`](/The-Way-of-SRE/leaves/engineering/performance-profiling/). Источник: Brendan Gregg, *The USE Method* (brendangregg.com).
 
 ## V
 
