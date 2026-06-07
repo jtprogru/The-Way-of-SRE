@@ -262,6 +262,12 @@ export const roadmap: Roadmap = {
               priority: 'mandatory',
             },
             {
+              id: 'systematic-troubleshooting',
+              label: 'Systematic Troubleshooting',
+              href: '/leaves/engineering/systematic-troubleshooting/',
+              priority: 'must',
+            },
+            {
               id: 'chaos-engineering',
               label: 'Chaos Engineering',
               href: '/leaves/engineering/chaos-engineering/',

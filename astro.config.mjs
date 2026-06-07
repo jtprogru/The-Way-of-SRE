@@ -91,6 +91,7 @@ export default defineConfig({
                 { label: 'Composite SLO Methodology', link: '/leaves/engineering/composite-slo-methodology/' },
                 { label: 'Capacity Planning', link: '/leaves/engineering/capacity-planning/' },
                 { label: 'Resilience Patterns', link: '/leaves/engineering/resilience-patterns/' },
+                { label: 'Systematic Troubleshooting', link: '/leaves/engineering/systematic-troubleshooting/' },
                 { label: 'Chaos Engineering', link: '/leaves/engineering/chaos-engineering/' },
                 { label: 'Networking', link: '/leaves/engineering/networking/' },
                 { label: 'Operating Systems', link: '/leaves/engineering/operating-systems/' },
