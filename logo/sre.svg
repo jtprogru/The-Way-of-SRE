@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="1200" height="440" role="img" aria-label="The Way of SRE — карта компетенций Site Reliability Engineering: ветви Culture, Engineering, Practices">
+  <style>
+    .title    { font: 700 54px/1 "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; }
+    .eyebrow  { font: 600 15px/1 "Segoe UI", system-ui, sans-serif; letter-spacing: .22em; }
+    .tagline  { font: 400 21px/1 "Segoe UI", system-ui, sans-serif; }
+    .legend   { font: 500 16px/1 "Segoe UI", system-ui, sans-serif; }
+    .card-lbl { font: 700 23px/1 "Segoe UI", system-ui, sans-serif; }
+    .card-sub { font: 400 15px/1 "Segoe UI", system-ui, sans-serif; }
+    .root-txt { font: 800 27px/1 "Segoe UI", system-ui, sans-serif; fill: #ffffff; letter-spacing: .04em; }
+
+    .ink   { fill: #1f2937; }
+    .muted { fill: #6b7280; }
+
+    .icon  { fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .conn  { fill: none; stroke-width: 3; stroke-linecap: round; }
+
+    .cult-bg   { fill: #fef3c7; }   .cult-line { stroke: #d97706; }   .cult-dot { fill: #d97706; }
+    .eng-bg    { fill: #ccfbf1; }   .eng-line  { stroke: #0d9488; }   .eng-dot  { fill: #0d9488; }
+    .prac-bg   { fill: #e0e7ff; }   .prac-line { stroke: #6366f1; }   .prac-dot { fill: #6366f1; }
+
+    @media (prefers-color-scheme: dark) {
+      .ink   { fill: #f3f4f6; }
+      .muted { fill: #9ca3af; }
+      .cult-bg   { fill: #44301a; }   .cult-line { stroke: #f59e0b; }   .cult-dot { fill: #f59e0b; }
+      .eng-bg    { fill: #133b37; }   .eng-line  { stroke: #2dd4bf; }   .eng-dot  { fill: #2dd4bf; }
+      .prac-bg   { fill: #1f1f4e; }   .prac-line { stroke: #818cf8; }   .prac-dot { fill: #818cf8; }
+    }
+  </style>
+
+  <defs>
+    <linearGradient id="root" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0"   stop-color="#f59e0b"/>
+      <stop offset="0.5" stop-color="#14b8a6"/>
+      <stop offset="1"   stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ░░ Left column — wordmark ░░ -->
+  <text class="eyebrow muted" x="64" y="132">КАРТА КОМПЕТЕНЦИЙ SRE</text>
+  <text class="title ink"     x="62" y="192">The Way of SRE</text>
+  <rect x="64" y="210" width="356" height="6" rx="3" fill="url(#root)"/>
+  <text class="tagline muted" x="64" y="252">Путь инженера надёжности —</text>
+  <text class="tagline muted" x="64" y="282">67 практик в трёх ветвях</text>
+
+  <g class="legend">
+    <circle class="cult-dot" cx="72"  cy="334" r="6"/>
+    <text class="ink" x="86"  y="339">Культура</text>
+    <circle class="eng-dot"  cx="200" cy="334" r="6"/>
+    <text class="ink" x="214" y="339">Инженерия</text>
+    <circle class="prac-dot" cx="338" cy="334" r="6"/>
+    <text class="ink" x="352" y="339">Практики</text>
+  </g>
+
+  <!-- ░░ Right column — radial competency map ░░ -->
+
+  <!-- connectors root → branch cards -->
+  <g class="conn" opacity="0.55">
+    <path class="cult-line" d="M674,220 C742,220 748,98 812,98"/>
+    <path class="eng-line"  d="M674,220 C742,220 748,220 812,220"/>
+    <path class="prac-line" d="M674,220 C742,220 748,342 812,342"/>
+  </g>
+
+  <!-- root node -->
+  <circle cx="628" cy="220" r="46" fill="url(#root)"/>
+  <text class="root-txt" x="628" y="229" text-anchor="middle">SRE</text>
+
+  <!-- culture card -->
+  <g>
+    <rect class="cult-bg cult-line" x="812" y="56" width="326" height="84" rx="14" stroke-width="1.5"/>
+    <g class="icon cult-line" transform="translate(836,83) scale(1.2)">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </g>
+    <text class="card-lbl ink"   x="884" y="94">SRE Culture</text>
+    <text class="card-sub muted" x="884" y="118">15 листьев · люди и нормы</text>
+  </g>
+
+  <!-- engineering card -->
+  <g>
+    <rect class="eng-bg eng-line" x="812" y="178" width="326" height="84" rx="14" stroke-width="1.5"/>
+    <g class="icon eng-line" transform="translate(836,205) scale(1.2)">
+      <path d="M2 4h20v6H2z"/>
+      <path d="M2 14h20v6H2z"/>
+      <path d="M6 7h.01"/>
+      <path d="M6 17h.01"/>
+    </g>
+    <text class="card-lbl ink"   x="884" y="216">SRE Engineering</text>
+    <text class="card-sub muted" x="884" y="240">27 листьев · системы и стек</text>
+  </g>
+
+  <!-- practices card -->
+  <g>
+    <rect class="prac-bg prac-line" x="812" y="300" width="326" height="84" rx="14" stroke-width="1.5"/>
+    <g class="icon prac-line" transform="translate(836,327) scale(1.2)">
+      <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+      <path d="M9 3h6v4H9z"/>
+      <path d="M9 14l2 2 4-4"/>
+    </g>
+    <text class="card-lbl ink"   x="884" y="338">SRE Practices</text>
+    <text class="card-sub muted" x="884" y="362">25 листьев · процессы и ритуалы</text>
+  </g>
+</svg>
