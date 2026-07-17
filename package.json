@@ -13,8 +13,8 @@
     "lint": "markdownlint-cli2 \"**/*.md\""
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.39.2",
-    "astro": "^6.4.8",
+    "@astrojs/starlight": "^0.41.3",
+    "astro": "^7.1.1",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
