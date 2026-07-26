@@ -24,30 +24,77 @@ const maxLevel = layers.length;
 const MIN_W = 58;
 const widthFor = (level: number) => MIN_W + ((maxLevel - level) / (maxLevel - 1)) * (100 - MIN_W);
 
-// Насыщенность заливки: чем ниже слой, тем плотнее — фундамент визуально «тяжелее».
-const tintFor = (level: number) => 0.06 + ((maxLevel - level) / (maxLevel - 1)) * 0.14;
+/*
+ * Цвет слоя — порядковая (ordinal) шкала, а не набор произвольных цветов:
+ * позиция в иерархии — величина упорядоченная, поэтому одна hue и монотонный
+ * шаг светлоты, где фундамент плотнее вершины. Шаг между соседними ступенями
+ * ≥ 0.06 по OKLCH L, светлый конец держит ≥ 2:1 к фону страницы.
+ *
+ * Hue выбрана намеренно свободная: amber / teal / indigo уже заняты ветвями
+ * (Spider, BranchView), а красный / жёлтый / зелёный / синий — приоритетами
+ * на этой же странице. Фиолетовый ни с чем из этого не путается.
+ *
+ * Индексы массивов — сверху вниз, от вершины к фундаменту.
+ */
+const STEPS_LIGHT = ['#baa3fe', '#a889f8', '#9575e2', '#8161cc', '#6f4db6', '#5d39a1', '#4c258c'];
+const STEPS_DARK = ['#59349c', '#6b48b1', '#7d5cc7', '#9070dd', '#a484f3', '#b69cfe', '#c8b7ff'];
+
+/*
+ * Текст на залитой шапке: из двух вариантов берём тот, что даёт больший
+ * контраст к ступени, а не порог по яркости на глаз — на середине шкалы
+ * порог ошибается и ставит белым по светло-фиолетовому. Худшая ступень
+ * при таком выборе даёт ~4.2:1, поэтому заголовок набран крупным жирным
+ * (large text по WCAG, порог 3:1).
+ */
+const INK_DARK = '#1a1a22';
+const INK_LIGHT = '#ffffff';
+
+function luminance(hex: string): number {
+  const chan = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * chan[0] + 0.7152 * chan[1] + 0.0722 * chan[2];
+}
+
+function contrast(a: string, b: string): number {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+function ink(step: string): string {
+  return contrast(step, INK_DARK) >= contrast(step, INK_LIGHT) ? INK_DARK : INK_LIGHT;
+}
 ---
 
 <figure class="pyramid not-content">
   <ol class="pyramid-stack">
-    {layers.map((layer) => (
+    {layers.map((layer, i) => (
       <li
         class="pyramid-layer"
         id={`hierarchy-${layer.id}`}
-        style={`--w: ${widthFor(layer.level).toFixed(1)}%; --tint: ${(1 - tintFor(layer.level)).toFixed(2)}`}
+        style={[
+          `--w: ${widthFor(layer.level).toFixed(1)}%`,
+          `--step-light: ${STEPS_LIGHT[i]}`,
+          `--step-dark: ${STEPS_DARK[i]}`,
+          `--ink-light: ${ink(STEPS_LIGHT[i])}`,
+          `--ink-dark: ${ink(STEPS_DARK[i])}`,
+        ].join('; ')}
       >
         <div class="pyramid-head">
           <span class="pyramid-level" aria-hidden="true">{layer.level}</span>
           <span class="pyramid-label">{layer.label}</span>
         </div>
-        <p class="pyramid-gist">{layer.gist}</p>
-        <ul class="pyramid-leaves">
-          {layer.leaves.map((leaf) => (
-            <li>
-              <a class="pyramid-leaf" href={link(leaf.href)}>{leaf.label}</a>
-            </li>
-          ))}
-        </ul>
+        <div class="pyramid-body">
+          <p class="pyramid-gist">{layer.gist}</p>
+          <ul class="pyramid-leaves">
+            {layer.leaves.map((leaf) => (
+              <li>
+                <a class="pyramid-leaf" href={link(leaf.href)}>{leaf.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </li>
     ))}
   </ol>
@@ -71,44 +118,74 @@ const tintFor = (level: number) => 0.06 + ((maxLevel - level) / (maxLevel - 1)) 
     gap: 0.4rem;
   }
 
+  /*
+   * Тема: базовые значения — тёмные (как в custom.css, где :root держит
+   * dark-палитру), light переопределяется атрибутом.
+   */
+  .pyramid-layer {
+    --step: var(--step-dark);
+    --ink: var(--ink-dark);
+    --fill: 16%;
+  }
+  :root[data-theme='light'] .pyramid-layer {
+    --step: var(--step-light);
+    --ink: var(--ink-light);
+    --fill: 10%;
+  }
+
   .pyramid-layer {
     width: var(--w);
     box-sizing: border-box;
-    padding: 0.7rem 1rem 0.75rem;
     border: 1px solid var(--sl-color-gray-5);
     border-radius: 8px;
-    /* Fallback для браузеров без color-mix — ровная лёгкая подложка. */
+    overflow: hidden;
+    /* Fallback для браузеров без color-mix — ровная нейтральная подложка. */
     background: var(--sl-color-gray-7);
-    background: color-mix(in srgb, var(--sl-color-gray-7) calc(var(--tint) * 100%), var(--sl-color-accent));
+    background: color-mix(in srgb, var(--step) var(--fill), var(--sl-color-bg));
     transition: width 0.2s ease;
   }
 
+  /*
+   * Шапка залита цветом ступени целиком — так уровень читается с расстояния
+   * и без чтения номера. Тело слоя остаётся нейтральным, чтобы описание и
+   * чипы не соревновались с заливкой.
+   */
   .pyramid-head {
     display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 0.85rem;
+    background: var(--step);
   }
 
   .pyramid-level {
     flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
     font-size: 0.75rem;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
-    color: var(--sl-color-gray-3);
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 4px;
-    padding: 0 0.35rem;
-    background: var(--sl-color-bg);
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    color: var(--ink);
   }
 
   .pyramid-label {
-    font-weight: 600;
-    font-size: 0.98rem;
-    color: var(--sl-color-white);
-    line-height: 1.3;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+
+  .pyramid-body {
+    padding: 0.55rem 0.85rem 0.65rem;
   }
 
   .pyramid-gist {
-    margin: 0.35rem 0 0.5rem;
+    margin: 0 0 0.5rem;
     font-size: 0.85rem;
     line-height: 1.45;
     color: var(--sl-color-gray-2);
@@ -137,7 +214,7 @@ const tintFor = (level: number) => 0.06 + ((maxLevel - level) / (maxLevel - 1)) 
   }
   .pyramid-leaf:hover,
   .pyramid-leaf:focus-visible {
-    border-color: var(--sl-color-accent);
+    border-color: var(--step);
     color: var(--sl-color-white);
   }
 
