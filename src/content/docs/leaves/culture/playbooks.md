@@ -51,7 +51,7 @@ description: Сценарии реагирования на класс инци�
 ### Инструменты
 
 - **Markdown в репозитории команды** — базовый формат, как и для runbook'ов. PR-based review, git history, легко искать. Я регулярно вижу, что зрелые команды держат playbook'и в одном репо с runbook'ами, под разными директориями.
-- **[incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/) / [Rootly](https://rootly.com/)** — incident management платформы, в которых playbook — first-class entity: декларация инцидента → автоматический выбор playbook → ролi распределяются в Slack → checklist рендерится в war room channel. По моим наблюдениям, оправданы в org от 50+ инженеров, где инциденты ≥ еженедельно. В команде из 10 человек — overengineering, markdown справится.
+- **[incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/) / [Rootly](https://rootly.com/)** — incident management платформы, в которых playbook — first-class entity: декларация инцидента → автоматический выбор playbook → роли распределяются в Slack → checklist рендерится в war room channel. По моим наблюдениям, оправданы в org от 50+ инженеров, где инциденты ≥ еженедельно. В команде из 10 человек — overengineering, markdown справится.
 - **[Netflix Dispatch](https://github.com/Netflix/dispatch)** — open-source альтернатива managed platforms. Playbook как код, интеграция со Slack / PagerDuty / Jira. Берут команды, которые не хотят SaaS-зависимости.
 - **ChatOps-команда `/incident declare <type>`** — самый частый способ привязать playbook к инциденту в моменте. Bot создаёт war room, постит первый чеклист, тегает IC. См. [ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/) для деталей.
 

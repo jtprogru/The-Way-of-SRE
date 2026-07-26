@@ -87,7 +87,7 @@ Game day и chaos engineering — разные инструменты с пер�
 - **[Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/)** — game day findings обрабатываются через постмортем-формат; качество разборов = качество сценариев для будущих drill'ов.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — game day — основной механизм валидации runbook'ов: если шаги не сработали — runbook outdated. Без drill'а вы узнаёте об этом в реальном инциденте.
 - **[Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)** — scenarios варьируются по severity; game day тренирует correct severity declaration без давления реального инцидента.
-- **[On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)** — game day с participation новых on-call inженеров — основная подготовка перед первой неделей; снижает MTTR и тревожность.
+- **[On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)** — game day с participation новых on-call инженеров — основная подготовка перед первой неделей; снижает MTTR и тревожность.
 - **[Communities of Practice](/The-Way-of-SRE/leaves/culture/communities-of-practice/)** — cross-team game day и sharing сценариев между командами — типичная активность CoP по reliability.
 - **[Postmortem Database](/The-Way-of-SRE/leaves/culture/postmortem-database/)** — главный источник сценариев game day; реальные прошлые инциденты лучше любых вымышленных.
 - **[Playbooks](/The-Way-of-SRE/leaves/culture/playbooks/)** — playbook без training работает один раз; game day — место, где playbook'и тренируются и обнаруживаются их пропуски.
