@@ -3,54 +3,33 @@ title: SRE Roadmap — приоритеты развития
 description: Карта компетенций SRE, организованная по приоритету для роли (Must Have / Mandatory / Nice to have / On Demand). Вторая ось — уровень SFIA — хранится во фронт-маттере листьев.
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
 import BranchView from '../../components/BranchView.astro';
-import ReliabilityPyramid from '../../components/ReliabilityPyramid.astro';
 
-Документ организует компетенции трёх ветвей по **приоритету для роли SRE**. Это одна из двух осей развития; вторая — уровень зрелости инженера — хранится отдельно.
+Компетенции трёх ветвей, размеченные по **приоритету для роли SRE**. Определения обеих осей проекта — в [Методологии](/The-Way-of-SRE/methodology/); в каком порядке практики строятся в сервисе — в [Порядке построения](/The-Way-of-SRE/reliability-hierarchy/).
 
-## Две независимые оси
+## Легенда
 
-Этот документ оперирует **только осью «priority»**. Не путать с уровнем SFIA — это разные измерения. Компетенция может быть Must Have даже на L3 (Junior) или Nice to have на L6+ (Principal).
+🔴 **Must Have** — без компетенции не выполнить основную работу · 🟡 **Mandatory** — ожидаемо владеет любой SRE на стабильном этапе · 🟢 **Nice to have** — расширяет возможности, но не блокирует · 🔵 **On Demand** — изучается, когда проект требует.
 
-### Priority — обязательность для роли
+Приоритет — не то же самое, что уровень SFIA: компетенция может быть Must Have на L3 (Junior) и Nice to have на L6+ (Principal). На схемах ниже цветом помечена каждая L1-компетенция.
 
-- 🔴 **Must Have** — без компетенции инженер не может выполнять основную работу.
-- 🟡 **Mandatory** — компетенция, которой ожидаемо владеет любой SRE на стабильном этапе работы.
-- 🟢 **Nice to have** — расширяет возможности, но не блокирует.
-- 🔵 **On Demand** — изучается, когда проект требует.
+## Карты ветвей
 
-В схемах ниже каждая L1-компетенция помечена цветом в соответствии с приоритетом.
+<Tabs syncKey="branch">
+  <TabItem label="SRE Culture">
+    <BranchView branchId="culture" variant="priority" />
 
-### SFIA — уровень зрелости инженера
+    Подробнее по каждой L1-компетенции и листьям → [SRE Culture](/The-Way-of-SRE/sre-culture/).
+  </TabItem>
+  <TabItem label="SRE Engineering">
+    <BranchView branchId="engineering" variant="priority" />
 
-Хранится во фронт-маттере каждой leaf-страницы (поле `sfia_levels`), уровни 3..7 соответствуют Junior → Principal. См. [фреймворк SFIA](https://sfia-online.org/en/about-sfia/the-context-for-sfia).
+    Подробнее по каждой L1-компетенции и листьям → [SRE Engineering](/The-Way-of-SRE/sre-engineering/).
+  </TabItem>
+  <TabItem label="SRE Practices">
+    <BranchView branchId="practices" variant="priority" />
 
-В этом документе SFIA-уровни **не отражаются** — для них есть отдельный источник правды.
-
-## Порядок построения: иерархия надёжности
-
-Обе оси выше — про человека: что он обязан уметь в роли и на каком уровне зрелости. Есть третий вопрос, который они не закрывают: **в каком порядке всё это вообще имеет смысл строить в конкретном сервисе.** На него отвечает иерархия надёжности Микки Дикерсона из [SRE-книги](https://sre.google/sre-book/part-III-practices/) — пирамида, где каждый слой опирается на нижние.
-
-Практическая ценность модели в том, что она объясняет провалы внедрения. Я регулярно вижу, как команда затаскивает chaos engineering или progressive delivery, не имея работающего алертинга и внятного разбора инцидентов, — верхние слои строятся на песке, и через полгода инициатива тихо умирает. Обратный перекос тоже встречается: три года полируем дашборды, а требования к надёжности с продуктом так и не обсудили.
-
-<ReliabilityPyramid />
-
-Два уточнения, без которых пирамида читается неверно. Первое: слои **не проходятся строго по очереди** — организация занимается несколькими одновременно, речь про то, где основание, а где надстройка. Второе: пирамида описывает **состояние сервиса и команды**, а не карьеру инженера, поэтому её нельзя путать ни с priority, ни с SFIA. Компетенция из верхнего слоя вполне может быть Must Have для роли — например, ревью SLO с продуктом.
-
-## SRE Culture
-
-<BranchView branchId="culture" variant="priority" />
-
-Подробнее по каждой L1-компетенции и листьям → [SRE Culture](/The-Way-of-SRE/sre-culture/).
-
-## SRE Engineering
-
-<BranchView branchId="engineering" variant="priority" />
-
-Подробнее по каждой L1-компетенции и листьям → [SRE Engineering](/The-Way-of-SRE/sre-engineering/).
-
-## SRE Practices
-
-<BranchView branchId="practices" variant="priority" />
-
-Подробнее по каждой L1-компетенции и листьям → [SRE Practices](/The-Way-of-SRE/sre-practices/).
+    Подробнее по каждой L1-компетенции и листьям → [SRE Practices](/The-Way-of-SRE/sre-practices/).
+  </TabItem>
+</Tabs>
