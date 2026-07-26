@@ -20,7 +20,7 @@
 | DR — разделение на технику и политику | ✅ Применено | `Disaster Recovery` в Engineering/RELY; `DR Policy & Stakeholders` в Culture/ITMG |
 | SLO — разделение на три концепта | ✅ Применено | `SLO Engineering` в Engineering/RELY; `SLO Governance` в Culture/ITMG (заменил Service Management с L3); `SLO Review Ritual` в Practices/PBMG |
 | DORA Metrics → Culture | ✅ Применено | Остался в Culture/MEAS; из Practices/PEMT убран Team Metrics/DORA, добавлен `Performance Conversations` |
-| Mentorship → Culture | ✅ Применено | Остался в Culture/ETDL; из Practices/PEMT удалён |
+| Mentorship → Culture | ⚠️ Пересмотр | Применено в мае 2026 (Culture/ETDL, из Practices/PEMT удалён), но позже в Practices появился лист `Mentoring as Practice` — см. строку 12 |
 | On-Call семейство | ✅ Зафиксировано как не-overlap | Три разных концепта с разными ветвями (Rotation, Budget, Design) — оставлены без изменений |
 | Postmortem семейство — разделение | ✅ Применено | `Blameless Postmortem` в Practices/PBMG; `Postmortem Culture` в Culture/ETDL |
 | Incident Response семейство — разделение | ✅ Применено | `Incident Response` в Practices/USUP; `Incident Response Training` в Culture/ETDL |
@@ -43,7 +43,9 @@
 | 10 | **People Management** | `Culture → RLMT → People Management` + `Practices → PEMT → People Management` | Один и тот же узел в двух ветвях. | **Перенос** в `Practices/PEMT`. | Главный объект — управленческие активности (1-on-1, фидбек, развитие подчинённых), это ритуал/процесс (Practices). В `Culture/RLMT` нормы отношений уже покрыты узлами `Stakeholder Management`, `Continuous Feedback`, `Dev Team Partnership`, `Communications` — отдельный `People Management` здесь избыточен. |
 | 11 | **Goal Setting** | `Culture → MEAS → Goal Setting` + `Practices → PEMT → Setting Goals` | Один концепт в двух ветвях с похожими именами. | **Перенос** в `Practices/PEMT` (как `Setting Goals`). | Главный объект — постановка целей подчинённым (1-on-1, OKR), это ритуал управления людьми (Practices). Организационная сторона целей надёжности уже покрыта `SLO / Budget Review` в `Culture/MEAS`; отдельный `Goal Setting` там избыточен. |
 
-Все известные пересечения зафиксированы и решены. Новые могут появляться по мере роста графов — добавляются строкой со статусом «Открыто» и решаются в PR.
+| 12 | **Наставничество (повтор строки 6)** | `Culture → ETDL → Mentorship` (L2-концепт) + `Practices → Professional Development → Mentoring as Practice` (лист) | Решение строки 6 де-факто отменено: узел вернулся в `Practices` под другим именем. Лист аккуратно размежёван с `SRE Onboarding`, `Communities of Practice` и `Career Ladders`, но границы с культурным `Mentorship` в нём нет. | **Открыто.** | Возможных исходов три. Разделение: `Mentorship` в Culture остаётся нормой «в команде принято передавать знания», `Mentoring as Practice` — механикой пары наставник–ученик (ритм встреч, контракт, завершение). Тогда обоим нужна явная взаимная граница, как у остальных разделённых семейств. Перенос: снять L2 `Mentorship` из Culture, раз практика описана листом. Возврат к строке 6: перенести лист в Culture/ETDL — дороже всего, ломает `slug` и входящие ссылки. Решать в PR. |
+
+Все известные пересечения, кроме строки 12, зафиксированы и решены. Новые могут появляться по мере роста графов — добавляются строкой со статусом «Открыто» и решаются в PR.
 
 ## Как пользоваться этим документом
 
