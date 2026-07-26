@@ -39,6 +39,7 @@ export default defineConfig({
       sidebar: [
         { label: 'Карта компетенций', link: '/' },
         { label: 'Roadmap (приоритеты)', link: '/priorities/' },
+        { label: 'Порядок построения', link: '/reliability-hierarchy/' },
         {
           label: 'Ветви',
           items: [

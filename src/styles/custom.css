@@ -271,3 +271,38 @@ body:has(.hero) {
   margin: 0;
 }
 
+
+/*
+ * Табы Starlight (карты ветвей на /priorities/). Дефолтная разметка —
+ * серый текст 400-й насыщенности без фона; для главного переключателя
+ * страницы это слишком незаметно, читатель проскакивает мимо и видит
+ * только одну ветвь из трёх. Делаем вкладки крупнее, активную — с
+ * подложкой и акцентной подчёркивающей линией.
+ */
+.sl-markdown-content starlight-tabs .tablist-wrapper ul[role='tablist'] {
+  border-bottom-width: 2px;
+  gap: 0.25rem;
+}
+
+.sl-markdown-content starlight-tabs .tab > [role='tab'] {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--sl-color-gray-2);
+  padding: 0.5rem 0.95rem;
+  border-radius: 8px 8px 0 0;
+  border-bottom-width: 2px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.sl-markdown-content starlight-tabs .tab > [role='tab']:hover,
+.sl-markdown-content starlight-tabs .tab > [role='tab']:focus-visible {
+  color: var(--sl-color-white);
+  background: var(--sl-color-gray-6);
+}
+
+.sl-markdown-content starlight-tabs .tab > [role='tab'][aria-selected='true'] {
+  color: var(--sl-color-accent-high);
+  background: var(--sl-color-accent-low);
+  border-bottom-color: var(--sl-color-accent);
+  font-weight: 700;
+}

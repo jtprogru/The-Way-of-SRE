@@ -314,19 +314,27 @@ Container orchestrator, выросший из Google Borg и переданны�
 
 ### MFA
 
-Multi-Factor Authentication — требование двух или более независимых факторов для login (что-то, что знаешь / имеешь / есть ты сам). Не равноценны: SMS phish'ится через SIM swap, TOTP — через relay-фишинг, FIDO2/WebAuthn (hardware keys, passkeys) — cryptographic binding на domain делает их **phishing-resistant**. Для admin/production access баseline — FIDO2; для low-risk — TOTP.
+Multi-Factor Authentication — требование двух или более независимых факторов для login (что-то, что знаешь / имеешь / есть ты сам). Не равноценны: SMS phish'ится через SIM swap, TOTP — через relay-фишинг, FIDO2/WebAuthn (hardware keys, passkeys) — cryptographic binding на domain делает их **phishing-resistant**. Для admin/production access baseline — FIDO2; для low-risk — TOTP.
 
 *Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/). Источник: [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html).
 
 ### mTLS
 
-Mutual TLS — TLS с двусторонней аутентификацией: и client, и server предъявляют сертификаты. Используется для service-to-service authentication вместо shared secrets / bearer tokens; в [service mesh](#service-mesh) (Istio, Linkerd) — by default. Sertificate provisioning обычно через workload identity ([SPIFFE](#spiffe--spire) SVID или mesh-native).
+Mutual TLS — TLS с двусторонней аутентификацией: и client, и server предъявляют сертификаты. Используется для service-to-service authentication вместо shared secrets / bearer tokens; в [service mesh](#service-mesh) (Istio, Linkerd) — by default. Certificate provisioning обычно через workload identity ([SPIFFE](#spiffe--spire) SVID или mesh-native).
 
 *Категория A* — пишется без склонения. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`Networking`](/The-Way-of-SRE/leaves/engineering/networking/), [`Service Mesh`](/The-Way-of-SRE/leaves/engineering/service-mesh/).
 
+### MTBF / MTTF
+
+<a id="mtbf"></a><a id="mttf"></a>
+
+Mean Time Between Failures — среднее время между двумя отказами восстанавливаемой системы (`время работы / число отказов`); Mean Time To Failure — то же для невосстанавливаемой, где отказ один и терминальный. Пара к [MTTR](#mttr): MTTR отвечает «как быстро поднимаемся», MTBF — «как часто падаем», и поодиночке обе метрики врут. Низкий MTTR при низком MTBF — встаём быстро, но падаем слишком часто, и пользователю от скорости восстановления не легче; высокий MTBF при высоком MTTR — падаем редко, но болит долго. Рост MTTR при стабильном MTBF читается как деградация on-call и эскалаций; падение MTBF при стабильном MTTR — как деградация качества релизов. Из формулы стационарной доступности `A = MTTF / (MTTF + MTTR)` следуют два пути: наращивать время до отказа (дорого, упирается в надёжность компонентов) или снижать время восстановления (автоматизация) — в облачных средах второй почти всегда дешевле. Сам MTTF пришёл из hardware-надёжности и к распределённому сервису применяется натянуто: у него нет одного терминального отказа, он постоянно живёт в частичной деградации.
+
+*Категория A* — пишутся заглавными. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`SLO Engineering`](/The-Way-of-SRE/leaves/engineering/slo-engineering/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/). Источник: [разбор пары MTTR / MTBF](https://t.me/jtprogru_channel/4413) в канале автора.
+
 ### MTTR
 
-Mean Time To Repair / Resolve / Recovery (зависит от источника). Среднее время от обнаружения инцидента до восстановления сервиса. Одна из четырёх [DORA](#dora)-метрик. Как KPI с премией — путь к манипуляции (инциденты закрываются как resolved до реальной mitigation); как индикатор тренда — полезен.
+Mean Time To Repair / Resolve / Recovery (зависит от источника). Среднее время от обнаружения инцидента до восстановления сервиса. Одна из четырёх [DORA](#dora)-метрик. Как KPI с премией — путь к манипуляции (инциденты закрываются как resolved до реальной mitigation); как индикатор тренда — полезен. Смотреть в паре с [MTBF](#mtbf): без ответа на вопрос «как часто падаем» скорость восстановления — половина картины.
 
 *Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/).
 
@@ -472,7 +480,7 @@ Sitrep (situation report) — формализованная сводка ста
 
 <a id="sli"></a><a id="slo"></a><a id="sla"></a>
 
-**SLI** (Service Level Indicator) — измеряемая метрика, чаще всего отношение `good events / valid events`. **SLO** (Objective) — целевое значение SLI на окне (например, 99.9% за 28 дней). **SLA** (Agreement) — контрактное обязательство с consequences при нарушении (compensation, refund).
+**SLI** (Service Level Indicator) — измеряемая метрика, чаще всего отношение `good events / valid events`. **SLO** (Objective) — целевое значение SLI на окне (например, 99.9% за 28 дней). **SLA** (Agreement) — контрактное обязательство с consequences при нарушении (compensation, refund). Сколько простоя стоит за каждой девяткой — [таблица в листе SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/#что-должен-уметь).
 
 *Категория A* — все три заглавными. См. [`SLO Engineering`](/The-Way-of-SRE/leaves/engineering/slo-engineering/), [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 4.
 
