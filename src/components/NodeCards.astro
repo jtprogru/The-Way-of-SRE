@@ -9,7 +9,14 @@
 // приоритеты берутся из src/data/roadmap.ts. Цвет полоски — цвет ветви
 // (синхронно со Spider.astro и футером), подпись — приоритет узла.
 
-import { getBranch, l1Href, priorityLabels, type Priority } from '../data/roadmap.ts';
+import {
+  countLeaves,
+  getBranch,
+  l1Href,
+  priorityLabels,
+  type Priority,
+  type SubLeaf,
+} from '../data/roadmap.ts';
 
 interface Props {
   kind: 'l1' | 'leaves';
@@ -32,6 +39,8 @@ interface Card {
   href: string;
   priority: Priority;
   note?: string;
+  /** Уточнения практики — рисуются чипами под карточкой родителя. */
+  children?: SubLeaf[];
 }
 
 let cards: Card[];
@@ -39,12 +48,14 @@ let empty: string;
 
 if (kind === 'l1') {
   cards = branch.l1.map((l1) => {
-    const count = (l1.leaves ?? []).length;
+    // Счёт с подлистами: для читателя это такие же практики раздела,
+    // а не служебный уровень вложенности.
+    const count = countLeaves(l1);
     return {
       label: l1.label,
       href: l1Href(branch, l1),
       priority: l1.priority,
-      note: count > 0 ? `${count} ${plural(count)}` : 'пока без практик',
+      note: count > 0 ? `${count} ${plural(count, 'практика', 'практики', 'практик')}` : 'пока без практик',
     };
   });
   empty = 'У ветви нет компетенций верхнего уровня.';
@@ -53,20 +64,28 @@ if (kind === 'l1') {
   if (!l1) {
     throw new Error(`NodeCards: неизвестный узел "${branchId}/${l1Id}"`);
   }
-  cards = (l1.leaves ?? []).map((leaf) => ({
-    label: leaf.label,
-    href: leaf.href,
-    priority: leaf.priority,
-  }));
+  cards = (l1.leaves ?? []).map((leaf) => {
+    const children = leaf.children ?? [];
+    return {
+      label: leaf.label,
+      href: leaf.href,
+      priority: leaf.priority,
+      note:
+        children.length > 0
+          ? `${children.length} ${plural(children.length, 'уточнение', 'уточнения', 'уточнений')}`
+          : undefined,
+      children,
+    };
+  });
   empty = 'Листьев под этой компетенцией пока нет — есть только L2-концепты выше.';
 }
 
-function plural(n: number): string {
+function plural(n: number, one: string, few: string, many: string): string {
   const mod10 = n % 10;
   const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return 'практика';
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'практики';
-  return 'практик';
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
+  return many;
 }
 ---
 
@@ -83,6 +102,24 @@ function plural(n: number): string {
             {card.note && <span class="node-card-note">{card.note}</span>}
           </span>
         </a>
+        {card.children && card.children.length > 0 && (
+          // Дети идут отдельным списком под карточкой, а не своими
+          // карточками: в общей сетке они не отличались бы от соседей
+          // родителя, и вложенность бы потерялась. Вложить ссылку в
+          // ссылку нельзя, поэтому список — сосед <a>, а не его потомок.
+          <ul class="node-card-children">
+            {card.children.map((child) => (
+              <li>
+                <a
+                  href={`${base}${child.href}`}
+                  title={`Приоритет: ${priorityLabels[child.priority].ru}`}
+                >
+                  {priorityLabels[child.priority].emoji} {child.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </li>
     ))}
   </ul>
@@ -92,6 +129,9 @@ function plural(n: number): string {
 
 <style>
   .node-cards {
+    /* Цвет ветви живёт на контейнере: им красятся и рамка карточки, и
+       вертикаль списка уточнений. */
+    --bc: var(--sl-color-accent);
     list-style: none;
     padding: 0;
     margin: 1rem 0 0;
@@ -99,12 +139,16 @@ function plural(n: number): string {
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     gap: 0.75rem;
   }
-  .node-cards a {
-    --bc: var(--sl-color-accent);
+  .node-cards > li {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-    height: 100%;
+  }
+  .node-cards > li > a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
     padding: 0.85rem 1rem;
     border: 1px solid var(--sl-color-hairline);
     border-left: 3px solid var(--bc);
@@ -114,31 +158,31 @@ function plural(n: number): string {
     transition: border-color 0.15s, background-color 0.15s;
   }
   /* Палитра ветвей — та же, что в Spider.astro и в футере */
-  .node-cards[data-branch='culture'] a {
+  .node-cards[data-branch='culture'] {
     --bc: #d97706;
   }
-  .node-cards[data-branch='engineering'] a {
+  .node-cards[data-branch='engineering'] {
     --bc: #0d9488;
   }
-  .node-cards[data-branch='practices'] a {
+  .node-cards[data-branch='practices'] {
     --bc: #6366f1;
   }
-  :root[data-theme='dark'] .node-cards[data-branch='culture'] a {
+  :root[data-theme='dark'] .node-cards[data-branch='culture'] {
     --bc: #f59e0b;
   }
-  :root[data-theme='dark'] .node-cards[data-branch='engineering'] a {
+  :root[data-theme='dark'] .node-cards[data-branch='engineering'] {
     --bc: #2dd4bf;
   }
-  :root[data-theme='dark'] .node-cards[data-branch='practices'] a {
+  :root[data-theme='dark'] .node-cards[data-branch='practices'] {
     --bc: #818cf8;
   }
-  .node-cards a:hover,
-  .node-cards a:focus-visible {
+  .node-cards > li > a:hover,
+  .node-cards > li > a:focus-visible {
     background: var(--sl-color-gray-6);
     border-color: var(--bc);
   }
-  :root[data-theme='light'] .node-cards a:hover,
-  :root[data-theme='light'] .node-cards a:focus-visible {
+  :root[data-theme='light'] .node-cards > li > a:hover,
+  :root[data-theme='light'] .node-cards > li > a:focus-visible {
     background: var(--sl-color-gray-7);
   }
   .node-card-name {
@@ -154,6 +198,37 @@ function plural(n: number): string {
     text-decoration-thickness: 2px;
     text-underline-offset: 2px;
   }
+  /*
+   * Уточнения — приставной список под карточкой: отступ слева и вертикаль
+   * цвета ветви читаются как «это внутри неё», а не как соседний узел.
+   */
+  .node-card-children {
+    list-style: none;
+    margin: 0 0 0 1rem;
+    padding: 0 0 0 0.65rem;
+    border-left: 2px solid var(--bc, var(--sl-color-hairline));
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .node-card-children a {
+    display: block;
+    padding: 0.15rem 0;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+  }
+  .node-card-children a:hover,
+  .node-card-children a:focus-visible {
+    color: var(--sl-color-white);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  :root[data-theme='light'] .node-card-children a:hover,
+  :root[data-theme='light'] .node-card-children a:focus-visible {
+    color: var(--sl-color-text);
+  }
+
   .node-card-meta {
     display: flex;
     flex-wrap: wrap;

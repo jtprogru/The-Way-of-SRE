@@ -7,14 +7,16 @@ hero:
 ---
 
 import Spider from '../../components/Spider.astro';
-import { roadmap } from '../../data/roadmap.ts';
+import { countLeaves, roadmap } from '../../data/roadmap.ts';
 import { navFor } from '../../data/nav.ts';
 
 export const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // Строка «Глубже — …» остаётся прозой, но состав ссылок берётся из nav.ts.
 export const introNav = navFor('intro');
+// countLeaves считает и подлисты: для читателя вложенная практика — такая
+// же написанная страница, как и любая другая.
 export const totalLeaves = roadmap.branches.reduce(
-  (sum, b) => sum + b.l1.reduce((s, l1) => s + (l1.leaves?.length ?? 0), 0),
+  (sum, b) => sum + b.l1.reduce((s, l1) => s + countLeaves(l1), 0),
   0,
 );
 export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0);
