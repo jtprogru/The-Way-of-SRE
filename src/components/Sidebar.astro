@@ -7,6 +7,12 @@
 // формат конфига Starlight не умеет «группа-ссылка», из-за чего появлялись
 // пункты «Обзор ветви / раздела / практики» и терялась иерархия. Конфиг
 // сайдбара при этом остаётся — Starlight строит по нему пагинацию.
+//
+// Здесь же живёт переключатель ширины. Свёрнутое состояние — атрибут
+// data-sidebar='collapsed' на <html>: от него пляшут и rail-стили дерева
+// (NavTree.astro), и ширина колонки (src/styles/custom.css). Начальное
+// значение ставит inline-скрипт из astro.config.mjs — до первой отрисовки,
+// иначе сайдбар моргал бы полной шириной на каждой навигации.
 
 import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
 import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
@@ -20,6 +26,21 @@ const raw = Astro.url.pathname.startsWith(base)
 const currentPath = raw.endsWith('/') ? raw : `${raw}/`;
 ---
 
+<div class="sidebar-toggle-row">
+  <button
+    type="button"
+    class="sidebar-toggle"
+    data-sidebar-toggle
+    aria-controls="starlight__sidebar"
+    aria-expanded="true"
+    aria-label="Свернуть навигацию"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="m11 17-5-5 5-5 M18 17l-5-5 5-5" />
+    </svg>
+  </button>
+</div>
+
 <SidebarPersister>
   <NavTree nodes={buildNavTree()} currentPath={currentPath} />
 </SidebarPersister>
@@ -27,3 +48,113 @@ const currentPath = raw.endsWith('/') ? raw : `${raw}/`;
 <div class="md:sl-hidden">
   <MobileMenuFooter />
 </div>
+
+<style>
+  .sidebar-toggle-row {
+    position: sticky;
+    top: -1rem;
+    z-index: 1;
+    display: none;
+    justify-content: flex-end;
+    /* Отрицательный margin снизу гасит flex-gap контейнера сайдбара:
+       кнопка — шапка панели, а не отдельный блок над деревом. */
+    margin: -1rem 0 -0.75rem;
+    padding: 0.35rem 0;
+    background: var(--sl-color-bg-sidebar);
+  }
+  /* На мобильном сайдбар открывается штатным гамбургером на всю ширину */
+  @media (min-width: 50rem) {
+    .sidebar-toggle-row {
+      display: flex;
+    }
+  }
+  :root[data-sidebar='collapsed'] .sidebar-toggle-row {
+    justify-content: center;
+  }
+
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: var(--sl-color-gray-3);
+    cursor: pointer;
+  }
+  .sidebar-toggle:hover,
+  .sidebar-toggle:focus-visible {
+    color: var(--sl-color-white);
+    background: var(--sl-color-gray-6);
+  }
+  :root[data-theme='light'] .sidebar-toggle:hover,
+  :root[data-theme='light'] .sidebar-toggle:focus-visible {
+    color: var(--sl-color-text);
+  }
+  .sidebar-toggle svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.2s ease-in-out;
+  }
+  :root[data-sidebar='collapsed'] .sidebar-toggle svg {
+    transform: rotateZ(180deg);
+  }
+</style>
+
+<script>
+  // Переключатель ширины сайдбара. Состояние держим на <html>, чтобы от
+  // него могли зависеть и дерево, и ширина контента, и шапка.
+  const KEY = 'twos:sidebar';
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-sidebar-toggle]');
+  const pane = document.getElementById('starlight__sidebar');
+
+  function apply(collapsed: boolean) {
+    root.dataset.sidebar = collapsed ? 'collapsed' : 'expanded';
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      toggle.setAttribute(
+        'aria-label',
+        collapsed ? 'Развернуть навигацию' : 'Свернуть навигацию'
+      );
+    }
+    // В rail подписи скрыты визуально, поэтому глифу нужен нативный
+    // тултип. В развёрнутом виде он дублировал бы видимый текст.
+    pane?.querySelectorAll<HTMLElement>('[data-label]').forEach((el) => {
+      if (collapsed) el.setAttribute('title', el.dataset.label ?? '');
+      else el.removeAttribute('title');
+    });
+  }
+
+  function set(collapsed: boolean) {
+    try {
+      localStorage.setItem(KEY, collapsed ? 'collapsed' : 'expanded');
+    } catch {
+      /* приватный режим — переживём без запоминания */
+    }
+    apply(collapsed);
+  }
+
+  toggle?.addEventListener('click', () => set(root.dataset.sidebar !== 'collapsed'));
+
+  // В rail у групп нет видимой каретки: клик мимо ссылки разворачивает
+  // сайдбар, вместо того чтобы втихую переключать невидимый <details>.
+  pane?.querySelectorAll('summary').forEach((summary) => {
+    summary.addEventListener('click', (event) => {
+      if (root.dataset.sidebar !== 'collapsed') return;
+      if ((event.target as HTMLElement).closest('a')) return;
+      event.preventDefault();
+      set(false);
+    });
+  });
+
+  apply(root.dataset.sidebar === 'collapsed');
+</script>

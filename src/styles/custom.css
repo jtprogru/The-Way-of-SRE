@@ -18,6 +18,44 @@
 }
 
 /*
+ * Свёрнутый сайдбар (rail). Состояние ставит переключатель в
+ * Sidebar.astro — атрибут data-sidebar на <html>.
+ *
+ * Почему не переопределяем --sl-sidebar-width, хотя это выглядит короче:
+ * Starlight считает от неё ширину ОБЕИХ колонок. Правый TOC
+ * (PageSidebar / TwoColumnContent) схлопнулся бы вместе с левым.
+ * Поэтому меняем ровно две вещи, относящиеся к левой колонке: ширину
+ * самой панели и отступ основного контента.
+ */
+@media (min-width: 50rem) {
+  /* [data-has-sidebar] обязателен: на splash-страницах сайдбара нет, и
+     отступ контента там должен остаться нулевым. */
+  :root[data-sidebar='collapsed'][data-has-sidebar] {
+    --sl-content-inline-start: var(--sl-sidebar-rail-width, 3.25rem);
+    /*
+     * Контент забирает ровно то, что освободила панель: 45rem — дефолт
+     * Starlight (props.css), плюс разница между полной шириной сайдбара и
+     * шириной rail. Сослаться на саму переменную нельзя, self-reference в
+     * var() невалиден, поэтому дефолт продублирован здесь.
+     */
+    --sl-content-width: calc(
+      45rem + var(--sl-sidebar-width) - var(--sl-sidebar-rail-width, 3.25rem)
+    );
+  }
+
+  :root[data-sidebar='collapsed'] .sidebar-pane {
+    width: var(--sl-sidebar-rail-width, 3.25rem);
+    /* В полосе 52px место под резерв полосы прокрутки — непозволительная роскошь */
+    scrollbar-gutter: auto;
+    scrollbar-width: none;
+  }
+
+  :root[data-sidebar='collapsed'] .sidebar-content {
+    padding-inline: 0.25rem;
+  }
+}
+
+/*
  * Dot-grid подложка под splash-страницей. Активируется только на
  * страницах с template: splash (детект через :has(.hero)). Не трогает
  * остальной сайт — там обычные документные страницы и сетка отвлекает.
@@ -316,4 +354,18 @@ body:has(.hero) {
  */
 body:has(.mm) {
   --sl-content-width: 76rem;
+}
+
+/*
+ * Правило выше живёт на body и потому перекрывает ширину, которую
+ * свёрнутый сайдбар задаёт на :root. Карте место нужнее всех — добавляем
+ * освободившееся и здесь. Итог может превысить вьюпорт, это безопасно:
+ * --sl-content-width работает как max-width.
+ */
+@media (min-width: 50rem) {
+  :root[data-sidebar='collapsed'] body:has(.mm) {
+    --sl-content-width: calc(
+      76rem + var(--sl-sidebar-width) - var(--sl-sidebar-rail-width, 3.25rem)
+    );
+  }
 }

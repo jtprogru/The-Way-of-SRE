@@ -12,11 +12,19 @@
 // сворачивает ветку. Вес подписи убывает с глубиной, так что цепочка
 // «ветвь → L1 → лист → подлист» видна глазами и совпадает с крошками.
 //
+// Верхний уровень несёт иконки (см. src/data/navIcons.ts). Они работают
+// на два режима: в развёрнутом сайдбаре отделяют сервисные ссылки от
+// ветвей, в свёрнутом (rail 3.25rem, переключатель в Sidebar.astro)
+// остаются единственным видимым следом пункта. Поэтому подписи в rail
+// не удаляются из DOM, а прячутся visually-hidden: у ссылки-иконки
+// должно оставаться доступное имя.
+//
 // Состояние свёрнутости сохраняет Starlight: SidebarRestorePoint внутри
 // каждого <details> — тот же механизм, что у штатного сайдбара.
 
 import SidebarRestorePoint from '@astrojs/starlight/components/SidebarRestorePoint.astro';
 import type { NavNode } from '../data/sidebar';
+import { NAV_ICONS } from '../data/navIcons';
 
 interface Props {
   nodes: NavNode[];
@@ -38,17 +46,36 @@ function holdsCurrent(node: NavNode): boolean {
 
 <ul class="nav-tree" data-depth={depth}>
   {nodes.map((node) => (
-    <li>
+    <li
+      data-quick={node.quick ? '' : undefined}
+      data-branch={node.branch}
+      data-holds-current={depth === 0 && holdsCurrent(node) ? '' : undefined}
+    >
       {node.children?.length ? (
         <details open={holdsCurrent(node)}>
           <summary>
             {node.href ? (
               <a
                 href={`${base}${node.href}`}
+                data-label={node.icon ? node.label : undefined}
                 aria-current={isCurrent(node.href) ? 'page' : undefined}
-              >{node.label}</a>
+              >
+                {node.icon && (
+                  <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={NAV_ICONS[node.icon]} />
+                  </svg>
+                )}
+                <span class="label">{node.label}</span>
+              </a>
             ) : (
-              <span class="nav-group-label">{node.label}</span>
+              <span class="nav-group-label" data-label={node.icon ? node.label : undefined}>
+                {node.icon && (
+                  <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={NAV_ICONS[node.icon]} />
+                  </svg>
+                )}
+                <span class="label">{node.label}</span>
+              </span>
             )}
             <svg class="caret" viewBox="0 0 24 24" aria-hidden="true">
               <path d="m9 6 6 6-6 6" />
@@ -60,8 +87,16 @@ function holdsCurrent(node: NavNode): boolean {
       ) : (
         <a
           href={`${base}${node.href}`}
+          data-label={node.icon ? node.label : undefined}
           aria-current={isCurrent(node.href) ? 'page' : undefined}
-        >{node.label}</a>
+        >
+          {node.icon && (
+            <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d={NAV_ICONS[node.icon]} />
+            </svg>
+          )}
+          <span class="label">{node.label}</span>
+        </a>
       )}
     </li>
   ))}
@@ -84,13 +119,28 @@ function holdsCurrent(node: NavNode): boolean {
     padding-inline-start: var(--nav-indent);
   }
   .nav-tree[data-depth='0'] > li + li {
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  /*
+   * Сервисные ссылки (карта, приоритеты, дерево, порядок построения) идут
+   * блоком: между собой почти без зазора, от ветвей отделены линией.
+   */
+  .nav-tree[data-depth='0'] > li[data-quick] + li[data-quick] {
+    margin-top: 0.1rem;
+  }
+  .nav-tree[data-depth='0'] > li[data-quick] + li:not([data-quick]) {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--sl-color-hairline-light);
   }
 
   a,
   .nav-group-label {
-    display: block;
-    padding: 0.3em var(--nav-indent);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25em var(--nav-indent);
     border-radius: 0.25rem;
     line-height: 1.4;
     text-decoration: none;
@@ -104,6 +154,9 @@ function holdsCurrent(node: NavNode): boolean {
   :root[data-theme='light'] a:focus-visible {
     color: var(--sl-color-text);
   }
+  .label {
+    min-width: 0;
+  }
   /*
    * Специфичность здесь намеренно выше, чем у правил веса по глубине
    * ниже: иначе цвет подлиста перебивал бы подсветку текущей страницы и
@@ -115,6 +168,42 @@ function holdsCurrent(node: NavNode): boolean {
     font-weight: 600;
     color: var(--sl-color-text-invert);
     background-color: var(--sl-color-text-accent);
+  }
+
+  /* Иконка верхнего уровня */
+  .nav-icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.9;
+  }
+  /* Цветовой якорь ветвей — тот же, что у Spider и branches-strip */
+  li[data-branch='culture'] > details > summary > a > .nav-icon {
+    color: #d97706;
+  }
+  li[data-branch='engineering'] > details > summary > a > .nav-icon {
+    color: #0d9488;
+  }
+  li[data-branch='practices'] > details > summary > a > .nav-icon {
+    color: #6366f1;
+  }
+  :root[data-theme='dark'] li[data-branch='culture'] > details > summary > a > .nav-icon {
+    color: #f59e0b;
+  }
+  :root[data-theme='dark'] li[data-branch='engineering'] > details > summary > a > .nav-icon {
+    color: #2dd4bf;
+  }
+  :root[data-theme='dark'] li[data-branch='practices'] > details > summary > a > .nav-icon {
+    color: #818cf8;
+  }
+  /* На подсвеченной строке иконка не спорит с фоном-акцентом */
+  a[aria-current='page'] .nav-icon {
+    color: currentColor;
   }
 
   /*
@@ -137,6 +226,15 @@ function holdsCurrent(node: NavNode): boolean {
     > summary
     > .nav-group-label {
     color: var(--sl-color-text);
+  }
+  /* Сервисные ссылки мельче ветвей: это входы в проект, а не его структура */
+  .nav-tree[data-depth='0'] > li[data-quick] > a {
+    font-size: var(--sl-text-sm);
+    font-weight: 500;
+    color: var(--sl-color-gray-2);
+  }
+  .nav-tree[data-depth='0'] > li[data-quick] > a[aria-current='page'] {
+    font-weight: 600;
   }
   .nav-tree[data-depth='1'] > li > a,
   .nav-tree[data-depth='1'] > li > details > summary > a {
@@ -195,7 +293,57 @@ function holdsCurrent(node: NavNode): boolean {
 
   @media (min-width: 50rem) {
     .nav-tree[data-depth='0'] > li + li {
-      margin-top: 0.5rem;
+      margin-top: 0.35rem;
+    }
+
+    /*
+     * Rail: сайдбар свёрнут (переключатель в Sidebar.astro ставит
+     * data-sidebar на <html>). Уровни ниже верхнего скрыты целиком,
+     * от верхнего остаётся иконка. Подписи — visually-hidden, а не
+     * display:none: ссылка-иконка обязана сохранить доступное имя.
+     */
+    :root[data-sidebar='collapsed'] .nav-tree[data-depth='0'] > li > details > .nav-tree,
+    :root[data-sidebar='collapsed'] .caret {
+      display: none;
+    }
+    :root[data-sidebar='collapsed'] .label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    :root[data-sidebar='collapsed'] a,
+    :root[data-sidebar='collapsed'] .nav-group-label {
+      justify-content: center;
+      padding-inline: 0;
+    }
+    :root[data-sidebar='collapsed'] .nav-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    :root[data-sidebar='collapsed'] .nav-tree[data-depth='0'] > li + li {
+      margin-top: 0.35rem;
+    }
+    :root[data-sidebar='collapsed'] .nav-tree[data-depth='0'] > li[data-quick] + li[data-quick] {
+      margin-top: 0.35rem;
+    }
+    /*
+     * В rail не видно ни раскрытой ветки, ни подсветки текущей страницы —
+     * поэтому ветвь, внутри которой находишься, отмечается сама.
+     */
+    :root[data-sidebar='collapsed']
+      .nav-tree[data-depth='0']
+      > li[data-holds-current]
+      > details
+      > summary
+      > a,
+    :root[data-sidebar='collapsed']
+      .nav-tree[data-depth='0']
+      > li[data-holds-current]
+      > a:not([aria-current='page']) {
+      background: var(--sl-color-accent-low);
     }
   }
 </style>

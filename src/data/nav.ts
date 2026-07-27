@@ -18,6 +18,7 @@
 // собирается в sidebar.ts — здесь только мета-страницы и внешние ссылки.
 
 import type { StarlightIcon } from '@astrojs/starlight/types';
+import type { NavIconName } from './navIcons';
 
 /**
  * Места, где показывается мета-страница:
@@ -43,6 +44,11 @@ export interface NavEntry {
    * 'sidebar'.
    */
   topLevel?: boolean;
+  /**
+   * Иконка в сайдбаре. Нужна только страницам верхнего уровня: в свёрнутом
+   * сайдбаре от пункта остаётся один глиф, внутри «Справочника» иконок нет.
+   */
+  icon?: NavIconName;
 }
 
 /**
@@ -56,6 +62,7 @@ export const docNav: NavEntry[] = [
     href: '/mindmap/',
     in: ['sidebar', 'header', 'footer', 'intro'],
     topLevel: true,
+    icon: 'tree',
   },
   {
     id: 'about',
@@ -82,6 +89,7 @@ export const docNav: NavEntry[] = [
     href: '/reliability-hierarchy/',
     in: ['sidebar', 'footer'],
     topLevel: true,
+    icon: 'layers',
   },
   {
     id: 'glossary',
