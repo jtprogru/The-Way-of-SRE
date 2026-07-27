@@ -1,0 +1,108 @@
+---
+// Override Starlight PageTitle: над заголовком показываем хлебные крошки.
+//
+// Глубина дерева — три уровня (ветвь → L1 → лист), и сайдбар не единственный
+// способ понять, где ты находишься. Крошки дают тот же ответ на самой
+// странице и позволяют подняться на уровень вверх одним кликом.
+//
+// Цепочка строится из данных: findPageContext() разбирает pathname, а не
+// заголовки страницы. На страницах вне графа (главная, глоссарий,
+// методология) крошек нет — подниматься там некуда.
+
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import { findPageContext, l1Href } from '../data/roadmap.ts';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.startsWith(base)
+  ? Astro.url.pathname.slice(base.length)
+  : Astro.url.pathname;
+
+const ctx = findPageContext(path);
+
+interface Crumb {
+  label: string;
+  href: string;
+}
+
+let crumbs: Crumb[] = [];
+if (ctx?.kind === 'l1') {
+  crumbs = [{ label: ctx.branch.label, href: ctx.branch.href }];
+} else if (ctx?.kind === 'leaf') {
+  crumbs = [
+    { label: ctx.branch.label, href: ctx.branch.href },
+    { label: ctx.l1.label, href: l1Href(ctx.branch, ctx.l1) },
+  ];
+}
+---
+
+{crumbs.length > 0 && (
+  <nav class="breadcrumbs" aria-label="Хлебные крошки" data-branch={ctx?.branch.id}>
+    <ol>
+      {crumbs.map((crumb) => (
+        <li>
+          <a href={`${base}${crumb.href}`}>{crumb.label}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<Default />
+
+<style>
+  .breadcrumbs {
+    margin-top: 1rem;
+    font-size: var(--sl-text-sm);
+  }
+  .breadcrumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+  }
+  /* Разделитель — псевдоэлемент, чтобы не попадать в скринридер */
+  .breadcrumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.5rem;
+    color: var(--sl-color-gray-4);
+  }
+  .breadcrumbs a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--sl-color-gray-5);
+  }
+  .breadcrumbs a:hover,
+  .breadcrumbs a:focus-visible {
+    color: var(--bc, var(--sl-color-white));
+    border-bottom-color: currentColor;
+  }
+  :root[data-theme='light'] .breadcrumbs a:hover,
+  :root[data-theme='light'] .breadcrumbs a:focus-visible {
+    color: var(--bc, var(--sl-color-text));
+  }
+  .breadcrumbs[data-branch='culture'] {
+    --bc: #d97706;
+  }
+  .breadcrumbs[data-branch='engineering'] {
+    --bc: #0d9488;
+  }
+  .breadcrumbs[data-branch='practices'] {
+    --bc: #6366f1;
+  }
+  :root[data-theme='dark'] .breadcrumbs[data-branch='culture'] {
+    --bc: #f59e0b;
+  }
+  :root[data-theme='dark'] .breadcrumbs[data-branch='engineering'] {
+    --bc: #2dd4bf;
+  }
+  :root[data-theme='dark'] .breadcrumbs[data-branch='practices'] {
+    --bc: #818cf8;
+  }
+  /* h1 из Starlight имеет свой margin-top — убираем зазор под крошками */
+  .breadcrumbs + :global(h1) {
+    margin-top: 0.35rem;
+  }
+</style>
