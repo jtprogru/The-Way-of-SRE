@@ -5,13 +5,13 @@ description: Operational дисциплина multi-team incident response — I
 
 :::note[Метаданные листа]
 - **Ветвь:** Practices
-- **Путь:** Incident Management / War Room Patterns
+- **Путь:** Incident Management / Incident Response / War Room Patterns
 - **SFIA-уровни:** 4, 5, 6
 - **Приоритет:** Must Have
 - **Статус:** draft
 :::
 
-«Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без [war room](/The-Way-of-SRE/glossary/#war-room) discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для клиентов, IC меняется неявно через «я устал, кто-то другой», постмортем-timeline восстановить невозможно. War Room Patterns — это **operational дисциплина multi-team incident response**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как след аудита, shift transition по чек-листу. Пятый лист под L1 `Incident Management` — самая плотная L1 на сайте, рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/), [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/).
+«Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без [war room](/The-Way-of-SRE/glossary/#war-room) discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для клиентов, IC меняется неявно через «я устал, кто-то другой», постмортем-timeline восстановить невозможно. War Room Patterns — это **operational дисциплина multi-team incident response**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как след аудита, shift transition по чек-листу. Уточнение [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/): тот лист описывает lifecycle инцидента целиком, этот — механику фазы mitigation, когда тушат несколько команд сразу.
 
 ## Что должен уметь
 

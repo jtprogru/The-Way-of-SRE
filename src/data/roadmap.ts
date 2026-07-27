@@ -106,16 +106,18 @@ export const roadmap: Roadmap = {
           priority: 'must',
           leaves: [
             {
-              id: 'dev-team-partnership',
-              label: 'Dev Team Partnership',
-              href: '/leaves/culture/dev-team-partnership/',
-              priority: 'must',
-            },
-            {
               id: 'stakeholder-management',
               label: 'Stakeholder Management',
               href: '/leaves/culture/stakeholder-management/',
               priority: 'mandatory',
+              children: [
+                {
+                  id: 'dev-team-partnership',
+                  label: 'Dev Team Partnership',
+                  href: '/leaves/culture/dev-team-partnership/',
+                  priority: 'must',
+                },
+              ],
             },
           ],
         },
@@ -275,12 +277,14 @@ export const roadmap: Roadmap = {
               label: 'SLO Engineering',
               href: '/leaves/engineering/slo-engineering/',
               priority: 'must',
-            },
-            {
-              id: 'composite-slo-methodology',
-              label: 'Composite SLO Methodology',
-              href: '/leaves/engineering/composite-slo-methodology/',
-              priority: 'nice',
+              children: [
+                {
+                  id: 'composite-slo-methodology',
+                  label: 'Composite SLO Methodology',
+                  href: '/leaves/engineering/composite-slo-methodology/',
+                  priority: 'nice',
+                },
+              ],
             },
             {
               id: 'capacity-planning',
@@ -330,12 +334,14 @@ export const roadmap: Roadmap = {
               label: 'Containerization & Orchestration',
               href: '/leaves/engineering/container-orchestration/',
               priority: 'must',
-            },
-            {
-              id: 'service-mesh',
-              label: 'Service Mesh',
-              href: '/leaves/engineering/service-mesh/',
-              priority: 'nice',
+              children: [
+                {
+                  id: 'service-mesh',
+                  label: 'Service Mesh',
+                  href: '/leaves/engineering/service-mesh/',
+                  priority: 'nice',
+                },
+              ],
             },
             {
               id: 'cloud-providers',
@@ -398,18 +404,20 @@ export const roadmap: Roadmap = {
               label: 'Toil Automation',
               href: '/leaves/engineering/toil-automation/',
               priority: 'mandatory',
-            },
-            {
-              id: 'personal-sre-toolkit',
-              label: 'Personal SRE Toolkit',
-              href: '/leaves/engineering/personal-sre-toolkit/',
-              priority: 'nice',
-            },
-            {
-              id: 'chatops',
-              label: 'ChatOps',
-              href: '/leaves/engineering/chatops/',
-              priority: 'nice',
+              children: [
+                {
+                  id: 'personal-sre-toolkit',
+                  label: 'Personal SRE Toolkit',
+                  href: '/leaves/engineering/personal-sre-toolkit/',
+                  priority: 'nice',
+                },
+                {
+                  id: 'chatops',
+                  label: 'ChatOps',
+                  href: '/leaves/engineering/chatops/',
+                  priority: 'nice',
+                },
+              ],
             },
           ],
         },
@@ -476,6 +484,14 @@ export const roadmap: Roadmap = {
               label: 'Incident Response',
               href: '/leaves/practices/incident-response/',
               priority: 'must',
+              children: [
+                {
+                  id: 'war-room-patterns',
+                  label: 'War Room Patterns',
+                  href: '/leaves/practices/war-room-patterns/',
+                  priority: 'nice',
+                },
+              ],
             },
             {
               id: 'on-call-rotation',
@@ -494,18 +510,14 @@ export const roadmap: Roadmap = {
               label: 'Customer Communications',
               href: '/leaves/practices/customer-communications/',
               priority: 'mandatory',
-            },
-            {
-              id: 'war-room-patterns',
-              label: 'War Room Patterns',
-              href: '/leaves/practices/war-room-patterns/',
-              priority: 'nice',
-            },
-            {
-              id: 'status-page-management',
-              label: 'Status Page Management',
-              href: '/leaves/practices/status-page-management/',
-              priority: 'mandatory',
+              children: [
+                {
+                  id: 'status-page-management',
+                  label: 'Status Page Management',
+                  href: '/leaves/practices/status-page-management/',
+                  priority: 'mandatory',
+                },
+              ],
             },
           ],
         },
@@ -548,6 +560,9 @@ export const roadmap: Roadmap = {
           ],
         },
         {
+          // Рантайм-периметр: чем закрыт работающий сервис и кто в него
+          // имеет доступ. Всё, что относится к тому, как код пишется и
+          // доезжает до прода, живёт в соседнем L1 Secure Development.
           id: 'information-security',
           label: 'Information Security',
           priority: 'mandatory',
@@ -559,9 +574,52 @@ export const roadmap: Roadmap = {
               priority: 'must',
             },
             {
+              id: 'access-control-iam',
+              label: 'Access Control & IAM',
+              href: '/leaves/practices/access-control-iam/',
+              priority: 'must',
+              children: [
+                {
+                  id: 'workload-identity',
+                  label: 'Workload Identity',
+                  href: '/leaves/practices/workload-identity/',
+                  priority: 'nice',
+                },
+              ],
+            },
+            {
+              id: 'security-chaos-engineering',
+              label: 'Security Chaos Engineering',
+              href: '/leaves/practices/security-chaos-engineering/',
+              priority: 'ondemand',
+            },
+            {
+              id: 'compliance-frameworks',
+              label: 'Compliance Frameworks',
+              href: '/leaves/practices/compliance-frameworks/',
+              priority: 'ondemand',
+            },
+          ],
+        },
+        {
+          // Безопасность на пути «дизайн → код → сборка → зависимости»:
+          // выделена из Information Security, где девять листьев в одном
+          // списке читались как свалка, а связаны они были границами, а не
+          // вложенностью.
+          id: 'secure-development',
+          label: 'Secure Development',
+          priority: 'mandatory',
+          leaves: [
+            {
               id: 'threat-modeling',
               label: 'Threat Modeling',
               href: '/leaves/practices/threat-modeling/',
+              priority: 'mandatory',
+            },
+            {
+              id: 'security-code-review',
+              label: 'Security Code Review',
+              href: '/leaves/practices/security-code-review/',
               priority: 'mandatory',
             },
             {
@@ -575,36 +633,6 @@ export const roadmap: Roadmap = {
               label: 'Supply Chain Security',
               href: '/leaves/practices/supply-chain-security/',
               priority: 'mandatory',
-            },
-            {
-              id: 'compliance-frameworks',
-              label: 'Compliance Frameworks',
-              href: '/leaves/practices/compliance-frameworks/',
-              priority: 'ondemand',
-            },
-            {
-              id: 'access-control-iam',
-              label: 'Access Control & IAM',
-              href: '/leaves/practices/access-control-iam/',
-              priority: 'must',
-            },
-            {
-              id: 'workload-identity',
-              label: 'Workload Identity',
-              href: '/leaves/practices/workload-identity/',
-              priority: 'nice',
-            },
-            {
-              id: 'security-code-review',
-              label: 'Security Code Review',
-              href: '/leaves/practices/security-code-review/',
-              priority: 'mandatory',
-            },
-            {
-              id: 'security-chaos-engineering',
-              label: 'Security Chaos Engineering',
-              href: '/leaves/practices/security-chaos-engineering/',
-              priority: 'ondemand',
             },
           ],
         },

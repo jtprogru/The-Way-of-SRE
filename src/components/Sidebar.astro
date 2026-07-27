@@ -1,0 +1,29 @@
+---
+// Override Starlight Sidebar: тот же каркас (персистер состояния +
+// мобильный футер), но содержимое рисует NavTree.astro из дерева
+// src/data/sidebar.ts, где узел может быть и ссылкой, и родителем.
+//
+// Данные для дерева берутся напрямую, а не из starlightRoute.sidebar:
+// формат конфига Starlight не умеет «группа-ссылка», из-за чего появлялись
+// пункты «Обзор ветви / раздела / практики» и терялась иерархия. Конфиг
+// сайдбара при этом остаётся — Starlight строит по нему пагинацию.
+
+import MobileMenuFooter from 'virtual:starlight/components/MobileMenuFooter';
+import SidebarPersister from '@astrojs/starlight/components/SidebarPersister.astro';
+import NavTree from './NavTree.astro';
+import { buildNavTree } from '../data/sidebar';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const raw = Astro.url.pathname.startsWith(base)
+  ? Astro.url.pathname.slice(base.length)
+  : Astro.url.pathname;
+const currentPath = raw.endsWith('/') ? raw : `${raw}/`;
+---
+
+<SidebarPersister>
+  <NavTree nodes={buildNavTree()} currentPath={currentPath} />
+</SidebarPersister>
+
+<div class="md:sl-hidden">
+  <MobileMenuFooter />
+</div>

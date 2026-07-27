@@ -11,7 +11,7 @@ description: Управление secrets через централизован�
 - **Статус:** draft
 :::
 
-«Закоммитил токен, удалил следующим коммитом — ок» — фраза, после которой я начинаю говорить про ротацию **немедленно**. Токен остался в git history, в reflog, в forks, в CI кэше, в local repo у каждого, кто pull'нул. Удаление коммита не помогает — секрет нужно ротировать **сразу**. Secrets Management — это **дисциплина**: централизованный store (Vault / Secrets Manager / Sealed Secrets), [наименьшие привилегии](/The-Way-of-SRE/glossary/#least-privilege) для доступа, регулярная rotation, полный [журнал аудита](/The-Way-of-SRE/glossary/#audit-trail), отрепетированная emergency revocation. Главная практика внутри L1 `Information Security`; соседи (Threat Modeling, Access Control & IAM, Vulnerability Management) — в открытых вопросах.
+«Закоммитил токен, удалил следующим коммитом — ок» — фраза, после которой я начинаю говорить про ротацию **немедленно**. Токен остался в git history, в reflog, в forks, в CI кэше, в local repo у каждого, кто pull'нул. Удаление коммита не помогает — секрет нужно ротировать **сразу**. Secrets Management — это **дисциплина**: централизованный store (Vault / Secrets Manager / Sealed Secrets), [наименьшие привилегии](/The-Way-of-SRE/glossary/#least-privilege) для доступа, регулярная rotation, полный [журнал аудита](/The-Way-of-SRE/glossary/#audit-trail), отрепетированная emergency revocation. Главная практика внутри L1 `Information Security`; соседи по рантайм-периметру — [Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/), Security Chaos Engineering и Compliance Frameworks.
 
 ## Что должен уметь
 
@@ -86,7 +86,7 @@ description: Управление secrets через централизован�
 
 ## Открытые вопросы
 
-- **Threat Modeling** уже выделен в отдельный лист под Information Security.
+- **Threat Modeling** уже выделен в отдельный лист под `Secure Development`.
 - **Access Control & IAM** — выделен в отдельный лист (см. Связанные листья).
 - **Workload Identity** — выделен в отдельный лист; покрывает SPIFFE/SPIRE, AWS IRSA, GCP/Azure Workload Identity, OIDC federation в CI/CD.
 - **Compliance Frameworks** — выделен в отдельный лист; SOC 2 / PCI-DSS / GDPR / HIPAA как драйверы требований к secrets management (encryption at rest / in transit, key rotation, audit trail).

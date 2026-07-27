@@ -5,7 +5,7 @@ description: Cryptographic identity для сервисов (SPIFFE, IRSA, OIDC 
 
 :::note[Метаданные листа]
 - **Ветвь:** Practices
-- **Путь:** Information Security / Workload Identity
+- **Путь:** Information Security / Access Control & IAM / Workload Identity
 - **SFIA-уровни:** 4, 5, 6
 - **Приоритет:** Mandatory
 - **Статус:** draft

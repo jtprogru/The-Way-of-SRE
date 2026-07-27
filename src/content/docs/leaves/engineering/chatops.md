@@ -5,7 +5,7 @@ description: Operations через chat-интерфейс — push-нотифи
 
 :::note[Метаданные листа]
 - **Ветвь:** Engineering
-- **Путь:** Toil Reduction / ChatOps
+- **Путь:** Toil Reduction / Toil Automation / ChatOps
 - **SFIA-уровни:** 3, 4, 5, 6
 - **Приоритет:** Nice to have
 - **Статус:** draft

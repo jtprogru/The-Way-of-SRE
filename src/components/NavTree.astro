@@ -1,0 +1,201 @@
+---
+// NavTree.astro — рекурсивное дерево левой навигации.
+//
+// Зачем своё вместо SidebarSublist из Starlight: там группа не может быть
+// ссылкой, поэтому каждый узел с детьми требовал отдельного пункта
+// «Обзор ветви / раздела / практики», а подпись любой группы рисовалась
+// одним классом .large — ветвь, L1 и лист-с-детьми выглядели одинаково
+// весомо. Дерево читалось плоско и расходилось с хлебными крошками.
+//
+// Здесь узел одновременно ссылка и родитель: клик по названию открывает
+// страницу узла, клик по остальной части строки (каретка, пустое место)
+// сворачивает ветку. Вес подписи убывает с глубиной, так что цепочка
+// «ветвь → L1 → лист → подлист» видна глазами и совпадает с крошками.
+//
+// Состояние свёрнутости сохраняет Starlight: SidebarRestorePoint внутри
+// каждого <details> — тот же механизм, что у штатного сайдбара.
+
+import SidebarRestorePoint from '@astrojs/starlight/components/SidebarRestorePoint.astro';
+import type { NavNode } from '../data/sidebar';
+
+interface Props {
+  nodes: NavNode[];
+  /** Путь текущей страницы БЕЗ base-префикса, со слешем на конце. */
+  currentPath: string;
+  depth?: number;
+}
+
+const { nodes, currentPath, depth = 0 } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const isCurrent = (href?: string) => !!href && href === currentPath;
+
+/** Ветка раскрыта, если текущая страница где-то внутри неё. */
+function holdsCurrent(node: NavNode): boolean {
+  return isCurrent(node.href) || (node.children ?? []).some(holdsCurrent);
+}
+---
+
+<ul class="nav-tree" data-depth={depth}>
+  {nodes.map((node) => (
+    <li>
+      {node.children?.length ? (
+        <details open={holdsCurrent(node)}>
+          <summary>
+            {node.href ? (
+              <a
+                href={`${base}${node.href}`}
+                aria-current={isCurrent(node.href) ? 'page' : undefined}
+              >{node.label}</a>
+            ) : (
+              <span class="nav-group-label">{node.label}</span>
+            )}
+            <svg class="caret" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 6 6 6-6 6" />
+            </svg>
+          </summary>
+          <SidebarRestorePoint />
+          <Astro.self nodes={node.children} currentPath={currentPath} depth={depth + 1} />
+        </details>
+      ) : (
+        <a
+          href={`${base}${node.href}`}
+          aria-current={isCurrent(node.href) ? 'page' : undefined}
+        >{node.label}</a>
+      )}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .nav-tree {
+    --nav-indent: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nav-tree li {
+    overflow-wrap: anywhere;
+  }
+  /* Вертикаль-направляющая у каждого вложенного уровня — как в Starlight */
+  .nav-tree:not([data-depth='0']) > li {
+    margin-inline-start: var(--nav-indent);
+    border-inline-start: 1px solid var(--sl-color-hairline-light);
+    padding-inline-start: var(--nav-indent);
+  }
+  .nav-tree[data-depth='0'] > li + li {
+    margin-top: 0.75rem;
+  }
+
+  a,
+  .nav-group-label {
+    display: block;
+    padding: 0.3em var(--nav-indent);
+    border-radius: 0.25rem;
+    line-height: 1.4;
+    text-decoration: none;
+    color: var(--sl-color-gray-2);
+  }
+  a:hover,
+  a:focus-visible {
+    color: var(--sl-color-white);
+  }
+  :root[data-theme='light'] a:hover,
+  :root[data-theme='light'] a:focus-visible {
+    color: var(--sl-color-text);
+  }
+  /*
+   * Специфичность здесь намеренно выше, чем у правил веса по глубине
+   * ниже: иначе цвет подлиста перебивал бы подсветку текущей страницы и
+   * в светлой теме давал серый текст на акцентном фоне.
+   */
+  .nav-tree[data-depth] a[aria-current='page'],
+  .nav-tree[data-depth] a[aria-current='page']:hover,
+  .nav-tree[data-depth] a[aria-current='page']:focus-visible {
+    font-weight: 600;
+    color: var(--sl-color-text-invert);
+    background-color: var(--sl-color-text-accent);
+  }
+
+  /*
+   * Вес подписи по глубине: ветвь / мета-страница → L1 → лист → подлист.
+   * Именно этого не хватало штатному сайдбару, где все группы были .large.
+   */
+  .nav-tree[data-depth='0'] > li > a,
+  .nav-tree[data-depth='0'] > li > details > summary > a,
+  .nav-tree[data-depth='0'] > li > details > summary > .nav-group-label {
+    font-size: var(--sl-text-base);
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+  :root[data-theme='light'] .nav-tree[data-depth='0'] > li > a,
+  :root[data-theme='light'] .nav-tree[data-depth='0'] > li > details > summary > a,
+  :root[data-theme='light']
+    .nav-tree[data-depth='0']
+    > li
+    > details
+    > summary
+    > .nav-group-label {
+    color: var(--sl-color-text);
+  }
+  .nav-tree[data-depth='1'] > li > a,
+  .nav-tree[data-depth='1'] > li > details > summary > a {
+    font-size: var(--sl-text-sm);
+    font-weight: 600;
+  }
+  .nav-tree[data-depth='2'] > li > a,
+  .nav-tree[data-depth='2'] > li > details > summary > a,
+  .nav-tree[data-depth='3'] > li > a {
+    font-size: var(--sl-text-sm);
+  }
+  .nav-tree[data-depth='3'] > li > a {
+    color: var(--sl-color-gray-3);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+  }
+  summary::marker,
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  /* Ссылка занимает строку, каретка — узкая зона для сворачивания */
+  summary > a,
+  summary > .nav-group-label {
+    flex: 1;
+    min-width: 0;
+  }
+  .caret {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    margin-inline-end: 0.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: var(--sl-color-gray-3);
+    transition: transform 0.2s ease-in-out;
+  }
+  details[open] > summary .caret {
+    transform: rotateZ(90deg);
+  }
+  summary:hover .caret {
+    color: var(--sl-color-white);
+  }
+  :root[data-theme='light'] summary:hover .caret {
+    color: var(--sl-color-text);
+  }
+
+  @media (min-width: 50rem) {
+    .nav-tree[data-depth='0'] > li + li {
+      margin-top: 0.5rem;
+    }
+  }
+</style>

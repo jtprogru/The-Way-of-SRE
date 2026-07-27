@@ -5,7 +5,7 @@ description: Проверка собственного кода на security-д
 
 :::note[Метаданные листа]
 - **Ветвь:** Practices
-- **Путь:** Information Security / Security Code Review
+- **Путь:** Secure Development / Security Code Review
 - **SFIA-уровни:** 3, 4, 5, 6
 - **Приоритет:** Mandatory
 - **Статус:** draft

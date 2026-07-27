@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
-import { buildReferenceGroup, buildRoadmapSidebar, buildTopLevelDocNav } from './src/data/sidebar';
+import { toStarlightSidebar } from './src/data/sidebar';
 import { socials } from './src/data/nav';
 
 // Production config: The Way of SRE roadmap site.
@@ -22,17 +22,15 @@ export default defineConfig({
       // Состав сайдбара целиком из данных: мета-страницы — src/data/nav.ts,
       // ветви, L1 и листья — src/data/roadmap.ts. Перечислять их здесь
       // руками не нужно, форму дерева задаёт src/data/sidebar.ts.
-      sidebar: [
-        { label: 'Карта компетенций', link: '/' },
-        { label: 'Roadmap (приоритеты)', link: '/priorities/' },
-        ...buildTopLevelDocNav(),
-        ...buildRoadmapSidebar(),
-        buildReferenceGroup(),
-      ],
+      //
+      // Видимый сайдбар рисует свой компонент (components.Sidebar ниже);
+      // Starlight использует эту секцию для порядка страниц в пагинации.
+      sidebar: toStarlightSidebar(),
       customCss: ['./src/styles/custom.css'],
       components: {
         Footer: './src/components/Footer.astro',
         PageTitle: './src/components/PageTitle.astro',
+        Sidebar: './src/components/Sidebar.astro',
         SocialIcons: './src/components/SocialIcons.astro',
       },
     }),

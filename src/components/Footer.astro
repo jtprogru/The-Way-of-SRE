@@ -85,7 +85,11 @@ if (leafCtx) {
     contextLabel = `Единственное уточнение этой практики. Другие практики раздела ${leafCtx.l1.label}:`;
     chips = parentSiblings.map((s) => ({ label: s.label, href: s.href, priority: s.priority }));
   } else {
-    contextLabel = `Эта практика — единственная в L1. Другие разделы ${leafCtx.branch.label}:`;
+    // Для подлиста «эта практика» читалось бы как он сам, хотя одинок
+    // здесь его родитель.
+    contextLabel = leafCtx.parent
+      ? `Кроме родительской, практик в разделе ${leafCtx.l1.label} нет. Другие разделы ${leafCtx.branch.label}:`
+      : `Эта практика — единственная в L1. Другие разделы ${leafCtx.branch.label}:`;
     chips = leafCtx.branch.l1
       .filter((l) => l.id !== leafCtx.l1.id)
       .map((l) => ({
