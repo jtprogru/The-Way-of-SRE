@@ -3,7 +3,7 @@ title: The Way of SRE
 description: Карта компетенций для развития в роли Site Reliability Engineer
 template: splash
 hero:
-  tagline: Карта направлений в SRE — три ветви, 22 компетенции верхнего уровня, листья с конкретными умениями, материалами и best practices.
+  tagline: Карта направлений в SRE — три ветви, 23 компетенции верхнего уровня, листья с конкретными умениями, материалами и best practices.
 ---
 
 import Spider from '../../components/Spider.astro';
@@ -20,6 +20,15 @@ export const totalLeaves = roadmap.branches.reduce(
   0,
 );
 export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0);
+// Числа берутся из данных, поэтому и окончание считается, а не пишется
+// руками: «22 компетенций» и «23 компетенции» — разные формы.
+export const plural = (n, one, few, many) => {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
+  return many;
+};
 
 <div class="intro-blurb">
   Зачем это нужно: SRE — широкая область на стыке разработки, инфраструктуры и
@@ -57,9 +66,9 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
 <p class="meta-strip">
   <span><strong>3</strong> ветви</span>
   <span aria-hidden="true">·</span>
-  <span><strong>{totalL1}</strong> компетенций верхнего уровня</span>
+  <span><strong>{totalL1}</strong>{' '}{plural(totalL1, 'компетенция', 'компетенции', 'компетенций')} верхнего уровня</span>
   <span aria-hidden="true">·</span>
-  <span><strong>{totalLeaves}</strong> листьев полной глубины</span>
+  <span><strong>{totalLeaves}</strong>{' '}{plural(totalLeaves, 'лист', 'листа', 'листьев')} полной глубины</span>
   <span aria-hidden="true">·</span>
   <span>open source · Apache-2.0</span>
 </p>

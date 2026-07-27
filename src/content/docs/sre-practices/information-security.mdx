@@ -1,13 +1,13 @@
 ---
 title: Information Security
-description: Безопасность как часть надёжности — уязвимости, секреты, доступы, supply chain
+description: Рантайм-периметр сервиса — секреты, доступы, идентичность нагрузок, проверка контролов, требования регуляторов
 ---
 
 import NodeCards from '../../../components/NodeCards.astro';
 
-Управление уязвимостями, обеспечение надёжности с учётом требований безопасности (security SLOs), участие в threat modeling, supply chain security, secrets management, access control / IAM, workload identity, compliance frameworks как драйверы требований.
+Чем закрыт работающий сервис и кто имеет к нему доступ: управление секретами, модель доступа для людей и для нагрузок, эмпирическая проверка того, что контролы срабатывают, и требования регуляторов как источник ограничений. Всё, что относится к тому, как код пишется, собирается и доезжает до прода, вынесено в соседнюю компетенцию [Secure Development](/The-Way-of-SRE/sre-practices/secure-development/): граница проходит по моменту — до выката или после.
 
-**L2-концепты:** Vulnerability Management · Security SLOs · Threat Modeling · Supply Chain Security · Secrets Management · Access Control & IAM · Workload Identity · Compliance Frameworks · Security Code Review · Security Chaos Engineering
+**L2-концепты:** Secrets Management · Access Control & IAM · Workload Identity · Security SLOs · Security Chaos Engineering · Compliance Frameworks
 
 ## Практики
 

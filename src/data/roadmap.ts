@@ -560,6 +560,9 @@ export const roadmap: Roadmap = {
           ],
         },
         {
+          // Рантайм-периметр: чем закрыт работающий сервис и кто в него
+          // имеет доступ. Всё, что относится к тому, как код пишется и
+          // доезжает до прода, живёт в соседнем L1 Secure Development.
           id: 'information-security',
           label: 'Information Security',
           priority: 'mandatory',
@@ -569,30 +572,6 @@ export const roadmap: Roadmap = {
               label: 'Secrets Management',
               href: '/leaves/practices/secrets-management/',
               priority: 'must',
-            },
-            {
-              id: 'threat-modeling',
-              label: 'Threat Modeling',
-              href: '/leaves/practices/threat-modeling/',
-              priority: 'mandatory',
-            },
-            {
-              id: 'vulnerability-management',
-              label: 'Vulnerability Management',
-              href: '/leaves/practices/vulnerability-management/',
-              priority: 'mandatory',
-            },
-            {
-              id: 'supply-chain-security',
-              label: 'Supply Chain Security',
-              href: '/leaves/practices/supply-chain-security/',
-              priority: 'mandatory',
-            },
-            {
-              id: 'compliance-frameworks',
-              label: 'Compliance Frameworks',
-              href: '/leaves/practices/compliance-frameworks/',
-              priority: 'ondemand',
             },
             {
               id: 'access-control-iam',
@@ -609,16 +588,51 @@ export const roadmap: Roadmap = {
               ],
             },
             {
+              id: 'security-chaos-engineering',
+              label: 'Security Chaos Engineering',
+              href: '/leaves/practices/security-chaos-engineering/',
+              priority: 'ondemand',
+            },
+            {
+              id: 'compliance-frameworks',
+              label: 'Compliance Frameworks',
+              href: '/leaves/practices/compliance-frameworks/',
+              priority: 'ondemand',
+            },
+          ],
+        },
+        {
+          // Безопасность на пути «дизайн → код → сборка → зависимости»:
+          // выделена из Information Security, где девять листьев в одном
+          // списке читались как свалка, а связаны они были границами, а не
+          // вложенностью.
+          id: 'secure-development',
+          label: 'Secure Development',
+          priority: 'mandatory',
+          leaves: [
+            {
+              id: 'threat-modeling',
+              label: 'Threat Modeling',
+              href: '/leaves/practices/threat-modeling/',
+              priority: 'mandatory',
+            },
+            {
               id: 'security-code-review',
               label: 'Security Code Review',
               href: '/leaves/practices/security-code-review/',
               priority: 'mandatory',
             },
             {
-              id: 'security-chaos-engineering',
-              label: 'Security Chaos Engineering',
-              href: '/leaves/practices/security-chaos-engineering/',
-              priority: 'ondemand',
+              id: 'vulnerability-management',
+              label: 'Vulnerability Management',
+              href: '/leaves/practices/vulnerability-management/',
+              priority: 'mandatory',
+            },
+            {
+              id: 'supply-chain-security',
+              label: 'Supply Chain Security',
+              href: '/leaves/practices/supply-chain-security/',
+              priority: 'mandatory',
             },
           ],
         },
