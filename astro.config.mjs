@@ -27,6 +27,16 @@ export default defineConfig({
       // Starlight использует эту секцию для порядка страниц в пагинации.
       sidebar: toStarlightSidebar(),
       customCss: ['./src/styles/custom.css'],
+      // Свёрнутость сайдбара применяется до первой отрисовки: иначе на
+      // каждой навигации панель успевала бы мигнуть полной шириной.
+      // Тот же приём, что у ThemeProvider самого Starlight.
+      head: [
+        {
+          tag: 'script',
+          content:
+            "try{if(localStorage.getItem('twos:sidebar')==='collapsed')document.documentElement.dataset.sidebar='collapsed'}catch(e){}",
+        },
+      ],
       components: {
         Footer: './src/components/Footer.astro',
         PageTitle: './src/components/PageTitle.astro',

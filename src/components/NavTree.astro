@@ -12,9 +12,12 @@
 // сворачивает ветку. Вес подписи убывает с глубиной, так что цепочка
 // «ветвь → L1 → лист → подлист» видна глазами и совпадает с крошками.
 //
-// Верхний уровень несёт иконки (см. src/data/navIcons.ts): они отделяют
-// сервисные ссылки — карту, приоритеты, дерево, порядок построения — от
-// трёх ветвей, которые дальше и раскрываются вглубь.
+// Верхний уровень несёт иконки (см. src/data/navIcons.ts). Они работают
+// на два режима: в развёрнутом сайдбаре отделяют сервисные ссылки от
+// ветвей, в свёрнутом (rail 3.25rem, переключатель в Sidebar.astro)
+// остаются единственным видимым следом пункта. Поэтому подписи в rail
+// не удаляются из DOM, а прячутся visually-hidden: у ссылки-иконки
+// должно оставаться доступное имя.
 //
 // Состояние свёрнутости сохраняет Starlight: SidebarRestorePoint внутри
 // каждого <details> — тот же механизм, что у штатного сайдбара.
@@ -43,7 +46,11 @@ function holdsCurrent(node: NavNode): boolean {
 
 <ul class="nav-tree" data-depth={depth}>
   {nodes.map((node) => (
-    <li data-quick={node.quick ? '' : undefined} data-branch={node.branch}>
+    <li
+      data-quick={node.quick ? '' : undefined}
+      data-branch={node.branch}
+      data-holds-current={depth === 0 && holdsCurrent(node) ? '' : undefined}
+    >
       {node.children?.length ? (
         <details open={holdsCurrent(node)}>
           <summary>
@@ -289,5 +296,54 @@ function holdsCurrent(node: NavNode): boolean {
       margin-top: 0.35rem;
     }
 
+    /*
+     * Rail: сайдбар свёрнут (переключатель в Sidebar.astro ставит
+     * data-sidebar на <html>). Уровни ниже верхнего скрыты целиком,
+     * от верхнего остаётся иконка. Подписи — visually-hidden, а не
+     * display:none: ссылка-иконка обязана сохранить доступное имя.
+     */
+    :root[data-sidebar='collapsed'] .nav-tree[data-depth='0'] > li > details > .nav-tree,
+    :root[data-sidebar='collapsed'] .caret {
+      display: none;
+    }
+    :root[data-sidebar='collapsed'] .label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    :root[data-sidebar='collapsed'] a,
+    :root[data-sidebar='collapsed'] .nav-group-label {
+      justify-content: center;
+      padding-inline: 0;
+    }
+    :root[data-sidebar='collapsed'] .nav-icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    :root[data-sidebar='collapsed'] .nav-tree[data-depth='0'] > li + li {
+      margin-top: 0.35rem;
+    }
+    :root[data-sidebar='collapsed'] .nav-tree[data-depth='0'] > li[data-quick] + li[data-quick] {
+      margin-top: 0.35rem;
+    }
+    /*
+     * В rail не видно ни раскрытой ветки, ни подсветки текущей страницы —
+     * поэтому ветвь, внутри которой находишься, отмечается сама.
+     */
+    :root[data-sidebar='collapsed']
+      .nav-tree[data-depth='0']
+      > li[data-holds-current]
+      > details
+      > summary
+      > a,
+    :root[data-sidebar='collapsed']
+      .nav-tree[data-depth='0']
+      > li[data-holds-current]
+      > a:not([aria-current='page']) {
+      background: var(--sl-color-accent-low);
+    }
   }
 </style>
