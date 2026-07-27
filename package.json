@@ -9,6 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check": "astro check",
     "toc": "doctoc README.md --github --notitle",
     "lint": "markdownlint-cli2 \"**/*.md\""
   },
@@ -18,7 +19,9 @@
     "sharp": "^0.35.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "doctoc": "^2.2.1",
-    "markdownlint-cli2": "^0.23.1"
+    "markdownlint-cli2": "^0.23.1",
+    "typescript": "^6.0.3"
   }
 }

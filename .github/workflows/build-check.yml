@@ -2,6 +2,10 @@ name: Build check
 
 # Проверка сборки на PR: тот же `astro build`, что и на деплое, но без публикации.
 # Ловит поломки зависимостей и контента до попадания в main.
+#
+# Перед сборкой — `astro check`: `astro build` типы не проверяет, а структура
+# данных в src/data/*.ts держится именно на типах (например, ограничение
+# глубины вложенности листьев одним уровнем).
 on:
   pull_request:
     branches: [main]
@@ -39,6 +43,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Typecheck
+        run: npm run check
 
       - name: Build
         run: npm run build
