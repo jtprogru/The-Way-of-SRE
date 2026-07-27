@@ -25,17 +25,43 @@
 // ссылки сюда).
 //
 // Leaves создаются в src/content/docs/leaves/<branch>/<slug>.md и
-// регистрируются здесь под соответствующим L1. Отдельно в навигации их
-// прописывать не нужно: левый сайдбар строится из этого файла через
-// src/data/sidebar.ts.
+// регистрируются здесь под соответствующим L1 — либо, если лист уточняет
+// другой лист, в его `children` (ровно один уровень вложенности, см. типы
+// ниже). Отдельно в навигации их прописывать не нужно: левый сайдбар
+// строится из этого файла через src/data/sidebar.ts.
+//
+// URL листа плоский независимо от вложенности — /leaves/<branch>/<slug>/.
+// Перевесить лист = поменять одну строку здесь, без редиректов. Отсюда
+// ограничение: подлист живёт в той же ветви, что и родитель, иначе
+// findLeafContext() его не найдёт (ветвь берётся из URL).
+//
+// Приоритет у подлиста собственный: вложенная практика вполне может быть
+// важнее родительской на фоне всей карты, наследование это скрывало бы.
 
 export type Priority = 'must' | 'mandatory' | 'nice' | 'ondemand';
 
-export interface Leaf {
+/** Общая часть листа и подлиста: то, что рисуется как узел графа. */
+export interface LeafNode {
   id: string;
   label: string;
   href: string;
   priority: Priority;
+}
+
+/**
+ * Подлист — уточнение конкретного листа (`runbooks → playbooks`), а не
+ * самостоятельная практика уровня L1. Детей у него нет намеренно: глубина
+ * ограничена одним уровнем не соглашением, а типом. Попытка вложить
+ * подлист в подлист — ошибка компиляции (excess property check на
+ * литералах `roadmap.ts`).
+ *
+ * Упёрлись в глубину — значит родитель дорос до L1: повышаем узел, правка
+ * того же файла.
+ */
+export type SubLeaf = LeafNode;
+
+export interface Leaf extends LeafNode {
+  children?: SubLeaf[];
 }
 
 export interface L1 {
@@ -656,6 +682,20 @@ export function getBranch(id: string): Branch | undefined {
 }
 
 /**
+ * Все листья одного L1 плоским списком: родитель, сразу за ним его дети,
+ * дальше следующий родитель. Нужен там, где вложенность не важна, а важен
+ * состав — счётчики практик и полные перечни.
+ */
+export function leavesOf(l1: L1): LeafNode[] {
+  return (l1.leaves ?? []).flatMap((leaf) => [leaf, ...(leaf.children ?? [])]);
+}
+
+/** Сколько всего листьев под L1 с учётом подлистов. */
+export function countLeaves(l1: L1): number {
+  return leavesOf(l1).length;
+}
+
+/**
  * URL hub-страницы L1: /<branch>/<l1-id>/, например
  * /sre-culture/relationship-management/.
  *
@@ -676,7 +716,7 @@ export function l1Href(branch: Branch, l1: L1): string {
 export type PageContext =
   | { kind: 'branch'; branch: Branch }
   | { kind: 'l1'; branch: Branch; l1: L1 }
-  | { kind: 'leaf'; branch: Branch; l1: L1; leaf: Leaf };
+  | { kind: 'leaf'; branch: Branch; l1: L1; leaf: LeafNode; parent?: Leaf };
 
 export function findPageContext(path: string): PageContext | null {
   const normalized = path.endsWith('/') ? path : `${path}/`;
@@ -684,7 +724,9 @@ export function findPageContext(path: string): PageContext | null {
   const leafMatch = normalized.match(/^\/leaves\/([^/]+)\/([^/]+)\/$/);
   if (leafMatch) {
     const ctx = findLeafContext(leafMatch[1], leafMatch[2]);
-    return ctx ? { kind: 'leaf', branch: ctx.branch, l1: ctx.l1, leaf: ctx.leaf } : null;
+    return ctx
+      ? { kind: 'leaf', branch: ctx.branch, l1: ctx.l1, leaf: ctx.leaf, parent: ctx.parent }
+      : null;
   }
 
   for (const branch of roadmap.branches) {
@@ -701,13 +743,24 @@ export function findPageContext(path: string): PageContext | null {
 export interface LeafContext {
   branch: Branch;
   l1: L1;
-  leaf: Leaf;
-  siblings: Leaf[];
+  leaf: LeafNode;
+  /** Родительский лист — только если текущий узел подлист. */
+  parent?: Leaf;
+  /** Соседи по фактическому родителю: другие дети либо другие листья L1. */
+  siblings: LeafNode[];
+  /** Дети текущего листа; у подлиста всегда пусто. */
+  children: SubLeaf[];
 }
 
 /**
  * Найти контекст листа по branchId + leafId. Используется Footer.astro
- * для рендеринга «↑ Раздел» + блока соседних практик на leaf-страницах.
+ * для рендеринга «↑ Раздел» + блока соседних практик на leaf-страницах и
+ * findPageContext() для хлебных крошек.
+ *
+ * Ищет на обоих уровнях: сначала среди листьев L1, потом среди их детей.
+ * Соседи считаются от фактического родителя — у подлиста это другие дети
+ * того же листа, а не все листья L1.
+ *
  * Возвращает null, если лист не зарегистрирован в roadmap.ts — это OK,
  * Footer просто не отрисует контекстный блок.
  */
@@ -715,10 +768,32 @@ export function findLeafContext(branchId: string, leafId: string): LeafContext |
   const branch = roadmap.branches.find((b) => b.id === branchId);
   if (!branch) return null;
   for (const l1 of branch.l1) {
-    const leaf = (l1.leaves ?? []).find((l) => l.id === leafId);
+    const leaves = l1.leaves ?? [];
+
+    const leaf = leaves.find((l) => l.id === leafId);
     if (leaf) {
-      const siblings = (l1.leaves ?? []).filter((l) => l.id !== leafId);
-      return { branch, l1, leaf, siblings };
+      return {
+        branch,
+        l1,
+        leaf,
+        siblings: leaves.filter((l) => l.id !== leafId),
+        children: leaf.children ?? [],
+      };
+    }
+
+    for (const parent of leaves) {
+      const children = parent.children ?? [];
+      const child = children.find((c) => c.id === leafId);
+      if (child) {
+        return {
+          branch,
+          l1,
+          leaf: child,
+          parent,
+          siblings: children.filter((c) => c.id !== leafId),
+          children: [],
+        };
+      }
     }
   }
   return null;
