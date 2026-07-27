@@ -55,11 +55,15 @@ const branchColW =
   estimateWidth(branch.label, CHAR_W_BRANCH) +
   (branchHasIcon ? BRANCH_ICON_W + BRANCH_ICON_GAP : 0);
 
-// В priority варианте listья не отображаем: страница про приоритет L1,
-// а leaves не имеют собственного priority (он наследуется от L1) —
-// одинаковые синие плашки только засоряют схему и не добавляют смысла.
-// На главной (Spider) listья видны со своими branch-tinted цветами;
-// на /sre-{branch}/ (navigation вариант) — тоже видны.
+// В priority варианте листья не отображаем: страница про приоритет L1,
+// а лишняя колонка одинаковых плашек только засоряет схему.
+//
+// Сейчас компонент живёт только на /priorities/ и только в этом варианте,
+// так что ветка с leaf-колонкой ниже не исполняется ни на одной странице:
+// карту ветви на /sre-{branch}/ рисует Spider.astro в compact-режиме.
+// Подлисты (Leaf.children) здесь поэтому и не учитываются — если leaf-
+// колонка когда-нибудь вернётся, её придётся считать заново вместе с
+// раскладкой по вертикали.
 const showLeaves = variant !== 'priority';
 let l1ColW = MIN_NODE_W;
 let leafColW = MIN_NODE_W;
