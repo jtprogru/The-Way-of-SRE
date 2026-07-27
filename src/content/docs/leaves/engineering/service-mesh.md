@@ -5,7 +5,7 @@ description: Sidecar-proxy слой для mTLS, traffic shifting и L7-observab
 
 :::note[Метаданные листа]
 - **Ветвь:** Engineering
-- **Путь:** IT Infrastructure / Service Mesh
+- **Путь:** IT Infrastructure / Containerization & Orchestration / Service Mesh
 - **SFIA-уровни:** 4, 5, 6
 - **Приоритет:** Nice to have
 - **Статус:** draft

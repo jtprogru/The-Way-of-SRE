@@ -5,7 +5,7 @@ description: Партнёрство SRE с продуктовыми команд
 
 :::note[Метаданные листа]
 - **Ветвь:** Culture
-- **Путь:** Relationship Management / Dev Team Partnership
+- **Путь:** Relationship Management / Stakeholder Management / Dev Team Partnership
 - **SFIA-уровни:** 3, 4, 5, 6
 - **Приоритет:** Must Have
 - **Статус:** draft

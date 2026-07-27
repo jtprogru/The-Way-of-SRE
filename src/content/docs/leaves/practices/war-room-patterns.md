@@ -5,7 +5,7 @@ description: Operational дисциплина multi-team incident response — I
 
 :::note[Метаданные листа]
 - **Ветвь:** Practices
-- **Путь:** Incident Management / War Room Patterns
+- **Путь:** Incident Management / Incident Response / War Room Patterns
 - **SFIA-уровни:** 4, 5, 6
 - **Приоритет:** Must Have
 - **Статус:** draft

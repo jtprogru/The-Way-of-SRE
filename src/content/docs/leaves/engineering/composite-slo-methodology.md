@@ -5,7 +5,7 @@ description: Математика multi-component SLO — серийные / п�
 
 :::note[Метаданные листа]
 - **Ветвь:** Engineering
-- **Путь:** Reliability Engineering / Composite SLO Methodology
+- **Путь:** Reliability Engineering / SLO Engineering / Composite SLO Methodology
 - **SFIA-уровни:** 4, 5, 6
 - **Приоритет:** Mandatory
 - **Статус:** draft

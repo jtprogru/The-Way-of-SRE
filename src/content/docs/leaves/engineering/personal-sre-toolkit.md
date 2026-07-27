@@ -5,7 +5,7 @@ description: Свой набор CLI-утилит и shell-функций под
 
 :::note[Метаданные листа]
 - **Ветвь:** Engineering
-- **Путь:** Toil Reduction / Personal SRE Toolkit
+- **Путь:** Toil Reduction / Toil Automation / Personal SRE Toolkit
 - **SFIA-уровни:** 3, 4, 5
 - **Приоритет:** Nice to have
 - **Статус:** draft

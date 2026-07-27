@@ -5,7 +5,7 @@ description: Operational practice public status page — subscriber model, uptim
 
 :::note[Метаданные листа]
 - **Ветвь:** Practices
-- **Путь:** Incident Management / Status Page Management
+- **Путь:** Incident Management / Customer Communications / Status Page Management
 - **SFIA-уровни:** 3, 4, 5, 6
 - **Приоритет:** Mandatory
 - **Статус:** draft
