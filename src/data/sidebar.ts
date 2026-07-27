@@ -8,6 +8,7 @@
 // нового листа требует правки ТОЛЬКО roadmap.ts.
 
 import { roadmap, type Branch } from './roadmap';
+import { navFor } from './nav';
 
 export interface SidebarLink {
   label: string;
@@ -55,4 +56,25 @@ export function buildBranchSidebar(branch: Branch): SidebarGroup {
  */
 export function buildRoadmapSidebar(): SidebarGroup[] {
   return roadmap.branches.map(buildBranchSidebar);
+}
+
+/**
+ * Мета-страницы, которые в сайдбаре живут на верхнем уровне,
+ * а не внутри группы «Справочник».
+ */
+export function buildTopLevelDocNav(): SidebarLink[] {
+  return navFor('sidebar')
+    .filter((e) => e.topLevel)
+    .map((e) => ({ label: e.label, link: e.href }));
+}
+
+/** Группа «Справочник» — остальные мета-страницы из nav.ts. */
+export function buildReferenceGroup(): SidebarGroup {
+  return {
+    label: 'Справочник',
+    collapsed: true,
+    items: navFor('sidebar')
+      .filter((e) => !e.topLevel)
+      .map((e) => ({ label: e.label, link: e.href })),
+  };
 }
