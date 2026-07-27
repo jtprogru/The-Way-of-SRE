@@ -51,6 +51,14 @@ export interface NavEntry {
  */
 export const docNav: NavEntry[] = [
   {
+    id: 'mindmap',
+    label: 'Полное дерево',
+    shortLabel: 'Mind map',
+    href: '/mindmap/',
+    in: ['sidebar', 'header', 'footer', 'intro'],
+    topLevel: true,
+  },
+  {
     id: 'about',
     label: 'Мотивация',
     href: '/about/',
@@ -68,14 +76,6 @@ export const docNav: NavEntry[] = [
     label: 'Методология',
     href: '/methodology/',
     in: ['sidebar', 'header', 'footer', 'intro'],
-  },
-  {
-    id: 'mindmap',
-    label: 'Полное дерево',
-    shortLabel: 'Mind map',
-    href: '/mindmap/',
-    in: ['sidebar', 'footer', 'intro'],
-    topLevel: true,
   },
   {
     id: 'reliability-hierarchy',
