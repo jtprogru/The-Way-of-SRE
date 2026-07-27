@@ -650,6 +650,49 @@ export function getBranch(id: string): Branch | undefined {
   return roadmap.branches.find((b) => b.id === id);
 }
 
+/**
+ * URL hub-страницы L1: /<branch>/<l1-id>/, например
+ * /sre-culture/relationship-management/.
+ *
+ * Путь выводится из branch.href и l1.id, а не хранится отдельным полем:
+ * иначе он мог бы разъехаться с файлом
+ * src/content/docs/<branch>/<l1-id>.mdx, который его и порождает.
+ */
+export function l1Href(branch: Branch, l1: L1): string {
+  return `${branch.href}${l1.id}/`;
+}
+
+/**
+ * Где мы находимся в графе. Используется хлебными крошками и футером,
+ * чтобы не разбирать pathname в каждом компоненте заново.
+ *
+ * path — путь БЕЗ base-префикса, со слешем на конце.
+ */
+export type PageContext =
+  | { kind: 'branch'; branch: Branch }
+  | { kind: 'l1'; branch: Branch; l1: L1 }
+  | { kind: 'leaf'; branch: Branch; l1: L1; leaf: Leaf };
+
+export function findPageContext(path: string): PageContext | null {
+  const normalized = path.endsWith('/') ? path : `${path}/`;
+
+  const leafMatch = normalized.match(/^\/leaves\/([^/]+)\/([^/]+)\/$/);
+  if (leafMatch) {
+    const ctx = findLeafContext(leafMatch[1], leafMatch[2]);
+    return ctx ? { kind: 'leaf', branch: ctx.branch, l1: ctx.l1, leaf: ctx.leaf } : null;
+  }
+
+  for (const branch of roadmap.branches) {
+    if (normalized === branch.href) return { kind: 'branch', branch };
+    if (!normalized.startsWith(branch.href)) continue;
+    const l1Id = normalized.slice(branch.href.length).replace(/\/$/, '');
+    const l1 = branch.l1.find((l) => l.id === l1Id);
+    if (l1) return { kind: 'l1', branch, l1 };
+  }
+
+  return null;
+}
+
 export interface LeafContext {
   branch: Branch;
   l1: L1;
