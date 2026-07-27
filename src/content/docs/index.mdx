@@ -8,8 +8,11 @@ hero:
 
 import Spider from '../../components/Spider.astro';
 import { roadmap } from '../../data/roadmap.ts';
+import { navFor } from '../../data/nav.ts';
 
 export const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Строка «Глубже — …» остаётся прозой, но состав ссылок берётся из nav.ts.
+export const introNav = navFor('intro');
 export const totalLeaves = roadmap.branches.reduce(
   (sum, b) => sum + b.l1.reduce((s, l1) => s + (l1.leaves?.length ?? 0), 0),
   0,
@@ -21,7 +24,12 @@ export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0)
   процессов. Эта карта показывает, что входит в роль и в какой последовательности
   разумно развиваться. Каждый лист — отдельная практика с материалами,
   external references и SFIA-уровнями для самооценки.
-  Глубже — <a href={`${base}/about/`}>Мотивация</a>, <a href={`${base}/format/`}>Формат проекта</a>, <a href={`${base}/methodology/`}>Методология</a> и <a href={`${base}/glossary/`}>Глоссарий</a>.
+  Глубже — {introNav.map((e, i) => (
+    <>
+      {i > 0 && (i === introNav.length - 1 ? ' и ' : ', ')}
+      <a href={`${base}${e.href}`}>{e.label}</a>
+    </>
+  ))}.
 </div>
 
 <p class="intro-cta">
