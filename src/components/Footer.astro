@@ -12,7 +12,7 @@ import EditLink from 'virtual:starlight/components/EditLink';
 import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import Pagination from 'virtual:starlight/components/Pagination';
 import { Icon } from '@astrojs/starlight/components';
-import { findLeafContext, priorityLabels } from '../data/roadmap.ts';
+import { findLeafContext, l1Href, priorityLabels } from '../data/roadmap.ts';
 import { navFor, socials } from '../data/nav.ts';
 
 const year = new Date().getFullYear();
@@ -53,7 +53,7 @@ const docNav = navFor('footer');
 <footer class="sl-flex">
   {leafCtx && (
     <aside class="leaf-context" data-branch={leafCtx.branch.id}>
-      <a class="leaf-context-parent" href={`${base}${leafCtx.branch.href}#${leafCtx.l1.id}`}>
+      <a class="leaf-context-parent" href={`${base}${l1Href(leafCtx.branch, leafCtx.l1)}`}>
         <span class="leaf-context-arrow" aria-hidden="true">↑</span>
         <span class="leaf-context-parent-text">
           <span class="leaf-context-parent-prefix">Раздел:</span>
@@ -86,7 +86,7 @@ const docNav = navFor('footer');
                 <li>
                   <a
                     class="leaf-context-chip leaf-context-chip--l1"
-                    href={`${base}${leafCtx.branch.href}#${l.id}`}
+                    href={`${base}${l1Href(leafCtx.branch, l)}`}
                     data-priority={l.priority}
                     title={`Приоритет: ${priorityLabels[l.priority].ru}`}
                   >{l.label}</a>
