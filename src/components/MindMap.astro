@@ -373,20 +373,49 @@ const rootChildren = subtree(graph.rootId);
 
     // Указатели: один — панорамирование, два — щипок. Одна и та же
     // механика на мыши и на тач-экране, отдельного мобильного режима нет.
+    //
+    // Два правила, без которых ссылки на узлах перестают открываться.
+    //
+    // Первое: захват указателя ставится не на pointerdown, а только когда
+    // перетаскивание действительно началось. При активном захвате Chrome
+    // переадресует на элемент-захватчик и совместимостные mouse-события,
+    // включая click, — то есть до <a> внутри SVG клик не доходит вовсе.
+    //
+    // Второе: порог перетаскивания считается в пикселях экрана, а не в
+    // единицах viewBox. В раскрытом состоянии карта вписана с масштабом
+    // около 0.3, один экранный пиксель — это больше двух единиц холста, и
+    // порог в единицах принимал любое дрожание руки за перетаскивание.
+    const DRAG_THRESHOLD_PX = 4;
     const pointers = new Map<number, { x: number; y: number }>();
-    let dragged = false;
+    let origin: { x: number; y: number } | null = null;
+    let dragging = false;
     let pinchDist = 0;
 
     viewport.addEventListener('pointerdown', (event) => {
       if ((event.target as Element).closest('.mm-toggle-btn')) return;
       pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-      dragged = false;
-      viewport.setPointerCapture(event.pointerId);
+      if (pointers.size === 1) {
+        origin = { x: event.clientX, y: event.clientY };
+        dragging = false;
+      }
       if (pointers.size === 2) {
         const [a, b] = [...pointers.values()];
         pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+        dragging = true;
       }
     });
+
+    function startDragging(event: PointerEvent) {
+      dragging = true;
+      // Захват нужен, чтобы перетаскивание не обрывалось при выходе курсора
+      // за пределы карты. На чужом указателе (мышь отпущена вне окна) вызов
+      // бросает — тогда просто продолжаем без захвата.
+      try {
+        viewport!.setPointerCapture(event.pointerId);
+      } catch {
+        /* указатель уже неактивен */
+      }
+    }
 
     viewport.addEventListener('pointermove', (event) => {
       const prev = pointers.get(event.pointerId);
@@ -401,36 +430,44 @@ const rootChildren = subtree(graph.rootId);
           zoomAt((a.x + b.x) / 2, (a.y + b.y) / 2, dist / pinchDist);
         }
         pinchDist = dist;
-        dragged = true;
         return;
+      }
+
+      if (!dragging) {
+        if (!origin) return;
+        const moved = Math.hypot(next.x - origin.x, next.y - origin.y);
+        if (moved < DRAG_THRESHOLD_PX) return;
+        startDragging(event);
       }
 
       const from = toUser(prev.x, prev.y);
       const to = toUser(next.x, next.y);
-      const dx = to.x - from.x;
-      const dy = to.y - from.y;
-      if (Math.abs(dx) + Math.abs(dy) > 0.5) dragged = true;
-      view.x += dx;
-      view.y += dy;
+      view.x += to.x - from.x;
+      view.y += to.y - from.y;
       applyView();
     });
 
     function endPointer(event: PointerEvent) {
       pointers.delete(event.pointerId);
       if (pointers.size < 2) pinchDist = 0;
+      if (pointers.size === 0) origin = null;
+      if (viewport!.hasPointerCapture(event.pointerId)) {
+        viewport!.releasePointerCapture(event.pointerId);
+      }
     }
     viewport.addEventListener('pointerup', endPointer);
     viewport.addEventListener('pointercancel', endPointer);
 
     // Перетаскивание не должно срабатывать как переход по ссылке узла.
+    // Флаг гасится здесь же: click приходит один раз, следующий pointerdown
+    // всё равно начнёт отсчёт заново.
     viewport.addEventListener(
       'click',
       (event) => {
-        if (dragged) {
-          event.preventDefault();
-          event.stopPropagation();
-          dragged = false;
-        }
+        if (!dragging) return;
+        event.preventDefault();
+        event.stopPropagation();
+        dragging = false;
       },
       true,
     );
@@ -580,6 +617,12 @@ const rootChildren = subtree(graph.rootId);
     fill: var(--sl-color-bg);
     stroke: var(--bc, var(--sl-color-gray-4));
     stroke-width: 1.5;
+    /*
+     * Плашка кликается всей площадью. Без этого у подлиста с прозрачной
+     * заливкой попадали бы только подпись и пунктирная рамка: по умолчанию
+     * SVG ловит указатель лишь на закрашенном.
+     */
+    pointer-events: all;
   }
   .mm-node text {
     fill: var(--sl-color-text);
