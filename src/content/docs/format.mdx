@@ -55,5 +55,5 @@ description: Как устроена карта компетенций, шабл
 
 - **Поправки в листьях** — PR с одним атомарным изменением в одном файле.
 - **Изменения в структуре графа** (L1 в `src/data/roadmap.ts` и L2 inventory в `sre-*.mdx`) — обязательно сверка с [Методологией](/The-Way-of-SRE/methodology/) и `inventory/overlaps.md` в репозитории.
-- **Новые листья** — создаются строго по шаблону `src/content/docs/leaves/_template.md` в `src/content/docs/leaves/<branch>/<slug>.md`, с обновлением навигации (`astro.config.mjs` + `src/data/roadmap.ts`).
+- **Новые листья** — создаются строго по шаблону `src/content/docs/leaves/_template.md` в `src/content/docs/leaves/<branch>/<slug>.md` и регистрируются в `src/data/roadmap.ts` под своим L1. Сайдбар строится из этих данных, править его руками не нужно.
 - **Обсуждение** — [Чат в Telegram](https://t.me/jtprogru_chat), новые листья и анонсы — в [Канале](https://t.me/jtprogru_channel).
