@@ -2,12 +2,13 @@
 //
 // Зачем отдельный файл: roadmap.ts — это данные графа и лукапы по ним, он
 // ничего не знает про Starlight. Здесь живёт единственное место, где
-// структура «ветвь → L1 → лист» превращается в формат конфига сайдбара.
+// структура «ветвь → L1 → лист → подлист» превращается в формат конфига
+// сайдбара.
 //
 // Инвариант: список листьев в astro.config.mjs не дублируется — добавление
 // нового листа требует правки ТОЛЬКО roadmap.ts.
 
-import { l1Href, roadmap, type Branch } from './roadmap';
+import { l1Href, roadmap, type Branch, type Leaf } from './roadmap';
 import { navFor } from './nav';
 
 export interface SidebarLink {
@@ -22,6 +23,27 @@ export interface SidebarGroup {
 }
 
 export type SidebarEntry = SidebarLink | SidebarGroup;
+
+/**
+ * Один лист сайдбара. Без детей — обычная ссылка; с детьми — группа, где
+ * первым пунктом идёт сама практика (группа в Starlight ссылкой быть не
+ * может), а следом её уточнения. Тот же приём, что «Обзор ветви» у ветви
+ * и «Обзор раздела» у L1.
+ */
+function buildLeafEntry(leaf: Leaf): SidebarEntry {
+  const children = leaf.children ?? [];
+  if (children.length === 0) {
+    return { label: leaf.label, link: leaf.href };
+  }
+  return {
+    label: leaf.label,
+    collapsed: true,
+    items: [
+      { label: 'Обзор практики', link: leaf.href },
+      ...children.map((child) => ({ label: child.label, link: child.href })),
+    ],
+  };
+}
 
 /**
  * Одна ветвь как свёрнутая группа сайдбара: «Обзор ветви» + по группе
@@ -45,10 +67,7 @@ export function buildBranchSidebar(branch: Branch): SidebarGroup {
             // Группа в Starlight сама по себе не ссылка, поэтому hub-страница
             // L1 достаётся первым пунктом — как «Обзор ветви» у ветви.
             { label: 'Обзор раздела', link: l1Href(branch, l1) },
-            ...(l1.leaves ?? []).map((leaf) => ({
-              label: leaf.label,
-              link: leaf.href,
-            })),
+            ...(l1.leaves ?? []).map(buildLeafEntry),
           ],
         })),
     ],
