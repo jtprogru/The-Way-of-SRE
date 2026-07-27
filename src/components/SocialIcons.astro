@@ -1,23 +1,21 @@
 ---
 // Override Starlight SocialIcons:
-// перед стандартными соцссылками ставим doc-nav (О проекте / Формат / Методология),
-// чтобы новые страницы были видны в шапке на каждой странице.
+// перед стандартными соцссылками ставим doc-nav, чтобы мета-страницы были
+// видны в шапке на каждой странице. Состав — в src/data/nav.ts (слот 'header').
 
 import Default from '@astrojs/starlight/components/SocialIcons.astro';
+import { navFor, navLabel } from '../data/nav.ts';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const docNav = [
-  { label: 'Мотивация', href: `${base}/about/` },
-  { label: 'Формат', href: `${base}/format/` },
-  { label: 'Методология', href: `${base}/methodology/` },
-  { label: 'Глоссарий', href: `${base}/glossary/` },
-] as const;
+// Состав и подписи — из src/data/nav.ts. В шапке места мало, поэтому
+// здесь короткие подписи (navLabel) и не все мета-страницы.
+const docNav = navFor('header');
 ---
 
 <nav class="header-docnav" aria-label="Документы проекта">
   {docNav.map((d) => (
-    <a href={d.href}>{d.label}</a>
+    <a href={`${base}${d.href}`}>{navLabel(d, 'header')}</a>
   ))}
 </nav>
 

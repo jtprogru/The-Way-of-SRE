@@ -1,10 +1,11 @@
 ---
 // Кастомный Footer:
 // 1) сохраняет дефолтное поведение Starlight (EditLink + LastUpdated + Pagination)
-// 2) добавляет site-wide блок снизу: соцссылки, копирайт, лицензия.
+// 2) добавляет site-wide блок снизу: doc-nav, соцссылки, копирайт, лицензия.
 //
-// Не рендерится на splash-страницах (Starlight их полностью кастомизирует);
-// для главной site-footer добавлен inline в src/content/docs/index.mdx.
+// Рендерится и на splash-страницах тоже, включая главную: EditLink,
+// LastUpdated и Pagination там пустые, а site-footer выводится как обычно.
+// Дублировать его инлайном в index.mdx не нужно.
 
 import { execSync } from 'node:child_process';
 import EditLink from 'virtual:starlight/components/EditLink';
@@ -12,6 +13,7 @@ import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import Pagination from 'virtual:starlight/components/Pagination';
 import { Icon } from '@astrojs/starlight/components';
 import { findLeafContext, priorityLabels } from '../data/roadmap.ts';
+import { navFor, socials } from '../data/nav.ts';
 
 const year = new Date().getFullYear();
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -43,20 +45,9 @@ const localPath = Astro.url.pathname.startsWith(base)
 const leafMatch = localPath.match(/^\/leaves\/([^/]+)\/([^/]+)\/?$/);
 const leafCtx = leafMatch ? findLeafContext(leafMatch[1], leafMatch[2]) : null;
 
-const docNav = [
-  { label: 'Мотивация', href: `${base}/about/` },
-  { label: 'Формат', href: `${base}/format/` },
-  { label: 'Методология', href: `${base}/methodology/` },
-  { label: 'Порядок построения', href: `${base}/reliability-hierarchy/` },
-  { label: 'Глоссарий', href: `${base}/glossary/` },
-] as const;
-
-const socials = [
-  { icon: 'github', label: 'GitHub', href: 'https://github.com/jtprogru/The-Way-of-SRE' },
-  { icon: 'telegram', label: 'Telegram канал', href: 'https://t.me/jtprogru_channel' },
-  { icon: 'comment-alt', label: 'Telegram чат', href: 'https://t.me/jtprogru_chat' },
-  { icon: 'external', label: 'Блог jtprog.ru', href: 'https://jtprog.ru/' },
-] as const;
+// Состав doc-nav и соцссылок — в src/data/nav.ts. В подвале места хватает,
+// поэтому здесь полные подписи и на одну страницу больше, чем в шапке.
+const docNav = navFor('footer');
 ---
 
 <footer class="sl-flex">
@@ -118,7 +109,7 @@ const socials = [
       {docNav.map((d, i) => (
         <>
           {i > 0 && <span aria-hidden="true">·</span>}
-          <a href={d.href}>{d.label}</a>
+          <a href={`${base}${d.href}`}>{d.label}</a>
         </>
       ))}
     </nav>

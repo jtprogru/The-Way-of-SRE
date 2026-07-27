@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
-import { buildRoadmapSidebar } from './src/data/sidebar';
+import { buildReferenceGroup, buildRoadmapSidebar, buildTopLevelDocNav } from './src/data/sidebar';
+import { socials } from './src/data/nav';
 
 // Production config: The Way of SRE roadmap site.
 // Деплой автоматический через .github/workflows/deploy-site.yml на push в main.
@@ -16,45 +17,17 @@ export default defineConfig({
       locales: {
         root: { label: 'Русский', lang: 'ru' },
       },
-      social: [
-        {
-          icon: 'github',
-          label: 'GitHub',
-          href: 'https://github.com/jtprogru/The-Way-of-SRE',
-        },
-        {
-          icon: 'telegram',
-          label: 'Telegram канал',
-          href: 'https://t.me/jtprogru_channel',
-        },
-        {
-          icon: 'comment-alt',
-          label: 'Telegram чат',
-          href: 'https://t.me/jtprogru_chat',
-        },
-        {
-          icon: 'external',
-          label: 'Блог jtprog.ru',
-          href: 'https://jtprog.ru/',
-        },
-      ],
+      // Соцссылки в шапке; тот же массив рендерит подвал (Footer.astro).
+      social: socials,
+      // Состав сайдбара целиком из данных: мета-страницы — src/data/nav.ts,
+      // ветви, L1 и листья — src/data/roadmap.ts. Перечислять их здесь
+      // руками не нужно, форму дерева задаёт src/data/sidebar.ts.
       sidebar: [
         { label: 'Карта компетенций', link: '/' },
         { label: 'Roadmap (приоритеты)', link: '/priorities/' },
-        { label: 'Порядок построения', link: '/reliability-hierarchy/' },
-        // Ветви, L1 и листья строятся из src/data/roadmap.ts —
-        // руками их здесь перечислять не нужно, см. src/data/sidebar.ts.
+        ...buildTopLevelDocNav(),
         ...buildRoadmapSidebar(),
-        {
-          label: 'Справочник',
-          collapsed: true,
-          items: [
-            { label: 'Глоссарий', link: '/glossary/' },
-            { label: 'Методология', link: '/methodology/' },
-            { label: 'Формат проекта', link: '/format/' },
-            { label: 'Мотивация', link: '/about/' },
-          ],
-        },
+        buildReferenceGroup(),
       ],
       customCss: ['./src/styles/custom.css'],
       components: {
