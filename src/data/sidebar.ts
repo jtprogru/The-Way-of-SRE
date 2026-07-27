@@ -1,15 +1,78 @@
-// Построитель левого сайдбара Starlight из src/data/roadmap.ts.
+// Дерево левой навигации.
 //
 // Зачем отдельный файл: roadmap.ts — это данные графа и лукапы по ним, он
-// ничего не знает про Starlight. Здесь живёт единственное место, где
-// структура «ветвь → L1 → лист → подлист» превращается в формат конфига
-// сайдбара.
+// ничего не знает про навигацию. Здесь структура «ветвь → L1 → лист →
+// подлист» дополняется мета-страницами из nav.ts и превращается в дерево.
+//
+// У дерева две проекции, и обе строятся отсюда:
+//   - buildNavTree() — для src/components/NavTree.astro, который рисует
+//     сайдбар. Там узел одновременно ссылка и родитель своих детей.
+//   - toStarlightSidebar() — для секции `sidebar` в astro.config.mjs.
+//     Видимый сайдбар из неё больше не рендерится (компонент Sidebar
+//     переопределён), но Starlight берёт из неё порядок страниц для
+//     пагинации «Предыдущая / Следующая».
 //
 // Инвариант: список листьев в astro.config.mjs не дублируется — добавление
 // нового листа требует правки ТОЛЬКО roadmap.ts.
 
-import { l1Href, roadmap, type Branch, type Leaf } from './roadmap';
+import { l1Href, roadmap, type Branch } from './roadmap';
 import { navFor } from './nav';
+
+/**
+ * Узел навигации. В отличие от групп Starlight, узел может быть
+ * одновременно ссылкой на свою страницу и родителем детей — именно этого
+ * требует соответствие сайдбара хлебным крошкам.
+ */
+export interface NavNode {
+  label: string;
+  /** Путь без base-префикса. Нет только у чисто группирующих узлов. */
+  href?: string;
+  children?: NavNode[];
+}
+
+/** Пустой список детей превращаем в undefined: узел без детей — просто ссылка. */
+function kids(nodes: NavNode[]): NavNode[] | undefined {
+  return nodes.length > 0 ? nodes : undefined;
+}
+
+/**
+ * Ветвь со всеми L1 и листьями.
+ *
+ * L1 без листьев в сайдбар не попадают: вести на них есть куда, но
+ * дерево они не углубляют, а на branch-странице видны карточками.
+ */
+function branchNode(branch: Branch): NavNode {
+  return {
+    label: branch.label,
+    href: branch.href,
+    children: branch.l1
+      .filter((l1) => (l1.leaves ?? []).length > 0)
+      .map((l1) => ({
+        label: l1.label,
+        href: l1Href(branch, l1),
+        children: (l1.leaves ?? []).map((leaf) => ({
+          label: leaf.label,
+          href: leaf.href,
+          children: kids((leaf.children ?? []).map((c) => ({ label: c.label, href: c.href }))),
+        })),
+      })),
+  };
+}
+
+/** Всё дерево сайдбара: мета-страницы, три ветви, «Справочник». */
+export function buildNavTree(): NavNode[] {
+  const meta = navFor('sidebar');
+  return [
+    { label: 'Карта компетенций', href: '/' },
+    { label: 'Roadmap (приоритеты)', href: '/priorities/' },
+    ...meta.filter((e) => e.topLevel).map((e) => ({ label: e.label, href: e.href })),
+    ...roadmap.branches.map(branchNode),
+    {
+      label: 'Справочник',
+      children: meta.filter((e) => !e.topLevel).map((e) => ({ label: e.label, href: e.href })),
+    },
+  ];
+}
 
 export interface SidebarLink {
   label: string;
@@ -25,80 +88,26 @@ export interface SidebarGroup {
 export type SidebarEntry = SidebarLink | SidebarGroup;
 
 /**
- * Один лист сайдбара. Без детей — обычная ссылка; с детьми — группа, где
- * первым пунктом идёт сама практика (группа в Starlight ссылкой быть не
- * может), а следом её уточнения. Тот же приём, что «Обзор ветви» у ветви
- * и «Обзор раздела» у L1.
+ * То же дерево в формате конфига Starlight. Группа там ссылкой быть не
+ * может, поэтому узел с детьми разворачивается в группу, где первым
+ * пунктом идёт он сам. Подпись этого пункта — та же, что у группы: в
+ * пагинации она читается как имя страницы, а видимого дублирования нет,
+ * сайдбар рисует NavTree.astro.
  */
-function buildLeafEntry(leaf: Leaf): SidebarEntry {
-  const children = leaf.children ?? [];
-  if (children.length === 0) {
-    return { label: leaf.label, link: leaf.href };
+function toEntry(node: NavNode): SidebarEntry {
+  if (!node.children?.length) {
+    return { label: node.label, link: node.href! };
   }
   return {
-    label: leaf.label,
+    label: node.label,
     collapsed: true,
     items: [
-      { label: 'Обзор практики', link: leaf.href },
-      ...children.map((child) => ({ label: child.label, link: child.href })),
+      ...(node.href ? [{ label: node.label, link: node.href }] : []),
+      ...node.children.map(toEntry),
     ],
   };
 }
 
-/**
- * Одна ветвь как свёрнутая группа сайдбара: «Обзор ветви» + по группе
- * на каждый L1 с листьями.
- *
- * L1 без листьев в сайдбар не попадают: вести на них некуда, а на
- * branch-странице они и так видны в inventory L2-концептов.
- */
-export function buildBranchSidebar(branch: Branch): SidebarGroup {
-  return {
-    label: branch.label,
-    collapsed: true,
-    items: [
-      { label: 'Обзор ветви', link: branch.href },
-      ...branch.l1
-        .filter((l1) => (l1.leaves ?? []).length > 0)
-        .map((l1) => ({
-          label: l1.label,
-          collapsed: true,
-          items: [
-            // Группа в Starlight сама по себе не ссылка, поэтому hub-страница
-            // L1 достаётся первым пунктом — как «Обзор ветви» у ветви.
-            { label: 'Обзор раздела', link: l1Href(branch, l1) },
-            ...(l1.leaves ?? []).map(buildLeafEntry),
-          ],
-        })),
-    ],
-  };
-}
-
-/**
- * Все ветви роадмапа для секции `sidebar` в astro.config.mjs.
- * Порядок ветвей, L1 и листьев диктует roadmap.ts.
- */
-export function buildRoadmapSidebar(): SidebarGroup[] {
-  return roadmap.branches.map(buildBranchSidebar);
-}
-
-/**
- * Мета-страницы, которые в сайдбаре живут на верхнем уровне,
- * а не внутри группы «Справочник».
- */
-export function buildTopLevelDocNav(): SidebarLink[] {
-  return navFor('sidebar')
-    .filter((e) => e.topLevel)
-    .map((e) => ({ label: e.label, link: e.href }));
-}
-
-/** Группа «Справочник» — остальные мета-страницы из nav.ts. */
-export function buildReferenceGroup(): SidebarGroup {
-  return {
-    label: 'Справочник',
-    collapsed: true,
-    items: navFor('sidebar')
-      .filter((e) => !e.topLevel)
-      .map((e) => ({ label: e.label, link: e.href })),
-  };
+export function toStarlightSidebar(): SidebarEntry[] {
+  return buildNavTree().map(toEntry);
 }
