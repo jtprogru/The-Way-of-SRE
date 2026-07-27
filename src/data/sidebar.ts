@@ -7,7 +7,7 @@
 // Инвариант: список листьев в astro.config.mjs не дублируется — добавление
 // нового листа требует правки ТОЛЬКО roadmap.ts.
 
-import { roadmap, type Branch } from './roadmap';
+import { l1Href, roadmap, type Branch } from './roadmap';
 import { navFor } from './nav';
 
 export interface SidebarLink {
@@ -41,10 +41,15 @@ export function buildBranchSidebar(branch: Branch): SidebarGroup {
         .map((l1) => ({
           label: l1.label,
           collapsed: true,
-          items: (l1.leaves ?? []).map((leaf) => ({
-            label: leaf.label,
-            link: leaf.href,
-          })),
+          items: [
+            // Группа в Starlight сама по себе не ссылка, поэтому hub-страница
+            // L1 достаётся первым пунктом — как «Обзор ветви» у ветви.
+            { label: 'Обзор раздела', link: l1Href(branch, l1) },
+            ...(l1.leaves ?? []).map((leaf) => ({
+              label: leaf.label,
+              link: leaf.href,
+            })),
+          ],
         })),
     ],
   };

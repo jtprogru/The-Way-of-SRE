@@ -6,14 +6,19 @@
 //     /priorities/ на сайте и цветовой разметкой `PriorityMap`
 //   - leaves под L1 (фактически написанные leaf-страницы)
 //
-// За что отвечают src/content/docs/sre-{culture,engineering,practices}.mdx:
-//   - L1 + L2 inventory концептов компетенций (как nested list под каждым L1)
+// За что отвечают src/content/docs/sre-{culture,engineering,practices}/<l1>.mdx:
+//   - описание L1 и его L2 inventory концептов компетенций
 //   - L2-узлы (Stakeholder Management, Metrics, IaC и т.п.) живут ТОЛЬКО там;
 //     это потенциальные подкомпетенции, не leaf-страницы
 //
-// Инвариант: набор и порядок L1 в этом файле должен совпадать с L1 в
-// sre-*.mdx. При изменении L1 (переименование, добавление, удаление)
-// — синхронизировать оба источника одним PR.
+// Инвариант: у каждого L1 из этого файла должна быть страница
+// src/content/docs/<branch>/<l1-id>.mdx — её адрес выводится из данных
+// через l1Href(). При добавлении или переименовании L1 заводить или
+// переименовывать страницу тем же PR, иначе карточка на странице ветви
+// будет вести в никуда.
+//
+// Порядок L1 задаётся только этим файлом: страницы ветвей и сайдбар
+// рендерят карточки и группы из данных, руками нигде не перечисляются.
 //
 // src/content/docs/methodology.mdx — методологический документ про ось
 // priority и ось SFIA, он НЕ содержит данных (только определения и
@@ -648,6 +653,49 @@ export const roadmap: Roadmap = {
 
 export function getBranch(id: string): Branch | undefined {
   return roadmap.branches.find((b) => b.id === id);
+}
+
+/**
+ * URL hub-страницы L1: /<branch>/<l1-id>/, например
+ * /sre-culture/relationship-management/.
+ *
+ * Путь выводится из branch.href и l1.id, а не хранится отдельным полем:
+ * иначе он мог бы разъехаться с файлом
+ * src/content/docs/<branch>/<l1-id>.mdx, который его и порождает.
+ */
+export function l1Href(branch: Branch, l1: L1): string {
+  return `${branch.href}${l1.id}/`;
+}
+
+/**
+ * Где мы находимся в графе. Используется хлебными крошками и футером,
+ * чтобы не разбирать pathname в каждом компоненте заново.
+ *
+ * path — путь БЕЗ base-префикса, со слешем на конце.
+ */
+export type PageContext =
+  | { kind: 'branch'; branch: Branch }
+  | { kind: 'l1'; branch: Branch; l1: L1 }
+  | { kind: 'leaf'; branch: Branch; l1: L1; leaf: Leaf };
+
+export function findPageContext(path: string): PageContext | null {
+  const normalized = path.endsWith('/') ? path : `${path}/`;
+
+  const leafMatch = normalized.match(/^\/leaves\/([^/]+)\/([^/]+)\/$/);
+  if (leafMatch) {
+    const ctx = findLeafContext(leafMatch[1], leafMatch[2]);
+    return ctx ? { kind: 'leaf', branch: ctx.branch, l1: ctx.l1, leaf: ctx.leaf } : null;
+  }
+
+  for (const branch of roadmap.branches) {
+    if (normalized === branch.href) return { kind: 'branch', branch };
+    if (!normalized.startsWith(branch.href)) continue;
+    const l1Id = normalized.slice(branch.href.length).replace(/\/$/, '');
+    const l1 = branch.l1.find((l) => l.id === l1Id);
+    if (l1) return { kind: 'l1', branch, l1 };
+  }
+
+  return null;
 }
 
 export interface LeafContext {

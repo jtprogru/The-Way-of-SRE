@@ -14,7 +14,7 @@
 // Цветовая палитра ветвей (amber/teal/indigo) сохранена из старого SVG —
 // единая семантика «ветвь = цвет» используется и в BranchView.astro.
 
-import { roadmap, priorityLabels, type Priority } from '../data/roadmap.ts';
+import { roadmap, l1Href, priorityLabels, type Priority } from '../data/roadmap.ts';
 import { BRANCH_ICONS } from '../data/branchIcons.ts';
 
 interface Props {
@@ -74,7 +74,7 @@ const isSingle = branches.length === 1;
             return (
               <li class="board-l1" data-priority={l1.priority} data-expanded={expanded}>
                 <div class="board-l1-head">
-                  <a class="board-l1-link" href={link(`${branch.href}#${l1.id}`)}>
+                  <a class="board-l1-link" href={link(l1Href(branch, l1))}>
                     <span
                       class="priority-dot"
                       data-priority={l1.priority}

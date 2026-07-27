@@ -13,7 +13,7 @@
 // /priorities/, где схемы собраны в табы и три одинаковые легенды подряд
 // были бы шумом. Легенда с расшифровками — секцией самой страницы.
 
-import { getBranch, type Priority } from '../data/roadmap.ts';
+import { getBranch, l1Href, type Priority } from '../data/roadmap.ts';
 import { BRANCH_ICONS, BRANCH_ICON_W, BRANCH_ICON_GAP } from '../data/branchIcons.ts';
 
 interface Props {
@@ -132,7 +132,7 @@ for (const [l1i, l1] of branch.l1.entries()) {
     y: l1Centers[l1i] - NODE_H / 2,
     width: l1ColW,
     height: NODE_H,
-    href: `${branch.href}#${l1.id}`,
+    href: l1Href(branch, l1),
   });
 
   if (showLeaves) {

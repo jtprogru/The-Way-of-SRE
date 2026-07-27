@@ -1,0 +1,168 @@
+---
+// NodeCards.astro — карточки дочерних узлов графа.
+//
+// Два режима:
+//   kind="l1"     — L1-компетенции ветви, для страницы /sre-<branch>/
+//   kind="leaves" — листья одного L1, для hub-страницы /sre-<branch>/<l1>/
+//
+// Списки ссылок руками на страницах не пишутся: состав, порядок и
+// приоритеты берутся из src/data/roadmap.ts. Цвет полоски — цвет ветви
+// (синхронно со Spider.astro и футером), подпись — приоритет узла.
+
+import { getBranch, l1Href, priorityLabels, type Priority } from '../data/roadmap.ts';
+
+interface Props {
+  kind: 'l1' | 'leaves';
+  branchId: string;
+  /** Обязателен при kind="leaves". */
+  l1Id?: string;
+}
+
+const { kind, branchId, l1Id } = Astro.props;
+const branch = getBranch(branchId);
+
+if (!branch) {
+  throw new Error(`NodeCards: неизвестная ветвь "${branchId}"`);
+}
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+interface Card {
+  label: string;
+  href: string;
+  priority: Priority;
+  note?: string;
+}
+
+let cards: Card[];
+let empty: string;
+
+if (kind === 'l1') {
+  cards = branch.l1.map((l1) => {
+    const count = (l1.leaves ?? []).length;
+    return {
+      label: l1.label,
+      href: l1Href(branch, l1),
+      priority: l1.priority,
+      note: count > 0 ? `${count} ${plural(count)}` : 'пока без практик',
+    };
+  });
+  empty = 'У ветви нет компетенций верхнего уровня.';
+} else {
+  const l1 = branch.l1.find((l) => l.id === l1Id);
+  if (!l1) {
+    throw new Error(`NodeCards: неизвестный узел "${branchId}/${l1Id}"`);
+  }
+  cards = (l1.leaves ?? []).map((leaf) => ({
+    label: leaf.label,
+    href: leaf.href,
+    priority: leaf.priority,
+  }));
+  empty = 'Листьев под этой компетенцией пока нет — есть только L2-концепты выше.';
+}
+
+function plural(n: number): string {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'практика';
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'практики';
+  return 'практик';
+}
+---
+
+{cards.length > 0 ? (
+  <ul class="node-cards not-content" data-branch={branch.id}>
+    {cards.map((card) => (
+      <li>
+        <a href={`${base}${card.href}`}>
+          <span class="node-card-name">{card.label}</span>
+          <span class="node-card-meta">
+            <span class="node-card-priority" title={`Приоритет: ${priorityLabels[card.priority].ru}`}>
+              {priorityLabels[card.priority].emoji} {priorityLabels[card.priority].ru}
+            </span>
+            {card.note && <span class="node-card-note">{card.note}</span>}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p class="node-cards-empty">{empty}</p>
+)}
+
+<style>
+  .node-cards {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 0.75rem;
+  }
+  .node-cards a {
+    --bc: var(--sl-color-accent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    height: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-left: 3px solid var(--bc);
+    border-radius: 8px;
+    background: var(--sl-color-bg-nav);
+    text-decoration: none;
+    transition: border-color 0.15s, background-color 0.15s;
+  }
+  /* Палитра ветвей — та же, что в Spider.astro и в футере */
+  .node-cards[data-branch='culture'] a {
+    --bc: #d97706;
+  }
+  .node-cards[data-branch='engineering'] a {
+    --bc: #0d9488;
+  }
+  .node-cards[data-branch='practices'] a {
+    --bc: #6366f1;
+  }
+  :root[data-theme='dark'] .node-cards[data-branch='culture'] a {
+    --bc: #f59e0b;
+  }
+  :root[data-theme='dark'] .node-cards[data-branch='engineering'] a {
+    --bc: #2dd4bf;
+  }
+  :root[data-theme='dark'] .node-cards[data-branch='practices'] a {
+    --bc: #818cf8;
+  }
+  .node-cards a:hover,
+  .node-cards a:focus-visible {
+    background: var(--sl-color-gray-6);
+    border-color: var(--bc);
+  }
+  :root[data-theme='light'] .node-cards a:hover,
+  :root[data-theme='light'] .node-cards a:focus-visible {
+    background: var(--sl-color-gray-7);
+  }
+  .node-card-name {
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+  :root[data-theme='light'] .node-card-name {
+    color: var(--sl-color-text);
+  }
+  .node-cards a:hover .node-card-name,
+  .node-cards a:focus-visible .node-card-name {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+  .node-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.6rem;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+  .node-cards-empty {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
+  }
+</style>

@@ -4,6 +4,7 @@ description: Ветвь развития, посвящённая техниче�
 ---
 
 import Spider from '../../components/Spider.astro';
+import NodeCards from '../../components/NodeCards.astro';
 
 Ветвь развития, посвящённая совершенствованию **технических компетенций и навыков**, необходимых для обеспечения надёжности, масштабируемости и производительности систем. Главный объект деятельности — технические артефакты: код, инфраструктура, инструменты наблюдаемости и автоматизации.
 
@@ -13,55 +14,9 @@ import Spider from '../../components/Spider.astro';
 
 ## Компетенции верхнего уровня
 
-Под каждым L1-узлом — список **L2-концептов** (потенциальные подкомпетенции, не leaf-страницы). Конкретный тулинг (Prometheus, Terraform, k6 и т.п.) в графе не присутствует — он живёт в секции «Материалы» соответствующего листа. Подробнее — в [Методологии](/The-Way-of-SRE/methodology/#что-не-попадает-в-граф).
+У каждой компетенции своя страница: там описание, список **L2-концептов** (потенциальные подкомпетенции, не leaf-страницы) и практики, которые к ней относятся. Конкретный тулинг (Prometheus, Terraform, k6 и т.п.) в графе не присутствует — он живёт в секции «Материалы» соответствующего листа. Подробнее — в [Методологии](/The-Way-of-SRE/methodology/#что-не-попадает-в-граф).
 
-### Observability
-
-Построение и поддержка систем наблюдаемости: метрики, логи, трейсы (три столпа observability). Включает dashboards, alerting-стратегии и SLI-based мониторинг.
-
-**L2-концепты:** Metrics · Logging · Distributed Tracing · SLI-based Alerting · Symptom vs Cause Alerting · End-User Monitoring
-
-### Reliability Engineering
-
-Определение и управление SLO/SLA, error budget policy, capacity planning и проектирование систем с учётом надёжности. Включает chaos engineering и fault injection для проверки устойчивости.
-
-**L2-концепты:** SLO Engineering · Composite SLO Methodology · Chaos Engineering · Capacity Planning · Disaster Recovery · Resilience Patterns · Systematic Troubleshooting
-
-### Toil Reduction
-
-Выявление, измерение и автоматизация ручного повторяющегося операционного труда (toil) — от personal-уровня tooling до team-level ChatOps. Цель — удерживать долю toil ниже 50% рабочего времени команды.
-
-**L2-концепты:** Toil Identification · Toil Tracking · Toil Automation · Personal SRE Toolkit · ChatOps
-
-### Configuration Management
-
-Управление конфигурацией инфраструктуры и приложений как кодом (IaC, GitOps), обеспечение воспроизводимости и предсказуемости состояния систем.
-
-**L2-концепты:** Infrastructure as Code · GitOps
-
-### IT Infrastructure
-
-Эксплуатация, проектирование и оптимизация инфраструктуры с точки зрения надёжности: сетевой стек, операционные системы, контейнеризация и оркестрация, service mesh, облачные провайдеры.
-
-**L2-концепты:** Networking · Operating Systems · Containerization & Orchestration · Service Mesh · Cloud Providers
-
-<h3 id="programming-scripting">Programming / Scripting</h3>
-
-Разработка инструментов для автоматизации, операционных сервисов, систем контроля надёжности и снижения toil. SRE пишет код — это принципиальное отличие от классических ops.
-
-**L2-концепты:** Programming Languages · Shell & CLI Craft · CI/CD · Test Strategy · Performance & Profiling
-
-### Database Reliability
-
-Обеспечение надёжности хранилищ данных: backup/restore, репликация, performance tuning, DR-сценарии для БД, мониторинг consistency.
-
-**L2-концепты:** DB Engines · Replication · Backup & Restore · Performance & Monitoring
-
-### Financial Management
-
-Управление стоимостью облака и инфраструктуры с точки зрения engineering: cost visibility, allocation по командам и сервисам, unit economics, оптимизация без потери SLO. FinOps Lifecycle (Inform / Optimize / Operate) опирается на observability и IaC — инструменты, которые уже принадлежат SRE.
-
-**L2-концепты:** Cost Visibility · Cost Allocation · Unit Economics · Reserved / Spot Strategy · Cost as SLI
+<NodeCards kind="l1" branchId="engineering" />
 
 ---
 
