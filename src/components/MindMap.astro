@@ -31,6 +31,34 @@ import { BRANCH_ICONS } from '../data/branchIcons.ts';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const link = (path: string) => `${base}${path}`;
 
+// Иконки тулбара — те же 24×24 обводкой, что у ветвей в BRANCH_ICONS.
+// Кнопки с двумя состояниями держат обе иконки в разметке, а переключает их
+// CSS по aria-pressed: состояние и так живёт в атрибуте, дублировать его
+// заменой узлов из скрипта незачем.
+const TOOL_ICONS: Record<string, string[]> = {
+  collapse: ['m7 20 5-5 5 5', 'm7 4 5 5 5-5'],
+  expand: ['m7 15 5 5 5-5', 'm7 9 5-5 5 5'],
+  filter: ['M22 3H2l8 9.46V19l4 2v-8.54Z'],
+  zoomOut: ['M5 12h14'],
+  zoomIn: ['M12 5v14', 'M5 12h14'],
+  fit: [
+    'M3 7V5a2 2 0 0 1 2-2h2',
+    'M17 3h2a2 2 0 0 1 2 2v2',
+    'M21 17v2a2 2 0 0 1-2 2h-2',
+    'M7 21H5a2 2 0 0 1-2-2v-2',
+    'M8 12h8',
+  ],
+  page: ['M15 3h6v6', 'M9 21H3v-6', 'M21 3l-7 7', 'M3 21l7-7'],
+  pageBack: ['M4 14h6v6', 'M20 10h-6V4', 'M14 10l7-7', 'M3 21l7-7'],
+  screen: ['M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z', 'M8 21h8'],
+  screenBack: [
+    'M8 3v3a2 2 0 0 1-2 2H3',
+    'M21 8h-3a2 2 0 0 1-2-2V3',
+    'M3 16h3a2 2 0 0 1 2 2v3',
+    'M16 21v-3a2 2 0 0 1 2-2h3',
+  ],
+};
+
 const graph = buildMindMap();
 const initial = layoutY(graph);
 const { y } = initial;
@@ -54,22 +82,93 @@ const rootChildren = subtree(graph.rootId);
 <figure class="mm not-content" data-priority-filter="off">
   <div class="mm-toolbar">
     <div class="mm-toolbar-group">
-      <button type="button" class="mm-btn" data-mm="collapse-all" data-collapsed="false">
-        Свернуть до компетенций
+      <button
+        type="button"
+        class="mm-btn"
+        data-mm="collapse-all"
+        aria-pressed="false"
+        aria-label="Свернуть до компетенций"
+        title="Свернуть до компетенций"
+      >
+        <svg class="mm-icon mm-icon-off" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.collapse.map((d) => <path d={d} />)}
+        </svg>
+        <svg class="mm-icon mm-icon-on" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.expand.map((d) => <path d={d} />)}
+        </svg>
       </button>
-      <label class="mm-toggle">
-        <input type="checkbox" data-mm="only-required" />
-        <span>Только обязательное</span>
-      </label>
+      <button
+        type="button"
+        class="mm-btn"
+        data-mm="only-required"
+        aria-pressed="false"
+        aria-label="Показать только обязательное"
+        title="Показать только обязательное"
+      >
+        <svg class="mm-icon" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.filter.map((d) => <path d={d} />)}
+        </svg>
+      </button>
     </div>
     <div class="mm-toolbar-group mm-zoom">
-      <button type="button" class="mm-btn mm-btn-icon" data-mm="zoom-out" aria-label="Отдалить"
-        >−</button
+      <button type="button" class="mm-btn" data-mm="zoom-out" aria-label="Отдалить" title="Отдалить">
+        <svg class="mm-icon" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.zoomOut.map((d) => <path d={d} />)}
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="mm-btn"
+        data-mm="zoom-in"
+        aria-label="Приблизить"
+        title="Приблизить"
       >
-      <button type="button" class="mm-btn mm-btn-icon" data-mm="zoom-in" aria-label="Приблизить"
-        >+</button
+        <svg class="mm-icon" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.zoomIn.map((d) => <path d={d} />)}
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="mm-btn"
+        data-mm="fit"
+        aria-label="Вписать карту в холст"
+        title="Вписать карту в холст"
       >
-      <button type="button" class="mm-btn" data-mm="fit">Вписать в экран</button>
+        <svg class="mm-icon" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.fit.map((d) => <path d={d} />)}
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="mm-btn"
+        data-mm="wide"
+        aria-pressed="false"
+        aria-label="Развернуть на всю страницу"
+        title="Развернуть на всю страницу"
+      >
+        <svg class="mm-icon mm-icon-off" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.page.map((d) => <path d={d} />)}
+        </svg>
+        <svg class="mm-icon mm-icon-on" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.pageBack.map((d) => <path d={d} />)}
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="mm-btn"
+        data-mm="fullscreen"
+        aria-pressed="false"
+        aria-label="Развернуть во весь экран"
+        title="Развернуть во весь экран"
+        hidden
+      >
+        <svg class="mm-icon mm-icon-off" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.screen.map((d) => <path d={d} />)}
+        </svg>
+        <svg class="mm-icon mm-icon-on" viewBox="0 0 24 24" aria-hidden="true">
+          {TOOL_ICONS.screenBack.map((d) => <path d={d} />)}
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -172,7 +271,8 @@ const rootChildren = subtree(graph.rootId);
 
   <p class="mm-hint">
     Масштаб — кнопками, Ctrl (⌘) с колесом мыши или щипком. Перетаскивание двигает холст, кружок на
-    краю плашки сворачивает ветку.
+    краю плашки сворачивает ветку. Что делает кнопка тулбара — покажет подсказка при наведении.{' '}
+    <span class="mm-hint-esc">Esc возвращает карту в текст.</span>
   </p>
 
   <ul class="mm-legend" aria-label="Легенда приоритетов">
@@ -291,11 +391,22 @@ const rootChildren = subtree(graph.rootId);
     // котором карта помещается на экран без зума.
     const l1Ids = graph.nodes.filter((n) => n.kind === 'l1').map((n) => n.id);
 
+    // Подпись у кнопки одна — всплывающая. Тулбар иконочный, поэтому
+    // состояние объясняют title и aria-label, а не текст внутри кнопки.
+    function label(btn: HTMLButtonElement, pressed: boolean, text: string) {
+      btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      btn.title = text;
+      btn.setAttribute('aria-label', text);
+    }
+
     function syncCollapseAll() {
       if (!collapseAllBtn) return;
       const allCollapsed = l1Ids.every((id) => collapsed.has(id));
-      collapseAllBtn.dataset.collapsed = allCollapsed ? 'true' : 'false';
-      collapseAllBtn.textContent = allCollapsed ? 'Развернуть всё' : 'Свернуть до компетенций';
+      label(
+        collapseAllBtn,
+        allCollapsed,
+        allCollapsed ? 'Развернуть всё дерево' : 'Свернуть до компетенций',
+      );
     }
 
     collapseAllBtn?.addEventListener('click', () => {
@@ -308,9 +419,11 @@ const rootChildren = subtree(graph.rootId);
     });
 
     // --- Фильтр приоритета ---------------------------------------------
-    const onlyRequired = figure.querySelector<HTMLInputElement>('[data-mm="only-required"]');
-    onlyRequired?.addEventListener('change', () => {
-      figure.dataset.priorityFilter = onlyRequired.checked ? 'on' : 'off';
+    const onlyRequired = figure.querySelector<HTMLButtonElement>('[data-mm="only-required"]');
+    onlyRequired?.addEventListener('click', () => {
+      const on = onlyRequired.getAttribute('aria-pressed') !== 'true';
+      figure.dataset.priorityFilter = on ? 'on' : 'off';
+      label(onlyRequired, on, on ? 'Показать все приоритеты' : 'Показать только обязательное');
     });
 
     // --- Зум и панорамирование -----------------------------------------
@@ -357,6 +470,97 @@ const rootChildren = subtree(graph.rootId);
     figure.querySelector('[data-mm="zoom-in"]')?.addEventListener('click', () => zoomCenter(1.25));
     figure.querySelector('[data-mm="zoom-out"]')?.addEventListener('click', () => zoomCenter(0.8));
     figure.querySelector('[data-mm="fit"]')?.addEventListener('click', fit);
+
+    // --- Разворот: на всю страницу и во весь экран ------------------------
+    // Два режима, одна раскладка. «На всю страницу» — оверлей поверх
+    // документа: карта занимает вьюпорт, вкладки и адресная строка остаются.
+    // «Во весь экран» — тот же оверлей, но через Fullscreen API, без хрома
+    // браузера. Оба состояния сводятся к одному атрибуту data-expanded:
+    // стили не должны знать, каким путём карта развернулась, а завязываться
+    // на :fullscreen нельзя — в старых Safari незнакомый селектор в группе
+    // убивает всё правило целиком.
+    const wideBtn = figure.querySelector<HTMLButtonElement>('[data-mm="wide"]');
+    const fsBtn = figure.querySelector<HTMLButtonElement>('[data-mm="fullscreen"]');
+    const fsApi = {
+      request: figure.requestFullscreen?.bind(figure),
+      exit: document.exitFullscreen?.bind(document),
+    };
+    let wide = false;
+    // Место, куда карта вернётся из оверлея.
+    //
+    // На время разворота figure переезжает в <body>. Иначе никакого «поверх
+    // страницы» не выходит: Starlight ставит .main-pane isolation: isolate, а
+    // это отдельный контекст наложения — любой z-index внутри него остаётся
+    // под шапкой и сайдбаром. Переезд надёжнее, чем прятать чужие панели по
+    // их классам: те могут поменяться с версией темы.
+    //
+    // Полный экран переезда не требует (top layer и так рисуется поверх
+    // всего), и напрашиваться на него не стоит: перемещение узла в DOM
+    // браузер вправе счесть поводом выйти из полноэкранного режима.
+    const anchor = document.createComment('mind map');
+    let scrollY = 0;
+
+    const isFullscreen = () => document.fullscreenElement === figure;
+
+    function syncExpanded() {
+      const expanded = wide || isFullscreen();
+      figure!.dataset.expanded = expanded ? 'true' : 'false';
+      // Скролл страницы гасим только под оверлеем: в нативном полном экране
+      // документ и так не виден, а лишний lock пришлось бы снимать по
+      // событию выхода, которое браузер шлёт не всегда предсказуемо.
+      document.documentElement.classList.toggle('mm-locked', wide && !isFullscreen());
+      if (wideBtn) {
+        label(wideBtn, wide, wide ? 'Вернуть карту в текст' : 'Развернуть на всю страницу');
+      }
+      if (fsBtn) {
+        const fs = isFullscreen();
+        label(fsBtn, fs, fs ? 'Выйти из полноэкранного режима' : 'Развернуть во весь экран');
+      }
+      // Размер холста поменялся — сбрасываем зум, иначе карта остаётся
+      // сдвинутой относительно нового вьюпорта. viewBox вписывает её сам.
+      requestAnimationFrame(fit);
+    }
+
+    function setWide(next: boolean) {
+      if (next === wide) return;
+      if (next) {
+        scrollY = window.scrollY;
+        figure!.before(anchor);
+        document.body.appendChild(figure!);
+      } else {
+        anchor.replaceWith(figure!);
+      }
+      wide = next;
+      syncExpanded();
+      // Возврат карты в поток документа сдвигает страницу — ставим её туда,
+      // где читатель был до разворота.
+      if (!next) window.scrollTo({ top: scrollY });
+    }
+
+    wideBtn?.addEventListener('click', () => setWide(!wide));
+
+    if (fsBtn && fsApi.request && document.fullscreenEnabled) {
+      fsBtn.hidden = false;
+      fsBtn.addEventListener('click', async () => {
+        try {
+          if (isFullscreen()) await fsApi.exit?.();
+          else await fsApi.request!();
+        } catch {
+          // Отказ (iframe без allow="fullscreen", политика браузера) не
+          // должен оставлять пользователя ни с чем: разворачиваем оверлеем.
+          setWide(true);
+        }
+      });
+    }
+
+    document.addEventListener('fullscreenchange', syncExpanded);
+
+    // Esc выходит из оверлея. В нативном полном экране его перехватывает
+    // браузер, до нас событие не доходит — и не нужно.
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !wide || isFullscreen()) return;
+      setWide(false);
+    });
 
     // Зум по Ctrl/⌘ + колесо. Просто колесо оставляем странице: карта
     // занимает почти весь экран, и перехват прокрутки превращал бы её в
@@ -528,42 +732,97 @@ const rootChildren = subtree(graph.rootId);
     gap: 0.5rem;
     flex-wrap: wrap;
   }
+  /*
+   * Кнопки без подписей: смысл несут иконка и всплывающая подсказка (title
+   * дублируется в aria-label — скринридеру title не гарантирован).
+   */
   .mm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    padding: 0;
     background: transparent;
     border: 1px solid var(--sl-color-gray-5);
     color: var(--sl-color-gray-2);
-    font-size: 0.8rem;
-    padding: 0.3rem 0.7rem;
     border-radius: 6px;
     cursor: pointer;
     user-select: none;
     transition:
       background 0.15s ease,
-      border-color 0.15s ease;
+      border-color 0.15s ease,
+      color 0.15s ease;
   }
   .mm-btn:hover,
   .mm-btn:focus-visible {
     background: var(--sl-color-gray-6);
     border-color: var(--sl-color-gray-4);
+    color: var(--sl-color-white);
   }
-  .mm-btn-icon {
-    min-width: 2rem;
-    font-size: 1rem;
-    line-height: 1;
-    padding: 0.25rem 0.5rem;
+  /* Нажатое состояние видно и без подсказки: у фильтра и разворота оно
+     держится долго, а иконка сама по себе о включённости не говорит. */
+  .mm-btn[aria-pressed='true'] {
+    background: var(--sl-color-accent-low);
+    border-color: var(--sl-color-accent);
+    color: var(--sl-color-white);
   }
-  .mm-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--sl-color-gray-2);
-    cursor: pointer;
-    user-select: none;
+  .mm-icon {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .mm-toggle input {
-    cursor: pointer;
+  .mm-icon-on,
+  .mm-btn[aria-pressed='true'] .mm-icon-off {
+    display: none;
+  }
+  .mm-btn[aria-pressed='true'] .mm-icon-on {
+    display: block;
+  }
+
+  /* --- Развёрнутое состояние --- */
+  /*
+   * Оверлей во весь вьюпорт. z-index выше шапки Starlight (--sl-z-index-navbar
+   * = 10) и мобильного меню, иначе поверх карты остаётся висеть хедер.
+   * Фон непрозрачный: в нативном полном экране браузер иначе подложит чёрный.
+   */
+  .mm[data-expanded='true'] {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
     margin: 0;
+    padding: 0.75rem 1rem 0.9rem;
+    background: var(--sl-color-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  /* min-height: 0 — иначе flex-элемент не даёт себя сжать ниже контента. */
+  .mm[data-expanded='true'] .mm-viewport {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+    /* Страница под оверлеем не прокручивается, поэтому вертикальный свайп
+       можно забрать себе: одним пальцем двигается холст. */
+    touch-action: none;
+  }
+  /* Список на 94 узла в развёрнутой карте только ломает высоту оверлея. */
+  .mm[data-expanded='true'] .mm-fallback {
+    display: none;
+  }
+  .mm-hint-esc {
+    display: none;
+  }
+  .mm[data-expanded='true'] .mm-hint-esc {
+    display: inline;
+  }
+  :global(html.mm-locked),
+  :global(html.mm-locked body) {
+    overflow: hidden;
   }
 
   /* --- Холст --- */
