@@ -106,6 +106,20 @@ const isSingle = branches.length === 1;
                           data-priority={leaf.priority}
                           title={`Приоритет: ${priorityLabels[leaf.priority].ru}`}
                         >{leaf.label}</a>
+                        {(leaf.children ?? []).length > 0 && (
+                          <ul class="board-subleaves">
+                            {leaf.children!.map((child) => (
+                              <li>
+                                <a
+                                  class="board-leaf board-leaf--sub"
+                                  href={link(child.href)}
+                                  data-priority={child.priority}
+                                  title={`Приоритет: ${priorityLabels[child.priority].ru}`}
+                                >{child.label}</a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -444,6 +458,34 @@ const isSingle = branches.length === 1;
     display: flex;
     flex-direction: column;
     gap: 0.22rem;
+  }
+
+  /*
+   * Подлисты — те же чипы со сдвигом вправо и без заливки: уточнение
+   * практики, а не соседняя практика. Отступ достаточно заметный, чтобы
+   * уровень читался в колонке шириной с треть экрана.
+   */
+  .board-subleaves {
+    list-style: none;
+    margin: 0.22rem 0 0 0.55rem;
+    padding: 0 0 0 0.45rem;
+    border-left: 1.5px solid var(--bc);
+    display: flex;
+    flex-direction: column;
+    gap: 0.22rem;
+  }
+  .board-leaf--sub {
+    background: transparent;
+    color: var(--sl-color-gray-2) !important;
+    font-size: 0.76rem;
+  }
+  :root[data-theme='light'] .board-leaf--sub {
+    color: var(--sl-color-gray-1) !important;
+  }
+  .board-leaf--sub:hover,
+  .board-leaf--sub:focus-visible {
+    background: var(--bc-low);
+    color: var(--bc-text) !important;
   }
 
   .board-leaf {

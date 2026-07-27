@@ -44,7 +44,7 @@ description: Как устроена карта компетенций, шабл
 
 | Файл | За что отвечает |
 | ---- | --------------- |
-| `src/data/roadmap.ts` | L1-узлы каждой ветви, **priorities L1**, leaves под L1 |
+| `src/data/roadmap.ts` | L1-узлы каждой ветви, **priorities L1**, leaves под L1 и их подлисты |
 | `src/content/docs/sre-{culture,engineering,practices}.mdx` | Обзор ветви: интро и карта |
 | `src/content/docs/<branch>/<l1-id>.mdx` | Описание одного L1 и его L2 inventory концептов |
 | `src/content/docs/leaves/<branch>/<slug>.md` | Содержимое одного листа |
@@ -56,5 +56,6 @@ description: Как устроена карта компетенций, шабл
 
 - **Поправки в листьях** — PR с одним атомарным изменением в одном файле.
 - **Изменения в структуре графа** (L1 в `src/data/roadmap.ts` и L2 inventory на страницах L1) — обязательно сверка с [Методологией](/The-Way-of-SRE/methodology/) и `inventory/overlaps.md` в репозитории. Новый L1 — это запись в `roadmap.ts` плюс страница `src/content/docs/<branch>/<l1-id>.mdx`.
-- **Новые листья** — создаются строго по шаблону `src/content/docs/leaves/_template.md` в `src/content/docs/leaves/<branch>/<slug>.md` и регистрируются в `src/data/roadmap.ts` под своим L1. Сайдбар строится из этих данных, править его руками не нужно.
+- **Новые листья** — создаются строго по шаблону `src/content/docs/leaves/_template.md` в `src/content/docs/leaves/<branch>/<slug>.md` и регистрируются в `src/data/roadmap.ts`. Сайдбар строится из этих данных, править его руками не нужно.
+- **Точка подключения листа.** Лист вешается под L1, если это самостоятельная практика раздела. Если он уточняет уже написанную практику — вешается в её поле `children` (`Runbooks → Playbooks`). Уровень уточнений один: под подлистом детей быть не может, и попытка их завести не пройдёт `npm run check`. Признак, что уточнение просится глубже, — родитель дорос до L1 и повышается. Подлист живёт в той же ветви, что и родитель, приоритет у него собственный, а URL остаётся плоским (`/leaves/<branch>/<slug>/`), поэтому перевесить лист можно одной строкой без редиректов.
 - **Обсуждение** — [Чат в Telegram](https://t.me/jtprogru_chat), новые листья и анонсы — в [Канале](https://t.me/jtprogru_channel).

@@ -12,7 +12,7 @@ import EditLink from 'virtual:starlight/components/EditLink';
 import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import Pagination from 'virtual:starlight/components/Pagination';
 import { Icon } from '@astrojs/starlight/components';
-import { findLeafContext, l1Href, priorityLabels } from '../data/roadmap.ts';
+import { findLeafContext, l1Href, priorityLabels, type Priority } from '../data/roadmap.ts';
 import { navFor, socials } from '../data/nav.ts';
 
 const year = new Date().getFullYear();
@@ -35,7 +35,7 @@ const commitSha = (() => {
 
 /*
  * Leaf-context: на страницах /leaves/{branch}/{slug}/ показываем над
- * стандартным футером блок «↑ Раздел L1» + соседние практики. Помогает
+ * стандартным футером ссылку на родителя + соседние практики. Помогает
  * не теряться при глубоком переходе и видеть связанные листья без
  * возврата на главную карту.
  */
@@ -45,53 +45,108 @@ const localPath = Astro.url.pathname.startsWith(base)
 const leafMatch = localPath.match(/^\/leaves\/([^/]+)\/([^/]+)\/?$/);
 const leafCtx = leafMatch ? findLeafContext(leafMatch[1], leafMatch[2]) : null;
 
+interface Chip {
+  label: string;
+  href: string;
+  priority: Priority;
+  /** L1-чип рисуется иначе: это узел уровнем выше, а не соседняя практика. */
+  isL1?: boolean;
+}
+
+// Родитель — фактический: у подлиста это родительская практика, у листа L1.
+const parentNode = leafCtx
+  ? leafCtx.parent
+    ? { prefix: 'Практика:', label: leafCtx.parent.label, href: leafCtx.parent.href }
+    : {
+        prefix: 'Раздел:',
+        label: leafCtx.l1.label,
+        href: l1Href(leafCtx.branch, leafCtx.l1),
+      }
+  : null;
+
+/*
+ * Соседи — тоже по фактическому родителю. Когда соседей нет, поднимаемся
+ * на уровень выше и показываем то, что там: для одинокого подлиста это
+ * практики его раздела, для одинокого листа — другие разделы ветви.
+ */
+let contextLabel = '';
+let chips: Chip[] = [];
+
+if (leafCtx) {
+  const l1Leaves = leafCtx.l1.leaves ?? [];
+  const parentSiblings = leafCtx.parent
+    ? l1Leaves.filter((l) => l.id !== leafCtx.parent!.id)
+    : [];
+
+  if (leafCtx.siblings.length > 0) {
+    contextLabel = leafCtx.parent ? 'Рядом в этой практике' : 'Соседние практики';
+    chips = leafCtx.siblings.map((s) => ({ label: s.label, href: s.href, priority: s.priority }));
+  } else if (parentSiblings.length > 0) {
+    contextLabel = `Единственное уточнение этой практики. Другие практики раздела ${leafCtx.l1.label}:`;
+    chips = parentSiblings.map((s) => ({ label: s.label, href: s.href, priority: s.priority }));
+  } else {
+    contextLabel = `Эта практика — единственная в L1. Другие разделы ${leafCtx.branch.label}:`;
+    chips = leafCtx.branch.l1
+      .filter((l) => l.id !== leafCtx.l1.id)
+      .map((l) => ({
+        label: l.label,
+        href: l1Href(leafCtx.branch, l),
+        priority: l.priority,
+        isL1: true,
+      }));
+  }
+}
+
+// Уточнения самой практики — отдельным блоком: смешивать их с соседями
+// нельзя, иначе вложенность из футера не прочитать.
+const leafChildren = leafCtx?.children ?? [];
+
 // Состав doc-nav и соцссылок — в src/data/nav.ts. В подвале места хватает,
 // поэтому здесь полные подписи и на одну страницу больше, чем в шапке.
 const docNav = navFor('footer');
 ---
 
 <footer class="sl-flex">
-  {leafCtx && (
+  {leafCtx && parentNode && (
     <aside class="leaf-context" data-branch={leafCtx.branch.id}>
-      <a class="leaf-context-parent" href={`${base}${l1Href(leafCtx.branch, leafCtx.l1)}`}>
+      <a class="leaf-context-parent" href={`${base}${parentNode.href}`}>
         <span class="leaf-context-arrow" aria-hidden="true">↑</span>
         <span class="leaf-context-parent-text">
-          <span class="leaf-context-parent-prefix">Раздел:</span>
-          <span class="leaf-context-parent-name">{leafCtx.l1.label}</span>
+          <span class="leaf-context-parent-prefix">{parentNode.prefix}</span>
+          <span class="leaf-context-parent-name">{parentNode.label}</span>
         </span>
       </a>
-      {leafCtx.siblings.length > 0 ? (
+      {leafChildren.length > 0 && (
         <div class="leaf-context-siblings">
-          <div class="leaf-context-label">Соседние практики</div>
+          <div class="leaf-context-label">Внутри практики</div>
           <ul>
-            {leafCtx.siblings.map((s) => (
+            {leafChildren.map((c) => (
               <li>
                 <a
                   class="leaf-context-chip"
-                  href={`${base}${s.href}`}
-                  data-priority={s.priority}
-                  title={`Приоритет: ${priorityLabels[s.priority].ru}`}
-                >{s.label}</a>
+                  href={`${base}${c.href}`}
+                  data-priority={c.priority}
+                  title={`Приоритет: ${priorityLabels[c.priority].ru}`}
+                >{c.label}</a>
               </li>
             ))}
           </ul>
         </div>
-      ) : (
+      )}
+      {chips.length > 0 && (
         <div class="leaf-context-siblings">
-          <div class="leaf-context-label">Эта практика — единственная в L1. Другие разделы {leafCtx.branch.label}:</div>
+          <div class="leaf-context-label">{contextLabel}</div>
           <ul>
-            {leafCtx.branch.l1
-              .filter((l) => l.id !== leafCtx.l1.id)
-              .map((l) => (
-                <li>
-                  <a
-                    class="leaf-context-chip leaf-context-chip--l1"
-                    href={`${base}${l1Href(leafCtx.branch, l)}`}
-                    data-priority={l.priority}
-                    title={`Приоритет: ${priorityLabels[l.priority].ru}`}
-                  >{l.label}</a>
-                </li>
-              ))}
+            {chips.map((c) => (
+              <li>
+                <a
+                  class={`leaf-context-chip ${c.isL1 ? 'leaf-context-chip--l1' : ''}`}
+                  href={`${base}${c.href}`}
+                  data-priority={c.priority}
+                  title={`Приоритет: ${priorityLabels[c.priority].ru}`}
+                >{c.label}</a>
+              </li>
+            ))}
           </ul>
         </div>
       )}

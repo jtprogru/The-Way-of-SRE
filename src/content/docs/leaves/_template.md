@@ -5,7 +5,7 @@ description: <Одна короткая фраза ≤200 символов, не
 
 :::note[Метаданные листа]
 - **Ветвь:** <Culture | Engineering | Practices>
-- **Путь:** <L1 / L2 — путь в графе, например: Observability / SLI-based Alerting>
+- **Путь:** <L1 / L2 — путь в графе, например: Observability / SLI-based Alerting. Если лист уточняет другую практику и зарегистрирован в её `children`, родительская практика указывается в пути: Knowledge Management / Runbooks / Playbooks>
 - **SFIA-уровни:** 3, 4, 5
 - **Приоритет:** <Must Have | Mandatory | Nice to have | On Demand>
 - **Статус:** draft
