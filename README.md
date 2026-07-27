@@ -35,6 +35,8 @@
 - **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **27 листьев** на полной глубине.
 - **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **25 листьев** на полной глубине.
 
+Всё дерево целиком, от корня до подлистов, — на странице [Mind map](https://jtprogru.github.io/The-Way-of-SRE/mindmap/): двусторонняя карта с зумом, фильтром по приоритету и сворачиванием веток.
+
 Принцип разделения ветвей, политика контроля детализации, оси priority и SFIA — в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
 
 ## Roadmap

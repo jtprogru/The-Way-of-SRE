@@ -70,6 +70,14 @@ export const docNav: NavEntry[] = [
     in: ['sidebar', 'header', 'footer', 'intro'],
   },
   {
+    id: 'mindmap',
+    label: 'Mind map (всё дерево)',
+    shortLabel: 'Mind map',
+    href: '/mindmap/',
+    in: ['sidebar', 'footer', 'intro'],
+    topLevel: true,
+  },
+  {
     id: 'reliability-hierarchy',
     label: 'Порядок построения',
     href: '/reliability-hierarchy/',
