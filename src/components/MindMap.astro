@@ -1,0 +1,774 @@
+---
+// MindMap.astro — витринная карта всего дерева компетенций (#109).
+//
+// Что здесь есть и чего нет: компонент рисует и оживляет, состав узлов он
+// не знает. Геометрия приходит из src/data/mindmap.ts, состав — из
+// roadmap.ts через неё же. Добавленный лист появляется тут сам.
+//
+// Раскладка считается на билде: SVG со всеми узлами уезжает в HTML, без JS
+// карта видна целиком (viewBox вписывает её в контейнер). Клиентский скрипт
+// добавляет зум, панорамирование, фильтр приоритета и сворачивание — и
+// пересчитывает Y тем же layoutY(), никакой второй реализации раскладки.
+//
+// Доступность: SVG помечен aria-hidden, ссылки внутри него убраны из
+// таб-порядка, а полноценная навигация живёт в текстовом дереве под картой.
+// Дублировать 94 узла в двух доступных для клавиатуры представлениях —
+// значит заставить скринридер читать их дважды; список даёт то же
+// содержимое в предсказуемой форме и работает без JS.
+
+import {
+  buildMindMap,
+  edgePath,
+  layoutY,
+  viewBoxOf,
+  NODE_H,
+  ROOT_H,
+  type MindMapNode,
+} from '../data/mindmap.ts';
+import { priorityLabels, type Priority } from '../data/roadmap.ts';
+import { BRANCH_ICONS } from '../data/branchIcons.ts';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const link = (path: string) => `${base}${path}`;
+
+const graph = buildMindMap();
+const initial = layoutY(graph);
+const { y } = initial;
+const byId = new Map(graph.nodes.map((n) => [n.id, n]));
+const priorities = Object.keys(priorityLabels) as Priority[];
+
+/** Половина высоты плашки: у корня она своя. */
+const halfH = (node: MindMapNode) => (node.kind === 'root' ? ROOT_H : NODE_H) / 2;
+
+/** Подпись ссылки для скринридера: приоритет читается словом, а не точкой. */
+const nodeAria = (node: MindMapNode) =>
+  node.priority ? `${node.label} — приоритет: ${priorityLabels[node.priority].ru}` : node.label;
+
+/** Дерево для текстового фолбэка — тот же граф, обход по childIds. */
+function subtree(id: string): MindMapNode[] {
+  return byId.get(id)!.childIds.map((childId) => byId.get(childId)!);
+}
+const rootChildren = subtree(graph.rootId);
+---
+
+<figure class="mm not-content" data-priority-filter="off">
+  <div class="mm-toolbar">
+    <div class="mm-toolbar-group">
+      <button type="button" class="mm-btn" data-mm="collapse-all" data-collapsed="false">
+        Свернуть до компетенций
+      </button>
+      <label class="mm-toggle">
+        <input type="checkbox" data-mm="only-required" />
+        <span>Только обязательное</span>
+      </label>
+    </div>
+    <div class="mm-toolbar-group mm-zoom">
+      <button type="button" class="mm-btn mm-btn-icon" data-mm="zoom-out" aria-label="Отдалить"
+        >−</button
+      >
+      <button type="button" class="mm-btn mm-btn-icon" data-mm="zoom-in" aria-label="Приблизить"
+        >+</button
+      >
+      <button type="button" class="mm-btn" data-mm="fit">Вписать в экран</button>
+    </div>
+  </div>
+
+  <div class="mm-viewport" data-mm="viewport">
+    <svg
+      class="mm-svg"
+      data-mm="svg"
+      viewBox={viewBoxOf(graph, initial)}
+      preserveAspectRatio="xMidYMid meet"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g data-mm="canvas">
+        <g class="mm-edges">
+          {
+            graph.edges.map((edge) => {
+              const child = byId.get(edge.id)!;
+              return (
+                <path
+                  class="mm-edge"
+                  data-edge={edge.id}
+                  data-branch={edge.branchId}
+                  data-depth={child.depth}
+                  data-priority={child.priority}
+                  d={edgePath(edge.x1, y[edge.parentId], edge.x2, y[edge.id])}
+                />
+              );
+            })
+          }
+        </g>
+
+        {
+          graph.nodes.map((node) => {
+            const h = node.kind === 'root' ? ROOT_H : NODE_H;
+            // Точка приоритета и иконка ветви стоят у грани, обращённой к
+            // корню. Подпись остаётся по центру плашки: запас под кружки
+            // заложен в поля плашки (NODE_PAD_X), а не в сдвиг текста —
+            // сдвиг спасал бы от точки и толкал под кнопку сворачивания.
+            const dotX = node.side === 'right' ? 13 : node.width - 13;
+            const iconX = node.side === 'right' ? 11 : node.width - 27;
+            const toggleX = node.side === 'right' ? node.width : 0;
+            const icon = node.kind === 'branch' ? BRANCH_ICONS[node.branchId] : undefined;
+            const hasKids = node.childIds.length > 0 && node.kind !== 'root';
+            return (
+              <g
+                class="mm-node"
+                data-id={node.id}
+                data-kind={node.kind}
+                data-branch={node.branchId}
+                data-priority={node.priority}
+                data-side={node.side}
+                data-x={node.x}
+                transform={`translate(${node.x} ${y[node.id]})`}
+              >
+                {node.href ? (
+                  <a href={link(node.href)} tabindex="-1" aria-label={nodeAria(node)}>
+                    <rect
+                      x="0"
+                      y={-halfH(node)}
+                      width={node.width}
+                      height={h}
+                      rx="7"
+                      ry="7"
+                    />
+                    {icon && (
+                      <g class="mm-branch-icon" transform={`translate(${iconX} -8) scale(0.67)`}>
+                        <path d={icon} />
+                      </g>
+                    )}
+                    {node.priority && node.kind !== 'branch' && (
+                      <circle class="mm-dot" cx={dotX} cy="0" r="4" />
+                    )}
+                    <text x={node.width / 2} y="4.5" text-anchor="middle">
+                      {node.label}
+                    </text>
+                  </a>
+                ) : (
+                  <>
+                    <rect x="0" y={-halfH(node)} width={node.width} height={h} rx="9" ry="9" />
+                    <text x={node.width / 2} y="6" text-anchor="middle">
+                      {node.label}
+                    </text>
+                  </>
+                )}
+                {hasKids && (
+                  <g class="mm-toggle-btn" data-toggle={node.id} transform={`translate(${toggleX} 0)`}>
+                    <circle r="8.5" />
+                    <path class="mm-toggle-h" d="M -4 0 H 4" />
+                    <path class="mm-toggle-v" d="M 0 -4 V 4" />
+                  </g>
+                )}
+              </g>
+            );
+          })
+        }
+      </g>
+    </svg>
+  </div>
+
+  <p class="mm-hint">
+    Масштаб — кнопками, Ctrl (⌘) с колесом мыши или щипком. Перетаскивание двигает холст, кружок на
+    краю плашки сворачивает ветку.
+  </p>
+
+  <ul class="mm-legend" aria-label="Легенда приоритетов">
+    {
+      priorities.map((p) => (
+        <li>
+          <span class="mm-legend-dot" data-priority={p} aria-hidden="true" />
+          <span>{priorityLabels[p].ru}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <details class="mm-fallback">
+    <summary>Всё дерево списком</summary>
+    <ul>
+      {
+        rootChildren.map((branch) => (
+          <li>
+            <a href={link(branch.href!)}>{branch.label}</a>
+            <ul>
+              {subtree(branch.id).map((l1) => (
+                <li>
+                  <a href={link(l1.href!)}>{l1.label}</a>
+                  <ul>
+                    {subtree(l1.id).map((leaf) => (
+                      <li>
+                        <a href={link(leaf.href!)}>{leaf.label}</a>
+                        {subtree(leaf.id).length > 0 && (
+                          <ul>
+                            {subtree(leaf.id).map((sub) => (
+                              <li>
+                                <a href={link(sub.href!)}>{sub.label}</a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+</figure>
+
+<script>
+  import { buildMindMap, edgePath, layoutY, viewBoxOf } from '../data/mindmap.ts';
+
+  const figure = document.querySelector<HTMLElement>('.mm');
+  const viewport = figure?.querySelector<HTMLElement>('[data-mm="viewport"]');
+  const svg = figure?.querySelector<SVGSVGElement>('[data-mm="svg"]');
+  const canvas = figure?.querySelector<SVGGElement>('[data-mm="canvas"]');
+
+  if (figure && viewport && svg && canvas) {
+    // Тот же граф, что рендерил компонент: пересчёт раскладки при
+    // сворачивании идёт по одной формуле с билдом.
+    const graph = buildMindMap();
+    const nodeEls = new Map<string, SVGGElement>();
+    figure.querySelectorAll<SVGGElement>('.mm-node').forEach((el) => {
+      nodeEls.set(el.dataset.id!, el);
+    });
+    const edgeEls = new Map<string, SVGPathElement>();
+    figure.querySelectorAll<SVGPathElement>('.mm-edge').forEach((el) => {
+      edgeEls.set(el.dataset.edge!, el);
+    });
+
+    const collapsed = new Set<string>();
+
+    function render() {
+      const layout = layoutY(graph, collapsed);
+      const { y, visible } = layout;
+      svg!.setAttribute('viewBox', viewBoxOf(graph, layout));
+
+      nodeEls.forEach((el, id) => {
+        if (!visible.has(id)) {
+          el.style.display = 'none';
+          return;
+        }
+        el.style.display = '';
+        el.setAttribute('transform', `translate(${el.dataset.x} ${y[id]})`);
+        el.dataset.collapsed = collapsed.has(id) ? 'true' : 'false';
+      });
+
+      for (const edge of graph.edges) {
+        const el = edgeEls.get(edge.id);
+        if (!el) continue;
+        if (!visible.has(edge.id)) {
+          el.style.display = 'none';
+          continue;
+        }
+        el.style.display = '';
+        el.setAttribute('d', edgePath(edge.x1, y[edge.parentId], edge.x2, y[edge.id]));
+      }
+    }
+
+    // --- Сворачивание --------------------------------------------------
+    svg.addEventListener('click', (event) => {
+      const toggle = (event.target as Element).closest('.mm-toggle-btn');
+      if (!toggle) return;
+      event.preventDefault();
+      const id = (toggle as SVGGElement).dataset.toggle!;
+      if (collapsed.has(id)) collapsed.delete(id);
+      else collapsed.add(id);
+      render();
+      syncCollapseAll();
+    });
+
+    const collapseAllBtn = figure.querySelector<HTMLButtonElement>('[data-mm="collapse-all"]');
+    // «Свернуть до компетенций» = свернуть уровень L1: на холсте остаются
+    // ветви и компетенции, листья прячутся. Это ровно то состояние, в
+    // котором карта помещается на экран без зума.
+    const l1Ids = graph.nodes.filter((n) => n.kind === 'l1').map((n) => n.id);
+
+    function syncCollapseAll() {
+      if (!collapseAllBtn) return;
+      const allCollapsed = l1Ids.every((id) => collapsed.has(id));
+      collapseAllBtn.dataset.collapsed = allCollapsed ? 'true' : 'false';
+      collapseAllBtn.textContent = allCollapsed ? 'Развернуть всё' : 'Свернуть до компетенций';
+    }
+
+    collapseAllBtn?.addEventListener('click', () => {
+      const allCollapsed = l1Ids.every((id) => collapsed.has(id));
+      if (allCollapsed) collapsed.clear();
+      else l1Ids.forEach((id) => collapsed.add(id));
+      render();
+      syncCollapseAll();
+      fit();
+    });
+
+    // --- Фильтр приоритета ---------------------------------------------
+    const onlyRequired = figure.querySelector<HTMLInputElement>('[data-mm="only-required"]');
+    onlyRequired?.addEventListener('change', () => {
+      figure.dataset.priorityFilter = onlyRequired.checked ? 'on' : 'off';
+    });
+
+    // --- Зум и панорамирование -----------------------------------------
+    // Координаты — в единицах viewBox: viewBox уже вписал карту в
+    // контейнер, а трансформация холста работает поверх этой базы. Поэтому
+    // «вписать в экран» — это просто сброс трансформации.
+    const view = { x: 0, y: 0, k: 1 };
+    const MIN_K = 0.5;
+    const MAX_K = 8;
+
+    function applyView() {
+      canvas!.setAttribute('transform', `translate(${view.x} ${view.y}) scale(${view.k})`);
+    }
+
+    function toUser(clientX: number, clientY: number) {
+      const ctm = svg!.getScreenCTM();
+      if (!ctm) return { x: 0, y: 0 };
+      const point = new DOMPoint(clientX, clientY).matrixTransform(ctm.inverse());
+      return { x: point.x, y: point.y };
+    }
+
+    function zoomAt(clientX: number, clientY: number, factor: number) {
+      const next = Math.min(MAX_K, Math.max(MIN_K, view.k * factor));
+      if (next === view.k) return;
+      const p = toUser(clientX, clientY);
+      view.x = p.x - (p.x - view.x) * (next / view.k);
+      view.y = p.y - (p.y - view.y) * (next / view.k);
+      view.k = next;
+      applyView();
+    }
+
+    function zoomCenter(factor: number) {
+      const rect = viewport!.getBoundingClientRect();
+      zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, factor);
+    }
+
+    function fit() {
+      view.x = 0;
+      view.y = 0;
+      view.k = 1;
+      applyView();
+    }
+
+    figure.querySelector('[data-mm="zoom-in"]')?.addEventListener('click', () => zoomCenter(1.25));
+    figure.querySelector('[data-mm="zoom-out"]')?.addEventListener('click', () => zoomCenter(0.8));
+    figure.querySelector('[data-mm="fit"]')?.addEventListener('click', fit);
+
+    // Зум по Ctrl/⌘ + колесо. Просто колесо оставляем странице: карта
+    // занимает почти весь экран, и перехват прокрутки превращал бы её в
+    // ловушку — прокрутить страницу мимо карты было бы нечем.
+    viewport.addEventListener(
+      'wheel',
+      (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        zoomAt(event.clientX, event.clientY, event.deltaY < 0 ? 1.12 : 1 / 1.12);
+      },
+      { passive: false },
+    );
+
+    // Указатели: один — панорамирование, два — щипок. Одна и та же
+    // механика на мыши и на тач-экране, отдельного мобильного режима нет.
+    const pointers = new Map<number, { x: number; y: number }>();
+    let dragged = false;
+    let pinchDist = 0;
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if ((event.target as Element).closest('.mm-toggle-btn')) return;
+      pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+      dragged = false;
+      viewport.setPointerCapture(event.pointerId);
+      if (pointers.size === 2) {
+        const [a, b] = [...pointers.values()];
+        pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+      }
+    });
+
+    viewport.addEventListener('pointermove', (event) => {
+      const prev = pointers.get(event.pointerId);
+      if (!prev) return;
+      const next = { x: event.clientX, y: event.clientY };
+      pointers.set(event.pointerId, next);
+
+      if (pointers.size === 2) {
+        const [a, b] = [...pointers.values()];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (pinchDist > 0 && dist > 0) {
+          zoomAt((a.x + b.x) / 2, (a.y + b.y) / 2, dist / pinchDist);
+        }
+        pinchDist = dist;
+        dragged = true;
+        return;
+      }
+
+      const from = toUser(prev.x, prev.y);
+      const to = toUser(next.x, next.y);
+      const dx = to.x - from.x;
+      const dy = to.y - from.y;
+      if (Math.abs(dx) + Math.abs(dy) > 0.5) dragged = true;
+      view.x += dx;
+      view.y += dy;
+      applyView();
+    });
+
+    function endPointer(event: PointerEvent) {
+      pointers.delete(event.pointerId);
+      if (pointers.size < 2) pinchDist = 0;
+    }
+    viewport.addEventListener('pointerup', endPointer);
+    viewport.addEventListener('pointercancel', endPointer);
+
+    // Перетаскивание не должно срабатывать как переход по ссылке узла.
+    viewport.addEventListener(
+      'click',
+      (event) => {
+        if (dragged) {
+          event.preventDefault();
+          event.stopPropagation();
+          dragged = false;
+        }
+      },
+      true,
+    );
+
+    applyView();
+  }
+</script>
+
+<style>
+  .mm {
+    margin: 1.5rem 0 2rem;
+  }
+
+  /* Палитра ветвей — те же значения, что в Spider.astro и BranchView.astro. */
+  .mm [data-branch='culture'] {
+    --bc: #d97706;
+    --bc-low: #fef3c7;
+    --bc-text: #78350f;
+  }
+  .mm [data-branch='engineering'] {
+    --bc: #0d9488;
+    --bc-low: #ccfbf1;
+    --bc-text: #134e4a;
+  }
+  .mm [data-branch='practices'] {
+    --bc: #6366f1;
+    --bc-low: #e0e7ff;
+    --bc-text: #312e81;
+  }
+  :root[data-theme='dark'] .mm [data-branch='culture'] {
+    --bc: #f59e0b;
+    --bc-low: #44301a;
+    --bc-text: #fde68a;
+  }
+  :root[data-theme='dark'] .mm [data-branch='engineering'] {
+    --bc: #2dd4bf;
+    --bc-low: #133b37;
+    --bc-text: #99f6e4;
+  }
+  :root[data-theme='dark'] .mm [data-branch='practices'] {
+    --bc: #818cf8;
+    --bc-low: #1f1f4e;
+    --bc-text: #c7d2fe;
+  }
+
+  /* --- Тулбар --- */
+  .mm-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+  .mm-toolbar-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .mm-btn {
+    background: transparent;
+    border: 1px solid var(--sl-color-gray-5);
+    color: var(--sl-color-gray-2);
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease;
+  }
+  .mm-btn:hover,
+  .mm-btn:focus-visible {
+    background: var(--sl-color-gray-6);
+    border-color: var(--sl-color-gray-4);
+  }
+  .mm-btn-icon {
+    min-width: 2rem;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+  }
+  .mm-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-2);
+    cursor: pointer;
+    user-select: none;
+  }
+  .mm-toggle input {
+    cursor: pointer;
+    margin: 0;
+  }
+
+  /* --- Холст --- */
+  .mm-viewport {
+    height: min(78vh, 860px);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 10px;
+    background: var(--sl-color-bg);
+    overflow: hidden;
+    /*
+     * pan-y, а не none: вертикальный свайп одним пальцем должен прокручивать
+     * страницу, иначе на мобильном карта высотой в 70vh становится ловушкой.
+     * Нам остаются горизонтальный свайп (панорамирование) и два пальца
+     * (щипок) — их браузер отдаёт нам сам.
+     */
+    touch-action: pan-y;
+    cursor: grab;
+  }
+  .mm-viewport:active {
+    cursor: grabbing;
+  }
+  @media (max-width: 900px) {
+    .mm-viewport {
+      height: 70vh;
+    }
+  }
+  .mm-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* --- Рёбра --- */
+  .mm-edge {
+    fill: none;
+    stroke: var(--bc, var(--sl-color-gray-4));
+    stroke-width: 1.6;
+    opacity: 0.5;
+  }
+  .mm-edge[data-depth='1'] {
+    stroke-width: 2.6;
+    opacity: 0.7;
+  }
+  .mm-edge[data-depth='2'] {
+    stroke-width: 2;
+    opacity: 0.6;
+  }
+
+  /* --- Узлы --- */
+  .mm-node rect {
+    fill: var(--sl-color-bg);
+    stroke: var(--bc, var(--sl-color-gray-4));
+    stroke-width: 1.5;
+  }
+  .mm-node text {
+    fill: var(--sl-color-text);
+    font-family: var(--sl-font);
+    font-size: 13px;
+    font-weight: 500;
+    user-select: none;
+  }
+
+  .mm-node[data-kind='root'] rect {
+    fill: var(--sl-color-gray-6);
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 2;
+  }
+  .mm-node[data-kind='root'] text {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .mm-node[data-kind='branch'] rect {
+    fill: var(--bc);
+    stroke: var(--bc);
+  }
+  .mm-node[data-kind='branch'] text {
+    fill: #fff;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .mm-branch-icon path {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mm-node[data-kind='l1'] rect {
+    stroke-width: 2;
+  }
+  .mm-node[data-kind='l1'] text {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .mm-node[data-kind='leaf'] rect {
+    fill: var(--bc-low);
+  }
+  .mm-node[data-kind='leaf'] text {
+    fill: var(--bc-text);
+    font-size: 12px;
+  }
+
+  .mm-node[data-kind='subleaf'] rect {
+    fill: transparent;
+    stroke-dasharray: 3 3;
+  }
+  .mm-node[data-kind='subleaf'] text {
+    font-size: 11px;
+    fill: var(--sl-color-gray-2);
+  }
+
+  .mm-node a {
+    cursor: pointer;
+  }
+  .mm-node a:hover rect,
+  .mm-node a:focus rect {
+    filter: brightness(1.06);
+  }
+  .mm-node a:hover text,
+  .mm-node a:focus text {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* Точки приоритета — те же цвета, что на главной. */
+  .mm-dot {
+    stroke: none;
+  }
+  .mm-node[data-priority='must'] .mm-dot {
+    fill: #dc2626;
+  }
+  .mm-node[data-priority='mandatory'] .mm-dot {
+    fill: #f59e0b;
+  }
+  .mm-node[data-priority='nice'] .mm-dot {
+    fill: #10b981;
+  }
+  .mm-node[data-priority='ondemand'] .mm-dot {
+    fill: #3b82f6;
+  }
+
+  /* --- Кнопка сворачивания --- */
+  .mm-toggle-btn {
+    cursor: pointer;
+  }
+  .mm-toggle-btn circle {
+    fill: var(--sl-color-bg);
+    stroke: var(--bc, var(--sl-color-gray-4));
+    stroke-width: 1.6;
+  }
+  .mm-toggle-btn path {
+    stroke: var(--bc, var(--sl-color-gray-3));
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .mm-toggle-btn:hover circle {
+    fill: var(--bc-low);
+  }
+  /* Плюс появляется только у свёрнутого узла: минус нарисован всегда. */
+  .mm-toggle-v {
+    display: none;
+  }
+  .mm-node[data-collapsed='true'] .mm-toggle-v {
+    display: block;
+  }
+
+  /*
+   * «Только обязательное» гасит nice/ondemand вместе с их рёбрами — так же,
+   * как на главной, где toggle гасит карточки и чипы.
+   */
+  .mm[data-priority-filter='on'] .mm-node[data-priority='nice'],
+  .mm[data-priority-filter='on'] .mm-node[data-priority='ondemand'],
+  .mm[data-priority-filter='on'] .mm-edge[data-priority='nice'],
+  .mm[data-priority-filter='on'] .mm-edge[data-priority='ondemand'] {
+    opacity: 0.25;
+  }
+
+  /* --- Подписи под картой --- */
+  .mm-hint {
+    margin: 0.55rem 0 0;
+    font-size: 0.78rem;
+    color: var(--sl-color-gray-3);
+    text-align: center;
+  }
+
+  .mm-legend {
+    list-style: none;
+    padding: 0;
+    margin: 0.9rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.1rem;
+    justify-content: center;
+    font-size: 0.78rem;
+    color: var(--sl-color-gray-2);
+  }
+  .mm-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .mm-legend-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .mm-legend-dot[data-priority='must'] {
+    background: #dc2626;
+  }
+  .mm-legend-dot[data-priority='mandatory'] {
+    background: #f59e0b;
+  }
+  .mm-legend-dot[data-priority='nice'] {
+    background: #10b981;
+  }
+  .mm-legend-dot[data-priority='ondemand'] {
+    background: #3b82f6;
+  }
+
+  /* --- Текстовый фолбэк --- */
+  .mm-fallback {
+    margin-top: 1.25rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+  }
+  .mm-fallback summary {
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--sl-color-gray-2);
+  }
+  .mm-fallback ul {
+    margin: 0.4rem 0 0 0.2rem;
+    padding-left: 1rem;
+    font-size: 0.85rem;
+  }
+  .mm-fallback > ul {
+    margin-top: 0.75rem;
+  }
+</style>
