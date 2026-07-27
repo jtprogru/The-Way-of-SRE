@@ -64,7 +64,7 @@ export function buildNavTree(): NavNode[] {
   const meta = navFor('sidebar');
   return [
     { label: 'Карта компетенций', href: '/' },
-    { label: 'Roadmap (приоритеты)', href: '/priorities/' },
+    { label: 'Приоритеты', href: '/priorities/' },
     ...meta.filter((e) => e.topLevel).map((e) => ({ label: e.label, href: e.href })),
     ...roadmap.branches.map(branchNode),
     {

@@ -51,6 +51,13 @@ export interface NavEntry {
  */
 export const docNav: NavEntry[] = [
   {
+    id: 'mindmap',
+    label: 'Полное дерево',
+    href: '/mindmap/',
+    in: ['sidebar', 'header', 'footer', 'intro'],
+    topLevel: true,
+  },
+  {
     id: 'about',
     label: 'Мотивация',
     href: '/about/',
