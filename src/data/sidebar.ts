@@ -17,6 +17,7 @@
 
 import { l1Href, roadmap, type Branch } from './roadmap';
 import { navFor } from './nav';
+import type { NavIconName } from './navIcons';
 
 /**
  * Узел навигации. В отличие от групп Starlight, узел может быть
@@ -28,6 +29,19 @@ export interface NavNode {
   /** Путь без base-префикса. Нет только у чисто группирующих узлов. */
   href?: string;
   children?: NavNode[];
+  /**
+   * Иконка. Есть только у верхнего уровня: она же остаётся единственным
+   * видимым следом пункта, когда сайдбар свёрнут в rail.
+   */
+  icon?: NavIconName;
+  /** id ветви — задаёт цвет иконки (amber / teal / indigo). */
+  branch?: string;
+  /**
+   * Сервисная ссылка: карта, приоритеты, дерево, порядок построения.
+   * Они идут блоком над ветвями и рисуются мельче — это входы в проект,
+   * а не части его структуры.
+   */
+  quick?: boolean;
 }
 
 /** Пустой список детей превращаем в undefined: узел без детей — просто ссылка. */
@@ -45,6 +59,8 @@ function branchNode(branch: Branch): NavNode {
   return {
     label: branch.label,
     href: branch.href,
+    icon: branch.id as NavIconName,
+    branch: branch.id,
     children: branch.l1
       .filter((l1) => (l1.leaves ?? []).length > 0)
       .map((l1) => ({
@@ -63,12 +79,15 @@ function branchNode(branch: Branch): NavNode {
 export function buildNavTree(): NavNode[] {
   const meta = navFor('sidebar');
   return [
-    { label: 'Карта компетенций', href: '/' },
-    { label: 'Приоритеты', href: '/priorities/' },
-    ...meta.filter((e) => e.topLevel).map((e) => ({ label: e.label, href: e.href })),
+    { label: 'Карта компетенций', href: '/', icon: 'map', quick: true },
+    { label: 'Приоритеты', href: '/priorities/', icon: 'priorities', quick: true },
+    ...meta
+      .filter((e) => e.topLevel)
+      .map((e) => ({ label: e.label, href: e.href, icon: e.icon, quick: true })),
     ...roadmap.branches.map(branchNode),
     {
       label: 'Справочник',
+      icon: 'book' as NavIconName,
       children: meta.filter((e) => !e.topLevel).map((e) => ({ label: e.label, href: e.href })),
     },
   ];
