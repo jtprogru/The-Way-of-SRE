@@ -53,7 +53,6 @@ export const docNav: NavEntry[] = [
   {
     id: 'mindmap',
     label: 'Полное дерево',
-    shortLabel: 'Mind map',
     href: '/mindmap/',
     in: ['sidebar', 'header', 'footer', 'intro'],
     topLevel: true,
