@@ -4,6 +4,7 @@ description: Ветвь развития, посвящённая операци�
 ---
 
 import Spider from '../../components/Spider.astro';
+import NodeCards from '../../components/NodeCards.astro';
 
 Ветвь развития, посвящённая совершенствованию **операционных процессов**: управление инцидентами, постмортемы, управление изменениями, on-call процессы, runbook-культура, SLO-ревью. Главный объект деятельности — процессы и ритуалы.
 
@@ -11,55 +12,9 @@ import Spider from '../../components/Spider.astro';
 
 ## Компетенции верхнего уровня
 
-Под каждым L1-узлом — список **L2-концептов** (потенциальные подкомпетенции, не leaf-страницы). Конкретный тулинг (PagerDuty, Vault и т.п.) в графе не присутствует — он живёт в секции «Материалы» соответствующего листа. Подробнее — в [Методологии](/The-Way-of-SRE/methodology/#что-не-попадает-в-граф).
+У каждой компетенции своя страница: там описание, список **L2-концептов** (потенциальные подкомпетенции, не leaf-страницы) и практики, которые к ней относятся. Конкретный тулинг (PagerDuty, Vault и т.п.) в графе не присутствует — он живёт в секции «Материалы» соответствующего листа. Подробнее — в [Методологии](/The-Way-of-SRE/methodology/#что-не-попадает-в-граф).
 
-### Incident Management
-
-Координация реагирования на инциденты: роли (IC, Comms Lead, Ops Lead), escalation paths, on-call rotation, status page management. Цель — минимизировать MTTR при соблюдении blameless-принципов.
-
-**L2-концепты:** Incident Response · Escalation Paths · On-Call Rotation · Status Page Management · MTTR Optimization
-
-### Problem Management
-
-Проведение постмортемов (blameless postmortems), выявление корневых причин инцидентов, разработка action items и их отслеживание, регулярный SLO Review Ritual. Проблема — это потенциальный источник инцидентов; её устранение снижает риски.
-
-**L2-концепты:** Blameless Postmortem · Action Items Tracking · Problem Tracking · Trend Analysis · Preventive Measures · SLO Review Ritual
-
-### Change Management
-
-Безопасное управление изменениями в production: production readiness review, progressive delivery, rollback-стратегии, error budget gating, оценка риска изменений.
-
-**L2-концепты:** Production Readiness Review · Progressive Delivery · Change Governance · Rollback Strategy · Error Budget Gating · Change Risk Assessment
-
-### Information Security
-
-Управление уязвимостями, обеспечение надёжности с учётом требований безопасности (security SLOs), участие в threat modeling, supply chain security, secrets management, access control / IAM, workload identity, compliance frameworks как драйверы требований.
-
-**L2-концепты:** Vulnerability Management · Security SLOs · Threat Modeling · Supply Chain Security · Secrets Management · Access Control & IAM · Workload Identity · Compliance Frameworks · Security Code Review · Security Chaos Engineering
-
-<h3 id="methods-tools">Methods & Tools</h3>
-
-Выбор, внедрение и совершенствование инструментария SRE-команды: системы мониторинга, incident-трекеры, платформы для постмортемов, runbook-системы.
-
-**L2-концепты:** SRE Toolchain · Policy and Standards · Analysis
-
-### Professional Development
-
-Профессиональный рост SRE-инженеров: планирование карьерного пути, определение зон ответственности, дизайн on-call rotation, борьба с burnout, наставничество.
-
-**L2-концепты:** Career Pathing for SRE · Strategy Planning · Burnout Prevention · On-Call Design · Mentoring as Practice
-
-### Performance Management
-
-Управленческие ритуалы: 1-on-1, calibration, постановка целей (Setting Goals), people management, performance conversations, развитие культуры психологической безопасности.
-
-**L2-концепты:** People Management · Setting Goals · Psychological Safety · Performance Conversations · Calibration Meeting
-
-### Sourcing
-
-Управление engineering-зависимостями от внешних сервисов: vendor inventory, SLO impact, concentration risk, vendor incident playbook, exit planning. Граничит с procurement / finance, но фокус — на reliability impact и operational readiness.
-
-**L2-концепты:** Vendor Inventory · Vendor SLO Math · Concentration Risk · Vendor Incident Playbook · Exit Planning
+<NodeCards kind="l1" branchId="practices" />
 
 ---
 
