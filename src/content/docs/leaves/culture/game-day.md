@@ -46,10 +46,10 @@ Game day и chaos engineering — разные инструменты с пер�
 
 ### Статьи и доклады
 
-- **[Wheel of Misfortune](https://landing.google.com/sre/workbook/chapters/training-site-reliability-engineers/)** (Google SRE Workbook). Описание формата, шаблоны сценариев, role facilitator. Стартовая точка для команды, у которой ещё нет ритуала.
+- **[Wheel of Misfortune](https://sre.google/sre-book/accelerating-sre-on-call/)** (SRE Book, глава 28 «Accelerating SREs to On-Call and Beyond»). Описание формата ролевой тренировки: ведущий берёт реальный прошлый инцидент, участник отыгрывает дежурного. Стартовая точка для команды, у которой ещё нет ритуала.
 - **[AWS GameDay](https://aws.amazon.com/gameday/)** — программа AWS для внешнего обучения incident response. Полезна как **референс формата** (timeboxed, scoring, post-game debrief), даже если не используете AWS напрямую.
 - Aaron Blohowiak (Netflix) — **[FIT: Failure Injection Testing](https://netflixtechblog.com/fit-failure-injection-testing-35d8e2a9bb2)** (Netflix Tech Blog, 2014). Эволюция от game day к continuous chaos; объясняет, **где game day упирается в потолок** и нужны automated experiments.
-- Jason Yip — **[Game Days at LinkedIn](https://www.infoq.com/articles/linkedin-gameday/)**. Один из немногих публичных взглядов изнутри на cadence, scoring, action items follow-through.
+- **[Ɔhaos Ǝnginǝǝring @ Target](https://tech.target.com/blog/chaos-engineering-at-target-part-2)** (Target Tech Blog). Один из немногих публичных взглядов изнутри на то, как крупная компания встраивает game day в обычную работу: cadence, участники, что делают с находками.
 
 ### Инструменты
 

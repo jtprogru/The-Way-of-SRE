@@ -53,7 +53,7 @@ description: Дисциплина разбора неизвестной поло
 
 ### Статьи и доклады
 
-- John Allspaw — **[Trade-Offs Under Pressure: Heuristics and Observations of Teams Resolving Internet Service Outages](https://www.adaptivecapacitylabs.com/AllspawThesis2015.pdf)** (магистерская работа, Lund University, 2015). Полевое исследование того, как именно senior'ы разбирают prod-инциденты. Длинно, но если у вас цель «вырастить L5» — обязательно.
+- John Allspaw — **[Trade-Offs Under Pressure: Heuristics and Observations of Teams Resolving Internet Service Outages](https://lup.lub.lu.se/student-papers/search/publication/8084520)** (магистерская работа, Lund University, 2015). Полевое исследование того, как именно senior'ы разбирают prod-инциденты. Длинно, но если у вас цель «вырастить L5» — обязательно.
 - Brendan Gregg — **[The USE Method](https://www.brendangregg.com/usemethod.html)**. Один экран, один метод, применим к любой системе. Каноника.
 - Tom Wilkie — **[The RED Method: Key Metrics for Microservices Architecture](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/)** (Weaveworks, 2018). Аналог USE на уровне приложения: Rate / Errors / Duration. По моим наблюдениям, RED — самый частый «первый dashboard» для нового сервиса.
 - Richard I. Cook — **[How Complex Systems Fail](https://how.complexsystems.fail/)** (1998, 18 пунктов). Не про debugging напрямую, но фундаментальный контекст: «root cause» как лингвистический артефакт, а не онтологическая категория. Меняет то, как senior формулирует выводы.
