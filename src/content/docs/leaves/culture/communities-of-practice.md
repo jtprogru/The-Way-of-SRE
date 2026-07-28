@@ -11,7 +11,7 @@ description: Самоорганизующиеся сообщества инже�
 - **Статус:** draft
 :::
 
-«У нас CoP — это monthly митинг, где никто ничего не делает, кроме демо» — диагноз, который я слышу регулярно через 3–6 месяцев после запуска. Community of Practice (CoP) — это **самоорганизующееся сообщество** через границы команд, объединённое **общей практикой**, а не темой. Не «общий канал в Slack», не «brown bag раз в месяц», а regular ritual с явной целью: распространить качественную practice через границы. Etienne Wenger ввёл понятие в 1998, Spotify применил при scale как часть guild model — и публично откатился от части этой модели в 2020-х. История CoP — это история того, как easy concept оказывается hard practice.
+«У нас CoP — это monthly митинг, где никто ничего не делает, кроме демо» — диагноз, который я слышу регулярно через 3–6 месяцев после запуска. Community of Practice (CoP) — это **самоорганизующееся сообщество** через границы команд, объединённое **общей практикой**, а не темой. Не «общий канал в Slack», не «brown bag раз в месяц», а regular ritual с явной целью: распространить качественную practice через границы. Понятие ввели Джин Лейв и Этьен Венгер в 1991 году, Венгер развернул его в отдельную книгу в 1998-м, а Spotify применил при scale как часть guild model — и публично откатился от части этой модели в 2020-х. История CoP — это история того, как easy concept оказывается hard practice.
 
 Граница: [SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/) — org-level процесс для одного инженера; [Career Ladders](/The-Way-of-SRE/leaves/culture/career-ladders/) — vocabulary роста; этот лист — **ritual cross-team learning**, который заполняет пространство между ними.
 
@@ -47,8 +47,8 @@ description: Самоорганизующиеся сообщества инже�
 
 - Henrik Kniberg, Anders Ivarsson — **[Scaling Agile @ Spotify](https://blog.crisp.se/wp-content/uploads/2012/11/SpotifyScaling.pdf)** (Crisp, 2012). Канонический white paper про Tribes / Squads / Chapters / Guilds. Полезно как первоисточник — и как отправная точка для критики.
 - Jeremiah Lee — **[Spotify's Failed #SquadGoals](https://www.jeremiahlee.com/posts/failed-squad-goals/)** (2020). Бывший сотрудник Spotify публично разбирает, что guild model в практике работала хуже, чем декларировалось — обязательно к прочтению вместе с предыдущим.
-- Atlassian — **[Communities of Practice playbook](https://www.atlassian.com/team-playbook/plays/communities-of-practice)**. Практический playbook с charter template; короткое и применимое.
-- Will Larson — **[Staff Engineer](https://staffeng.com/guides/operating-at-staff-engineer-plus)** (2021). Раздел про influence beyond team — CoP-facilitation один из ключевых каналов влияния staff IC.
+- Jean Lave, Etienne Wenger — **Situated Learning: Legitimate Peripheral Participation** (Cambridge University Press, 1991). Первоисточник термина. Читать необязательно, знать про него — стоит: там сообщество практики описано как способ обучения через участие, а не как формат встреч.
+- Will Larson — **[StaffEng: руководства](https://staffeng.com/guides/)** (2021). Раздел про influence beyond team — CoP-facilitation один из ключевых каналов влияния staff IC.
 
 ### Инструменты
 
