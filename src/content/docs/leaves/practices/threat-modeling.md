@@ -38,7 +38,7 @@ description: Систематическое выявление угроз на d
 
 ### Книги
 
-- Adam Shostack — **Threat Modeling: Designing for Security** (Wiley, 2014). Канонический учебник; автор разработал и популяризовал STRIDE в Microsoft. Practical guidance по DFD, STRIDE per element, attack trees, requirements analysis. По моим наблюдениям, это «один источник, если выбирать один».
+- Adam Shostack — **Threat Modeling: Designing for Security** (Wiley, 2014). Канонический учебник. Саму аббревиатуру STRIDE придумали в Microsoft ещё в 1999 году Лорен Конфельдер и Праерит Гарг, а Шостак довёл её до методики и вынес наружу — из внутренней записки в отраслевой стандарт. Practical guidance по DFD, STRIDE per element, attack trees, requirements analysis. По моим наблюдениям, это «один источник, если выбирать один».
 
 ### Статьи и фреймворки
 

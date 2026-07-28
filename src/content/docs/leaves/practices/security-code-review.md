@@ -42,7 +42,7 @@ description: Проверка собственного кода на security-д
 
 ### Статьи и стандарты
 
-- **[OWASP Top 10](https://owasp.org/www-project-top-ten/)**. Базовый словарь классов уязвимостей; broken access control — №1 в редакции 2021. Не чеклист, а карта того, на что смотреть в ревью.
+- **[OWASP Top 10](https://owasp.org/www-project-top-ten/)**. Базовый словарь классов уязвимостей; broken access control держит первое место и в редакции 2021, и в свежей 2025. Из заметных изменений 2025 года — отдельная категория под сбои цепочки поставок ПО, чего в прошлой редакции не было. Не чеклист, а карта того, на что смотреть в ревью.
 - **[OWASP ASVS — Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/)**. Структурированный набор требований по уровням (L1/L2/L3) — основа для secure-coding guideline и review-чеклиста, привязанного к risk-уровню сервиса.
 - **[OWASP Code Review Guide](https://owasp.org/www-project-code-review-guide/)**. Прямо про процесс ручного security review; методология, чеклисты по технологиям.
 - **[Apple goto fail (CVE-2014-1266)](https://www.imperialviolet.org/2014/02/22/applebug.html)** — разбор Adam Langley. Главный публичный кейс листа — см. ниже.
