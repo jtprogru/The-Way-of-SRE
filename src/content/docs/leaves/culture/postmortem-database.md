@@ -41,14 +41,13 @@ description: Систематический архив постмортемов 
 ### Книги
 
 - Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/postmortem-culture/)** (O'Reilly, 2016), глава 15. Раздел «Sharing Postmortems Openly» — фундамент distribution practice; Google как пример org с многолетней внутренней базой постмортемов. Конкретики о tagging schema мало, но дисциплина distribution описана.
-- John Allspaw — **[Each Necessary, But Only Jointly Sufficient](https://link.springer.com/article/10.1007/s10111-011-0185-4)** (2012). Не книга про database, но про подход NBJS, который превращает множество постмортемов в data set для извлечения patterns. Cumulative анализ возможен только при NBJS-формулировке contributing factors.
+- John Allspaw — **[Each Necessary, But Only Jointly Sufficient](https://www.kitchensoap.com/2012/02/10/each-necessary-but-only-jointly-sufficient/)** (Kitchen Soap, 2012). Не книга про database, но про подход NBJS, который превращает множество постмортемов в data set для извлечения patterns. Cumulative анализ возможен только при NBJS-формулировке contributing factors.
 
 ### Статьи и доклады
 
-- **[GitLab Postmortems](https://about.gitlab.com/blog/categories/postmortem/)** — публичный архив постмортемов GitLab. Не просто отдельные документы, а searchable category в blog с tagging. Один из лучших публичных примеров working postmortem database в индустрии. Используется как референс для собственного дизайна.
-- **[Cloudflare Outage Reports](https://blog.cloudflare.com/tag/outage/)** — категория постмортемов Cloudflare. Меньше по объёму, чем GitLab, но более глубокие технические разборы. Полезно как референс глубины анализа.
-- Dan Luu — **[Post-mortems](https://github.com/danluu/post-mortems)** (GitHub). Community-curated index публичных постмортемов от разных компаний. По моим наблюдениям — самый полезный единичный источник для poiska real-world cases по категориям. Используется как input для game day и для training.
-- Will Gallego — **[Each Necessary, But Only Jointly Sufficient — in practice](https://willgallego.com/2018/03/03/incident-anti-patterns-defining-a-stopping-rule/)**. Применение NBJS на реальном инциденте; объясняет, как формулировать contributing factors так, чтобы они были индексируемы в database.
+- **[Cloudflare Outage Reports](https://blog.cloudflare.com/tag/outage/)** — рубрика постмортемов Cloudflare, размеченная тегом в корпоративном блоге. Ровно тот случай, когда публичный архив собран через tagging, а не через отдельный продукт. Полезно как референс глубины анализа.
+- **[GitLab: Postmortem of database outage of January 31](https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/)** — их самый цитируемый постмортем. Отдельной рубрики «postmortem» в блоге GitLab нет, документы лежат вперемешку с остальными постами — и это само по себе показательно: даже у компании с сильной культурой разбора архив не обязательно организован.
+- Dan Luu — **[Post-mortems](https://github.com/danluu/post-mortems)** (GitHub). Community-curated index публичных постмортемов от разных компаний. По моим наблюдениям — самый полезный единичный источник для поиска real-world cases по категориям. Используется как input для game day и для training.
 
 ### Инструменты
 
@@ -59,7 +58,9 @@ description: Систематический архив постмортемов 
 
 ## Best practices
 
-Главный публичный кейс — **GitLab Public Postmortems**. GitLab публикует постмортемы значимых инцидентов с 2017 года (классический database outage 31 января 2017 — отправная точка) и поддерживает их как searchable category в корпоративном blog'е. На момент 2026 года это один из самых длительно живущих публичных архивов постмортемов в индустрии. Ценность не в том, что они идеально написаны (некоторые ранние — нет), а в том, что **они доступны и используются**: статьи цитируют, инженеры читают перед похожими migration'ами, авторы новых постмортемов смотрят на старые как на модель. GitLab показал, что public postmortems — это не «открыть PR-уязвимость», а **главный канал распространения reliability culture** между компаниями.
+Главный публичный кейс — **публичные постмортемы Cloudflare**. Разборы значимых инцидентов лежат в корпоративном блоге под тегом `outage`, то есть архив собран ровно тем механизмом, который я описываю в этом листе: не отдельный продукт, а последовательная разметка. Читатель приходит по ссылке из чужой статьи, видит рубрику и уходит читать соседние разборы — это и есть работающая database, только публичная. Ценность не в том, что документы идеально написаны, а в том, что **они доступны и используются**: их цитируют, инженеры читают перед похожими миграциями, авторы новых постмортемов смотрят на старые как на модель.
+
+Контрпример из той же лиги — **GitLab**. Их постмортем database outage 31 января 2017 — вероятно, самый цитируемый публичный разбор в индустрии, но отдельной рубрики для постмортемов в блоге у GitLab нет: документы лежат вперемешку с продуктовыми анонсами и находятся только через внешний поиск. Сильная культура разбора и организованный архив — разные вещи, и второе не появляется автоматически из первого.
 
 **Короткие правила:**
 

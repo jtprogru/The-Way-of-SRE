@@ -18,7 +18,7 @@ description: Operational дисциплина multi-team incident response — I
 Главный навык на уровне L5 — проектировать **IC rotation**. IC не может вести инцидент дольше 2–4 часов без потери эффективности — fatigue, tunnel vision, привязанность к гипотезам. Я регулярно вижу инциденты длиной 8+ часов с одним IC, который под конец принимает решения хуже, чем on-call инженер в первый час. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает). Без rotation IC становится bottleneck.
 
 **L4**
-- Понимает роли war room по PagerDuty / Google IRT model: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние коммуникации; **Scribe** — фиксирует timeline в реальном времени; **SME** — domain knowledge.
+- Понимает роли war room. У Google (SRE Book, гл. 14) их четыре: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние коммуникации; **Planning Lead** — всё, что живёт дольше текущей смены (баги, передача дежурства, снабжение людьми). У PagerDuty набор другой и шире: к IC добавлены **Deputy** (дублёр и второй взгляд), **Scribe** (фиксирует timeline в реальном времени), **SME** (domain knowledge) и две отдельные роли связи — с клиентами и с внутренними стейкхолдерами. Смешивать наборы можно, но стоит понимать, откуда что взято: Scribe — это PagerDuty, Planning Lead — это Google.
 - Выступает как IC для **SEV2+** incident в своём домене — открывает war room channel, объявляет роли, ведёт sitrep cadence. Принимает решения 70/30: ждать 100% уверенности — терять время; 70%+ — действовать, записывать в decision log.
 - Применяет **sitrep cadence** как explicit ritual — каждые 15 минут (SEV0/critical) или 30 минут (SEV1/major). Структура: `current status / what we tried / what we're doing now / next step / blockers / next sitrep at HH:MM`.
 
@@ -36,34 +36,34 @@ description: Operational дисциплина multi-team incident response — I
 
 ### Книги
 
-- **[Site Reliability Engineering: How Google Runs Production Systems](https://sre.google/sre-book/managing-incidents/)** (O'Reilly, 2016), Chapter 14. Канонический заход — IMAG model (Incident Management at Google), 5 roles, sitrep template, handoff protocol. Глава короткая, читать целиком.
+- **[Site Reliability Engineering: How Google Runs Production Systems](https://sre.google/sre-book/managing-incidents/)** (O'Reilly, 2016), Chapter 14. Канонический заход: четыре роли (Incident Command, Operational Work, Communication, Planning), рекурсивное разделение ответственности, шаблон incident-документа и протокол передачи. Сама глава опирается на ICS пожарных, а не изобретает модель заново. Короткая, читать целиком.
 - Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), Chapter 17 «Crisis Management». Шире — security incidents, legal, regulatory, executive coordination.
-- **[Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), Chapter 9. Practical examples из Google, разбор role assignments, что пошло не так в координации.
+- **[Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), Chapter 9. Practical examples из Google, разбор role assignments, что пошло не так в координации. Здесь же вводится аббревиатура IMAG (Incident Management At Google) — в SRE Book гл. 14 её ещё нет.
 
 ### Статьи и доклады
 
-- **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)**. Open-source playbook — Creative Commons, fork-able. Включает war room protocols, IC checklist, role templates, sitrep templates, handoff docs. По моим наблюдениям, чаще всего именно её берут как стартовый шаблон.
+- **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)**. Open-source playbook под Apache 2.0, форкается и правится под себя. Включает war room protocols, IC checklist, role templates, sitrep templates, handoff docs. По моим наблюдениям, чаще всего именно её берут как стартовый шаблон.
 - **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management/handbook)**. Detailed playbook с фокусом на coordination. Альтернативный взгляд к PagerDuty.
-- Brent Chapman — **[Incident Command for IT — What We Can Learn from the Fire Department](https://www.usenix.org/conference/srecon16/program/presentation/chapman)** (SREcon 2016). Original talk applying NIMS / ICS (US Federal Incident Command System used by fire departments since 1970s) к IT incidents. История role separation идёт оттуда.
+- Brent Chapman — **[Incident Command for IT: What We Can Learn from the Fire Department](https://www.usenix.org/legacy/events/lisa05/tech/chapman.pdf)** (LISA 2005). Тот самый доклад, который принёс NIMS / ICS (система командования, которой пожарные США пользуются с 1970-х) в мир IT-эксплуатации. История role separation идёт оттуда — и стоит отметить, что это 2005 год, за одиннадцать лет до того, как SRE-сообщество начало обсуждать роли в инцидентах как что-то новое. [Обновлённая версия доклада](https://www.usenix.org/conference/srecon18americas/presentation/chapman) — SREcon18 Americas.
 - **[FEMA Incident Command System (ICS-100, ICS-200 free courses)](https://training.fema.gov/is/courseoverview.aspx?code=is-100.c)**. Original framework, на котором базируется PagerDuty / Google IMAG. Free online courses от 2 часов.
-- **[Honeycomb — The Cost of Incident Response](https://www.honeycomb.io/blog/the-cost-of-incident-response)** (Charity Majors). Утверждает, что incident response стоит реальные деньги.
+- **[Honeycomb — How We Manage Incident Response](https://www.honeycomb.io/blog/incident-response-at-honeycomb)** (Fred Hebert). Разбор внутренней кухни небольшой команды: кто объявляет инцидент, как устроены роли, когда команда сознательно не разворачивает полную процедуру.
 
 ### Шаблоны
 
-- **[PagerDuty incident response training](https://response.pagerduty.com/training/courses/)** — CC-licensed material для подготовки IC.
-- **[Google IRT templates](https://github.com/google/codoma-tic)** — Open templates.
-- **[Atlassian incident communication templates](https://www.atlassian.com/incident-management/handbook/customer-communications)** — templates для sitrep, customer updates, internal stakeholder updates.
+- **[PagerDuty Incident Commander training](https://response.pagerduty.com/training/incident_commander/)** — материал под Apache 2.0 для подготовки IC: что делает, чего не делает, как ведёт совещание.
+- **[Google SRE Book: Incident State Document](https://sre.google/sre-book/managing-incidents/)** — шаблон живого incident-документа прямо в главе 14; отдельного репозитория с шаблонами у Google нет.
+- **[Atlassian incident communication templates](https://www.atlassian.com/incident-management/incident-communication/templates)** — templates для sitrep, customer updates, internal stakeholder updates.
 
 ### Инструменты
 
-- **Incident management platforms (с встроенным war room support):** [incident.io](https://incident.io/) (modern, opinionated, Slack-native), [FireHydrant](https://firehydrant.com/), [Rootly](https://rootly.com/), [Blameless](https://www.blameless.com/), [PagerDuty Status](https://www.pagerduty.com/platform/incident-management/) с rooms. Все provide: roles assignment, scribe / timeline auto-export, sitrep templates, integration со Slack/Zoom/Statuspage.
+- **Incident management platforms (с встроенным war room support):** [incident.io](https://incident.io/) (modern, opinionated, Slack-native), [FireHydrant](https://firehydrant.com/), [Rootly](https://rootly.com/), [PagerDuty](https://www.pagerduty.com/platform/incident-management/) с rooms. Все provide: roles assignment, scribe / timeline auto-export, sitrep templates, integration со Slack/Zoom/Statuspage. Сегмент активно консолидируется — Blameless как отдельный продукт исчез, его купил FireHydrant в 2024, — так что при выборе стоит смотреть не только на функциональность, но и на то, кому платформа принадлежит.
 - **Real-time collaboration:** Slack / Microsoft Teams (incident channel как canonical source), Zoom / Google Meet (audio bridge для high-severity), Slack Huddles (lightweight ad-hoc voice).
-- **Scribe / timeline tools:** incident.io timeline (auto-export Slack messages в structured timeline), [Jeli](https://www.jeli.io/) (PagerDuty acquisition), FireHydrant scribe, [Hourly](https://hourly.io/). Без tooling scribe role становится ad-hoc.
+- **Scribe / timeline tools:** incident.io timeline (auto-export Slack messages в structured timeline), FireHydrant scribe, [Jeli](https://www.pagerduty.com/platform/jeli/) — теперь часть PagerDuty после покупки в 2023. Без tooling scribe role становится ad-hoc.
 - **Decision log как plain artifact:** Google Doc / Notion / Confluence page per incident — explicit «Decision log» section. Tool-agnostic, важно что log существует как separate artifact, не embedded в Slack scrollback.
 
 ## Best practices
 
-Главный публичный источник war room patterns — **FEMA Incident Command System (ICS)** и **Google IMAG**. ICS используется пожарной службой США с 1970-х годов в инцидентах, которые длятся днями (лесные пожары, ураганы). Brent Chapman в SREcon 2016 показал, что role separation, sitrep cadence, handoff protocol — это не SRE-изобретение, а адаптация 50-летней дисциплины из crisis management. Если в команде кто-то скептичен к «формальностям war room» — отправляйте к этим источникам: ICS не работала бы, если бы формальности были лишними.
+Главный публичный источник war room patterns — **FEMA Incident Command System (ICS)** и **Google IMAG**. ICS используется пожарной службой США с 1970-х годов в инцидентах, которые длятся днями (лесные пожары, ураганы). Brent Chapman показал это IT-аудитории ещё на LISA 2005: role separation, sitrep cadence, handoff protocol — не SRE-изобретение, а адаптация дисциплины, которой к тому моменту было уже тридцать пять лет, а сейчас больше пятидесяти. Меня в этой истории отрезвляет разрыв: доклад 2005 года, а команды до сих пор изобретают роли в war room заново на каждом втором проекте. Если кто-то скептичен к «формальностям war room» — отправляйте к этим источникам: ICS не работала бы полвека, если бы формальности были лишними.
 
 **Короткие правила:**
 

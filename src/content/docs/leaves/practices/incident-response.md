@@ -40,7 +40,7 @@ description: Координация реагирования на инциден
 
 - Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/emergency-response/)** (O'Reilly, 2016), глава 13 «Emergency Response». Типология аварий и Google case studies.
 - Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/managing-incidents/)** (O'Reilly, 2016), глава 14 «Managing Incidents». Канонические роли (IC, Ops, Comms), Incident Command System, шаблон incident document.
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), глава 9. Четыре case studies (effective и ineffective), три принципа ICS — coordinate, communicate, maintain control.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), глава 9 «Incident Response». Четыре разбора — три инцидента Google (в том числе откровенно плохо отработанных) и глава про процесс PagerDuty. Оттуда же четыре правила, на которых держится IMAG (Incident Management At Google): держать явную вертикаль управления, распределить роли до начала работы, вести рабочий журнал по ходу дела, объявлять инцидент рано и часто.
 
 ### Статьи и руководства
 
@@ -49,7 +49,7 @@ description: Координация реагирования на инциден
 
 ### Инструменты
 
-- **Alerting / on-call rotation** — **[PagerDuty](https://www.pagerduty.com/)**, **[Opsgenie](https://www.atlassian.com/software/opsgenie)**, **[Grafana OnCall](https://grafana.com/products/oncall/)**. Маршрутизация алертов, escalation policies, ротация дежурств.
+- **Alerting / on-call rotation** — **[PagerDuty](https://www.pagerduty.com/)** как дефолт индустрии; **[Grafana IRM](https://grafana.com/products/cloud/irm/)** для тех, кто уже живёт в Grafana Cloud. Маршрутизация алертов, escalation policies, ротация дежурств. Два бывших фаворита из этого ряда выбывают: Atlassian закрывает Opsgenie (продажи прекращены в 2025, полное отключение — апрель 2027, миграция в Jira Service Management), а Grafana свернула отдельный OnCall в пользу общего IRM и переводит OSS-репозиторий в архив. Если выбираете инструмент сейчас — проверяйте не функциональность, а то, что продукт вообще будет жив через два года.
 - **Incident management platforms** — **[incident.io](https://incident.io/)**, **[FireHydrant](https://firehydrant.com/)**. Автоматизация инцидента: создание Slack-канала, ролей, status page, сбор timeline. Полезны, когда команда выходит за десятки инцидентов в месяц.
 - **Status pages** — **[Atlassian Statuspage](https://www.atlassian.com/software/statuspage)**, **[Better Stack](https://betterstack.com/)**. Внешняя коммуникация.
 - **Incident log в Slack-канале** — самая базовая форма: один канал на инцидент, timeline в реальном времени с явными timestamp. Достаточно для большинства команд без отдельной платформы.

@@ -46,16 +46,15 @@ description: Operational practice public status page — subscriber model, uptim
 
 ### Статьи и публичные case studies
 
-- **[Atlassian — Anatomy of an Incident Status Page](https://www.atlassian.com/incident-management/handbook/status-page)**. Каноническая статья про lifecycle (investigating / identified / monitoring / resolved), template patterns, frequency обновлений.
-- **[GitHub — How GitHub uses status updates](https://github.blog/engineering/infrastructure/the-anatomy-of-a-github-incident/)** + публичный [status.github.com](https://www.githubstatus.com/) и [history](https://www.githubstatus.com/history). Один из reference examples в индустрии.
+- **[Atlassian — Incident communication best practices](https://www.atlassian.com/incident-management/incident-communication)** и их [шаблоны сообщений](https://www.atlassian.com/incident-management/incident-communication/templates). Про lifecycle (investigating / identified / monitoring / resolved), tone, частоту обновлений. Написано создателями Statuspage, так что местами это ещё и продуктовый маркетинг — но структура сообщений оттуда рабочая.
+- **[GitHub — Bringing more transparency to GitHub's status page](https://github.blog/news-insights/company-news/bringing-more-transparency-to-githubs-status-page/)** + публичный [githubstatus.com](https://www.githubstatus.com/) и [история инцидентов](https://www.githubstatus.com/history). Один из reference examples в индустрии — и редкий случай, когда компания публично объясняет, почему поменяла модель компонентов.
 - **[Cloudflare Status](https://www.cloudflarestatus.com/)** + [Cloudflare incident reports](https://blog.cloudflare.com/tag/post-mortem/). Образец transparency-as-brand-strategy — детальные RCA с timeline и technical details становятся отдельным trust-building artifact.
 - **[Stripe Status](https://status.stripe.com/)**. Образец component granularity: список API endpoints, dashboard, webhooks, и т.д. отдельно — клиент видит ровно те компоненты, которые влияют на его integration.
-- **[Discord Outage Post-Mortems](https://discord.com/blog/tag/postmortem)**. Один из современных примеров transparency после major outages — детальные technical RCA в blog format, ссылка из status page.
-- **[Honeycomb — Building a Status Page That Tells the Truth](https://www.honeycomb.io/blog/status-page-that-tells-the-truth)** (Charity Majors). Critique status pages, которые скрывают partial outages; argument за честную component granularity.
+- **[Discord Status](https://discordstatus.com/history)** и разборы крупных отказов в их блоге. Один из современных примеров transparency после major outages — детальные technical RCA в blog format, ссылка из status page. Отдельной рубрики под постмортемы у них нет, разборы выходят как обычные посты.
 
 ### Антипаттерны и industry critique
 
-- **[AWS Health Dashboard критика](https://blog.thousandeyes.com/aws-status-page-improvements/)** — серия публичных incidents (US-EAST-1 outages 2017, 2020, 2021, 2023), где AWS обновлял public status через десятки минут после того, как клиенты уже репортили downtime. Industry-wide negative example — «status page как marketing tool вместо source of truth». Учат, как НЕ надо.
+- **Критика AWS Health Dashboard** — серия публичных incidents (US-EAST-1 outages 2017, 2020, 2021, 2023), где AWS обновлял public status через десятки минут после того, как клиенты уже репортили downtime. Industry-wide negative example — «status page как marketing tool вместо source of truth». Учат, как НЕ надо. Разборы каждого из этих случаев легко находятся в блогах ThousandEyes и в обсуждениях на Hacker News по дате инцидента.
 
 ### Инструменты
 
@@ -66,11 +65,11 @@ description: Operational practice public status page — subscriber model, uptim
 - **[Status.io](https://status.io/)** — long-time player; advanced subscriber management.
 - **[StatusGator](https://statusgator.com/)** — meta-aggregator: показывает статус ваших vendor'ов (AWS / Stripe / GitHub / Twilio) в одном dashboard. Полезен для команд с большим vendor footprint.
 - **[incident.io Status](https://incident.io/status-pages)** — встроенный statuspage в incident.io; auto-update из incident workflow без отдельной integration. Привлекательно для команд уже на incident.io.
-- **[FireHydrant Status](https://firehydrant.com/products/status-page/)** — то же для пользователей FireHydrant.
+- **[FireHydrant](https://firehydrant.com/)** — status page встроен в платформу, отдельно не продаётся; логика та же, что у incident.io.
 - **OSS / self-hosted:**
   - **[Cachet](https://cachethq.io/)** — Laravel-based, OG open-source statuspage. Старый, но live; используется в командах с PHP-stack или compliance constraints.
   - **[Gatus](https://github.com/TwiN/gatus)** — Go-based, modern OSS; YAML-конфигурация, built-in synthetic monitoring. По моим наблюдениям, чаще выбирают для команд, готовых к self-hosting.
-  - **[Uptime Kuma](https://github.com/louislam/uptime-kuma)** — самая популярная OSS статуспейдж сейчас (40K+ ⭐ на GitHub); self-hosted, modern UI, multiple notification integrations.
+  - **[Uptime Kuma](https://github.com/louislam/uptime-kuma)** — самая популярная OSS статуспейдж сейчас (под 90 тысяч звёзд на GitHub, с большим отрывом от остальных); self-hosted, modern UI, multiple notification integrations.
 - **Minimal viable communication** — для personal проектов или MVP-stage, где dedicated statuspage overkill: RSS-feed от blog'а, Telegram-канал ([jtprogru_channel](https://t.me/jtprogru_channel) — как использую сам), incident-категория в Discourse / GitHub Discussions. Не industry-grade, но работает на масштабе до сотен клиентов.
 
 ## Best practices

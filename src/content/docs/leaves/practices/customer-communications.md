@@ -47,7 +47,7 @@ description: Внешняя коммуникация во время инцид�
 - **[Atlassian Statuspage Best Practices](https://www.atlassian.com/incident-management/incident-communication)** — guide от создателей Statuspage. Когда обновлять, какой tone, как handle ETA.
 - **[GitHub October 21, 2018 Incident Report](https://github.blog/news-insights/company-news/oct21-post-incident-analysis/)**. Главный публичный кейс — см. ниже.
 - **[Cloudflare incident reports](https://blog.cloudflare.com/tag/post-mortem/)**. Регулярные public post-mortems от Cloudflare. По моим наблюдениям, один из лучших benchmark'ов «public-ready» post-mortem.
-- Honeycomb — **[The Service of Software](https://www.honeycomb.io/blog/incidents-the-service-of-software)**. Reliability как услуга; customer comms — её часть.
+- Honeycomb — **[How We Manage Incident Response](https://www.honeycomb.io/blog/incident-response-at-honeycomb)** (Fred Hebert). Про внутреннюю механику, но с честным разделом о том, кто и когда говорит с клиентами в маленькой команде, где выделенного Comms Lead просто нет.
 - Increment — **[Incident Response issue](https://increment.com/on-call/)**. Статьи от Stripe / Slack / Asana о customer comms.
 
 ### Инструменты
@@ -59,7 +59,7 @@ description: Внешняя коммуникация во время инцид�
 
 ## Best practices
 
-Главный публичный кейс — **GitHub October 21, 2018 Incident Report**. GitHub потерял ~24 часа доступности для значительной части пользователей из-за сетевого партишн между двумя датацентрами и каскадной деградации MySQL. Их post-mortem — эталон того, как делать public communication: detailed timeline, конкретные contributing factors (не одна «причина»), список того, что они меняют, явное acknowledgement, что часть клиентских данных была недоступна / тормозила. По моим наблюдениям, это один из 3–4 публичных post-mortems, которые в SRE-индустрии цитируют десятки раз — если читаете лист и впервые в теме, сначала туда.
+Главный публичный кейс — **GitHub October 21, 2018 Incident Report**. Сервис работал с деградацией 24 часа 11 минут: 43-секундный разрыв связи между сетевым узлом на восточном побережье и основным дата-центром запустил автоматический failover MySQL, после чего в кластерах на двух побережьях оказались расходящиеся записи. Вернуться назад без потери данных было нельзя, и GitHub сознательно выбрал долгое восстановление вперёд вместо быстрого — при этом часть платформы всё это время работала штатно, а часть отдавала устаревшие данные, не доставляла webhooks и не публиковала Pages. Их post-mortem — эталон того, как делать public communication: detailed timeline, конкретные contributing factors (не одна «причина»), список того, что они меняют, и прямое объяснение, почему выбрали медленный путь. Обратите внимание на подачу: нигде не сказано «мы лежали 24 часа», везде описано, что именно не работало — это честнее и одновременно мягче, чем формулировка, которую за них потом придумала пресса. По моим наблюдениям, это один из 3–4 публичных post-mortems, которые в SRE-индустрии цитируют десятки раз — если читаете лист и впервые в теме, сначала туда.
 
 **Короткие правила:**
 

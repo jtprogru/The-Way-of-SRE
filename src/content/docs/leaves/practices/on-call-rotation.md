@@ -38,8 +38,8 @@ description: Организация дежурства команды — кто
 
 ### Книги
 
-- Andrea Spadaccini (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/being-on-call/)** (O'Reilly, 2016), глава 11 «Being On-Call». Канонический Google SRE подход (sustainable cadence, ≤ 25% on-call work, расчёт ротации).
-- Hannah Foxwell, Mike Lyons, Mick Jordan (ред.) — **[The Site Reliability Workbook](https://sre.google/workbook/on-call/)** (O'Reilly, 2018), глава 8. Practical anti-patterns, on-call documentation, fairness, training новых членов команды.
+- Andrea Spadaccini — **[Site Reliability Engineering](https://sre.google/sre-book/being-on-call/)** (O'Reilly, 2016), глава 11 «Being On-Call». Канонический Google SRE подход. Оттуда же норматив, который стоит помнить дословно: не меньше половины времени SRE уходит на инженерию, а из оставшегося на дежурства — не больше 25%.
+- Ollie Cook, Sara Smollett, Andrea Spadaccini и др. — **[The Site Reliability Workbook](https://sre.google/workbook/on-call/)** (O'Reilly, 2018), глава 8 «On-Call». Practical anti-patterns, on-call documentation, fairness, training новых членов команды.
 
 ### Статьи и руководства
 
@@ -48,7 +48,7 @@ description: Организация дежурства команды — кто
 
 ### Инструменты
 
-- **[PagerDuty](https://www.pagerduty.com/)**, **[Opsgenie](https://www.atlassian.com/software/opsgenie)**, **[Grafana OnCall](https://grafana.com/products/oncall/)** — paging tools с поддержкой rotation, escalation policy, override, schedule export. Стандарт индустрии.
+- **[PagerDuty](https://www.pagerduty.com/)** — paging tool с поддержкой rotation, escalation policy, override, schedule export; по-прежнему дефолт индустрии. Из тех, что были рядом с ним в этом ряду ещё недавно, **Opsgenie** закрывается (Atlassian прекратила продажи в 2025, полное отключение — апрель 2027, миграция в Jira Service Management), а **Grafana OnCall** свёрнут в общий [Grafana IRM](https://grafana.com/products/cloud/irm/), OSS-репозиторий уходит в архив. Ротация дежурств — это то, что команда настраивает один раз и живёт с этим годами, поэтому смерть инструмента здесь дороже, чем в большинстве других категорий.
 - **iCalendar / Google Calendar import** — обязательный backup для visibility: ротация в общем календаре команды; отсутствие — частая причина «не знал, что дежурю».
 - **Alert hygiene dashboards** — custom (Grafana / Prometheus) или встроенные в paging tool: метрики `pages per shift`, `time-to-ack`, `% actionable`, `MTTR`. Без них alert hygiene — субъективная оценка.
 - **Sleep / load tracking** — простой spreadsheet или специальные инструменты (например, [Team Health 1:1](https://github.com/fadeinflames/team-health) с pulse-метриками) для отслеживания нагрузки в долгую.
