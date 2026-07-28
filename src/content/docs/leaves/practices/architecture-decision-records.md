@@ -43,7 +43,7 @@ description: Фиксация технических решений в форм�
 ### Статьи и фреймворки
 
 - **[Architectural Decision Records (adr.github.io)](https://adr.github.io/)**. Канонический хаб ADR-практики. Принят в Microsoft Azure Well-Architected Framework и AWS Prescriptive Guidance.
-- **[joelparkerhenderson/architecture-decision-record](https://github.com/joelparkerhenderson/architecture-decision-record)**. Коллекция шаблонов (Nygard / Tyree-Akerman / MADR / Arc42) и реальных примеров. По моим наблюдениям, это де-факто стартовая точка для большинства команд — 16k+ stars говорят сами за себя.
+- **[joelparkerhenderson/architecture-decision-record](https://github.com/joelparkerhenderson/architecture-decision-record)**. Коллекция шаблонов (Nygard / Tyree-Akerman / MADR / Arc42) и реальных примеров. По моим наблюдениям, это де-факто стартовая точка для большинства команд — больше шестнадцати тысяч звёзд говорят сами за себя.
 - **[ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar)**. Open-source модель оценки tooling (adopt / trial / assess / hold) — соседняя практика Tech Radar.
 
 ### Инструменты

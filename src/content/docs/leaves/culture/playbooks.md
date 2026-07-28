@@ -46,7 +46,7 @@ description: Сценарии реагирования на класс инци�
 
 - **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)**. Публично выложенный playbook PagerDuty: роли (IC, Deputy, Scribe, Subject Matter Experts), severity playbook, training playbook. По моим наблюдениям — самый часто адаптируемый референс в индустрии. Команды берут как стартовый template и подгоняют под себя.
 - **[Google SRE Book, Chapter 14 «Managing Incidents»](https://sre.google/sre-book/managing-incidents/)**. Принципы incident command (заимствованы из ICS — Incident Command System пожарной службы): clear roles, working in concert, calm under pressure. Это **философская основа** playbook'ов, читается до конкретных шаблонов.
-- **[incident.io Playbooks library](https://incident.io/blog/incident-playbooks)** — открытая библиотека playbook'ов от incident.io. По моим наблюдениям, лучший публичный источник конкретных шаблонов «для какой ситуации какой playbook». Берут как готовые стартовые точки, а не как finished documents.
+- **[Материалы incident.io](https://incident.io/guide)** — их руководство по управлению инцидентами с разбором типовых сценариев. По моим наблюдениям, полезнее всего именно как набор стартовых точек, а не готовых документов: скопировать чужой playbook целиком не выйдет, он всегда про чужую систему.
 
 ### Инструменты
 

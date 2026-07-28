@@ -42,7 +42,7 @@ description: Композиция unix-tools как инструмент SRE —
 ### Книги
 
 - Brian Kernighan, Rob Pike — **[The Unix Programming Environment](https://en.wikipedia.org/wiki/The_Unix_Programming_Environment)** (Prentice Hall, 1984). 40 лет, и не устарела. Глава 4 «Filters» — лучший introduction в композицию unix-tools. Если выбирать одну книгу — эту.
-- Eric S. Raymond — **[The Art of Unix Programming](http://www.catb.org/~esr/writings/taop/html/)** (Addison-Wesley, 2003). Не tutorial по shell, а философия: «write programs that do one thing well», «text streams are universal interface». Полезно для понимания, почему shell-tooling выживает 50 лет.
+- Eric S. Raymond — **The Art of Unix Programming** (Addison-Wesley, 2003; полный текст выложен автором на catb.org). Не tutorial по shell, а философия: «write programs that do one thing well», «text streams are universal interface». Полезно для понимания, почему shell-tooling выживает 50 лет.
 - Cameron Newham — **[Learning the bash Shell](https://www.oreilly.com/library/view/learning-the-bash/0596009658/)** (O'Reilly, 3-е изд., 2005). Канонический справочник по bash specifically. Не для линейного чтения, а для lookup.
 - Dave Taylor, Brandon Perry — **[Wicked Cool Shell Scripts](https://nostarch.com/wcss2)** (No Starch Press, 2-е изд., 2017). Сборник реальных scripts с разбором; полезен как идиоматический pattern reference.
 
