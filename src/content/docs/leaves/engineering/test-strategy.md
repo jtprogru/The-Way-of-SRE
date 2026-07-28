@@ -49,7 +49,7 @@ description: Дисциплина проектирования testing portfolio
 - Martin Fowler — **[Test Pyramid](https://martinfowler.com/bliki/TestPyramid.html)** и **[On the Diverse And Fantastical Shapes of Testing](https://martinfowler.com/articles/2021-test-shapes.html)**. Fowler рефлексирует над pyramid 12 лет спустя — альтернативные shapes для разных систем. Полезно понимать, что pyramid — guideline, не догма.
 - Google Testing Blog — **[Just Say No to More End-to-End Tests](https://testing.googleblog.com/2015/04/just-say-no-to-more-end-to-end-tests.html)** (2015). Главный кейс листа — см. ниже.
 - Martin Fowler — **[Eradicating Non-Determinism in Tests](https://martinfowler.com/articles/nonDeterminism.html)**. Канонический разбор причин flake'а и стратегий устранения. Читать перед тем, как начать quarantine'ить тесты.
-- **[Pact docs intro](https://docs.pact.io/getting_started/what_is_contract_testing)**. Объяснение consumer-driven contracts.
+- **[Pact docs intro](https://docs.pact.io/)**. Объяснение consumer-driven contracts.
 - Stryker — **[An introduction to mutation testing](https://stryker-mutator.io/docs/mutation-testing-elements/supported-mutators/)**. Mutation score как метрика дополняет coverage.
 - Spotify Labs — **[Testing of Microservices](https://engineering.atspotify.com/2018/01/testing-of-microservices/)**. Test honeycomb как ребаланс pyramid для microservices.
 - Andrew Trenk, Adam Bender — **[Software Engineering at Google: Testing Overview](https://abseil.io/resources/swe-book/html/ch11.html)** (O'Reilly, 2020). Google's testing philosophy at scale.
@@ -60,7 +60,7 @@ description: Дисциплина проектирования testing portfolio
 - **Property-based:** [Hypothesis](https://hypothesis.readthedocs.io/) (Python), [proptest](https://github.com/proptest-rs/proptest) (Rust), [jqwik](https://jqwik.net/) (Java), [fast-check](https://fast-check.dev/) (JS/TS).
 - **Test doubles / mocking:** [Mockito](https://site.mockito.org/) (Java), [unittest.mock](https://docs.python.org/3/library/unittest.mock.html) (Python), [WireMock](https://wiremock.org/) (HTTP), [gomock](https://github.com/uber-go/mock) (Go).
 - **Integration / testcontainers:** [Testcontainers](https://testcontainers.com/) — ephemeral DB / Kafka / Redis в Docker per test. По моим наблюдениям, стандарт во всех языках с приличной поддержкой Docker. [LocalStack](https://www.localstack.cloud/) для AWS services локально.
-- **Contract testing:** [Pact](https://pact.io/) (consumer-driven, broker), [Spring Cloud Contract](https://spring.io/projects/spring-cloud-contract), [Hoverfly](https://hoverfly.io/).
+- **Contract testing:** [Pact](https://pact.io/) (consumer-driven, broker), [Spring Cloud Contract](https://docs.spring.io/spring-cloud-contract/reference/), [Hoverfly](https://hoverfly.io/).
 - **E2E / UI:** [Playwright](https://playwright.dev/) — на 2026 это current default для web; [Cypress](https://www.cypress.io/) — альтернатива; [Selenium](https://www.selenium.dev/) — legacy, но всё ещё нужный backstop.
 - **Coverage:** [Coverage.py](https://coverage.readthedocs.io/), [JaCoCo](https://www.jacoco.org/jacoco/), [Istanbul/nyc](https://istanbul.js.org/), `go test -coverprofile`.
 - **Mutation testing:** [PIT (Pitest)](https://pitest.org/) (JVM), [Stryker](https://stryker-mutator.io/) (JS / .NET / Scala), [mutmut](https://mutmut.readthedocs.io/) (Python).

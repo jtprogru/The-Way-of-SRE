@@ -11,7 +11,7 @@ description: Operations через chat-интерфейс — push-нотифи
 - **Статус:** draft
 :::
 
-ChatOps как термин ввёл GitHub около 2011, выпустив [Hubot](https://hubot.github.com/) — Node.js-фреймворк для bots, которые жили в Campfire / Slack и через текстовые команды деплоили, мониторили, рестартили сервисы. Идея с тех пор сильно эволюционировала: от «прикольный bot, который отвечает на @hubot deploy» к incident-management-первым платформам типа [incident.io](https://incident.io/) и [Netflix Dispatch](https://github.com/Netflix/dispatch), где chat — это primary surface для всего инцидент-lifecycle. Я для своих нужд писал серию Telegram-ботов — [owl_clerk_bot](https://github.com/jtprogru/owl_clerk_bot) (bot-секретарь), [py-tg-moder](https://github.com/jtprogru/py-tg-moder) (модерация чата), [chat-analytics-bot](https://github.com/jtprogru/chat-analytics-bot) (аналитика каналов + модерация), [tg-adminer](https://github.com/jtprogru/tg-adminer) — каждый закрывал свой класс toil. Главная ценность ChatOps не в «прикольно тыкать команды в chat», а в трёх вещах: **встроенный audit trail** (всё видно в канале и доступно для поиска), **low-friction access** (zero context switch для команды, которая и так в chat), **shared visibility** (5 человек видят, что 6-й делает действие — встроенный peer review). Этот лист — про когда и как строить ChatOps уровень, и где его границы со специализированными tools.
+Практика родилась в GitHub: в 2011 году они открыли [Hubot](https://hubot.github.com/) — Node.js-фреймворк для ботов, которые жили в Campfire, а позже в Slack, и через текстовые команды деплоили, мониторили, рестартили сервисы. Само слово «ChatOps» закрепилось за подходом чуть позже, когда Джесси Ньюленд из той же компании начал рассказывать про это на конференциях. Идея с тех пор сильно эволюционировала: от «прикольный bot, который отвечает на @hubot deploy» к incident-management-первым платформам типа [incident.io](https://incident.io/) и [Netflix Dispatch](https://github.com/Netflix/dispatch), где chat — это primary surface для всего инцидент-lifecycle. Я для своих нужд писал серию Telegram-ботов — [owl_clerk_bot](https://github.com/jtprogru/owl_clerk_bot) (bot-секретарь), [py-tg-moder](https://github.com/jtprogru/py-tg-moder) (модерация чата), плюс пара закрытых: аналитика каналов и админские инструменты. Каждый закрывал свой класс toil. Главная ценность ChatOps не в «прикольно тыкать команды в chat», а в трёх вещах: **встроенный audit trail** (всё видно в канале и доступно для поиска), **low-friction access** (zero context switch для команды, которая и так в chat), **shared visibility** (5 человек видят, что 6-й делает действие — встроенный peer review). Этот лист — про когда и как строить ChatOps уровень, и где его границы со специализированными tools.
 
 ## Что должен уметь
 
@@ -40,13 +40,13 @@ ChatOps как термин ввёл GitHub около 2011, выпустив [H
 
 - Jason Hand — **[ChatOps: Managing Operations in Group Chat](https://victorops.com/wp-content/uploads/2017/06/ChatOps-Managing-Operations-in-Group-Chat.pdf)** (O'Reilly, 2016, free). Самая полная публикация по теме — определения, levels, anti-patterns. Старая, но фундаментальные принципы не устарели.
 - **[GitHub Engineering Blog — ChatOps at GitHub](https://github.blog/engineering/move-fast/deploying-branches-to-github-com/)**. Серия постов о ChatOps в самом GitHub — родина термина, deploy через `.deploy` в PR comment.
-- **[Charity Majors — How to Cope with the Pager](https://www.honeycomb.io/blog/how-to-cope-with-the-pager-on-call-anti-patterns)** (Honeycomb). О роли chat в incident response — фокус на observability и context-sharing.
+- **[Charity Majors — Ask Miss O11y: I Don't Want to Be On Call Anymore. Am I a Monster?](https://www.honeycomb.io/blog/devops-on-call)** (Honeycomb). Про то, каким дежурство должно быть, чтобы люди не выгорали, — и почему инструменты вокруг чата тут решают меньше, чем принятые в команде нормы.
 
 ### Стандарты и платформы
 
-- **[Slack Bolt Framework](https://slack.dev/bolt-js/concepts)** (official, JS / Python / Java). Modern standard для Slack bots — официальная SDK, replacing legacy Hubot для Slack-only.
+- **[Slack Bolt Framework](https://tools.slack.dev/bolt-js/)** (official, JS / Python / Java). Modern standard для Slack bots — официальная SDK, replacing legacy Hubot для Slack-only.
 - **[Telegram Bot API](https://core.telegram.org/bots/api)** (Telegram official). Бесплатная и простая alternative для команд вне корпоративного Slack. Inline keyboards, callback queries, group permissions — достаточно для большинства SRE use cases.
-- **[Mattermost Bots Documentation](https://developers.mattermost.com/integrate/plugins/components/bots/)**. Для команд с self-hosted chat (compliance, air-gapped environments).
+- **[Mattermost Bots Documentation](https://developers.mattermost.com/integrate/)**. Для команд с self-hosted chat (compliance, air-gapped environments).
 
 ### Инструменты
 
@@ -55,20 +55,19 @@ ChatOps как термин ввёл GitHub около 2011, выпустив [H
   - [Slack incoming webhooks](https://api.slack.com/messaging/webhooks), [Telegram bot sendMessage](https://core.telegram.org/bots/api#sendmessage) — низший уровень: HTTP POST из CI / monitoring tool.
   - [Alertmanager](https://prometheus.io/docs/alerting/latest/alertmanager/) Slack/Telegram receivers — alerts → chat без custom code.
 - **Pull / Action bots (frameworks):**
-  - [Slack Bolt](https://slack.dev/bolt-js/concepts) — modern Slack-first framework.
+  - [Slack Bolt](https://tools.slack.dev/bolt-js/) — modern Slack-first framework.
   - [Errbot](https://errbot.readthedocs.io/) — Python framework с plugin architecture; multi-platform (Slack / Telegram / IRC / XMPP). По моим наблюдениям, выбирают для self-hosted ситуаций или multi-platform.
   - [Hubot](https://hubot.github.com/) — исторический GitHub framework на CoffeeScript / JS. Сейчас legacy, но всё ещё работает; не рекомендовал бы для новых проектов.
   - [Lita](https://www.lita.io/) — Ruby framework, аналог Hubot.
 - **Incident-first ChatOps platforms:**
   - [incident.io](https://incident.io/) — Slack-native, commercial. Declare-incident / war-room / sitrep / postmortem-workflow — всё через slash-commands. По моим наблюдениям, доминирует в startup-сегменте.
-  - [FireHydrant](https://firehydrant.io/), [Rootly](https://rootly.com/), [Blameless](https://www.blameless.com/) — конкуренты incident.io, разный feature mix.
+  - [FireHydrant](https://firehydrant.com/), [Rootly](https://rootly.com/) — конкуренты incident.io, разный feature mix. Blameless из этого ряда исчез: FireHydrant купила его в 2024.
   - [Netflix Dispatch](https://github.com/Netflix/dispatch) — open-source, self-hosted; полный incident-lifecycle orchestrator с Slack-интеграцией.
-  - [PagerDuty Process Automation](https://www.pagerduty.com/platform/process-automation/) (ex-Rundeck) — enterprise-grade chat-triggered runbook automation.
+  - [PagerDuty Process Automation](https://www.pagerduty.com/platform/automation/) (ex-Rundeck) — enterprise-grade chat-triggered runbook automation.
 - **Specialized Telegram bots (мои примеры):**
   - [owl_clerk_bot](https://github.com/jtprogru/owl_clerk_bot) — bot-секретарь (заметки / reminders).
   - [py-tg-moder](https://github.com/jtprogru/py-tg-moder) — модерация Telegram-чата (anti-spam, captcha, ban-management).
-  - [chat-analytics-bot](https://github.com/jtprogru/chat-analytics-bot) — аналитика каналов + модерация.
-  - [tg-adminer](https://github.com/jtprogru/tg-adminer) — admin-tools для Telegram.
+  - Аналитика каналов с модерацией и админские инструменты для Telegram — эти два бота лежат в закрытых репозиториях, поэтому здесь без ссылок.
 - **CI/CD integrations:** GitHub Actions с notifications (включая [notiflow](https://github.com/jtprogru/notiflow)), GitLab CI Slack-integration, Argo Workflows + Slack/Telegram steps.
 
 ## Best practices

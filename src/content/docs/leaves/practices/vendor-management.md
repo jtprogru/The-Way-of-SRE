@@ -39,14 +39,14 @@ description: Engineering-практика управления зависимо�
 
 ### Книги
 
-- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/managing-load/)** (O'Reilly, 2016). Не отдельная глава про vendors, но главы про «load balancing» / «addressing cascading failures» содержат принципы, применимые к vendor incidents (graceful degradation, criticality levels).
+- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/addressing-cascading-failures/)** (O'Reilly, 2016), глава 22 «Addressing Cascading Failures». Отдельной главы про вендоров в книге нет, но механика каскада и приёмы вроде graceful degradation и уровней критичности переносятся на отказ внешнего поставщика один в один.
 - Mike Loukides, J. R. Storment, Mike Fuller — **[Cloud FinOps](https://www.finops.org/introduction/what-is-finops/)** (O'Reilly, 2nd ed., 2023). Не reliability-focused, но фундамент про vendor relationship management с финансово-операционной стороны. Полезно для границ ответственности SRE ↔ Procurement.
 - Will Larson — **[Staff Engineer](https://staffeng.com/)** (2021). Раздел про strategic decisions — vendor selection и concentration risk обсуждаются как пример типичного strategic call для staff IC.
 
 ### Статьи и доклады
 
 - Cloudflare — **[Cloudflare outage on June 21, 2022](https://blog.cloudflare.com/cloudflare-outage-on-june-21-2022/)** и **[July 2 2019 outage post-mortem](https://blog.cloudflare.com/cloudflare-outage/)**. Главный публичный кейс — см. ниже.
-- Fastly — **[Summary of June 8, 2021 outage](https://www.fastly.com/blog/summary-of-june-8-2021-outage)**. Customer configuration change на Fastly side, который положил большой кусок интернета (NYT, Reddit, Twitch, UK gov). Хороший случай для playbook discussion.
+- **Отказ Fastly 8 июня 2021 года**. Изменение конфигурации одного клиента разбудило спавший в коде дефект и на час положило заметную часть интернета — NYT, Reddit, Twitch, сайт британского правительства. Разбор Fastly публиковала у себя в блоге; по старым адресам он больше не открывается, ищите по дате. Хороший случай для playbook discussion.
 - AWS — **[Summary of the AWS Service Event in the US-EAST-1 Region, December 7 2021](https://aws.amazon.com/message/12721/)**. Связанный кейс: AWS как concentrated vendor; что значит «AWS down».
 - **[CrowdStrike outage of July 19, 2024](https://www.crowdstrike.com/falcon-content-update-remediation-and-guidance-hub/)**. Software vendor (security agent), не infrastructure vendor — но показательный кейс того, как vendor change может вывести из строя global IT.
 - **[Status Page Aggregators](https://stspg.io/)** и **[Atlassian Statuspage](https://www.atlassian.com/software/statuspage)**. Не статья, но pointer к infrastructure для vendor monitoring.
@@ -61,7 +61,7 @@ description: Engineering-практика управления зависимо�
 
 ## Best practices
 
-Главный публичный кейс — **Cloudflare outage, July 2, 2019** (примерно 30 минут, ~50% всего HTTP-трафика интернета affected). Регулярное expression в WAF rule вызвало CPU exhaustion на edge серверах; ошибка попала в production без catching в pre-prod environments. **Что показал инцидент:** даже компании уровня Reddit, Twitch, Discord были effectively down, потому что Cloudflare — concentrated single point of failure для half of internet. Я регулярно вижу команды, у которых «у нас Cloudflare» как полный ответ на вопрос «что у вас по DDoS / DNS / CDN», без понимания, что **vendor concentration** — это reliability risk, и в день Cloudflare outage любая redundancy на собственной инфраструктуре уже бесполезна. Это не аргумент против Cloudflare — это аргумент за **vendor incident playbook**: что мы делаем (degraded mode? read-only? bypass CDN?), когда vendor up за пределами нашего контроля.
+Главный публичный кейс — **Cloudflare outage, July 2, 2019**. Регулярное выражение в правиле WAF вызвало CPU exhaustion на edge-серверах; ошибка попала в production, не отловленная на пути туда. Двадцать семь минут глобальный трафик самого Cloudflare был ниже нормы примерно на 82 процента — и вместе с ним лежали сайты, которые никакого отношения к деплою этого правила не имели. **Что показал инцидент:** даже Reddit, Twitch и Discord оказались недоступны, потому что все они прятались за одним и тем же провайдером. Оговорюсь про масштаб, потому что его любят преувеличивать: речь не про половину интернета, а про одного провайдера, через которого проходит порядка десятой части веб-трафика. Этого хватило, чтобы день выдался запоминающимся. Я регулярно вижу команды, у которых «у нас Cloudflare» как полный ответ на вопрос «что у вас по DDoS / DNS / CDN», без понимания, что **vendor concentration** — это reliability risk, и в день Cloudflare outage любая redundancy на собственной инфраструктуре уже бесполезна. Это не аргумент против Cloudflare — это аргумент за **vendor incident playbook**: что мы делаем (degraded mode? read-only? bypass CDN?), когда vendor up за пределами нашего контроля.
 
 **Короткие правила:**
 
