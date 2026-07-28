@@ -39,7 +39,7 @@ description: Sidecar-proxy слой для mTLS, traffic shifting и L7-observab
 ### Книги
 
 - Lee Calcote, Nic Jackson — **[Istio: Up and Running](https://www.oreilly.com/library/view/istio-up-and/9781492043775/)** (O'Reilly, 2019). Немного устарела по конкретным API, но архитектурный фундамент Istio описан правильно. Главы про data plane / Envoy — best part.
-- William Morgan et al. — **[The Linkerd Book](https://linkerd.io/the-book/)** (Buoyant, online, 2024+). Бесплатно. Концептуально чище Istio'шной документации; читается за выходные.
+- **[Документация Linkerd](https://linkerd.io/2/overview/)** (Buoyant). Бесплатно и концептуально чище, чем у Istio: устройство прокси, identity, mTLS разобраны без лишнего. Читается за выходные.
 
 ### Статьи и доклады
 
@@ -47,7 +47,7 @@ description: Sidecar-proxy слой для mTLS, traffic shifting и L7-observab
 - Istio — **[What is a service mesh?](https://istio.io/latest/about/service-mesh/)**. Каноническое определение «изнутри проекта». Полезно для базовых терминов, но смотреть критически — Istio объяснит, почему mesh всегда полезен.
 - Matt Klein (Envoy author) — **[Service Mesh Data Plane vs. Control Plane](https://medium.com/@mattklein123/service-mesh-data-plane-vs-control-plane-2774e720f7fc)**. Короткая статья от автора Envoy про разделение data/control plane — концепт, без которого mesh-дискуссия превращается в магию.
 - Cindy Sridharan — **[The Mythical Service Mesh](https://copyconstruct.medium.com/the-mythical-service-mesh-c0e1f6f4c1e9)**. Контраргумент к «mesh решает всё»; полезно читать до выбора mesh.
-- Buoyant — **[Performance Benchmarks: Linkerd vs Istio](https://buoyant.io/2021/05/27/linkerd-vs-istio-benchmarks/)**. Старо, но методология честная — измерять latency overhead под realistic load, а не на «hello world».
+- Buoyant — **[сравнение Linkerd и Istio](https://buoyant.io/linkerd-vs-istio)**. Материал вендора одной из сторон, и читать его надо с этой поправкой; ценно другое — методология замеров, где overhead меряют под реалистичной нагрузкой, а не на «hello world».
 - **[Lyft Envoy origin story](https://www.youtube.com/watch?v=RVZX4CwKhGE)** (Matt Klein, KubeCon 2018) — публичный case study, как родился Envoy — см. ниже.
 
 ### Инструменты
@@ -55,7 +55,7 @@ description: Sidecar-proxy слой для mTLS, traffic shifting и L7-observab
 - **[Envoy](https://www.envoyproxy.io/)** — индустриальный стандарт data plane. По моим наблюдениям, в 2026 ~80% mesh-инсталляций используют Envoy так или иначе (через Istio, Consul Connect, кастомные сборки).
 - **[Istio](https://istio.io/)** — самый feature-rich control plane. Подходит, когда нужно «всё»: mTLS + traffic management + multi-cluster + extensible policy. Цена — сложность операций.
 - **[Linkerd](https://linkerd.io/)** — alternative с фокусом «делает три вещи хорошо». Свой data plane (linkerd2-proxy на Rust), меньше footprint, проще операции. По моим наблюдениям, чаще выбирают, когда команда хочет mesh без штатного «mesh-engineer».
-- **[Cilium Service Mesh](https://cilium.io/use-cases/service-mesh/)** / **[Istio Ambient Mesh](https://istio.io/latest/blog/2022/introducing-ambient-mesh/)** — sidecar-less подход (eBPF / per-node proxy). На 2026 — emerging, ещё не «boring choice». Перспективно, но смотреть на production-readiness в context'е конкретной задачи.
+- **[Cilium Service Mesh](https://cilium.io/use-cases/service-mesh/)** / **[Istio Ambient](https://istio.io/latest/blog/2024/ambient-reaches-ga/)** — sidecar-less подход (eBPF / per-node proxy). Ambient добрался до GA в Istio 1.24 в ноябре 2024, то есть формально это уже не эксперимент.
 - **[Consul Connect](https://www.consul.io/docs/connect)** — mesh от HashiCorp, integrated с Consul service discovery. Выбор, когда уже есть Consul-стек.
 - **[Kiali](https://kiali.io/)** — UI для Istio: service graph, traffic flow, configuration validation. По моим наблюдениям, единственный mesh-debugger, который не открывает Envoy admin вручную.
 - **`istioctl analyze`** / **`linkerd check`** — sanity-check tools от самих проектов. Запускать перед каждым upgrade.
@@ -78,7 +78,7 @@ description: Sidecar-proxy слой для mTLS, traffic shifting и L7-observab
 
 **Traffic shifting через mesh ≠ progressive delivery.** Часто слышу «у нас canary через Istio»: 90% трафика на v1, 10% на v2, mesh сделает routing. Это traffic shifting — не progressive delivery. Progressive delivery (см. [Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)) включает автоматический rollback по SLI-нарушению, не только routing. Mesh даёт mechanism (routing rules); policy (когда катить дальше, когда откатывать) — отдельный слой. Flagger / Argo Rollouts соединяют эти два.
 
-**Ambient/sidecar-less mesh — на 2026 это «watching, not adopting» для большинства.** Cilium Service Mesh, Istio Ambient — направления, в которых индустрия движется (избавиться от sidecar в каждом pod в пользу per-node proxy через eBPF). Концептуально привлекательно: меньше footprint, проще upgrade, нет sidecar startup-tax. Реально на 2026 — feature-parity с sidecar-mode не везде, production case studies ограниченные. По моим наблюдениям, для большинства команд healthy позиция — sidecar-based mesh сейчас, ambient через 12–18 месяцев когда созреют tooling и documentation.
+**Ambient/sidecar-less mesh — уже не эксперимент, но и не автоматический выбор.** Cilium Service Mesh и Istio Ambient избавляются от sidecar в каждом pod в пользу per-node proxy. Концептуально привлекательно: меньше footprint, проще upgrade, нет sidecar startup-tax. Ambient официально стал стабильным в Istio 1.24 (ноябрь 2024), так что аргумент «это ещё бета» больше не работает. Осторожность теперь в другом: публичных разборов эксплуатации ambient на серьёзном масштабе по-прежнему мало, а модель отладки в нём отличается от привычной sidecar-схемы. Если mesh у вас уже работает и не болит — мигрировать ради самой миграции незачем; если ставите mesh с нуля на свежем кластере, ambient стоит рассматривать наравне с sidecar, а не «через год».
 
 ## Связанные листья
 

@@ -43,9 +43,9 @@ description: Hypothesis-driven эксперименты для проверки 
 
 ### Статьи и доклады
 
-- **[Principles of Chaos Engineering](https://principlesofchaos.org/)** (2017). Основополагающий документ от Netflix-команды. Короткий, читается за 10 минут.
+- **[Principles of Chaos Engineering](https://principlesofchaos.org/)** (2015). Основополагающий документ от Netflix-команды, которым дисциплина и была формально названа. Короткий, читается за 10 минут.
 - **[Netflix Tech Blog — Chaos Engineering Upgraded](https://netflixtechblog.com/chaos-engineering-upgraded-878d341f15fa)** (2015). История эволюции от Chaos Monkey к ChAP. Главный кейс листа — см. ниже.
-- Adrian Cockcroft — **[Chaos Engineering: An Antifragile Approach](https://www.infoq.com/presentations/chaos-engineering-antifragile/)** (InfoQ). Связь chaos engineering с антифрагильностью Талеба, обоснование «почему chaos в production».
+- Casey Rosenthal — **[Principles of Chaos Engineering](https://www.usenix.org/conference/srecon17americas/program/presentation/rosenthal)** (SREcon17 Americas). Доклад одного из авторов манифеста: откуда взялись принципы и почему эксперимент ставится именно в проде.
 - Kelly Shortridge, Aaron Rinehart — **[Security Chaos Engineering](https://www.oreilly.com/library/view/security-chaos-engineering/9781098113810/)** (O'Reilly, 2023). Применение chaos к security-controls: validation через эксперименты, не статический audit.
 
 ### Инструменты
@@ -54,7 +54,7 @@ description: Hypothesis-driven эксперименты для проверки 
 - **[Litmus](https://litmuschaos.io/)** (CNCF, k8s) — альтернатива Chaos Mesh с богатым каталогом готовых experiments (ChaosHub) и Argo Workflows integration.
 - **[AWS Fault Injection Service](https://aws.amazon.com/fis/) / [Azure Chaos Studio](https://learn.microsoft.com/en-us/azure/chaos-studio/)** — managed chaos в cloud providers: EC2 instance termination, EBS pause, API throttling, network disruption. Без своего chaos-operator.
 - **[Chaos Toolkit](https://chaostoolkit.org/)** — open-source declarative experiments в JSON/YAML. Multi-provider. Берут, когда нужен инструмент-agnostic к runtime.
-- **[Gremlin](https://www.gremlin.com/) / [Steadybit](https://www.steadybit.com/) / [Verica](https://www.verica.io/)** — commercial платформы. Reliable safety controls (auto-abort на SLO), визуальный experiment builder, журнал аудита для regulatory.
+- **[Gremlin](https://www.gremlin.com/) / [Steadybit](https://www.steadybit.com/)** — commercial платформы. Reliable safety controls (auto-abort на SLO), визуальный experiment builder, журнал аудита для regulatory.
 - **[Pumba](https://github.com/alexei-led/pumba)** — Docker-focused chaos: pause / kill / netem / stress в локальном Docker. Lightweight для experiments на dev-машине.
 
 ## Best practices

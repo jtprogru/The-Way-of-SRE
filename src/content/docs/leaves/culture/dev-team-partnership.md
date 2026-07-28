@@ -46,8 +46,8 @@ description: Партнёрство SRE с продуктовыми команд
 
 ### Статьи и доклады
 
-- Google SRE — **[The Evolution of SRE at Google](https://sre.google/resources/practices-and-processes/evolution-of-sre-at-google/)**. История перехода от «SRE как ops» к «SRE как partner» — полезно для убеждения скептиков.
-- Liz Fong-Jones — **[SRE Doesn't Scale](https://www.usenix.org/conference/srecon19americas/presentation/fong-jones)** (SREcon). Доводы за shared responsibility и против выделенных SRE-«пожарных».
+- Google SRE — **[practices and processes](https://sre.google/resources/practices-and-processes/)**. Подборка материалов о том, как у них устроено взаимодействие SRE с продуктовыми командами: engagement model, критерии, при которых SRE берёт сервис на поддержку, и при которых возвращает обратно.
+- Liz Fong-Jones — **[доклады на SREcon](https://www.usenix.org/conference/srecon19emea/presentation/fong-jones)**. Доводы за shared responsibility и против выделенных SRE-«пожарных»; она возвращается к этой теме из года в год.
 - DORA — **[State of DevOps Report](https://dora.dev/research/)**. Исследования по team interaction patterns.
 
 ### Инструменты

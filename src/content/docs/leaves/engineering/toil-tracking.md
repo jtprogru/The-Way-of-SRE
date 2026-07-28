@@ -18,7 +18,7 @@ description: Обнаружение, классификация и измере�
 Главный навык на уровне L5 — поддерживать **toil budget команды** в реальности, а не на бумаге. Google SRE convention — ≤ 50% на инженера; на практике в командах, которые я наблюдаю, это либо игнорируется (80%+ toil как норма), либо превращается в KPI без обратной связи. Toil budget работает, только когда over budget автоматически означает приоритизацию автоматизации **выше** feature work — иначе это просто число.
 
 **L3**
-- Понимает каноническое определение toil (5 критериев); различает toil и project work, не сваливает всё «нелюбимое» в toil.
+- Понимает каноническое определение toil (шесть признаков: ручная, повторяющаяся, автоматизируемая, тактическая, не создающая долговременной ценности работа, объём которой растёт линейно с сервисом); различает toil и project work, не сваливает всё «нелюбимое» в toil.
 - Фиксирует свой toil еженедельно (что / сколько времени / категория); делает это **в момент** работы, не «вспомню в пятницу».
 
 **L4**
@@ -38,7 +38,7 @@ description: Обнаружение, классификация и измере�
 
 ### Книги
 
-- Vivek Rau (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/eliminating-toil/)** (O'Reilly, 2016), глава 5 «Eliminating Toil». Каноническое определение toil (5 критериев), правило ≤ 50% per SRE, тезис «toil scales linearly while engineering scales sublinearly».
+- Vivek Rau (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/eliminating-toil/)** (O'Reilly, 2016), глава 5 «Eliminating Toil». Каноническое определение toil через шесть признаков, правило ≤ 50% per SRE, тезис «toil scales linearly while engineering scales sublinearly».
 - David Challoner et al. — **[The Site Reliability Workbook](https://sre.google/workbook/eliminating-toil/)** (O'Reilly, 2018), глава 6 «Eliminating Toil». Таксономия источников toil, стратегии управления, два детальных case study из Google.
 
 ### Статьи и фреймворки

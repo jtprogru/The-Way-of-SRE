@@ -53,7 +53,7 @@ description: SRE-практика управления стоимостью об
 
 - **[Kubecost / OpenCost](https://www.opencost.io/)** — k8s-native cost allocation по namespace / label / workload. По моим наблюдениям, де-факто стандарт там, где cluster shared между командами.
 - **AWS Cost Explorer / GCP Cloud Billing / Azure Cost Management** — нативные cloud-tools; минимальный must-have. Для мульти-окружения и сравнения месяц-к-месяцу — хватает на старте.
-- **[Vantage](https://www.vantage.sh/)** / **[Cloudability](https://www.apptio.com/products/cloudability/)** / **[CloudHealth](https://cloud.vmware.com/cloudhealth)** — third-party FinOps platforms; выбирают, когда нужен multi-cloud view и продвинутый allocation.
+- **[Vantage](https://www.vantage.sh/)** / **[Cloudability](https://www.apptio.com/products/cloudability/)** / **[CloudHealth](https://www.cloudhealthtech.com/)** — third-party FinOps platforms; выбирают, когда нужен multi-cloud view и продвинутый allocation.
 - **[Spot.io](https://spot.io/)** / **[Karpenter](https://karpenter.sh/)** — автоматизация spot / preemptible compute. Karpenter — open-source, k8s-native; чаще выбирают для новых k8s-кластеров вместо Cluster Autoscaler.
 - **Анти-инструмент:** «ручной cost review раз в месяц без integration с alerting» — выглядит как practice, но реагирует с lag в месяц.
 

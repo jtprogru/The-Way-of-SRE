@@ -43,7 +43,7 @@ description: Измерение перед оптимизацией — pprof, p
 
 - Brendan Gregg — **[Systems Performance: Enterprise and the Cloud](https://www.brendangregg.com/systems-performance-2nd-edition-book.html)** (Addison-Wesley, 2-е изд., 2020). Каноническая книга. Если выбирать одну — эту. USE method, методологии, конкретные tools для Linux. 800+ страниц, но используется главами, не линейно.
 - Brendan Gregg — **[BPF Performance Tools](https://www.brendangregg.com/bpf-performance-tools-book.html)** (Addison-Wesley, 2019). eBPF-revolution в profiling — следующий шаг после classical perf. Practical, с готовыми инструментами (bcc-tools).
-- Daniel J. Bernstein — **[The Sound and the Furby (qmail anti-spam talk transcript)](https://cr.yp.to/talks/2003.03.21/slides.pdf)** (2003). Не perf-книга, но фундаментальное эссе: «before optimizing X, prove X matters». Подкладывает philosophical baseline.
+- Дональд Кнут, **«преждевременная оптимизация — корень всех зол»** (Computing Surveys, 1974). Цитату знают все, продолжение — почти никто: Кнут там же говорит, что оставшиеся три процента кода оптимизировать необходимо, и что решать, какие именно, должны измерения. Ровно эта половина фразы и есть содержание профилирования.
 - Andrei Alexandrescu — **[Modern C++ Design](https://erdani.com/index.php/books/modern-c-design/)** (Addison-Wesley, 2001). C++-specific, но раздел про template-based optimization — про дисциплину «measure first».
 
 ### Статьи и доклады
@@ -67,7 +67,9 @@ description: Измерение перед оптимизацией — pprof, p
 
 ## Best practices
 
-Главный публичный кейс — **Brendan Gregg's CPU flame graph work at Netflix (~2014–2015)**. Gregg опубликовал серию blog posts: одна команда жаловалась на «Java тормозит»; flame graph за 30 секунд показал, что 90% CPU в одной regex-evaluation внутри logger'а, не в business logic. Одно изменение конфигурации логгера дало 8x speedup. Это canonical пример того, как flame graph **меняет рамку дебага**: вместо «давайте перепишем X на Y», вопрос становится «где actual hotspot и стоит ли его трогать». Я регулярно вижу команды, которые читали про flame graph, но не использовали его в работе — и решают perf-задачи через code review / hypothesis-driven changes. Flame graph не требует expertise; требует только привычки запустить его раньше, чем редактор кода.
+Главный публичный кейс — **работа Брендана Грегга и Мартина Спира над Java-профилированием в Netflix, статья «Java in Flames» (2015)**. Сам flame graph Грегг придумал раньше, в 2011 году, но Java долго оставалась для него слепой зоной: системные профайлеры вроде `perf` видели системные стеки, но не видели Java-методов (JIT не отдаёт таблицу символов), а JVM-профайлеры видели ровно наоборот. Пока картина была разорвана пополам, спорить о том, где на самом деле горит CPU, можно было бесконечно. Решение оказалось прозаичным до обидного: флаг `-XX:+PreserveFramePointer`, появившийся в JDK 8u60, — и стек снова стал целым, а профиль — смешанным, от ядра до прикладного метода.
+
+Мне этот кейс нравится тем, что он не про героическую находку, а про инструмент, которого просто не было. Пока его нет, команда обсуждает производительность гипотезами: «наверное, тормозит сериализация», «давай перепишем этот сервис на другом языке». Как только появляется целый профиль, обсуждение сводится к одному вопросу — где реальный hotspot и стоит ли его вообще трогать. Я регулярно вижу команды, которые читали про flame graph, но ни разу его не запускали, и продолжают решать perf-задачи через code review. Flame graph не требует экспертизы; требует только привычки открыть его раньше, чем редактор кода.
 
 **Короткие правила:**
 

@@ -38,7 +38,7 @@ description: Применение chaos-экспериментов к security-�
 ### Книги
 
 - Kelly Shortridge, Aaron Rinehart — **[Security Chaos Engineering: Sustaining Resilience in Software and Systems](https://www.oreilly.com/library/view/security-chaos-engineering/9781098113810/)** (O'Reilly, 2023). Каноническая книга темы. Главный тезис — security как property сложной системы, которую надо проверять экспериментально, а не аудитом по чеклисту. Если читать одну вещь по SCE — эту.
-- Aaron Rinehart, Kelly Shortridge — **[Security Chaos Engineering (раннее издание-отчёт)](https://www.verica.io/sce-book/)** (O'Reilly report, 2020). Короткий бесплатный предшественник книги; хорош как первое знакомство за час.
+- Aaron Rinehart, Kelly Shortridge — **Security Chaos Engineering** (O'Reilly report, 2020). Короткий предшественник полноценной книги; хорош как первое знакомство за час, но раздавался через сайт Verica и сейчас со старых адресов не открывается — искать по названию.
 - Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), главы про testing и continuous validation. Google-перспектива на проверку security-свойств в большой системе.
 
 ### Статьи и доклады

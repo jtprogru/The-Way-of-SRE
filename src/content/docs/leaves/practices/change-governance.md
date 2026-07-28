@@ -47,7 +47,7 @@ description: Дисциплина границ изменения в production 
 ### Статьи и доклады
 
 - **[ITIL 4: Change Enablement](https://www.axelos.com/certifications/itil-service-management/itil-4-foundation)**. Современный ITIL отказался от «Change Management» в пользу «Change Enablement» (subtle, но важный shift). Полезно для словаря и для разговора с enterprise IT.
-- Knight Capital Group — **[SEC Filing on August 1 2012 trading loss](https://www.sec.gov/litigation/admin/2013/34-70694.pdf)**. Не статья про governance, но первичный источник кейса (см. ниже).
+- Knight Capital Group — **[распоряжение SEC по итогам разбора событий 1 августа 2012 года](https://www.sec.gov/files/litigation/admin/2013/34-70694.pdf)** (Release 34-70694). Не статья про governance, но первичный источник кейса: там по шагам расписано, что именно пошло не так с выкаткой (см. ниже).
 - John Allspaw — **[On Being a Senior Engineer](https://www.kitchensoap.com/2012/10/25/on-being-a-senior-engineer/)** (Kitchen Soap, 2012). Косвенно: change governance — это senior judgement, а не process; стандарты appropriated for context.
 
 ### Инструменты
@@ -60,7 +60,7 @@ description: Дисциплина границ изменения в production 
 
 ## Best practices
 
-Главный публичный кейс — **Knight Capital Group, August 1, 2012**. За 45 минут утром на Уолл-стрит компания потеряла **$440M** из-за deploy-ошибки: deploy script был run на 7 из 8 серверов; восьмой сервер запустил старую версию кода с repurposed feature flag, отправил миллиарды buy/sell orders и обанкротил компанию через 4 дня. SEC-документ детально разбирает: не было PRR для repurposed feature flag, deploy script не проверял consistency между серверами, rollback procedure не валидировалась. Я регулярно вижу команды, у которых такое же сочетание факторов («deploy на N серверов, потом проверим»; «feature flag repurposed без change record») — но без trading-volume Knight Capital impact меньше, и команда не учится. Knight Capital — лучший public reminder того, что governance не nice-to-have.
+Главный публичный кейс — **Knight Capital Group, August 1, 2012**. За 45 минут утром на Уолл-стрит компания потеряла **$440M** из-за deploy-ошибки: deploy script был run на 7 из 8 серверов; восьмой сервер запустил старую версию кода с repurposed feature flag и отправил на биржу миллионы ошибочных заявок. Компания не обанкротилась в прямом смысле — через четыре дня её спасли экстренным вливанием капитала, но самостоятельным бизнесом она быть перестала и в следующем году была поглощена. Разница между «умерла» и «перестала себе принадлежать» в этой истории невелика. SEC-документ детально разбирает: не было PRR для repurposed feature flag, deploy script не проверял consistency между серверами, rollback procedure не валидировалась. Я регулярно вижу команды, у которых такое же сочетание факторов («deploy на N серверов, потом проверим»; «feature flag repurposed без change record») — но без trading-volume Knight Capital impact меньше, и команда не учится. Knight Capital — лучший public reminder того, что governance не nice-to-have.
 
 **Короткие правила:**
 

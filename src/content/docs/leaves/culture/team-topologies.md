@@ -44,13 +44,13 @@ description: Сознательный дизайн команд и режимо�
 ### Статьи и доклады
 
 - Matthew Skelton, Manuel Pais — **[teamtopologies.com](https://teamtopologies.com/)** (живой сайт + блог). Регулярные кейсы и уточнения; полезен в первую очередь раздел «Industry examples». Skelton сам публикует ответы на типичные неверные интерпретации.
-- Charles Betz — **[Team Topologies in the Real World](https://www.forrester.com/blogs/team-topologies-in-the-real-world/)** (Forrester). Критический взгляд: где рамка работает, где упрощает реальность. Не подмена книге, но полезный counter-balance.
+- Критику рамки стоит искать отдельно: у неё есть системная слабость — четыре типа команд и три режима взаимодействия описывают целевое состояние, но почти ничего не говорят про переход из текущего. Всё, что я видел в публичном поле, — это либо восторженные внедрения, либо частные жалобы; вменяемого разбора «где рамка ломается» мне не попадалось.
 - Henrik Kniberg — **[Spotify Engineering Culture](https://blog.crisp.se/2014/03/27/henrikkniberg/spotify-engineering-culture-part-1)** (2014). Не Team Topologies, но Spotify-model часто упоминают рядом. Skelton явно пишет, что Spotify-model часто неверно копируют — статья помогает понять разницу.
 
 ### Инструменты
 
 - **Team API Canvas** — однополосный документ команды: purpose, communications channels, response time, dependencies, on-call schedule. Я регулярно вижу, что это самый дешёвый и при этом самый ценный артефакт Team Topologies — превращает «мы платформенная команда» в конкретный контракт с потребителями.
-- **[Conway's Law Inversion exercise](https://teamtopologies.com/key-concepts-content/inverse-conway-maneuver)** — упражнение от Skelton/Pais: на whiteboard рисуем желаемую архитектуру, отсюда выводим team boundaries. Полезен на старте реструктуризации.
+- **[Ключевые концепции Team Topologies](https://teamtopologies.com/key-concepts)** — в том числе inverse Conway maneuver: на whiteboard рисуем желаемую архитектуру, отсюда выводим team boundaries. Полезен на старте реструктуризации.
 - **Cognitive load assessment** — qualitative оценка («сколько сервисов и технологий держит команда в голове, чтобы продолжать работать»). Skelton предлагает шкалу 1–5; на практике достаточно red/yellow/green. Без assessment platform-инвестиции делаются вслепую.
 - **Service catalog с явным владельцем и team API** — [Backstage](https://backstage.io/) и аналоги. Без catalog'а stream-aligned teams тратят время на «кому это принадлежит» — это прямой проигрыш Team Topologies на масштабе.
 

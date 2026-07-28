@@ -38,13 +38,13 @@ description: Работа с не-инженерными стейкхолдер�
 
 ### Книги
 
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/engaging-with-stakeholders/)** (O'Reilly, 2018), глава 32 «Engaging with Stakeholders». Главный SRE-специфичный источник: customer SLOs, internal SLOs, infrastructure SLOs, как stakeholder map определяет, какие SLOs обсуждаются с кем. Лучшая стартовая глава, если читаете один источник по теме.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/table-of-contents/)** (O'Reilly, 2018). SRE-специфика разговора со стейкхолдерами разбросана по главам про SLO и про внедрение SRE в организации: чьи SLO обсуждаются с кем, как договариваться о целях надёжности с продуктом и руководством.
 - Camille Fournier — **[The Manager's Path](https://www.oreilly.com/library/view/the-managers-path/9781491973882/)** (O'Reilly, 2017), главы про tech lead и engineering manager. Не SRE-специфично, но раскрывает skill коммуникации с non-engineering stakeholders на уровне tech lead — что для senior SRE применимо напрямую.
 - Will Larson — **[Staff Engineer](https://staffeng.com/book)** (2021). Главы «Writing an engineering strategy» и «Staying technical»: как senior IC (без manager-ladder) влияет на decisions через writing и evidence. Senior SRE, который не хочет в management, должен читать.
 
 ### Статьи и доклады
 
-- Charity Majors — **[Engineers and Their Many Hats](https://charity.wtf/2017/01/24/some-management-thoughts/)** (charity.wtf). Не про stakeholder management напрямую, но про **на каких языках говорить с каждой ролью** в org. Главное: разные стейкхолдеры решают разные вопросы, одно и то же сообщение работает по-разному.
+- Charity Majors — **[Reasons Not to Be a Manager](https://charity.wtf/2019/09/08/reasons-not-to-be-a-manager/)** (charity.wtf). Не про stakeholder management напрямую, но про то, **на каких языках говорят разные роли** в организации и почему инженеру не стоит путать влияние с должностью. Главное: разные стейкхолдеры решают разные вопросы, одно и то же сообщение работает по-разному.
 - Larson, Daniel & Donskoi — **[Engineering Strategy](https://lethain.com/eng-strategies/)** (lethain.com). Series статей о том, как формулировать инженерную стратегию для exec stakeholders. SRE-функция — частный случай.
 - Mathias Lafeldt — **[Communicating SRE: Influence Without Authority](https://medium.com/@mlafeldt/communicating-sre-influence-without-authority-3d3dbeb31e7b)**. Один из немногих публичных материалов на тему conscious SRE stakeholder management. Полезен как ориентир направления, не как методичка.
 

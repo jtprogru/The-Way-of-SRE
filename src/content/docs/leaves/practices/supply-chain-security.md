@@ -15,7 +15,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — проектировать **SLSA-compliant pipeline** под нужный target level. SLSA Level 2 (provenance generated, hosted build) — достижимый baseline для большинства команд. Level 3 (provenance non-forgeable, isolated build) — для production-critical артефактов. Level 4 (hermetic, two-party review) — для regulated industries. По моим наблюдениям, команды без SLSA-фреймворка ставят defenses неконсистентно — что-то pin'нут, что-то не pin'нут, что-то sign'нут, что-то нет.
+Главный навык на уровне L5 — проектировать **SLSA-compliant pipeline** под нужный target level. Уровней с версии 1.0 три, а не четыре, как было в черновике 0.1: Build L1 — provenance просто существует; Build L2 — сборка идёт на выделенной площадке и provenance подписан; Build L3 — площадка изолирует сборки друг от друга и не даёт шагам сборки добраться до ключей подписи. Старый Level 4 с требованиями к исходникам из спецификации убрали, разделив её на треки, так что ссылаться на «SLSA 4» сейчас — верный признак, что человек читал документацию три года назад. Достижимый baseline для большинства команд — L2; L3 имеет смысл для production-critical артефактов. По моим наблюдениям, команды без SLSA-фреймворка ставят defenses неконсистентно — что-то pin'нут, что-то не pin'нут, что-то sign'нут, что-то нет.
 
 **L4**
 - Понимает scope `software supply chain` — это не только OSS dependencies, а **вся** цепочка: source repository → build runner → artifact registry → deployment → runtime.
@@ -23,7 +23,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 - Внедряет **Pipeline-as-Code в репо** (не в UI), все CI/CD secrets через **OIDC federation** (короткоживущие токены), а не long-lived PATs. Build steps pinned by digest (`@sha256:...`), не by mutable tag.
 
 **L5**
-- Проектирует **SLSA-compliant pipeline** — выбирает target level (1–4) по compliance/criticality.
+- Проектирует **SLSA-compliant pipeline** — выбирает target level (Build L1–L3) по compliance/criticality.
 - Генерирует и публикует **SBOM** (Software Bill of Materials) — SPDX или CycloneDX, генерация в CI каждого артефакта (Syft / cdxgen), attestation подписан.
 - Применяет **artifact signing & verification** — Sigstore cosign для container images и release artifacts, keyless signing через OIDC, admission policies в k8s для verify-on-deploy.
 - Защищается от **dependency confusion и typosquatting** — internal packages с reserved namespace в public registry, strict resolver config (no fallback от private к public), allow-list maintained internal-mirror.
@@ -44,7 +44,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 ### Статьи и доклады
 
 - **[The xz-utils backdoor (CVE-2024-3094) — Andres Freund's discovery](https://www.openwall.com/lists/oss-security/2024/03/29/4)**. Главный публичный кейс — см. ниже.
-- **[The SolarWinds Cyberattack — CISA report](https://www.cisa.gov/news-events/news/remediating-networks-affected-solarwinds-and-active-directory-m365-compromise)**. Переломный инцидент: атакующие вошли через build system и подписали malicious update легитимным cert. Читать для понимания, почему build environment integrity критично.
+- **[SolarWinds: рекомендации CISA пострадавшим сетям](https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-008a)** (Alert AA21-008A). Переломный инцидент: атакующие вошли через build system и подписали malicious update легитимным cert. Читать для понимания, почему build environment integrity критично — и заодно чтобы оценить масштаб зачистки, которая требуется после такого класса компрометации.
 - **[Codecov Bash Uploader Compromise](https://about.codecov.io/security-update/)**. Build pipeline compromise через подменённый Docker image; secrets из CI клиентов утекли.
 - **[Reproducible Builds](https://reproducible-builds.org/)**. Movement и tooling за bit-for-bit reproducibility — основа для verifiable build attestations.
 - **[OpenSSF Scorecard](https://github.com/ossf/scorecard)**. Automated assessment OSS репозиториев по security practices.
@@ -76,7 +76,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 
 **SBOM как foundational artifact — генерируется per-build, attested, archived.** «SBOM сгенерируем когда compliance аудит попросит» — антипаттерн: без historical SBOM невозможно ответить «в какой версии артефакта был vulnerable package» — критично для incident response при обнаружении CVE через 6 месяцев после релиза. SBOM генерируется в CI как artifact каждого build (Syft / cdxgen), attached к release, archived с retention ≥1 год. Format — SPDX (ISO standard) или CycloneDX (богаче на metadata).
 
-**Dependency confusion — реальный риск, защита через namespace reservation.** Internal package `mycompany-utils` существует только во внутреннем registry, public registry не проверяется. Атакующий публикует `mycompany-utils@99.0.0` в public npm/PyPI; resolver с fallback к public берёт его (higher version wins). Защита: scope в public registry (`@mycompany/utils` зарезервирован), strict resolver config (`registry=https://internal/`, no public fallback), либо allow-list через internal-mirror. Atlassian / Microsoft / Yelp писали о реальных инцидентах в 2021.
+**Dependency confusion — реальный риск, защита через namespace reservation.** Internal package `mycompany-utils` существует только во внутреннем registry, public registry не проверяется. Атакующий публикует `mycompany-utils@99.0.0` в public npm/PyPI; resolver с fallback к public берёт его (higher version wins). Защита: scope в public registry (`@mycompany/utils` зарезервирован), strict resolver config (`registry=https://internal/`, no public fallback), либо allow-list через internal-mirror. Класс атак открыл Алекс Бирсан в феврале 2021: он выпустил пакеты с именами внутренних библиотек в публичные реестры и получил выполнение кода внутри Apple, Microsoft, PayPal, Shopify, Netflix, Tesla, Uber и ещё трёх десятков компаний, заработав на этом больше 130 тысяч долларов bug bounty. Обратите внимание, что от него не потребовалось ни одной уязвимости в обычном смысле слова — только имена внутренних пакетов, утёкшие в публичные артефакты.
 
 ## Связанные листья
 
@@ -89,7 +89,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — supply chain compromise — особый класс инцидентов: огромный blast radius, remediation требует revoke-and-rotate scope.
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — security-side зависимостей (этот лист) и reliability-side (vendor management) — соседние практики с общим vendor inventory.
 - **[Workload Identity](/The-Way-of-SRE/leaves/practices/workload-identity/)** — OIDC federation в CI убирает long-lived credentials в build pipeline; signed artifact ↔ workload identity, который собрал артефакт — часть SLSA chain.
-- **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — SOC 2 / ISO 27001 vendor risk requirements + EU Cyber Resilience Act (в силе с 2024) — первый regulatory mandate с конкретными supply chain requirements.
+- **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — SOC 2 / ISO 27001 vendor risk requirements + EU Cyber Resilience Act — первый regulatory mandate с конкретными supply chain requirements. Регламент вступил в силу 10 декабря 2024, но основные обязанности производителей начинают действовать только с 11 декабря 2027, а требования по отчётности об уязвимостях — с сентября 2026. То есть время подготовиться формально есть, и именно поэтому большинство команд к нему ещё не приступало.
 
 ## Открытые вопросы
 

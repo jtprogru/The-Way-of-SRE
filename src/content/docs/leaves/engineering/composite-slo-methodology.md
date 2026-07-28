@@ -11,7 +11,7 @@ description: Математика multi-component SLO — серийные / п�
 - **Статус:** draft
 :::
 
-«Наш SLO — 99.95%» — типичная декларация после quarterly planning. Если посмотреть на сервис-граф: 4 зависимости с vendor SLA 99.9% ([auth](/The-Way-of-SRE/glossary/#auth), payment, CDN, managed DB), 2 internal-сервиса с 99.99%, shared DNS / TLS layer. Простая арифметика для последовательного пути: `0.999⁴ × 0.9999² × 0.9999 ≈ 0.9956` — наш достижимый SLO ceiling **99.56%**, не 99.95%. Composite SLO Methodology — это **математика multi-component систем**: когда «хочется четыре девятки» сталкивается с реальностью composite, и нужно либо снизить commitment, либо добавить redundancy, либо явно принять honest baseline. Я регулярно вижу команды, которые декларируют SLO без composite math — и потом первый dependency outage сжигает квартальный error budget целиком.
+«Наш SLO — 99.95%» — типичная декларация после quarterly planning. Если посмотреть на сервис-граф: 4 зависимости с vendor SLA 99.9% ([auth](/The-Way-of-SRE/glossary/#auth), payment, CDN, managed DB), 2 internal-сервиса с 99.99%, shared DNS / TLS layer. Простая арифметика для последовательного пути: `0.999⁴ × 0.9999² × 0.9999 ≈ 0.9957` — наш достижимый SLO ceiling **99.57%**, не 99.95%. Composite SLO Methodology — это **математика multi-component систем**: когда «хочется четыре девятки» сталкивается с реальностью composite, и нужно либо снизить commitment, либо добавить redundancy, либо явно принять honest baseline. Я регулярно вижу команды, которые декларируют SLO без composite math — и потом первый dependency outage сжигает квартальный error budget целиком.
 
 Граница: [SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/) — *как формулировать* SLO для одного компонента (SLI, target, window); этот лист — *как складывать* SLO для multi-component system. [Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/) — vendor SLA как input в composite math; reliability-side зависимостей от внешних сервисов. [Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/) — что делать, чтобы composite SLO **превысить** математический ceiling через redundancy / graceful degradation.
 
@@ -39,16 +39,15 @@ description: Математика multi-component SLO — серийные / п�
 
 ### Книги
 
-- Alex Hidalgo — **[Implementing Service Level Objectives](https://www.alex-hidalgo.com/the-slo-book)** (O'Reilly, 2020). Глава 11 «Service Level Objectives and Probability» — единственная книжная глава, посвящённая composite math явно. Если выбирать одну ссылку — эту.
+- Alex Hidalgo — **[Implementing Service Level Objectives](https://www.alex-hidalgo.com/the-slo-book)** (O'Reilly, 2020). Единственная книга, где вероятностной стороне SLO отведена отдельная глава, а не абзац. Если выбирать одну ссылку — эту.
 - Betsy Beyer et al. (eds) — **[The Site Reliability Workbook](https://sre.google/workbook/implementing-slos/)** (O'Reilly, 2018), глава 2 «Implementing SLOs». Раздел про dependencies upstream / downstream — Google's подход. Не как глубоко как Hidalgo, но canonical.
 - Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/embracing-risk/)** (O'Reilly, 2016), глава 3 «Embracing Risk». Не composite напрямую, но фундамент для понимания, что «target uptime — это decision с trade-offs», не aspirational число.
 
 ### Статьи и доклады
 
-- Marc Brooker — **[Combining SLAs](https://brooker.co.za/blog/2022/05/13/sla.html)** (личный блог, 2022). Marc Brooker (AWS Principal Engineer) пишет про combined SLA arithmetic для distributed systems. Самый сжатый практический resource по теме.
-- Stephen Thorne — **[Composite SLOs aren't as scary as they seem](https://blog.alexewerlof.com/p/composite-slo)** / **[Composite SLOs in practice](https://medium.com/@alexewerlof/composite-slo-bd84a9697f6c)** (Medium, 2020+). Несколько блог-постов по теме с конкретными формулами и diagrams. Полезно как practical complement к Hidalgo's главе.
-- Charity Majors — **[SLO Math](https://charity.wtf/2022/01/05/slos-math-fundamentals/)** (личный блог, 2022). Критический взгляд на «multiply everything» подход; обоснование, почему journey-level SLI лучше, чем component-level composite.
-- Google Cloud — **[SLI and SLO best practices](https://cloud.google.com/blog/products/devops-sre/sre-fundamentals-slis-slas-and-slos)**. Не глубоко по composite, но canonical reference для vocabulary.
+- Alex Ewerlöf — **[Composite SLO](https://blog.alexewerlof.com/p/composite-slo)**. Разбор с конкретными формулами и схемами: как складывать SLO компонентов и почему наивное перемножение врёт. Полезно как practical complement к книге Идальго.
+- Google Cloud — **[SRE fundamentals: SLIs, SLAs and SLOs](https://cloud.google.com/blog/products/devops-sre/sre-fundamentals-slis-slas-and-slos)**. Не глубоко по composite, но canonical reference для vocabulary.
+- Marc Brooker — **[личный блог](https://brooker.co.za/blog/)** (AWS Principal Engineer). Отдельной статьи именно про сложение SLA у него нет, но разборы вероятностного поведения распределённых систем — лучший фон для понимания, почему composite math нельзя считать в лоб.
 
 ### Инструменты
 
@@ -56,7 +55,7 @@ description: Математика multi-component SLO — серийные / п�
 - **[Sloth](https://sloth.dev/)** — SLO-as-code для Prometheus; multi-window multi-burn-rate alert rules генерируются автоматически. Composite SLO собирается через несколько SLO definitions + custom recording rules.
 - **[Pyrra](https://github.com/pyrra-dev/pyrra)** — alternative к Sloth, более opinionated. По моим наблюдениям, чаще выбирают Sloth для existing setups, Pyrra — для greenfield.
 - **[Nobl9](https://www.nobl9.com/)** — коммерческая SLO platform, лучшая native поддержка composite SLO в индустрии. Если SLO program critical и есть бюджет — рассматривать.
-- **[error-budget-policy](https://github.com/google/error-budget-policy)** — open-source шаблон error budget policy с composite-considerations.
+- **[Пример Error Budget Policy из SRE Workbook](https://sre.google/workbook/error-budget-policy/)** — готовый шаблон политики от Google; отдельного репозитория с таким шаблоном у них нет, несмотря на распространённое заблуждение.
 - **Анти-инструмент:** «composite SLO в Excel-sheet, обновляемый раз в квартал вручную». Это не tool, это invitation к stale math. Composite живёт в коде (OpenSLO YAML / Sloth definitions) — обновляется PR'ом при изменении dependency graph.
 
 ## Best practices

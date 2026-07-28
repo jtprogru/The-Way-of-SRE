@@ -192,7 +192,7 @@ Dynamic Application Security Testing — поиск уязвимостей в **
 
 ### DORA
 
-DevOps Research and Assessment — исследование (Forsgren / Humble / Kim), которое выделяет 4 ключевые метрики: [`deployment frequency`](#deployment-frequency), [`lead time for changes`](#lead-time-for-changes), [`change failure rate`](#change-failure-rate), [`MTTR`](#mttr). Используются вместе; оптимизация одной метрики за счёт другой — Goodhart's law.
+DevOps Research and Assessment — исследование (Forsgren / Humble / Kim), которое выделяет 4 ключевые метрики: [`deployment frequency`](#deployment-frequency), [`lead time for changes`](#lead-time-for-changes), [`change failure rate`](#change-failure-rate) и время восстановления после неудачного развёртывания (до 2023 года называлось [`MTTR`](#mttr); переименовано в failed deployment recovery time, чтобы учитывать только отказы, вызванные самим изменением). Используются вместе; оптимизация одной метрики за счёт другой — Goodhart's law.
 
 *Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/). Источник: Forsgren et al., *Accelerate* (IT Revolution, 2018).
 
@@ -376,7 +376,7 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 <a id="owasp-top-10"></a>
 
-Список самых критичных классов уязвимостей веб-приложений от OWASP, обновляется раз в несколько лет. В редакции 2021 №1 — broken access control. Не чеклист, а словарь классов, на которые смотрят в security-ревью и threat modeling.
+Список самых критичных классов уязвимостей веб-приложений от OWASP, обновляется раз в несколько лет. Актуальная редакция — 2025 (первая с 2021 года); №1 по-прежнему broken access control, а среди новых категорий — сбои цепочки поставок ПО. Не чеклист, а словарь классов, на которые смотрят в security-ревью и threat modeling.
 
 *Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
 

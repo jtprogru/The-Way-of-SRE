@@ -40,10 +40,10 @@ description: Регулярная встреча руководителей дл
 
 ### Статьи и фреймворки
 
-- Michael Lopp (Rands) — **[On Performance Reviews](https://randsinrepose.com/archives/the-deliberate-self-evaluation/)** и связанные посты на randsinrepose.com. Серия про performance management из позиции инженерного руководителя; калибровка упоминается как побочный эффект зрелого процесса обзоров.
+- Michael Lopp (Rands) — **[randsinrepose.com](https://randsinrepose.com/)**, посты про performance review и самооценку. Серия про performance management из позиции инженерного руководителя; калибровка упоминается как побочный эффект зрелого процесса обзоров.
 - **[Progression.fyi](https://progression.fyi/)**. 75+ публичных career ladders разных компаний. По моим наблюдениям, перед дизайном калибровки полезно посмотреть 5–10 ladder и заметить разницу в формулировке ожиданий — это лучшая подготовка к разговору «у нас здесь читается по-разному».
-- **[GitLab Engineering Handbook — Performance Indicators](https://handbook.gitlab.com/handbook/engineering/performance-indicators/)** и связанные страницы про калибровку в публичном handbook. Хороший пример полностью описанного процесса для распределённой компании; меньшие организации могут адаптировать примерно треть.
-- **[Spotify Engineering Steps](https://github.com/Spotify/engineering-steps)** (открытая публикация). Один из публичных примеров ladder, к которому шла регулярная калибровка — полезен как референс структуры.
+- **[Публичный handbook GitLab](https://handbook.gitlab.com/)**, разделы про performance review и калибровку. Хороший пример полностью описанного процесса для распределённой компании; меньшие организации могут адаптировать примерно треть.
+- **[progression.fyi](https://progression.fyi/)** — открытая подборка карьерных лестниц разных компаний. Полезна как референс структуры: видно, чем ladder на 4 уровня отличается от ladder на 8 и где компании проводят границу между IC- и менеджерским треком.
 
 ### Инструменты
 
