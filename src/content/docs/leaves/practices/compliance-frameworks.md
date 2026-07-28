@@ -39,7 +39,7 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 
 ### Книги
 
-- Eric Schlesinger, Sloane Cohen — **[The SOC 2 Compliance Handbook](https://www.amazon.com/SOC-Compliance-Handbook-Implementation-Auditing/dp/B0BV5K76G3)** (Self-published, 2023). Прикладная книга про SOC 2: scoping, evidence, common gotchas. Не academic, читается за выходные.
+- Eric Schlesinger, Sloane Cohen — **The SOC 2 Compliance Handbook** (Self-published, 2023). Прикладная книга про SOC 2: scoping, evidence, common gotchas. Не academic, читается за выходные.
 - Alan Calder — **[Nine Steps to Success: An ISO 27001:2022 Implementation Overview](https://www.itgovernancepublishing.co.uk/product/nine-steps-to-success-an-iso-27001-implementation-overview-fourth-edition)** (ITGP, 4th ed., 2023). Канонический guide по ISO 27001 implementation; сжато, без воды.
 
 ### Стандарты и регуляции
