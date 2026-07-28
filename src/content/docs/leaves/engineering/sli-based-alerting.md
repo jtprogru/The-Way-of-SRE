@@ -39,15 +39,15 @@ description: Алерт на нарушение пользовательског
 ### Книги
 
 - Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/monitoring-distributed-systems/)** (O'Reilly, 2016), глава 6 «Monitoring Distributed Systems». База терминологии. Короткая.
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/alerting-on-slos/)** (O'Reilly, 2018), глава 5 «Alerting on SLOs». **Главная глава по теме.** Если читать одну — эту. Содержит таблицу precision / recall для пяти стратегий алертинга — единственное место в публичной литературе, где конкретные числа precision указаны явно.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/alerting-on-slos/)** (O'Reilly, 2018), глава 5 «Alerting on SLOs». **Главная глава по теме.** Если читать одну — эту. Шесть стратегий алертинга разобраны последовательно, у каждой явно названы слабые места по precision, recall, времени обнаружения и времени сброса, и там же лежат готовые параметры окон для multi-burn-rate.
 - Alex Hidalgo — **Implementing Service Level Objectives** (O'Reilly, 2020). По моему ощущению, дополняет SRE Workbook, не заменяет: главное — глубина по composite SLO и user journey'ам, чего нет в Workbook.
 
 ### Статьи и доклады
 
 - Google SRE — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)**. То же, что в Workbook гл. 5, но онлайн и бесплатно.
-- Štěpán Davidovič, Betsy Beyer — **Reliable Alerting in the Cloud** (SREcon). Короткий обзор; хорошо для slides внутри команды.
+- Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про пределы существующего подхода к измерению надёжности — полезно, когда алерты на SLO уже настроены и начинают спорить с реальностью.
 - Grafana — **[How to alert on SLOs](https://grafana.com/blog/2022/03/14/how-to-create-slo-alerts-with-grafana-cloud-slo)**. Практично, с конкретными PromQL.
-- Liz Fong-Jones — **Why Are My Pages Going Off? SLO-Based Alerting Strategies** (SREcon). Продвинуто; сильный доклад от практика, который этим занимается на работе.
+- Liz Fong-Jones и др. — **[Developing Effective Service Level Indicators and Service Level Objectives](https://www.usenix.org/conference/srecon18europe/presentation/fong-jones-0)** (SREcon18 Europe). Сильный доклад практиков про то, как выбирать SLI — половина проблем с алертами родом отсюда.
 
 ### Курсы
 
@@ -57,14 +57,16 @@ description: Алерт на нарушение пользовательског
 
 - **[Prometheus + Alertmanager](https://prometheus.io/)** — каноничный стек для recording rule SLI и alerting rule burn-rate. Если у вас k8s — выбор по умолчанию.
 - **[VictoriaMetrics + vmalert](https://victoriametrics.com/)** — альтернатива Prometheus для высоконагруженных сценариев; совместимый язык правил.
-- **[Grafana Alerting](https://grafana.com/grafana/alerting/)** — UI-ориентированная альтернатива Alertmanager; удобна для команд, живущих в Grafana, неудобна для GitOps-flow.
+- **[Grafana Alerting](https://grafana.com/docs/grafana/latest/alerting/)** — UI-ориентированная альтернатива Alertmanager; удобна для команд, живущих в Grafana, неудобна для GitOps-flow.
 - **[Sloth](https://sloth.dev/)** — генератор PromQL для SLO и burn-rate алертов из декларативного YAML. По моим наблюдениям, его чаще берут команды от 5+ сервисов: вручную написать корректные multi-window правила тяжелее, чем кажется, и Sloth убирает целую категорию ошибок (опечатки в формуле, забытые окна, неконсистентные шаги).
 - **[Pyrra](https://github.com/pyrra-dev/pyrra)** — open-source альтернатива Nobl9, k8s-native, с встроенным dashboard error budget. Я вижу, что её берут как stepping-stone, когда Sloth уже маловат, а Nobl9 ещё рано.
 - **[Nobl9](https://nobl9.com/)** — коммерческая платформа. Имеет смысл, когда SLO ведут несколько команд в разных регионах и нужен общий язык / портал. Для одной команды — overkill.
 
 ## Best practices
 
-Глава 5 SRE Workbook содержит сравнительную таблицу пяти стратегий алертинга по precision и recall на одном 30-дневном окне. Простой порог (`target × threshold`) даёт **precision 5%** — то есть 95% поднятых алертов false. Multi-window multi-burn-rate с двумя окнами (короткое + длинное) даёт **precision 67%, recall 94%**. Разница не «чуть лучше» — разница в **порядок величины** меньше шума. Это единственное место в публичной литературе, где precision указан явно с числами; если вы пишете алерт и не помните своё precision — это первое число, которое нужно посчитать.
+Глава 5 SRE Workbook разбирает шесть стратегий алертинга подряд, от простейшей к рабочей, и оценивает каждую по четырём параметрам: precision, recall, время обнаружения, время сброса. Числовых оценок precision авторы не дают — но дают то, что убеждает сильнее. Для простого порога «текущий error rate выше SLO» они считают, что можно получать **до 144 алертов в сутки, не реагировать ни на один и всё равно уложиться в SLO**. Вот это и есть настоящая цена наивного порога: алерт, который не несёт информации о том, страдает ли бюджет.
+
+Рабочий вариант — multi-window multi-burn-rate. Для SLO 99.9% рекомендованные параметры такие: сжигание 2% бюджета за час (burn rate 14.4) — пейджер; 5% за 6 часов (burn rate 6) — тоже пейджер, но с меньшей срочностью; 10% за 3 суток (burn rate 1) — тикет. Каждое длинное окно страхуется коротким в 1/12 его длины, чтобы алерт гас, когда сжигание прекратилось. Эти числа стоит помнить наизусть — они закрывают большинство практических случаев без собственных выкладок.
 
 **Что работает (короткие правила):**
 

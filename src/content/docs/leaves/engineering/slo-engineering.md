@@ -61,7 +61,7 @@ description: Инженерная сторона SLO — определение 
 
 - Betsy Beyer et al. — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)** (SRE Workbook, гл. 5). Связь SLO Engineering с alerting strategy.
 - Betsy Beyer et al. — **[Appendix B. Example Error Budget Policy](https://sre.google/workbook/error-budget-policy/)** (SRE Workbook). Готовый шаблон Error Budget Policy.
-- Štěpán Davidovič — **Reliable Math** (SREcon). Математика SLO и burn rate — что значат 99.9%, как считать composite SLI без накопления погрешности.
+- Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про то, где привычный способ измерять надёжность перестаёт работать; полезно как отрезвляющее чтение после первого удачного SLO.
 
 ### Инструменты
 

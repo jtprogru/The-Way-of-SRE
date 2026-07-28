@@ -40,7 +40,7 @@ description: Дисциплина alert design — page на симптомы (�
 ### Книги
 
 - Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/monitoring-distributed-systems/)** (O'Reilly, 2016), глава 6 «Monitoring Distributed Systems». Канонический разбор: 4 golden signals, symptoms vs causes, white-box vs black-box monitoring. Если выбирать одну главу — эту.
-- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/practical-alerting/)** (O'Reilly, 2016), глава 4 «Service Level Objectives». Связка SLO ↔ alert: paging only on SLO violations.
+- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/practical-alerting/)** (O'Reilly, 2016), глава 10 «Practical Alerting from Time-Series Data». Как связка «временной ряд → правило → пейджер» устроена изнутри на примере Borgmon; читать после главы 6.
 - Mike Julian — **[Practical Monitoring](https://www.oreilly.com/library/view/practical-monitoring/9781491957349/)** (O'Reilly, 2017). Глава «Designing Meaningful Alerts». Альтернативный взгляд той же идеи: разделение alerts (page) / warnings (ticket) / informationals (log).
 - Cindy Sridharan — **[Distributed Systems Observability](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/)** (O'Reilly, 2018). Контекст: почему observability ≠ monitoring; почему cause-debugging уходит в трейсы / логи, а alerting остаётся на симптомах.
 
@@ -48,7 +48,7 @@ description: Дисциплина alert design — page на симптомы (�
 
 - Rob Ewaschuk — **[My Philosophy on Alerting](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/preview)** (Google internal, 2014). Первоисточник принципа «page on symptoms, not causes». Короткий документ — лучшая первая статья по теме. Главный публичный кейс — см. ниже.
 - Betsy Beyer, Niall Murphy, Liz Fong-Jones, David Rensin — **[The Site Reliability Workbook](https://sre.google/workbook/alerting-on-slos/)** (O'Reilly, 2018), глава 5 «Alerting on SLOs». Многоуровневые burn rate alerts — практика, развивающая Ewaschuk: 2 percent / 5 percent / 10 percent budget burn windows, multi-window multi-burn-rate.
-- Charity Majors — **[Why We Built Honeycomb](https://www.honeycomb.io/blog/why-we-built-honeycomb)**. Контекст высокой кардинальности и observability как противопоставления classical monitoring. Полезно как фон, а не как канон по alerting.
+- Charity Majors — **[блог Honeycomb](https://www.honeycomb.io/blog)** и её [личный блог](https://charity.wtf/). Контекст высокой кардинальности и observability как противопоставления classical monitoring. Полезно как фон, а не как канон по alerting.
 
 ### Инструменты
 

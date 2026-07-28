@@ -44,7 +44,7 @@ description: Систематическое снижение alert fatigue — a
 ### Статьи
 
 - **[Prometheus Alertmanager — Configuration](https://prometheus.io/docs/alerting/latest/configuration/)**. Документация по grouping, inhibition, silencing — три основных механизма управления шумом.
-- Charity Majors / Honeycomb — **[The Cost of Incident Response](https://www.honeycomb.io/blog/the-cost-of-incident-response)**. Утверждает, что incident response costs реальные деньги (engineering time, opportunity cost, burnout); structured alert hygiene = investment в reducing cost-per-incident.
+- Fred Hebert / Honeycomb — **[How We Manage Incident Response](https://www.honeycomb.io/blog/incident-response-at-honeycomb)**. Про то, во что реально обходится реагирование в небольшой команде — инженерное время, переключения контекста, износ дежурных; отсюда же следует, что гигиена алертов окупается не «качеством мониторинга», а сохранёнными людьми.
 
 ### Инструменты
 

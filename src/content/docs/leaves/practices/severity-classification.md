@@ -44,12 +44,12 @@ description: Рамка измерения серьёзности инциден
 ### Статьи и доклады
 
 - **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)** — open-source playbook. Полная глава по severity definitions, escalation policies, communication cadence. По моим наблюдениям, чаще всего именно её берут как стартовый шаблон. Apache 2.0.
-- **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management)**. Severity definitions (SEV1..SEV5), escalation policies, customer communication patterns, integrated со Statuspage.
-- **[Google Cloud — Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** — главы 17–18. Severity для security-incidents, decision-making под давлением.
+- **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management)**. Собственная шкала severity, escalation policies, customer communication patterns, интеграция со Statuspage. Полезно как пример того, что число уровней — решение компании, а не стандарт: у Atlassian их три, у многих команд пять.
+- Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), главы 17–18. Severity для security-incidents, decision-making под давлением.
 
 ### Инструменты
 
-- **[PagerDuty](https://www.pagerduty.com/) / [Opsgenie](https://www.atlassian.com/software/opsgenie) / [incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/)** — paging + escalation policies + severity tracking. Auto-escalation по timeout встроена; severity classification конфигурируема per-team.
+- **[PagerDuty](https://www.pagerduty.com/) / [incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/)** — paging + escalation policies + severity tracking. Opsgenie из этого ряда выбывает: Atlassian прекратила продажи в 2025 и отключает продукт в апреле 2027. Auto-escalation по timeout встроена; severity classification конфигурируема per-team.
 - **[Atlassian Statuspage](https://www.atlassian.com/software/statuspage) / [Better Stack](https://betterstack.com/status-page)** — customer-facing severity communication. Mapping internal severity → public status.
 - **Slack workflows + ChatOps боты** — declare incident через `/incident sev1 <description>`, auto-create war room channel, auto-page on-call. Netflix [Dispatch](https://github.com/Netflix/dispatch) — open-source пример.
 
