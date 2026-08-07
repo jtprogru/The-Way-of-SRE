@@ -98,6 +98,12 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория C* — двойная форма «карьерная лестница (career ladder)» при первом упоминании. См. [`Career Ladders`](/The-Way-of-SRE/leaves/culture/career-ladders/). Источник: Will Larson, *Staff Engineer*; [Progression.fyi](https://progression.fyi/) (75+ публичных ladders).
 
+### cardinality
+
+Число уникальных комбинаций значений измерений. В модели Prometheus каждая уникальная комбинация label образует отдельный временной ряд; labels с неограниченным множеством значений (`user_id`, email, request ID) могут резко увеличить объём данных.
+
+*Категория A* — «кардинальность (cardinality)» при первом упоминании. См. [`Telemetry Economics`](/The-Way-of-SRE/leaves/engineering/telemetry-economics/). Источник: [Prometheus — Metric and label naming](https://prometheus.io/docs/practices/naming/).
+
 ### change failure rate
 
 Доля изменений в production, которые приводят к degraded service: rollback, hotfix или customer-facing incident. Одна из четырёх [DORA](#dora)-метрик. Считается из связи `deploy ↔ incident`; требует явного определения «failure» на команду, чтобы цифры разных команд были сопоставимы.
@@ -445,6 +451,12 @@ Software Bill of Materials — список всех dependencies артефак
 Software Composition Analysis — анализ сторонних dependencies артефакта на known CVE; опирается на [`SBOM`](#sbom). Отличается от [`SAST`](#sast) объектом: SAST смотрит свой код, SCA — чужой. Инструменты — govulncheck, Snyk, Dependabot, Trivy.
 
 *Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+
+### sampling
+
+Выбор подмножества telemetry для обработки или хранения. Head sampling принимает решение в начале trace и не видит его целиком; tail sampling учитывает завершённый или почти завершённый trace, но требует state и сложнее масштабируется.
+
+*Категория A* — «сэмплирование (sampling)» при первом упоминании. См. [`Telemetry Economics`](/The-Way-of-SRE/leaves/engineering/telemetry-economics/). Источник: [OpenTelemetry — Sampling](https://opentelemetry.io/docs/concepts/sampling/).
 
 ### service mesh
 
