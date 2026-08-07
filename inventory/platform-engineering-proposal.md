@@ -48,4 +48,5 @@
 ## Что осталось открытым
 
 - Нужен ли отдельный leaf `Developer Experience`, или measurement остаётся частью `Platform Adoption & Measurement`.
-- Порядок следующих листьев. По содержанию ближе всего к готовности `Golden Paths` (есть проверенный публичный кейс Spotify) и `Self-Service Infrastructure` (уже помечен TBD в `Toil Automation`).
+- Порядок следующих листьев. `Golden Paths` написан вторым. Следующий по готовности — `Self-Service Infrastructure` (уже помечен TBD в `Toil Automation`), затем `Internal Developer Portal` (с ним же в глоссарий уходит `Backstage`). `Platform Reliability` и `Platform Adoption & Measurement` — последними: у них самое сильное пересечение с `SLO Engineering` и `DORA Metrics`.
+- Из открытых вопросов `Golden Paths`: чем должно заканчиваться расхождение поколений шаблона и нужен ли отдельный лист про scaffolding как технику.
