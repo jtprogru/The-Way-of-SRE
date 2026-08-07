@@ -41,7 +41,7 @@ description: Партнёрство SRE с продуктовыми команд
 - Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/how-sre-relates/)** (O'Reilly, 2018), глава 16 «How SRE Relates to DevOps». Место SRE в DevOps-парадигме.
 - Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/engagement-model/)**, глава 18 «SRE Engagement Model». Главный источник по моделям engagement (PRR, simple PRR, ongoing).
 - David N. Blank-Edelman (ред.) — **Seeking SRE** (O'Reilly, 2018). Сборник; разделы про organisational design, embedded vs consulting, scaling SRE.
-- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/)** (IT Revolution, 2019). Типы команд (stream-aligned / platform / complicated-subsystem / enabling) — SRE укладывается в несколько в зависимости от модели.
+- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. 2025). Типы команд (stream-aligned / platform / complicated-subsystem / enabling) — SRE укладывается в несколько в зависимости от модели.
 - Nicole Forsgren, Jez Humble, Gene Kim — **Accelerate** (IT Revolution, 2018). DORA-эмпирика про межкомандное взаимодействие.
 
 ### Статьи и доклады

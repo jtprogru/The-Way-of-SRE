@@ -40,7 +40,7 @@ description: Внутренняя платформа как продукт дл�
 
 ### Книги
 
-- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. сентябрь 2025). Читать ради двух вещей: platform team как один из четырёх типов команд и thinnest viable platform. Вторая идея полезнее первой, потому что прямо противостоит желанию сделать платформу побольше. Во втором издании авторы отдельно уточняют, что platform team корректнее понимать как platform grouping, а не как одну команду.
+- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. 2025). Читать ради двух вещей: platform team как один из четырёх типов команд и thinnest viable platform. Вторая идея полезнее первой, потому что прямо противостоит желанию сделать платформу побольше. Во втором издании авторы отдельно уточняют, что platform team корректнее понимать как platform grouping, а не как одну команду.
 - Matthew Skelton, Manuel Pais — **[Key concepts](https://teamtopologies.com/key-concepts)** (teamtopologies.com). Короткая бесплатная выжимка, если книгу читать некогда: platform team там определена как «a grouping of other team types that provide a compelling internal product to accelerate delivery by Stream-aligned teams», а TVP — как способ дать ровно столько возможностей, сколько нужно, без лишней сложности.
 
 ### Статьи и документация

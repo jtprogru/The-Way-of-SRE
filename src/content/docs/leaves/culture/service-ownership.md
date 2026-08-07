@@ -39,7 +39,7 @@ description: Систематическое владение production-серв
 ### Книги
 
 - Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/being-on-call/)** (O'Reilly, 2016), глава 11 «Being On-Call». Раздел о связи on-call rotation с ownership — основа модели.
-- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/)** (IT Revolution, 2019). Глава про ownership boundaries и cognitive load — почему shared ownership работает хуже, чем кажется.
+- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. 2025). Глава про ownership boundaries и когнитивную нагрузку — почему shared ownership работает хуже, чем кажется.
 
 ### Статьи
 
