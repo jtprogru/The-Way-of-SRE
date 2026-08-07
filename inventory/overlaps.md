@@ -26,6 +26,7 @@
 | Incident Response семейство — разделение | ✅ Применено | `Incident Response` в Practices/USUP; `Incident Response Training` в Culture/ETDL |
 | People Management → Practices | ✅ Применено | Удалён из Culture/RLMT; остался в Practices/PEMT |
 | Goal Setting → Practices | ✅ Применено | Удалён из Culture/MEAS; остался как `Setting Goals` в Practices/PEMT |
+| Platform Engineering — отдельный L1 в Engineering | ✅ Применено | Новый L1 `platform-engineering` в `roadmap.ts` с листом `Platform as a Product`; TBD-маркеры в `Team Topologies` и `Toil Automation` сужены до `Internal Developer Portal` и `Self-Service Infrastructure` |
 
 ## Таблица пересечений
 
@@ -44,6 +45,8 @@
 | 11 | **Goal Setting** | `Culture → MEAS → Goal Setting` + `Practices → PEMT → Setting Goals` | Один концепт в двух ветвях с похожими именами. | **Перенос** в `Practices/PEMT` (как `Setting Goals`). | Главный объект — постановка целей подчинённым (1-on-1, OKR), это ритуал управления людьми (Practices). Организационная сторона целей надёжности уже покрыта `SLO / Budget Review` в `Culture/MEAS`; отдельный `Goal Setting` там избыточен. |
 
 | 12 | **Наставничество (повтор строки 6)** | `Culture → ETDL → Mentorship` (L2-концепт) + `Practices → Professional Development → Mentoring as Practice` (лист) | Решение строки 6 де-факто отменено: узел вернулся в `Practices` под другим именем. Лист аккуратно размежёван с `SRE Onboarding`, `Communities of Practice` и `Career Ladders`, но границы с культурным `Mentorship` в нём нет. | **Открыто.** | Возможных исходов три. Разделение: `Mentorship` в Culture остаётся нормой «в команде принято передавать знания», `Mentoring as Practice` — механикой пары наставник–ученик (ритм встреч, контракт, завершение). Тогда обоим нужна явная взаимная граница, как у остальных разделённых семейств. Перенос: снять L2 `Mentorship` из Culture, раз практика описана листом. Возврат к строке 6: перенести лист в Culture/ETDL — дороже всего, ломает `slug` и входящие ссылки. Решать в PR. |
+
+| 13 | **Platform Engineering** | `Engineering → Platform Engineering` (новый L1) + `Engineering → Toil Reduction → Toil Automation` + `Engineering → IT Infrastructure` + `Culture → ETDL → Team Topologies` | Тема притягивалась сразу к трём существующим узлам: как автоматизация ручной работы, как инфраструктура и как тип команды. TBD-маркеры на неё стояли в `Team Topologies` и `Toil Automation`. | **Разделение.** Продуктовая и инженерная часть — новый L1 `Platform Engineering` в Engineering; организационная сторона остаётся в `Team Topologies`; устранение ручной работы остаётся в `Toil Automation`. | Главный объект нового L1 — внутренняя платформа как продукт для команд-разработчиков. Под `IT Infrastructure` она сводится к кластеру и облаку, под `Toil Reduction` — к устранению ручной работы; оба варианта теряют пользователя платформы и интерфейс к ней. Обоснование целиком — `platform-engineering-proposal.md`; границы с конкретными листьями зафиксированы в самом листе `Platform as a Product`. |
 
 Все известные пересечения, кроме строки 12, зафиксированы и решены. Новые могут появляться по мере роста графов — добавляются строкой со статусом «Открыто» и решаются в PR.
 

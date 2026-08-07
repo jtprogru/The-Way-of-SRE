@@ -447,6 +447,23 @@ export const roadmap: Roadmap = {
           ],
         },
         {
+          // Отдельный L1, а не лист под IT Infrastructure или Toil Reduction:
+          // главный объект здесь — внутренняя платформа как продукт для
+          // команд-разработчиков, а не кластер и не автоматизация ручной
+          // работы. Обоснование — inventory/platform-engineering-proposal.md.
+          id: 'platform-engineering',
+          label: 'Platform Engineering',
+          priority: 'nice',
+          leaves: [
+            {
+              id: 'platform-as-a-product',
+              label: 'Platform as a Product',
+              href: '/leaves/engineering/platform-as-a-product/',
+              priority: 'must',
+            },
+          ],
+        },
+        {
           id: 'database-reliability',
           label: 'Database Reliability',
           priority: 'ondemand',

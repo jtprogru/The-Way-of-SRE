@@ -96,6 +96,5 @@ description: Переход от tracking к elimination — паттерны а
 ## Открытые вопросы
 
 - **Auto-Remediation Patterns** *(TBD)* — отдельная подобласть: alert → automatic mitigation (restart, failover, scale-out) без human in the loop. Trade-off: faster MTTR vs blast radius unauthorized actions. Возможный отдельный лист под Reliability Engineering или Toil Reduction.
-- **Platform Engineering / Internal Developer Portal** *(TBD)* — формализация paved roads через Backstage / Port / Cortex. Скорее всего отдельный L1 со своим набором листьев, не подкомпетенция Toil Reduction.
-- **Self-Service Infrastructure** *(TBD)* — provisioning через UI / chat / API без ticket-to-platform-team. Пересекается с GitOps и platform engineering.
+- **Self-Service Infrastructure** *(TBD)* — provisioning через UI / chat / API без обращения в команду платформы. Пересекается с GitOps; кандидат на лист под L1 `Platform Engineering`, который выделен отдельно от Toil Reduction — см. [Platform as a Product](/The-Way-of-SRE/leaves/engineering/platform-as-a-product/).
 - Я не уверен, какой baseline coverage automation имеет смысл рекомендовать для команды до 5 SRE — у Google в SRE Book правило 50% toil выводится для команд от 20+, но для маленькой team распределение time/automation/projects другое. Если у вас в маленькой команде есть data-driven balance — был бы интересен опыт PR'ом.

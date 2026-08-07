@@ -31,6 +31,7 @@
 ### Инженерные термины
 
 - *CI/CD, IaC, GitOps, Kubernetes, Helm, Kustomize, Argo CD, Flux*
+- *platform engineering, capability, self-service* (но «команда платформы» — по-русски)
 - *manifest, controller, sidecar, operator, CRD*
 - *canary, blue-green, A/B, feature flag, progressive delivery*
 - *rollback, hotfix, deploy* (но «релиз» — по-русски, устоялся)
@@ -113,6 +114,7 @@
 | game day | учения (game day) | game day — устоялось |
 | service ownership | владение сервисом (service ownership) | владение сервисом |
 | career ladder | карьерная лестница (career ladder) | карьерная лестница |
+| golden path | типовой путь (golden path) | golden path |
 
 ---
 

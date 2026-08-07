@@ -88,5 +88,5 @@ description: Сознательный дизайн команд и режимо�
 
 - **SRE Maturity Assessment** *(TBD)* — соседний L2-концепт под этим L1; включает оценку, в каком topology-режиме org сейчас и куда движется. Кандидат на отдельный лист.
 - **SRE Model Adoption** *(TBD)* — практическая часть выбора и перехода между topology-режимами (embedded → platform → hybrid); может быть отдельным листом или частью этого.
-- **Platform Engineering / Internal Developer Portal** *(TBD)* — практическая реализация platform team через Backstage / Port / Cortex; кандидат на отдельный лист под Engineering.
+- **Internal Developer Portal** *(TBD)* — практическая реализация витрины платформы через Backstage / Port / Cortex. Сам L1 `Platform Engineering` уже выделен в Engineering, а продуктовая рамка вокруг него описана в [Platform as a Product](/The-Way-of-SRE/leaves/engineering/platform-as-a-product/); портал остаётся кандидатом на отдельный лист там же.
 - Я не уверен, как корректно применять Team Topologies в малых org (до 20 человек), где формальные team boundaries размыты. Skelton/Pais фокусируются на средних и крупных org; для startup-фазы рамка часто превращается в overhead. Если есть рабочая практика — расскажите PR'ом.
