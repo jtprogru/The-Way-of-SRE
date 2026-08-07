@@ -41,7 +41,7 @@ description: Самоорганизующиеся сообщества инже�
 
 - Etienne Wenger — **Communities of Practice: Learning, Meaning, and Identity** (Cambridge University Press, 1998). Канонический academic источник. Тяжёлая книга — но если выбирать одну для глубины — эту.
 - Etienne Wenger-Trayner, Beverly Wenger-Trayner — **[Learning to Make a Difference: Value Creation in Social Learning Spaces](https://www.cambridge.org/core/books/learning-to-make-a-difference/8B82E1F6D9B66CC4D11FB04A4906F1A6)** (Cambridge, 2020). Современный апдейт; включает практические frameworks оценки value.
-- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 2019). Глава про Enabling Teams; разделение enabling team / CoP / guild — полезный vocabulary.
+- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. 2025). Глава про enabling teams; разделение enabling team / CoP / guild — полезный vocabulary.
 
 ### Статьи и доклады
 
