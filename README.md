@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <img src="./logo/sre.svg" alt="The Way of SRE — карта компетенций: ветви Culture (15 листьев), Engineering (28), Practices (25)" width="900">
+  <img src="./logo/sre.svg" alt="The Way of SRE — карта компетенций: ветви Culture (15 листьев), Engineering (29), Practices (25)" width="900">
 </p>
 
 > Вдохновлен проектом [The-Way-of-DevOps](https://github.com/evgeniy-kharchenko/The-Way-of-DevOps) за авторством [Евгения Харченко](https://github.com/evgeniy-kharchenko).
@@ -32,7 +32,7 @@
 Полная интерактивная карта с листьями (конкретные умения, материалы, best practices) живёт на сайте: <https://jtprogru.github.io/The-Way-of-SRE/>. Карта делится на три ветви:
 
 - **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/sre-culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **15 листьев** на полной глубине.
-- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **28 листьев** на полной глубине.
+- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **29 листьев** на полной глубине.
 - **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **25 листьев** на полной глубине.
 
 Всё дерево целиком, от корня до подлистов, — на странице [Mind map](https://jtprogru.github.io/The-Way-of-SRE/mindmap/): двусторонняя карта с зумом, фильтром по приоритету и сворачиванием веток.
