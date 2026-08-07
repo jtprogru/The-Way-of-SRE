@@ -28,7 +28,7 @@ description: Переход от tracking к elimination — паттерны а
 
 **L5**
 - Проектирует automation strategy команды: матрица «частота × blast radius → уровень automation»; явный budget на поддержку (≈30% от стоимости разработки в год по моим наблюдениям).
-- Внедряет paved roads / golden paths — внутренний tooling, который снимает повторяющиеся ops-запросы с team (provisioning, configuration, deployments) через self-service.
+- Внедряет paved roads / [golden paths](/The-Way-of-SRE/leaves/engineering/golden-paths/) — внутренний tooling, который снимает повторяющиеся ops-запросы с team (provisioning, configuration, deployments) через self-service.
 - Использует operator pattern грамотно — Kubernetes operators для управления stateful workloads (DB, Kafka, certificates), не для всего. Cost: learning curve + custom CRD ownership + version churn от k8s API.
 
 **L6+**
