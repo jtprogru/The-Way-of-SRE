@@ -461,6 +461,12 @@ export const roadmap: Roadmap = {
               href: '/leaves/engineering/platform-as-a-product/',
               priority: 'must',
             },
+            {
+              id: 'golden-paths',
+              label: 'Golden Paths',
+              href: '/leaves/engineering/golden-paths/',
+              priority: 'mandatory',
+            },
           ],
         },
         {
