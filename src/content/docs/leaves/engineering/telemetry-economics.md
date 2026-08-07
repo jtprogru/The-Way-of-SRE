@@ -11,7 +11,7 @@ description: Управление ценностью и стоимостью м�
 - **Статус:** draft
 :::
 
-В документации Prometheus есть короткое предупреждение, которое я считаю одним из самых дорогих для игнорирования: каждая уникальная комбинация label создаёт новый временной ряд, поэтому `user_id` и email нельзя использовать как неограниченные значения label. Проблема начинается с одной строки инструментации, а проявляется уже в storage, запросах и счёте за observability.
+Один label с идентификатором пользователя, добавленный ради удобного дашборда, — самый частый способ вырастить счёт за observability, не меняя нагрузку. Я регулярно вижу этот сюжет в одном и том же порядке: строка проходит review как безобидная, число временных рядов растёт вместе с аудиторией, запросы к TSDB начинают отваливаться по таймауту, и только на этом шаге кто-то открывает billing. В документации Prometheus про это написано прямо: каждая уникальная комбинация label создаёт новый временной ряд, поэтому `user_id` и email не годятся как значения label. Проблема начинается с одной строки инструментации, а проявляется в storage, запросах и деньгах.
 
 **Telemetry Economics** — инженерная дисциплина управления полезностью и полной стоимостью метрик, логов и трейсов: объём приёма, [cardinality](/The-Way-of-SRE/glossary/#cardinality), индексация, [sampling](/The-Way-of-SRE/glossary/#sampling), retention, вычисления, egress и время сопровождения. Это не общий [Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/): здесь единица решения — сигнал и путь telemetry от SDK до backend. И это не разрешение удалять данные вслепую ради экономии — после изменения команда должна проверить, что сохранила диагностику известных failure modes.
 
@@ -32,7 +32,7 @@ description: Управление ценностью и стоимостью м�
 
 **L5**
 - Проектирует путь telemetry через OpenTelemetry Collector или эквивалентный слой: limits, backpressure, batching, routing, sampling и наблюдаемость самого pipeline.
-- Вводит квоты и showback по `team / service / environment`, не смешивая production и ephemeral-окружения в одном неразличимом счёте.
+- Вводит квоты и showback по `team / service / environment`, не смешивая production и эфемерные окружения в одном неразличимом счёте.
 - Сравнивает managed и self-hosted варианты по TCO: compute, storage, replication, egress, лицензии и инженерное сопровождение.
 - Определяет SLO pipeline telemetry: допустимые потери, задержка экспорта и поведение при перегрузке для каждого сигнала.
 
@@ -51,14 +51,14 @@ description: Управление ценностью и стоимостью м�
 
 - Prometheus — **[Metric and label naming](https://prometheus.io/docs/practices/naming/)**. Самый короткий обязательный источник перед проектированием labels: прямо связывает уникальную комбинацию label с новым временным рядом и приводит примеры неограниченной cardinality.
 - OpenTelemetry — **[Sampling](https://opentelemetry.io/docs/concepts/sampling/)**. Хорошая граница применимости: sampling уменьшает стоимость, но добавляет compute, сопровождение и риск потерять критичную информацию; отдельно разобраны head и tail sampling.
-- OpenTelemetry — **[Scaling the Collector](https://opentelemetry.io/docs/collector/scaling/)**. Я бы сверял с ним topology review: stateless processors и stateful tail sampling масштабируются по-разному, а неверное распределение spans может дать неполные traces.
+- OpenTelemetry — **[Scaling the Collector](https://opentelemetry.io/docs/collector/scaling/)**. По моим наблюдениям, topology review без этой страницы получается неполным: stateless processors и stateful tail sampling масштабируются по-разному, а неверное распределение spans может дать неполные traces.
 - OpenTelemetry — **[Collector](https://opentelemetry.io/docs/collector/)**. Vendor-neutral слой приёма, обработки и экспорта telemetry; полезен как точка применения policy до отправки в backend.
 
 ### Инструменты
 
-- **OpenTelemetry Collector** — центральный слой для routing, filtering, batching и sampling. Его собственные queue, drop, latency и resource metrics входят в обязательную наблюдаемость pipeline.
-- **Prometheus-compatible TSDB analysis** — отчёты по series и labels помогают найти источники cardinality; конкретная команда зависит от выбранного backend.
-- **Billing / usage export backend** — источник истины для unit cost по сигналу. Если provider не отдаёт usage на уровне service/team, showback придётся строить до экспорта по resource attributes.
+- **OpenTelemetry Collector** — центральный слой для routing, filtering, batching и sampling. По моим наблюдениям, к нему приходят не ради vendor neutrality, а когда надоедает менять правила фильтрации в десятке SDK вместо одного места. Его собственные queue, drop, latency и resource metrics входят в обязательную наблюдаемость pipeline.
+- **Отчёты по series и labels на стороне backend** — первый инструмент поиска источников cardinality. Я вижу, что команды чаще обходятся встроенными средствами своего TSDB и берут отдельный анализатор редко: обычно тогда, когда backend такой отчёт не отдаёт вовсе.
+- **Billing / usage export backend** — источник истины для unit cost по сигналу. Я регулярно вижу, что provider не отдаёт usage на уровне service/team; тогда showback приходится строить самому по resource attributes ещё до экспорта.
 
 ## Best practices
 
@@ -74,7 +74,7 @@ description: Управление ценностью и стоимостью м�
 
 **Telemetry pipeline — production-сервис.** Если Collector теряет данные при backpressure, проблема observability становится невидимой именно во время перегрузки. Поэтому его capacity, очереди, drops, export errors и latency получают владельца, SLO и проверяемое поведение при отказе backend.
 
-**Сокращение retention не заменяет классификацию.** Я бы отделял короткоживущие debug-данные от audit или incident evidence до выбора сроков. Юридические и договорные требования проверяются с владельцами compliance; универсального retention для всех сигналов нет.
+**Сокращение retention не заменяет классификацию.** Короткоживущие debug-данные я отделяю от audit и incident evidence до того, как выбирать сроки. Юридические и договорные требования проверяются с владельцами compliance; универсального retention для всех сигналов нет.
 
 ## Связанные листья
 
