@@ -100,7 +100,7 @@ Architecture Decision Record — фиксация технического ре�
 
 ### change failure rate
 
-Доля изменений в production, которые приводят к degraded service: rollback, hotfix или customer-facing incident. Одна из четырёх [DORA](#dora)-метрик. Считается из связи `deploy ↔ incident`; требует явного определения «failure» на команду, чтобы цифры разных команд были сопоставимы.
+Доля deploy, после которых требуется немедленное вмешательство, например rollback или hotfix. Одна из двух метрик нестабильности в текущей модели [DORA](#dora); требует явного определения `deployment` и `intervention` для приложения или сервиса.
 
 *Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Change Governance`](/The-Way-of-SRE/leaves/practices/change-governance/).
 
@@ -186,15 +186,21 @@ Dynamic Application Security Testing — поиск уязвимостей в **
 
 ### deployment frequency
 
-Как часто команда успешно выкатывает изменения в production. Одна из четырёх [DORA](#dora)-метрик. Считается из CI/CD-логов: число успешных prod-deploys за период. Главная ловушка — vanity-улучшение через дробление коммитов на микро-изменения без бизнес-смысла; читается только в связке с [`change failure rate`](#change-failure-rate).
+Число deploy за период или время между deploy. Одна из трёх метрик пропускной способности в текущей модели [DORA](#dora). Читается вместе с метриками нестабильности; сама по себе высокая частота не доказывает качество процесса.
 
 *Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/).
 
+### deployment rework rate
+
+Доля незапланированных deploy, выполненных вследствие production-инцидента. С 2024 года входит в текущую модель [DORA](#dora) как одна из двух метрик нестабильности.
+
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
+
 ### DORA
 
-DevOps Research and Assessment — исследование (Forsgren / Humble / Kim), которое выделяет 4 ключевые метрики: [`deployment frequency`](#deployment-frequency), [`lead time for changes`](#lead-time-for-changes), [`change failure rate`](#change-failure-rate) и время восстановления после неудачного развёртывания (до 2023 года называлось [`MTTR`](#mttr); переименовано в failed deployment recovery time, чтобы учитывать только отказы, вызванные самим изменением). Используются вместе; оптимизация одной метрики за счёт другой — Goodhart's law.
+DevOps Research and Assessment. Текущая модель включает пять метрик производительности доставки: change lead time, [`deployment frequency`](#deployment-frequency), failed deployment recovery time, [`change failure rate`](#change-failure-rate) и [`deployment rework rate`](#deployment-rework-rate). Первые три образуют throughput, последние две — instability. Reliability относится к операционной производительности, а не является шестой метрикой доставки.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/). Источник: Forsgren et al., *Accelerate* (IT Revolution, 2018).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/). Источники: [актуальное руководство DORA](https://dora.dev/guides/dora-metrics/), [история изменений модели](https://dora.dev/insights/dora-metrics-history/).
 
 ### dotfiles
 
@@ -294,7 +300,7 @@ Container orchestrator, выросший из Google Borg и переданны�
 
 ### lead time for changes
 
-Время от первого коммита изменения до его выкатки в production. Одна из четырёх [DORA](#dora)-метрик. Считается из git-истории: `prod-deploy timestamp − first commit timestamp`. Растущий lead time чаще всего указывает на heavy approval gates ([change governance](/The-Way-of-SRE/leaves/practices/change-governance/)) или медленный pipeline; короткий lead time при низкой [`deployment frequency`](#deployment-frequency) — сигнал, что блокирует release decision, а не pipeline.
+Время от commit изменения в version control до deploy в production. Одна из трёх метрик пропускной способности в текущей модели [DORA](#dora). Источник начала и конца интервала фиксируется в методике расчёта, чтобы изменения tooling не склеивали несопоставимые периоды.
 
 *Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/).
 
@@ -334,9 +340,9 @@ Mean Time Between Failures — среднее время между двумя �
 
 ### MTTR
 
-Mean Time To Repair / Resolve / Recovery (зависит от источника). Среднее время от обнаружения инцидента до восстановления сервиса. Одна из четырёх [DORA](#dora)-метрик. Как KPI с премией — путь к манипуляции (инциденты закрываются как resolved до реальной mitigation); как индикатор тренда — полезен. Смотреть в паре с [MTBF](#mtbf): без ответа на вопрос «как часто падаем» скорость восстановления — половина картины.
+Mean Time To Repair / Resolve / Recovery — семейство метрик, точное начало и окончание которых зависят от принятого определения. DORA использовала MTTR в ранней модели, но в 2023 году заменила его на **failed deployment recovery time**: время восстановления именно после неудачного deploy, требующего немедленного вмешательства. Общий MTTR инцидентов больше не следует называть DORA-метрикой.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
 
 ## O
 
@@ -486,9 +492,9 @@ Sitrep (situation report) — формализованная сводка ста
 
 ### SLSA
 
-Supply-chain Levels for Software Artifacts (OpenSSF). Фреймворк уровней зрелости supply chain security: Level 1 (provenance), Level 2 (hosted build), Level 3 (non-forgeable provenance), Level 4 (hermetic + two-party review).
+Supply-chain Levels for Software Artifacts (OpenSSF). В актуальной спецификации v1.2 требования разделены на Build и Source tracks. Build track содержит L0–L3: отсутствие гарантий, наличие provenance, hosted build platform с подписанным provenance и hardened build platform. Старая единая шкала SLSA 1–4 относится к версии до 1.0.
 
-*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/). Источник: [SLSA specification v1.2](https://slsa.dev/spec/v1.2/).
 
 ### SOC 2
 

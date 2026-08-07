@@ -46,6 +46,7 @@ description: Координация реагирования на инциден
 
 - **[PagerDuty — Incident Response Documentation](https://response.pagerduty.com/)**. Открытый guide по incident response — Before / During / After, шаблоны коммуникации, роли, чек-листы. По моим наблюдениям, чаще всего именно его берут как стартовый шаблон в новых командах. Apache 2.0, переиспользуемое.
 - **[Atlassian — Incident Management Handbook](https://www.atlassian.com/incident-management/handbook)**. Практичный handbook от команды, прошедшей через множество публичных инцидентов.
+- NIST — **[SP 800-61 Rev. 3](https://csrc.nist.gov/pubs/sp/800/61/r3/final)** (апрель 2025). Актуальная рекомендация по cybersecurity incident response в контексте CSF 2.0; заменила Rev. 2. Для reliability-инцидентов не заменяет SRE Workbook, но нужна при пересечении с cybersecurity risk management.
 
 ### Инструменты
 
@@ -68,7 +69,7 @@ description: Координация реагирования на инциден
 
 **Stakeholder communications отделена от technical communications.** Бизнес-стейкхолдеры в общем техническом канале путаются в жаргоне, паникуют от «у нас 503 на checkout endpoint». Comms Lead владеет внешним каналом: переводит технические события в business language («оплата временно недоступна 15% пользователей»), даёт sync-апдейты по расписанию, не дублирует технические детали без необходимости.
 
-**Game day / wheel of misfortune — обязательная подготовка, не «когда будет время».** Первый incident response — реальный production-инцидент в 3 ночи: команда паникует, теряет минуты на ориентацию, IC не уверен в своей роли. Регулярные тренировки (раз в месяц на команду; роли играют по очереди; сценарии — из публичных постмортемов или прошлых инцидентов) превращают knowledge в мышечную память. По моим наблюдениям, разница между командами, делающими game day, и без — это разница в MTTR в 2–3 раза.
+**Game day / wheel of misfortune — подготовка процесса, не «когда будет время».** Тренировка позволяет проверить роли, путь эскалации, runbook и коммуникации до реального инцидента. Частота зависит от ротации on-call и темпа изменений; сценарии берутся из публичных постмортемов или прошлых инцидентов, а эффект измеряется локально, без универсального коэффициента MTTR.
 
 ## Связанные листья
 
@@ -85,7 +86,7 @@ description: Координация реагирования на инциден
 - **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — close-out incident включает создание AIs с owner / deadline / criterion; этот лист — про дисциплину их выполнения.
 - **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — современные incident-инструменты (incident.io, Netflix Dispatch, FireHydrant) — Slack-native ChatOps; declare / coordinate / sitrep живут в chat с встроенным audit trail.
 - **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — public status page update — часть IC checklist в моменте инцидента.
-- **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — регулярная тренировка этого процесса до того, как он понадобится; разница в MTTR между командами с game day и без — 2–3 раза.
+- **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — регулярная проверка ролей, эскалации, runbook и коммуникаций до реального инцидента.
 - **[Playbooks](/The-Way-of-SRE/leaves/culture/playbooks/)** — главный артефакт incident response practice; коэффициент использования playbook'ов в моменте — прямой индикатор зрелости IR.
 - **[Postmortem Database](/The-Way-of-SRE/leaves/culture/postmortem-database/)** — incident-management платформы автоматически связывают incident ↔ postmortem ↔ database; tooling-side этой пары практик.
 

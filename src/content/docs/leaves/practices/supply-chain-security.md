@@ -15,7 +15,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — проектировать **SLSA-compliant pipeline** под нужный target level. Уровней с версии 1.0 три, а не четыре, как было в черновике 0.1: Build L1 — provenance просто существует; Build L2 — сборка идёт на выделенной площадке и provenance подписан; Build L3 — площадка изолирует сборки друг от друга и не даёт шагам сборки добраться до ключей подписи. Старый Level 4 с требованиями к исходникам из спецификации убрали, разделив её на треки, так что ссылаться на «SLSA 4» сейчас — верный признак, что человек читал документацию три года назад. Достижимый baseline для большинства команд — L2; L3 имеет смысл для production-critical артефактов. По моим наблюдениям, команды без SLSA-фреймворка ставят defenses неконсистентно — что-то pin'нут, что-то не pin'нут, что-то sign'нут, что-то нет.
+Главный навык на уровне L5 — проектировать pipeline под конкретный **SLSA track, level и version**. В утверждённой спецификации v1.2 есть Build и Source tracks. Build L1 требует provenance, Build L2 — hosted build platform и подписанный provenance, Build L3 — hardened build platform. Старая единая шкала SLSA 1–4 относится к спецификации до 1.0; говорить просто «SLSA Level 3» без track и version теперь недостаточно точно.
 
 **L4**
 - Понимает scope `software supply chain` — это не только OSS dependencies, а **вся** цепочка: source repository → build runner → artifact registry → deployment → runtime.
@@ -23,7 +23,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 - Внедряет **Pipeline-as-Code в репо** (не в UI), все CI/CD secrets через **OIDC federation** (короткоживущие токены), а не long-lived PATs. Build steps pinned by digest (`@sha256:...`), не by mutable tag.
 
 **L5**
-- Проектирует **SLSA-compliant pipeline** — выбирает target level (Build L1–L3) по compliance/criticality.
+- Проектирует pipeline под выбранный SLSA Build level и версию спецификации; отдельно учитывает требования Source track.
 - Генерирует и публикует **SBOM** (Software Bill of Materials) — SPDX или CycloneDX, генерация в CI каждого артефакта (Syft / cdxgen), attestation подписан.
 - Применяет **artifact signing & verification** — Sigstore cosign для container images и release artifacts, keyless signing через OIDC, admission policies в k8s для verify-on-deploy.
 - Защищается от **dependency confusion и typosquatting** — internal packages с reserved namespace в public registry, strict resolver config (no fallback от private к public), allow-list maintained internal-mirror.
@@ -36,7 +36,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 
 ### Книги и фреймворки
 
-- **[SLSA — Supply-chain Levels for Software Artifacts](https://slsa.dev/)** (OpenSSF). Канонический фреймворк уровней зрелости. Maintained OpenSSF, реализуется в GitHub Actions, GitLab, BuildKit.
+- **[SLSA specification v1.2](https://slsa.dev/spec/v1.2/)** (OpenSSF). Первичный источник для Build и Source tracks. При ссылке на level я бы всегда указывал track и version, чтобы требование можно было проверить.
 - **[The Update Framework (TUF)](https://theupdateframework.io/)** (CNCF graduated). Спецификация secure software update systems — устойчива к key compromise, registry compromise, replay attacks. Используется как foundation в Sigstore, Notary v2, Datadog Agent.
 - **[in-toto framework](https://in-toto.io/)**. Спецификация attestation цепочки supply chain. SLSA использует in-toto attestations как формат.
 - **[NIST SSDF (SP 800-218)](https://csrc.nist.gov/Projects/ssdf)**. US federal требования к software vendors после EO 14028.
@@ -82,8 +82,8 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 
 - **[Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/)** — граница: VM реагирует на known CVE (что уже сломано); Supply Chain Security защищает процесс (где будущая уязвимость не успеет стать CVE). Оба используют SBOM как foundation.
 - **[Secrets Management](/The-Way-of-SRE/leaves/practices/secrets-management/)** — пересечение в OIDC federation и signing keys management. Centralized signing infrastructure = secrets-management discipline применённая к signing keys.
-- **[Threat Modeling](/The-Way-of-SRE/leaves/practices/threat-modeling/)** — supply chain — один из trust boundaries в DFD. SLSA Level выбирается с учётом threat model сервиса.
-- **[CI/CD](/The-Way-of-SRE/leaves/engineering/ci-cd/)** — pipeline и есть основной surface для supply chain compromise. SLSA Level 2+ требует hosted build service.
+- **[Threat Modeling](/The-Way-of-SRE/leaves/practices/threat-modeling/)** — supply chain — один из trust boundaries в DFD. SLSA track и level выбираются с учётом threat model сервиса.
+- **[CI/CD](/The-Way-of-SRE/leaves/engineering/ci-cd/)** — pipeline и есть основной surface для supply chain compromise. SLSA Build L2 требует hosted build platform.
 - **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — verify-on-deploy admission policies встроены в deployment pipeline.
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — Terraform modules / Helm charts / Ansible roles тоже supply chain. Аналогичные практики: signed releases, pinned versions, SBOM.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — supply chain compromise — особый класс инцидентов: огромный blast radius, remediation требует revoke-and-rotate scope.
@@ -96,5 +96,5 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 - **Workload Identity** — выделен в отдельный лист (см. Связанные листья).
 - **Compliance Frameworks** — выделен в отдельный лист.
 - **Bug Bounty Program Economics** *(TBD)* — когда launch, scopes, payout structure. Уже в open questions из Vulnerability Management. Соседний лист.
-- **Reproducible Builds** *(TBD)* — Bazel, Nix, Guix lineage; bit-for-bit determinism; cross-language challenges. Может быть отдельным листом под Programming / Scripting либо SLSA Level 4 подсекцией здесь.
-- Я не знаю, какой baseline SLSA Level имеет смысл рекомендовать для среднестатистической команды на 2026. SLSA 1 слишком слабо (просто provenance), SLSA 3 уже требует non-forgeable build service. По моим наблюдениям, большинство останавливается где-то на SLSA 2 + cosign + SBOM — но это не явная позиция индустрии, а пока консенсус-по-факту.
+- **Reproducible Builds** *(TBD)* — Bazel, Nix, Guix lineage; bit-for-bit determinism; cross-language challenges. Может быть отдельным листом под Programming / Scripting; в SLSA v1.2 это не «Level 4».
+- Я не знаю, какой SLSA baseline стоит рекомендовать без threat model и требований конкретного артефакта. Честнее фиксировать выбранные `track + level + version` и обоснование, чем объявлять один level нормой для всех команд.

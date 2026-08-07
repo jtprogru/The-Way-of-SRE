@@ -27,7 +27,7 @@ description: Внешняя коммуникация во время инцид�
 
 **L5**
 - Проектирует severity → communications matrix для команды — какой SEV → какие channels (statuspage / email / in-app banner / executive notify / regulators); cadence per severity; templates per комбинация, ревьюнутые legal / customer success.
-- Делает regulatory communications — GDPR 72h breach notification (стартовый таймер с discovery, не подтверждения), SEC 8-K material event disclosure (4 business days), HIPAA Breach Notification Rule.
+- Вместе с Legal/CISO применяет точные regulatory triggers: по GDPR Article 33 — awareness о personal data breach и risk exception; по SEC Item 1.05 Form 8-K — determination, что cybersecurity incident material для registrant.
 - Использует statuspage стратегически — subscriber management, uptime history transparency trade-off, localization для international клиентской базы.
 
 **L6+**
@@ -49,6 +49,8 @@ description: Внешняя коммуникация во время инцид�
 - **[Cloudflare incident reports](https://blog.cloudflare.com/tag/post-mortem/)**. Регулярные public post-mortems от Cloudflare. По моим наблюдениям, один из лучших benchmark'ов «public-ready» post-mortem.
 - Honeycomb — **[How We Manage Incident Response](https://www.honeycomb.io/blog/incident-response-at-honeycomb)** (Fred Hebert). Про внутреннюю механику, но с честным разделом о том, кто и когда говорит с клиентами в маленькой команде, где выделенного Comms Lead просто нет.
 - Increment — **[Incident Response issue](https://increment.com/on-call/)**. Статьи от Stripe / Slack / Asana о customer comms.
+- **[GDPR, Article 33](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A02016R0679-20160504)** — первичный текст: notification supervisory authority без неоправданной задержки и, где это возможно, в течение 72 часов после awareness; также содержит risk exception.
+- U.S. SEC — **[Cybersecurity incident disclosure rules](https://www.sec.gov/newsroom/press-releases/2023-139)**. Первичный источник для точной формулировки: Item 1.05 Form 8-K обычно подаётся в течение четырёх рабочих дней после determination, что incident material, а не через четыре дня после обнаружения любого события.
 
 ### Инструменты
 
@@ -73,7 +75,7 @@ description: Внешняя коммуникация во время инцид�
 
 **Customer-facing severity ≠ internal severity.** «Internal SEV1 → public banner red» — типичная путаница. Internal severity отражает team mobilization (war room, comm cadence); customer-facing — actual user impact. SEV1 для команды (war room) может быть `degraded performance` для клиента (10% reads slower, no data loss, transparent fallback). Public statuspage state — отдельная классификация (`operational / degraded performance / partial outage / major outage`), mapped from internal severity И customer-facing impact.
 
-**Regulatory comms — first 24 hours critical, pre-staged templates обязательны.** GDPR Article 33 — 72h notification starts from discovery (не подтверждения). SEC 8-K — 4 business days для material events. HIPAA Breach Notification — 60 дней (но индивидуальные уведомления — без задержки). Под давлением incident писать с нуля невозможно — pre-staged comms templates с legal review должны жить в runbook, ежегодно ревьюиться legal'ом.
+**Regulatory comms начинаются с применимости, а не с одного таймера.** GDPR Article 33 привязывает срок к awareness controller о personal data breach и содержит risk exception. SEC Item 1.05 Form 8-K обычно отсчитывает четыре рабочих дня от determination registrant, что cybersecurity incident material. Это разные триггеры для разных субъектов и юрисдикций; pre-staged templates и routing к Legal/CISO должны ссылаться на первичный текст, а не на сокращённую памятку «72 часа / 4 дня».
 
 **Trust building через transparency, не через тишину.** GitHub, Cloudflare, Stripe, Discord публикуют detailed public post-mortems после major incidents — по моим наблюдениям, **это строит trust на годы**. Honest «here's what happened, here's what we learned» = клиенты видят профессионализм. Hidden post-mortems → клиенты догадываются, и слухи хуже фактов. Decision: any incident с customer-facing impact > X получает public post-mortem в течение N дней.
 
