@@ -93,7 +93,7 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 - **[Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/)** — SOC 2 CC6.x — большой блок про logical access; IAM лист даёт техническую реализацию.
 - **[Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/)** — vendor risk management (SOC 2 CC9.2), third-party assessments, SBOM как evidence.
 - **[Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/)** — SOC 2 Availability category + ISO 27001 A.8.13 требуют tested backups; RPO/RTO — фиксированная часть evidence.
-- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — SOC 2 CC7.3 / GDPR Art. 33 (72-hour notification) / HIPAA Breach Notification — incident process с timelines требуется явно.
+- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — SOC 2 CC7.3 и применимые breach-notification rules требуют явного routing. Для GDPR Art. 33 учитываются awareness controller о personal data breach и risk exception, а не универсальный таймер для любого security incident.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — SOC 2 CC8.1 / ISO 27001 A.8.32 — change management process с approvals, testing, rollback.
 - **[GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)** — git history как audit trail; continuous reconciliation как evidence для CC6 (access) и CC8 (change).
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — control ownership matrix маппится на service ownership; без явных owners большая часть controls — orphan.

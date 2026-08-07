@@ -44,8 +44,9 @@ description: Рамка измерения серьёзности инциден
 ### Статьи и доклады
 
 - **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)** — open-source playbook. Полная глава по severity definitions, escalation policies, communication cadence. По моим наблюдениям, чаще всего именно её берут как стартовый шаблон. Apache 2.0.
-- **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management)**. Собственная шкала severity, escalation policies, customer communication patterns, интеграция со Statuspage. Полезно как пример того, что число уровней — решение компании, а не стандарт: у Atlassian их три, у многих команд пять.
+- **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management)**. Собственная шкала severity, escalation policies, customer communication patterns, интеграция со Statuspage. Полезно как пример того, что число уровней — решение компании, а не универсальный стандарт.
 - Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), главы 17–18. Severity для security-incidents, decision-making под давлением.
+- **[GDPR, Article 33](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A02016R0679-20160504)** — первичный текст требования об уведомлении supervisory authority. Нужен для точной границы: не каждый security incident является personal data breach, а исключение зависит от риска для прав и свобод людей.
 
 ### Инструменты
 
@@ -67,7 +68,7 @@ description: Рамка измерения серьёзности инциден
 
 **SLO burn rate → severity bridge.** «Severity отдельно, alerting отдельно» — high burn rate (5% бюджета за час) — это уже сигнал severity 1. Auto-escalation rules в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity становится subjective.
 
-**Регуляторные escalations — first 24h critical.** GDPR 72-hour breach notification — стартовый таймер с момента discovery, не с момента подтверждения. Severity matrix должна включать regulatory triggers (data breach / financial data exposure / health data / payment card data) с auto-page CISO / Legal / Compliance — не «оповестим в рабочее время».
+**У регуляторных уведомлений нет одного универсального таймера.** По GDPR Article 33 controller уведомляет supervisory authority без неоправданной задержки и, где это возможно, не позднее 72 часов после того, как ему стало известно о personal data breach; исключение действует, если нарушение с низкой вероятностью создаёт риск для прав и свобод людей. Это не правило «72 часа для любого security incident». Severity matrix должна быстро подключать CISO / Legal / Compliance, а применимость и момент awareness определяются с ними по конкретному факту и юрисдикции.
 
 **Calibration lookback каждый квартал.** «Severity scheme прописали год назад и не трогаем» — reality drift: распределение incidents меняется. Quarterly review: distribution по severity (если 80% SEV1 — критерии слишком низкие), false-positives, missed cases. Adjust criteria, document examples per level. Я регулярно вижу команды с устаревшей severity matrix, по которой через полгода стало невозможно отличить SEV1 от SEV2.
 

@@ -39,7 +39,7 @@ description: Выкатка изменений малыми долями с heal
 ### Книги
 
 - Jez Humble, David Farley — **Continuous Delivery** (Addison-Wesley, 2010). Фундамент дисциплины частых, безопасных, автоматизированных выкаток.
-- Nicole Forsgren, Jez Humble, Gene Kim — **Accelerate** (IT Revolution, 2018). DORA-эмпирика на связь deployment frequency / change failure rate / MTTR с org performance.
+- Nicole Forsgren, Jez Humble, Gene Kim — **Accelerate** (IT Revolution, 2018). Эмпирическая основа исходной модели DORA; для текущих пяти метрик и failed deployment recovery time нужен [актуальный guide DORA](https://dora.dev/guides/dora-metrics/).
 - Gene Kim, Jez Humble, Patrick Debois, John Willis — **The DevOps Handbook**, 2-е изд. (IT Revolution, 2021). Deployment patterns в широком DevOps-контексте.
 
 ### Статьи
@@ -81,7 +81,7 @@ description: Выкатка изменений малыми долями с heal
 - **[GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)** — Argo Rollouts (с ArgoCD) и Flagger (с Flux) — GitOps-нативные tools для progressive delivery.
 - **[Test Strategy](/The-Way-of-SRE/leaves/engineering/test-strategy/)** — pre-deploy tests vs canary как runtime test; дополняют друг друга.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — *техника* deployment (этот лист) и *policy / process* (governance) — соседние практики. Canary без явного change classification — half practice.
-- **[DORA Metrics](/The-Way-of-SRE/leaves/culture/dora-metrics/)** — progressive delivery — один из самых сильных рычагов улучшения сразу нескольких DORA-метрик: deployment frequency растёт, MTTR падает, change failure rate падает.
+- **[DORA Metrics](/The-Way-of-SRE/leaves/culture/dora-metrics/)** — эффект progressive delivery проверяется по throughput и instability; для восстановления после неудачного deploy используется failed deployment recovery time, а не общий MTTR инцидентов.
 
 ## Открытые вопросы
 - **Rollback Discipline** *(TBD)* — углублённая тема: rollback testing (regular fire drills), automated rollback testing in CI, time-to-rollback как метрика.
