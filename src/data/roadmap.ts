@@ -265,6 +265,12 @@ export const roadmap: Roadmap = {
               href: '/leaves/engineering/alert-fatigue-management/',
               priority: 'mandatory',
             },
+            {
+              id: 'telemetry-economics',
+              label: 'Telemetry Economics',
+              href: '/leaves/engineering/telemetry-economics/',
+              priority: 'mandatory',
+            },
           ],
         },
         {

@@ -87,6 +87,7 @@ description: SRE-практика управления стоимостью об
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каталог сервиса содержит cost-метаданные: owner, budget, current spend, trend.
 - **[Stakeholder Management](/The-Way-of-SRE/leaves/culture/stakeholder-management/)** — cost-translation для finance — отдельный навык внутри stakeholder management; conversation с CFO требует unit economics, не engineering-метрик.
 - **[Cloud Providers](/The-Way-of-SRE/leaves/engineering/cloud-providers/)** — биллинговая модель провайдера — fundamental input в FinOps lifecycle; managed-сервисы vs self-hosted — central cost-trade-off.
+- **[Telemetry Economics](/The-Way-of-SRE/leaves/engineering/telemetry-economics/)** — применение unit economics к metrics, logs и traces: ingest, cardinality, sampling, retention и стоимость pipeline.
 
 ## Открытые вопросы
 
