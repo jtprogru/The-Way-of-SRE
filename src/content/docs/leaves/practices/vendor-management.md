@@ -1,6 +1,6 @@
 ---
 title: Vendor Management
-description: Engineering-практика управления зависимостями от внешних сервисов — vendor SLO, composite math, concentration risk, vendor incident playbook
+description: Управление зависимостями от внешних поставщиков как инженерная практика, а не как контракт, купленный закупками
 ---
 
 :::note[Метаданные листа]
@@ -17,7 +17,7 @@ description: Engineering-практика управления зависимо�
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — измерять **vendor's contribution to own SLO** через composite math: если vendor SLA — 99.9%, и vendor — критическая зависимость в request path, наш user-facing SLO не может быть выше 99.9% без явной redundancy / fallback / degraded mode. Я регулярно вижу команды, которые декларируют 99.95% SLO, при этом зависят от 3 vendors с 99.9% SLA — арифметика не сходится с самого начала. Это не значит «не использовать vendor»: это значит признать, что без redundancy наш SLO — composite, и формула должна быть явной.
+Главный навык на уровне L5 — измерять **vendor's contribution to own SLO** через composite math: если vendor SLA — 99.9%, и vendor — критическая зависимость в request path, наш user-facing SLO не может быть выше 99.9% без явной redundancy / fallback / degraded mode. Я регулярно вижу команды, которые декларируют 99.95% SLO и одновременно зависят от трёх vendors с 99.9% SLA — арифметика не сходится с самого начала. Это не значит «не использовать vendor»: это значит признать, что без redundancy наш SLO — composite, и формула должна быть явной.
 
 **L3**
 - Знает critical vendors своего сервиса (cloud / DNS / CDN / auth / payment / observability / messaging); читает их public status page и historical incidents.
@@ -61,15 +61,13 @@ description: Engineering-практика управления зависимо�
 
 ## Best practices
 
-Главный публичный кейс — **Cloudflare outage, July 2, 2019**. Регулярное выражение в правиле WAF вызвало CPU exhaustion на edge-серверах; ошибка попала в production, не отловленная на пути туда. Двадцать семь минут глобальный трафик самого Cloudflare был ниже нормы примерно на 82 процента — и вместе с ним лежали сайты, которые никакого отношения к деплою этого правила не имели. **Что показал инцидент:** даже Reddit, Twitch и Discord оказались недоступны, потому что все они прятались за одним и тем же провайдером. Оговорюсь про масштаб, потому что его любят преувеличивать: речь не про половину интернета, а про одного провайдера, через которого проходит порядка десятой части веб-трафика. Этого хватило, чтобы день выдался запоминающимся. Я регулярно вижу команды, у которых «у нас Cloudflare» как полный ответ на вопрос «что у вас по DDoS / DNS / CDN», без понимания, что **vendor concentration** — это reliability risk, и в день Cloudflare outage любая redundancy на собственной инфраструктуре уже бесполезна. Это не аргумент против Cloudflare — это аргумент за **vendor incident playbook**: что мы делаем (degraded mode? read-only? bypass CDN?), когда vendor up за пределами нашего контроля.
+Главный публичный кейс — **Cloudflare outage, July 2, 2019**. Регулярное выражение в правиле WAF вызвало CPU exhaustion на пограничных серверах; ошибка попала в production, не отловленная на пути туда. Двадцать семь минут глобальный трафик самого Cloudflare был ниже нормы примерно на 82 процента — и вместе с ним лежали сайты, которые никакого отношения к деплою этого правила не имели. **Что показал инцидент:** даже Reddit, Twitch и Discord оказались недоступны, потому что все они прятались за одним и тем же провайдером. Оговорюсь про масштаб, потому что его любят преувеличивать: речь не про половину интернета, а про одного провайдера, через которого проходит порядка десятой части веб-трафика. Этого хватило, чтобы день выдался запоминающимся. Я регулярно вижу команды, у которых «у нас Cloudflare» как полный ответ на вопрос «что у вас по DDoS / DNS / CDN», без понимания, что **vendor concentration** — это reliability risk, и в день Cloudflare outage любая redundancy на собственной инфраструктуре уже бесполезна. Это не аргумент против Cloudflare — это аргумент за **vendor incident playbook**: что мы делаем (degraded mode? read-only? bypass CDN?), когда vendor up за пределами нашего контроля.
 
-**Короткие правила:**
+Всё остальное вырастает из трёх артефактов, и первый из них — инвентаризация. Пока нет явного списка критичных vendors с SLA, уровнем критичности и влиянием на SLO, обсуждение держится в голове у пары человек, а в день отказа выясняется, что головы эти в отпуске. Список живёт в репозитории и меняется через PR — при добавлении и при выпиливании поставщика.
 
-- **Vendor inventory обязательна.** Без явного списка critical vendors с SLA / criticality / SLO impact — discussions держатся «в голове». Inventory living: PR при добавлении / удалении vendor.
-- **Composite SLO math явная.** «Наш SLO — 99.95%» при зависимости от vendor 99.9% без redundancy — математически невозможно. Либо redundancy, либо honest 99.9% (или ниже), либо явно accepted budget consumption на vendor side.
-- **Vendor incident playbook для критичных vendors.** «Что мы делаем, когда Cloudflare / AWS region / Stripe down» — конкретные steps, не «свяжемся с support». Tested в game day минимум раз в год.
+Второй артефакт — явная арифметика composite SLO. «Наш SLO 99.95%» при зависимости от поставщика с 99.9% и без redundancy — это не цель, а математическая невозможность. Выход один из трёх: делать redundancy, честно писать 99.9% или ниже, либо явно признать, что часть бюджета мы отдаём на сторону поставщика.
 
-Подробнее:
+Третий — playbook на отказ каждого критичного поставщика. Что конкретно мы делаем, когда лёг Cloudflare, регион AWS или Stripe: переходим в degraded mode, в read-only, обходим CDN. «Свяжемся с support» — не шаг. И этот playbook хотя бы раз в год прокатывается на game day, иначе он художественная литература.
 
 **Concentration risk vs operational simplicity — главный trade-off.** Single vendor (AWS-only / Cloudflare-only / Stripe-only) — operational simplicity, но full exposure to их incidents. Multi-vendor — снижает single-point-of-failure, но требует 2x ops effort, complex routing, payment redundancy и т.д. По моим наблюдениям, разумная граница: для **infrastructure tier** (cloud, DNS, CDN, payment) — multi-vendor оправдан для критичных компаний; для **operational tier** (observability, error tracking, communication tools) — single vendor обычно ОК с явным fallback. Конкретный baseline зависит от business criticality и customer-facing SLO.
 
@@ -97,6 +95,7 @@ description: Engineering-практика управления зависимо�
 
 - **Multi-Cloud Strategy** *(TBD)* — когда multi-cloud оправдан, когда anti-pattern; пересечение с capacity planning и cost management.
 - **Vendor Concentration Metrics** *(TBD)* — как количественно мерить vendor concentration risk (% of revenue / % of critical paths / blast radius).
-- **Open-source Dependencies как «vendor»** — semi-vendor relationships (Linux distro, k8s, PostgreSQL, etc); похожие governance вопросы, разный контекст.
-- **Vendor Negotiation Tactics** — engineering-сторона переговоров (technical evidence для лучших terms); пересечение с procurement role.
-- Я не уверен, какая **минимальная granularity** vendor inventory правильна (на уровне vendor / на уровне отдельных endpoints / на уровне feature). Если у вас есть рабочая модель — расскажите через PR.
+
+Отдельная незакрытая тема — open source как «поставщик». дистрибутив Linux, Kubernetes, PostgreSQL: вопросы governance те же самые, а контекст совсем другой, потому что предъявить SLA некому. Туда же переговорная часть: инженерная сторона переговоров, где технические аргументы конвертируются в условия контракта, живёт на стыке с закупками, и я не видел устоявшейся практики, как это делить.
+
+Не уверен и в правильной **минимальной granularity** инвентаризации: вести её на уровне поставщика, отдельных endpoints или фич. Если у вас есть рабочая модель — расскажите через PR.

@@ -1,6 +1,6 @@
 ---
 title: Status Page Management
-description: Operational practice public status page — subscriber model, uptime transparency, scheduled maintenance, decoupled infrastructure
+description: "Публичная страница статуса как операционная практика: подписки, честный uptime, анонс работ, отдельная инфраструктура"
 ---
 
 :::note[Метаданные листа]
@@ -23,7 +23,7 @@ description: Operational practice public status page — subscriber model, uptim
 - Понимает разницу между component status (operational / degraded / outage) и incident status (investigating / identified / monitoring / resolved); знает 5-stage incident lifecycle Atlassian Statuspage / Better Stack.
 
 **L4**
-- Настраивает auto-update integration между monitoring (Datadog / Grafana / Prometheus) и status page — высокий-severity alert → автоматическое создание incident в `investigating` state с manual override.
+- Настраивает auto-update integration между monitoring (Datadog / Grafana / Prometheus) и status page — критический алерт → автоматическое создание incident в `investigating` state с manual override.
 - Управляет subscriber model — email / SMS / RSS / webhook / Slack notifications; знает разницу subscribed-to-component vs subscribed-to-all и UX implications.
 - Pre-announces scheduled maintenance минимум за 7 дней для major changes, за 24 часа для minor — с конкретным time window и expected impact.
 
@@ -60,7 +60,7 @@ description: Operational practice public status page — subscriber model, uptim
 
 - **[Atlassian Statuspage](https://www.atlassian.com/software/statuspage)** — доминирующий enterprise provider; subscriber management (email/SMS/Slack/webhook/RSS), scheduled maintenance, incident lifecycle, custom domains, API для auto-update из monitoring. По моим наблюдениям, чаще всего выбирают для B2B SaaS до 1000 клиентов.
 - **[Better Stack Status](https://betterstack.com/status-page)** (бывший Better Uptime) — modern alternative, plus интегрирован с их uptime monitoring; дешевле Atlassian на entry-tier. Часто выбирают startup'ы.
-- **[Instatus](https://instatus.com/)** — emphasis на UI/UX, embed-возможности; быстрая настройка.
+- **[Instatus](https://instatus.com/)** — emphasis на UI/UX, есть виджеты для встраивания; быстрая настройка.
 - **[Statuspal](https://statuspal.io/)** — EU-hosted, GDPR-friendly compliance — релевантно для EU-based companies.
 - **[Status.io](https://status.io/)** — long-time player; advanced subscriber management.
 - **[StatusGator](https://statusgator.com/)** — meta-aggregator: показывает статус ваших vendor'ов (AWS / Stripe / GitHub / Twilio) в одном dashboard. Полезен для команд с большим vendor footprint.
@@ -70,19 +70,17 @@ description: Operational practice public status page — subscriber model, uptim
   - **[Cachet](https://cachethq.io/)** — Laravel-based, OG open-source statuspage. Старый, но live; используется в командах с PHP-stack или compliance constraints.
   - **[Gatus](https://github.com/TwiN/gatus)** — Go-based, modern OSS; YAML-конфигурация, built-in synthetic monitoring. По моим наблюдениям, чаще выбирают для команд, готовых к self-hosting.
   - **[Uptime Kuma](https://github.com/louislam/uptime-kuma)** — самая популярная OSS статуспейдж сейчас (под 90 тысяч звёзд на GitHub, с большим отрывом от остальных); self-hosted, modern UI, multiple notification integrations.
-- **Minimal viable communication** — для personal проектов или MVP-stage, где dedicated statuspage overkill: RSS-feed от blog'а, Telegram-канал ([jtprogru_channel](https://t.me/jtprogru_channel) — как использую сам), incident-категория в Discourse / GitHub Discussions. Не industry-grade, но работает на масштабе до сотен клиентов.
+- **Minimal viable communication** — для personal проектов или MVP-stage, где dedicated statuspage overkill: RSS-feed от blog'а, канал в Telegram ([jtprogru_channel](https://t.me/jtprogru_channel) — как использую сам), отдельная категория для инцидентов в Discourse / GitHub Discussions. Не industry-grade, но работает на масштабе до сотен клиентов.
 
 ## Best practices
 
 Конкретный antipattern — **AWS Health Dashboard** на серии US-EAST-1 outages. Несколько раз за последнее десятилетие клиенты первыми узнавали о downtime через Reddit / Twitter / собственные monitors, тогда как AWS public status page показывал зелёный ещё 30-60 минут после начала incident. Industry-wide восприятие: «AWS статус — marketing artifact, real signal — Twitter». Это типичный сбой priorities — на полпути между «marketing wants no red on the page» и «engineering wants accurate signal», marketing выигрывает, доверие клиентов разрушается. Reference в обратную сторону — **GitHub / Cloudflare / Stripe**: они обновляют status быстро (10-15 минут после detection), включая `investigating` state до того, как точно знают причину. Доверие клиентов к их status page высокое, потому что зелёное там действительно зелёное.
 
-**Короткие правила:**
+Три вещи, которые я проверяю первыми, когда открываю чужую status page. Живёт ли она отдельно от prod. Обновляется ли раньше, чем соцсети. И собрана ли из того, что видит клиент, а не из внутренних сервисов.
 
-- **Status page живёт на отдельной инфраструктуре от prod.** Если prod лежит, status page должна работать. Anti-pattern: self-hosted status page на той же AWS region что и main API — region down = status page down = клиенты без сигнала. Атлассиан, Better Stack, etc. SaaS-providers — automatically decoupled. Self-hosted (Cachet / Gatus / Uptime Kuma) хостится на отдельном cloud / провайдере / minimum CDN-cached static fallback.
-- **Statuspage first, Twitter second, blog third.** Канонический path во время incident: status page → email blast subscribers → social media → customer success outreach. Twitter post «we have an issue», пока status page показывает `operational` — рассогласование, разрушает trust сильнее самого incident. См. также [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/) best practice «Statuspage — first source of truth для клиентов».
-- **Component granularity отражает customer-facing capabilities, не internal services.** Клиент не знает (и не должен) ваш internal сервис `api-gw` или `user-svc`. Он знает «API», «Dashboard», «Webhooks», «Billing». Component list составляется от user-facing capabilities; mapping `internal сервисы → public components` — отдельная декларация, переопределимая.
+Порядок публикации задаётся один раз и не обсуждается в моменте: status page → email по подписчикам → соцсети → customer success. Твит «у нас что-то сломалось» при зелёной странице статуса рассогласует картину и разрушает доверие сильнее, чем сам инцидент. Это та же мысль, что в [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/) сформулирована как «Statuspage — first source of truth для клиентов».
 
-Подробнее:
+Компоненты собираются от того, что клиент умеет назвать. Он не знает ваш `api-gw` или `user-svc` и знать не обязан. Он знает «API», «Dashboard», «Webhooks», «Billing» — вот из этого и складывается список, а mapping внутренних сервисов на публичные компоненты остаётся отдельной декларацией, которую можно переопределить.
 
 **Decoupled infrastructure — это не nice-to-have, это hard requirement.** Я регулярно вижу команды, которые ставят self-hosted Cachet на ту же Kubernetes cluster что и main app — «дешевле, удобно, GitOps deployment». В первый же major outage (cluster API down / network outage / cloud zone outage) status page оказывается в тёмной зоне вместе с main app, и клиенты не имеют способа узнать, что вообще происходит. Если выбираете self-hosted, **минимум** — другой cloud provider или CDN-cached static fallback (CloudFront / Cloudflare Pages с pre-rendered HTML, обновляется через external webhook). По моим наблюдениям, командам с serious uptime SLA дешевле взять SaaS-provider Atlassian / Better Stack — они уже решили эту проблему за вас.
 
@@ -92,7 +90,7 @@ description: Operational practice public status page — subscriber model, uptim
 
 **Severity → component status mapping должен быть формальным, не «по ощущениям».** Internal SEV1 (war room, comm cadence 30 мин) маппится на какой component status — `degraded performance` или `partial outage`? Это решение должно быть в severity matrix явно, не «IC решает в моменте». По моим наблюдениям, без явного mapping разные incidents с одной и той же internal severity получают разный public status — это сбивает клиентов и снижает доверие к статус page как сигналу. Mapping table + auto-update integration с monitoring → consistency.
 
-**Subscriber model по умолчанию push, не pull.** Клиент не должен открывать status page каждые 15 минут, чтобы узнать, что происходит. Email subscription, SMS для critical, RSS / webhook для technical клиентов, Slack integration через Atlassian Statuspage Slack app — это default. По моим наблюдениям, команды с высоким subscribership имеют меньше support-обращений во время incident (клиент уже знает, что вы знаете) — это direct ROI.
+**Подписка работает на push, не на pull.** Клиент не будет открывать status page каждые 15 минут, чтобы узнать, что происходит, — и правильно сделает. Email для всех, SMS для критичного, RSS и webhook для технических клиентов, Slack через приложение Atlassian Statuspage. По моим наблюдениям, там где подписчиков много, во время инцидента заметно меньше обращений в поддержку: клиент уже знает, что вы знаете.
 
 ## Связанные листья
 
@@ -100,7 +98,7 @@ description: Operational practice public status page — subscriber model, uptim
 - **[Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)** — internal severity → public component status mapping (formal, не «по ощущениям»); cadence обновлений per severity.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — IC отвечает за обновление status page в moment инцидента; status page update — часть incident response checklist.
 - **[War Room Patterns](/The-Way-of-SRE/leaves/practices/war-room-patterns/)** — Comms Lead в war room — главный owner status page updates; cadence обновлений координируется с sitrep cadence.
-- **[Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/)** — публичный RCA после major incident — отдельная transparency-практика (стиль GitHub / Cloudflare / Stripe); связан с status page через final incident update со ссылкой на post-mortem.
+- **[Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/)** — публичный RCA после major incident — отдельная практика открытости (стиль GitHub / Cloudflare / Stripe); связан с status page через final incident update со ссылкой на post-mortem.
 - **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — monitoring data → status page auto-update integration; SLO breach как trigger для automatic incident creation.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каждый component на status page имеет owner — team или инженер, ответственный за уточнение state.
 - **[Compliance Frameworks](/The-Way-of-SRE/leaves/practices/compliance-frameworks/)** — для regulated industries (financial / healthcare) status page становится regulatory artifact с явными disclosure requirements.
@@ -108,8 +106,12 @@ description: Operational practice public status page — subscriber model, uptim
 
 ## Открытые вопросы
 
-- **Public RCA practice** *(TBD)* — отдельная подобласть: детальные post-mortem публикации после major incidents (стиль GitHub October 2018 incident report, Cloudflare regex outage 2019, Discord post-mortems). Сейчас касается status page через final update со ссылкой; возможный отдельный лист как сосед к Blameless Postmortem (внутренняя дисциплина) и Status Page Management (внешняя поверхность).
-- **Internationalization status page** — multi-language UI, localized email subscriptions, time zone в cadence promises. Релевантно для international SaaS; tooling support неравномерный (Atlassian Statuspage — limited, Better Stack — лучше).
-- **Multi-product status portfolio** — один общий statuspage для всех products vs per-product. Atlassian (общий статус всех Jira / Confluence / Bitbucket) vs Stripe (отдельные status pages для Stripe / Atlas / Issuing). Trade-off: ease of subscription vs noise для клиентов, использующих только один product.
-- **AI-generated incident updates** — emerging direction (incident.io, FireHydrant экспериментируют): LLM формирует draft update для IC approval. Полезно для cadence во время long-running incident, но риск неверной подачи — IC должен review каждый update.
-- Я не уверен в оптимальном **uptime SLA disclosure** — public commitments to specific uptime number (99.9%, 99.95%) vs not making such commitment. Sales team часто хочет конкретное число для contracts; engineering team боится regulatory implications. Public SLA с явным compensation policy — стандарт для B2B SaaS, но границы responsibility размыты в публичных best practices.
+**Public RCA practice** *(TBD)* — детальные публикации разборов после крупных инцидентов (стиль GitHub October 2018 incident report, Cloudflare regex outage 2019, Discord post-mortems). Сейчас эта тема цепляется к status page только через финальный update со ссылкой. Возможно, из неё вырастет отдельный лист — сосед к Blameless Postmortem (внутренняя дисциплина) и к этому листу (внешняя поверхность).
+
+Локализация страницы статуса — многоязычный UI, локализованные подписки по email, часовой пояс в обещаниях по частоте обновлений. Релевантно для international SaaS, но поддержка со стороны инструментов неровная: у Atlassian Statuspage возможностей меньше, у Better Stack больше.
+
+Отдельный вопрос — один общий statuspage на весь портфель продуктов или по странице на продукт. Atlassian держит общий статус Jira / Confluence / Bitbucket, Stripe — отдельные страницы для Stripe / Atlas / Issuing. Компромисс тут между удобством подписки и шумом для клиента, который пользуется одним продуктом из десяти.
+
+- **AI-generated incident updates** — emerging direction (incident.io, FireHydrant экспериментируют): LLM формирует draft update для IC approval. Полезно для cadence во время long-running incident, но риск неверной подачи — каждый update проходит через IC.
+
+Я не уверен в оптимальном раскрытии SLA по доступности: публиковать конкретное число (99.9%, 99.95%) или не брать публичных обязательств вовсе. Sales обычно хочет число в контракте, engineering боится юридических последствий. Публичный SLA с явной компенсационной политикой — стандарт для B2B SaaS, но границы ответственности в публичных best practices размыты.
