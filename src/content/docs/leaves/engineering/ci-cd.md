@@ -11,7 +11,7 @@ description: Pipeline сборки и доставки кода как кодо�
 - **Статус:** draft
 :::
 
-Если pipeline настолько медленный и нестабильный, что разработчики переключаются на другую работу до результата, диаграмма Continuous Delivery уже мало что объясняет. [CI/CD](/The-Way-of-SRE/glossary/#ci-cd) — про измеримую скорость обратной связи, **immutable artifacts** с явным versioning и системную работу с flaky tests. Это не «инструмент DevOps команды», а **платформа**, на которой стоят [Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/), [Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/) и [GitOps](/The-Way-of-SRE/leaves/engineering/gitops/). Соседний лист к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) под L1 `Programming / Scripting`.
+Я регулярно вижу pipeline, настолько медленный и нестабильный, что разработчик успевает переключиться на другую задачу раньше, чем придёт результат. Диаграмма Continuous Delivery тут уже ничего не объясняет. [CI/CD](/The-Way-of-SRE/glossary/#ci-cd) — про измеримую скорость обратной связи, **immutable artifacts** с явным versioning и системную работу с flaky tests. Это не «инструмент DevOps команды», а **платформа**, на которой стоят [Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/), [Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/) и [GitOps](/The-Way-of-SRE/leaves/engineering/gitops/). Соседний лист к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) под L1 `Programming / Scripting`.
 
 ## Что должен уметь
 
@@ -32,7 +32,7 @@ description: Pipeline сборки и доставки кода как кодо�
 - Использует пять текущих DORA-метрик как совместный health indicator: change lead time, deployment frequency, failed deployment recovery time, change fail rate и deployment rework rate.
 
 **L6+**
-- Проектирует deployment governance в крупных организациях: regulatory constraints (SOX / PCI-DSS / GDPR), журнал аудита, signed artifacts (Sigstore / cosign), SLSA / SBOM, reproducible builds. CI/CD становится compliance-инструментом.
+- Проектирует deployment governance в крупных организациях: regulatory constraints (SOX / PCI-DSS / GDPR), журнал аудита, signed artifacts (Sigstore / cosign), SLSA / SBOM, reproducible builds. CI/CD превращается в инструмент compliance.
 
 ## Материалы
 
@@ -45,13 +45,13 @@ description: Pipeline сборки и доставки кода как кодо�
 ### Статьи и доклады
 
 - DORA — **[Software delivery performance metrics](https://dora.dev/guides/dora-metrics/)**. Актуальные определения пяти метрик, их область применения и типовые ошибки измерения.
-- Paul Hammant — **[trunkbaseddevelopment.com](https://trunkbaseddevelopment.com/)**. Полный reference-сайт по trunk-based development; альтернатива GitFlow с обоснованием.
+- Paul Hammant — **[trunkbaseddevelopment.com](https://trunkbaseddevelopment.com/)**. Полный справочный сайт по trunk-based development; альтернатива GitFlow с обоснованием.
 - Mike Bland — **[Goto Fail, Heartbleed, and Unit Testing Culture](https://martinfowler.com/articles/testing-culture.html)** (martinfowler.com). Почему unit tests без культуры их писать — бесполезны.
 - SLSA project — **[SLSA specification v1.2](https://slsa.dev/spec/v1.2/)**. Текущие Build и Source tracks; старая единая шкала 1–4 больше не описывает актуальную спецификацию. См. [Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
 
 ### Инструменты
 
-- **GitHub Actions / GitLab CI / Jenkins / CircleCI / Buildkite / Drone** — execution engines. Выбор обычно следует за platform-выбором (GitHub → Actions; self-hosted Git → Jenkins или Drone). Pipeline-as-Code должен переноситься между ними с разумным усилием.
+- **GitHub Actions / GitLab CI / Jenkins / CircleCI / Buildkite / Drone** — execution engines. Выбор обычно следует за выбором платформы (GitHub → Actions; self-hosted Git → Jenkins или Drone). Pipeline-as-Code должен переноситься между ними с разумным усилием.
 - **[Sigstore](https://www.sigstore.dev/) / [cosign](https://github.com/sigstore/cosign)** — keyless signing артефактов через short-lived certs.
 - **[Renovate](https://docs.renovatebot.com/) / [Dependabot](https://github.com/dependabot)** — automated dependency updates через PR. По моим наблюдениям, в зрелых командах настройка либо одного, либо другого — стандарт; dependency drift = дыры безопасности.
 - **[Buildkite Test Engine](https://buildkite.com/test-engine) / [Datadog CI Visibility](https://docs.datadoghq.com/continuous_integration/)** — pipeline observability: trends по длительности билда, flaky-test detection, DORA из самого pipeline.
@@ -60,23 +60,23 @@ description: Pipeline сборки и доставки кода как кодо�
 
 ## Best practices
 
-Актуальное руководство DORA группирует пять метрик в throughput и instability и отдельно предупреждает против оптимизации одного показателя или соревнования между командами. Для CI/CD это полезная проверка границ: изменение pipeline оценивается не только по частоте deploy, но и по recovery, failed changes и незапланированному rework.
+Актуальное руководство DORA группирует пять метрик в throughput и instability и отдельно предупреждает: не оптимизируйте один показатель и не устраивайте соревнование между командами. Для CI/CD это удобная проверка границ. Изменение pipeline оценивается не только по частоте деплоя, но и по времени восстановления, доле неудачных изменений и незапланированному rework.
 
-**Короткие правила:**
+Дальше три вещи, без которых остальное не держится. Порядок неслучаен.
 
-- **CI должен укладываться в измеримый target обратной связи и быть надёжным.** Универсального десятиминутного порога нет: команда фиксирует baseline, p50/p95 и целевое улучшение. Flaky test изолируется с владельцем и сроком исправления, чтобы rerun не маскировал качество pipeline.
-- **Pipeline-as-Code в репо сервиса, не клики в UI.** Pipeline настроен через UI — невоспроизводимо, нельзя ревьюить, нельзя версионировать с кодом. Pipeline-as-Code (`.github/workflows/`, `Jenkinsfile`) в том же репо: ревью через PR, версионирование, история.
-- **Trunk-based development, не long-lived feature branches.** Feature branch живёт 3 недели → merge hell, integration тестируется только перед мержем. Trunk-based: small frequent commits в main (часы/дни жизни branch), feature flags скрывают незаконченное. Это **enabler** для progressive delivery.
+Первая — скорость и надёжность самого CI. Универсального «десять минут» не существует: команда фиксирует baseline, смотрит p50 и p95, договаривается, куда двигаться. Дальше важнее другое. Flaky test не перезапускается до зелёного — он изолируется, получает владельца и срок, потому что иначе rerun превращается в способ не видеть, что pipeline сломан.
 
-Подробнее:
+Вторая — pipeline живёт кодом. Настроенный мышкой в UI, он невоспроизводим: его нельзя отревьюить, нельзя версионировать вместе с сервисом и нельзя восстановить после ухода человека, который его собирал. `.github/workflows/` или `Jenkinsfile` рядом с кодом дают и ревью через PR, и историю.
 
-**Secrets в pipeline через OIDC federation, а не long-lived tokens.** GitHub Actions secret = long-lived AWS access key — утечка из логов означает постоянный доступ к prod cloud account. OIDC federation: pipeline получает short-lived token для конкретного job (TTL минуты), не хранится после job. GitHub Actions / GitLab CI / CircleCI / Buildkite поддерживают; AWS / GCP / Azure поддерживают со своей стороны (`AssumeRoleWithWebIdentity` / Workload Identity Federation). Это самый дешёвый сдвиг в supply chain security.
+Третья — trunk-based development. Ветка, которая живёт три недели, оплачивается merge hell, и интеграция в ней впервые проверяется прямо перед мержем, то есть в самый неудачный момент. Короткие коммиты в main плюс feature flags — не вкусовщина. Без них progressive delivery не собирается.
 
-**Failed deployment ≠ катастрофа; rollback и roll-forward — заранее спроектированные пути.** Зрелый pipeline хранит immutable artifacts с явным versioning, проверяет health gates и позволяет быстро выбрать безопасное восстановление. DORA показывает связь скорости и стабильности на уровне результатов, но отдельный дашборд не доказывает причинность конкретного изменения pipeline.
+**Secrets в pipeline через OIDC federation, а не long-lived tokens.** GitHub Actions secret с долгоживущим AWS access key — это постоянный доступ к прод-аккаунту для всякого, кто вытащит его из логов. OIDC federation выдаёт короткоживущий токен на конкретный job, с TTL в минуты, и после job он мёртв. Поддержка есть везде: GitHub Actions, GitLab CI, CircleCI, Buildkite со стороны CI, `AssumeRoleWithWebIdentity` и Workload Identity Federation со стороны облаков. На мой взгляд, это самый дешёвый шаг в supply chain security из возможных.
 
-**DORA-метрики измеряют, но не заменяют цель продукта.** «Увеличим deployment frequency» без проверки instability создаёт стимул оптимизировать счётчик. На дашборде рядом живут все пять текущих метрик и версия их определений.
+**Failed deployment ≠ катастрофа.** Rollback и roll-forward — это спроектированные заранее пути, а не импровизация в три ночи. Зрелый pipeline хранит immutable artifacts с явным versioning, проверяет health gates и даёт быстро выбрать безопасный вариант восстановления. Осторожность здесь одна: DORA показывает связь скорости и стабильности на уровне результатов исследования, а не доказывает, что именно ваша конкретная правка pipeline что-то улучшила.
 
-**Supply chain security: signed artifacts + SBOM по умолчанию.** Конкретные обязательства и даты зависят от применимого регулирования. Signed artifacts и SBOM дают проверяемые данные о происхождении и составе; актуальные tracks SLSA разобраны в [Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+**DORA-метрики измеряют, но не заменяют цель продукта.** «Увеличим deployment frequency» без взгляда на instability — это стимул оптимизировать счётчик, и я такое вижу регулярно. Лечится тем, что на дашборде рядом живут все пять текущих метрик и указана версия их определений.
+
+**Supply chain security: signed artifacts и SBOM по умолчанию.** Конкретные обязательства и сроки зависят от того, какое регулирование к вам применимо, и это единственная часть темы, которую нельзя списать из чужого блога. Механика же одинаковая для всех: подписанные артефакты и SBOM дают проверяемые данные о происхождении и составе того, что вы кладёте в прод. Актуальные tracks SLSA разобраны в [Supply Chain Security](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
 
 ## Связанные листья
 
@@ -93,6 +93,4 @@ description: Pipeline сборки и доставки кода как кодо�
 
 ## Открытые вопросы
 
-- **Supply Chain Security** — уже выделена в отдельный лист (см. Связанные листья).
-- **DORA Metrics** уже выделена в отдельный лист (см. Связанные листья).
-- **Build Reproducibility / Hermetic Builds** — отдельная подтема (deterministic builds, Bazel-style, locked deps).
+**Supply Chain Security** и **DORA Metrics** уже уехали в отдельные листья, ссылки в «Связанных». Открытым остаётся **Build Reproducibility / Hermetic Builds** — детерминированные сборки, подход в духе Bazel, залоченные зависимости. Своего опыта здесь у меня мало, поэтому лист пока не написан.

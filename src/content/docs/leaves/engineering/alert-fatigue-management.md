@@ -27,7 +27,7 @@ description: Систематическое снижение alert fatigue — a
 
 **L5**
 - Проектирует team-level alert review ritual: еженедельно или раз в две недели, что обсуждается, какие решения принимаются; ritual интегрирован с SLO Review и постмортемами.
-- Реализует Alertmanager-уровень шумоподавление: `group_by` для batch'инга, `inhibition` rules (если упал A, не пейджи об B/C/D зависимостях), silencing для known issues с TTL.
+- Реализует шумоподавление на уровне Alertmanager: `group_by` для batch'инга, `inhibition` rules (если упал A, не пейджи об B/C/D зависимостях), silencing для known issues с TTL.
 - Связывает повторяющиеся alerts с auto-remediation: где alert срабатывает регулярно и runbook известный — кандидат на automation.
 
 **L6+**
@@ -55,21 +55,19 @@ description: Систематическое снижение alert fatigue — a
 
 ## Best practices
 
-**Короткие правила:**
+Начинать приходится с измерения. Скучно, зато без чисел улучшения невозможны в принципе: нечего поставить как target, не видно ухудшения, нечем объяснить менеджменту, почему на разгребание алертов надо потратить спринт вместо фич. Минимум — actionable rate per service и alerts/week trend, review раз в месяц. Что измеряют, то и чинят.
 
-- **Measure alert quality — what gets measured gets fixed.** Без чисел улучшения невозможны: невозможно установить target, увидеть ухудшение, объяснить менеджменту необходимость инвестиций. Минимум: actionable rate per service, alerts/week trend; review ежемесячно.
-- **No-runbook alert либо получает runbook, либо удаляется.** Через 6 месяцев alert без runbook либо забывается, либо пейджит — инженер тратит 30 минут на разбор, чтобы понять, что это. Каждый alert на review получает либо runbook + owner, либо deadline на mute / delete.
-- **Alert grouping и inhibition rules обязательны для distributed систем.** Один инцидент → 50 PagerDuty pings (каждый микросервис задымил) — инженер тонет в шуме первые 15 минут response. `group_by` в Alertmanager batch'ит related; `inhibition` («если упал DB, не пейджи о connection errors во всех сервисах») сводит 50 pages к 1–2 диагностическим.
+Alert без runbook либо получает runbook, либо удаляется. Третьего состояния нет. Через полгода такой alert либо забыт всеми, либо пейджит ночью, и инженер тратит тридцать минут просто на то, чтобы понять, что это вообще было и стоит ли на это реагировать. На review каждый alert уходит в одну из двух корзин: runbook плюс owner, или дедлайн на mute / delete.
 
-Подробнее:
+Grouping и inhibition в распределённой системе — не тюнинг, а условие выживания. Один инцидент превращается в 50 PagerDuty pings, потому что задымил каждый микросервис, и первые пятнадцать минут response уходят на разгребание шума вместо диагностики. `group_by` в Alertmanager собирает related в один пакет. `inhibition` («упала DB — не пейджи о connection errors во всех сервисах») сводит те же 50 pages к одной-двум диагностическим.
 
-**Actionable rate ≥ 95% — реалистичный target для зрелого алертинга.** Я регулярно вижу 50% false-positive принимаемым как норма. На таком уровне инженер перестаёт верить alerts, ack'ает на автомате, пропускает реальные инциденты. Каждый non-actionable alert — это либо false positive (fixable through tuning), либо informational (move to ticket), либо известный неисправленный baseline issue. 95% — не «недостижимый идеал», а зрелый baseline, под который надо постепенно вырастать.
+**Actionable rate ≥ 95% — реалистичный target для зрелого алертинга.** Я регулярно вижу, как 50% false-positive принимают за норму. На таком уровне инженер перестаёт верить alerts, ack'ает на автомате и пропускает реальные инциденты. Каждый non-actionable alert — это либо false positive (лечится тюнингом), либо informational (переезжает в тикеты), либо известный неисправленный baseline issue. 95% — не «недостижимый идеал», а baseline, под который вырастают постепенно.
 
-**Alert review ritual еженедельно или раз в две недели, не «после инцидента подумаем».** По моим наблюдениям, команды, которые обсуждают alerts только после крупного инцидента, доходят до выгорания первыми. К моменту крупного инцидента команда уже на грани, и качество реакции падает. Норма: еженедельно или раз в две недели review — что было за неделю, какие false-positive, какие требуют fix, какие удаляются. Часть sprint retro или отдельный 30-минутный ритуал.
+**Alert review ritual еженедельно или раз в две недели, не «после инцидента подумаем».** По моим наблюдениям, команды, которые обсуждают alerts только после крупного инцидента, доходят до выгорания первыми. К этому моменту команда уже на грани, и качество реакции падает вместе с ней. Нормальный ритм — раз в неделю или в две: что прилетело, что было false-positive, что требует fix, что удаляем. Хоть куском sprint retro, хоть отдельным получасом.
 
-**Hysteresis / dampening в threshold, не «бегущий пейджер».** Alert срабатывает каждые 5 минут — система около границы threshold, переходит туда-обратно. Инженер получает 12 pages/час о том же. Hysteresis (alert загорается на A%, тушится на A-N%), dampening (минимальный sustained interval перед alert), `for: 5m` clause в Prometheus — стандартные техники против edge oscillation. Базовая гигиена.
+**Hysteresis и dampening в threshold, а не «бегущий пейджер».** Alert срабатывает каждые пять минут, потому что система ходит туда-обратно около границы, и инженер получает 12 pages в час об одном и том же событии, которое само себя чинит между срабатываниями. Лечится тремя стандартными приёмами. Hysteresis: загорается на A%, тушится на A-N%. Dampening: минимальный sustained interval перед alert. Плюс `for: 5m` в Prometheus.
 
-**Auto-remediation для повторяющихся alerts — путь к удалению alert из ротации.** Alert срабатывает 5 раз в неделю, инженер выполняет 3-шаговый runbook — за год потрачены сотни часов на «нажать кнопку», alert остаётся в ротации. Повторяющийся alert + известный runbook = automation candidate; реализуется через Lambda / operator / workflow; на review исключается из rotation после verification. Это самый эффективный способ снижения toil из всех, что я наблюдал.
+**Повторяющийся alert с известным runbook — кандидат на автоматизацию, а не на ротацию.** Он срабатывает пять раз в неделю, инженер выполняет три шага из runbook, за год набегают сотни часов на «нажать кнопку». Дальше просто. Реализуется через Lambda, operator или workflow, а на review alert исключается из ротации после verification. Это самый эффективный способ снижения toil из всех, что я наблюдал.
 
 ## Связанные листья
 
@@ -82,6 +80,7 @@ description: Систематическое снижение alert fatigue — a
 - **[Symptom vs Cause Alerting](/The-Way-of-SRE/leaves/engineering/symptom-vs-cause-alerting/)** — alert hygiene начинается с правильного выбора что алертить: symptom-side reduces false-positive rate в принципе, не post-hoc.
 
 ## Открытые вопросы
-- **Auto-Remediation Patterns** *(TBD)* — детальные паттерны (Lambda / k8s operator / Argo Workflow); как safely прогрессивно автоматизировать.
-- **Alert Routing & Escalation Patterns** — детализация Alertmanager routing trees, criticality levels (SHEDDABLE / CRITICAL_PLUS из SRE Book гл. 21).
-- **Maintenance Window / Silencing Practices** — как правильно делать planned silences без потери visibility; TTL hygiene.
+
+Самая большая дыра — **Auto-Remediation Patterns** *(TBD)*: детальные паттерны на Lambda, k8s operator и Argo Workflow есть, а внятного ответа, как автоматизировать прогрессивно и безопасно, у меня нет.
+
+Ещё два долга поменьше. **Alert Routing & Escalation Patterns** — детализация Alertmanager routing trees и criticality levels (SHEDDABLE / CRITICAL_PLUS из SRE Book гл. 21). И **Maintenance Window / Silencing Practices**: как делать planned silences без потери visibility и не копить вечные silence без TTL.
