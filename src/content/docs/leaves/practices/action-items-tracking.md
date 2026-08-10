@@ -1,6 +1,6 @@
 ---
 title: Action Items Tracking
-description: Дисциплина выполнения action items после постмортема — owner, deadline, success criterion, completion rate как метрика
+description: Дисциплина доводить action items постмортема до конца, а не до формулировки
 ---
 
 :::note[Метаданные листа]
@@ -11,7 +11,7 @@ description: Дисциплина выполнения action items после �
 - **Статус:** draft
 :::
 
-«Action items с прошлого постмортема? Половина закрыта, половина забыта». Я регулярно вижу команды, у которых постмортем-процесс работает (blameless, корректный RCA, AIs сформулированы) — но через 6 месяцев тот же incident возвращается, потому что AIs так и не были выполнены. Action Items Tracking — это **дисциплина выполнения**, без неё постмортем превращается в ритуал самообмана: «мы извлекли уроки» при том, что ничего не изменилось. Главная практика внутри L1 `Problem Management`, замыкающая цикл с [Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/).
+«Action items с прошлого постмортема? Половина закрыта, половина забыта». Я регулярно вижу команды, у которых сам разбор работает как надо: режим blameless соблюдён, причины разобраны, задачи сформулированы. А через полгода возвращается тот же инцидент, потому что до задач руки так и не дошли. Action Items Tracking — это **дисциплина выполнения**. Без неё постмортем превращается в ритуал самообмана: «мы извлекли уроки» при том, что не изменилось ничего. Главная практика внутри L1 `Problem Management`, замыкающая цикл с [Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/).
 
 Граница: blameless postmortem — process generation AIs; action items tracking — process execution and verification. Между ними обычно теряются 30–50% AIs.
 
@@ -51,21 +51,17 @@ description: Дисциплина выполнения action items после �
 ### Инструменты
 
 - **Jira / Linear / GitHub Issues / Notion** — primary AI tracking. Интегрирован с обычным backlog. По моим наблюдениям, чаще выигрывает выбор «AI в том же tracker, где обычная работа» — потому что separate AI-tracker через полгода стагнирует.
-- **[incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/) / [Rootly](https://rootly.com/)** — incident-platforms с built-in AI tracking; преимущество — AI создаются в incident timeline и автоматически связываются. По моим наблюдениям, чаще берут такие platforms команды с высоким incident volume; для команд с 1–2 incidents в месяц separate platform — over-engineering.
-- **[Jeli](https://www.pagerduty.com/platform/jeli/)** — narrative-focused подход к разбору: AI tracking интегрирован, но фокус — на richer learning narrative. Самостоятельным продуктом больше не является, PagerDuty купила Jeli в 2023 и встроила в свою платформу; методичка Howie, которую Jeli выпускала отдельно, разошлась по копиям в сообществе.
+- **[incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/) / [Rootly](https://rootly.com/)** — incident-platforms с built-in AI tracking; преимущество — AI создаются в incident timeline и автоматически связываются. По моим наблюдениям, такие платформы чаще берут команды с высоким потоком инцидентов. Команде, у которой один-два инцидента в месяц, отдельная платформа не годится: заводить её дороже, чем вести те же задачи в общем трекере.
+- **[Jeli](https://www.pagerduty.com/platform/jeli/)** — narrative-focused подход к разбору: AI tracking интегрирован, но фокус — на richer learning narrative. Самостоятельного продукта больше нет: PagerDuty купила Jeli в 2023 и встроила в свою платформу; методичка Howie, которую Jeli выпускала отдельно, разошлась по копиям в сообществе.
 - **Dashboards (Grafana / Datadog / custom)** — AI completion rate, overdue count, time-to-close distribution. Самая важная visibility, которую регулярно забывают сделать.
 
 ## Best practices
 
 Главный публичный кейс — **GitLab database incident, January 31 2017**. Команда опубликовала [подробный postmortem](https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/) — пример blameless write-up. Менее известна его вторая половина: в конце документа перечислены пятнадцать задач, каждая со ссылкой на публичный issue в их инфраструктурном трекере — «Prometheus monitoring for backups», «Automated testing of recovering PostgreSQL database backups», «Assign an owner for data durability» и так далее. Отдельным пунктом заведён meta-issue со сводным статусом всех остальных: то есть команда сразу построила себе единую точку, по которой видно, что закрыто, а что нет. Это образец того, как **execution side постмортема может быть transparent**: не только «мы написали постмортем», но «вот ticket, вот merged PR, вот изменённый runbook». Сравнить с командами, у которых postmortem публикуется, а AIs исчезают в private project, — разница в trust для клиента и для самой команды.
 
-**Короткие правила:**
+Из этого вытекают три правила, на которых всё держится. Первое: задача без владельца, срока и критерия «что значит — сделано» задачей не считается. «Команда подумает над улучшением мониторинга» — это не action item, это пожелание, и через полгода оно выглядит ровно так же, как в день написания. Второе: задачи живут в трекере, а не в документе постмортема. Документ — статичный снимок момента, когда команда разобралась; задачи после него идут в общий backlog и конкурируют там со всем остальным. Дублировать «status: done» в двух местах не надо, эти два места разъедутся.
 
-- **AI без owner / deadline / success criterion — не AI.** «Команда подумает над улучшением мониторинга» через 6 месяцев — не AI, а wish. Named owner + явный deadline + критерий «что значит — сделано» — все три обязательны.
-- **AI в issue tracker, не в постмортем-документе.** Документ — статичный snapshot момента learning; AI — живые tickets в обычном backlog. Не дублировать «status: done» в двух местах — это invitation для drift.
-- **Completion rate — SLI постмортем-программы.** Дашборд с rate completed / overdue / dropped per quarter. При rate < 70% — root-cause processa, не давление на людей.
-
-Подробнее:
+Третье правило — про метрику. Completion rate работает как SLI всей программы разборов: дашборд со счётчиками closed, overdue и dropped за квартал показывает состояние процесса раньше, чем это сделает вернувшийся инцидент. Ниже 70% — разбирать сам процесс, а не давить на исполнителей.
 
 **Owner — individual, не team.** «Backend team will improve monitoring» — типовой failure mode: команда as owner означает no owner. Кто-то конкретно подписывается, даже если работа потом распределится. Без named individual AI становится sub-task feature backlog и проигрывает любой product priority. Я регулярно вижу команды, которые искренне думают, что «team owns it» — и через 6 месяцев AI не сделан, и никто не виноват, потому что виноваты все.
 
@@ -86,7 +82,8 @@ description: Дисциплина выполнения action items после �
 
 ## Открытые вопросы
 
-- **Severity Threshold для AI review** — нужны ли AIs для P3/P4 incidents, или это over-process? По моим наблюдениям, диапазон сильно зависит от incident volume команды.
-- **Cross-team AI Ownership** *(TBD)* — что делать, когда AI требует изменений в чужой команде. Эскалационный процесс — отдельный набор паттернов.
-- **AI Aging Policy** — после какого срока (6 / 12 / 18 месяцев) overdue AI автоматически закрывается с явным обоснованием. Нет canonical правила.
-- Я не уверен, какая **completion rate threshold** правильна как алертный сигнал. 70% — практический guess; если у вас есть данные, расскажите через PR.
+Порог severity, с которого разбор вообще заводит задачи, я для себя не закрыл: нужны ли action items для P3 и P4 или это уже процесс ради процесса. По моим наблюдениям, ответ сильно зависит от потока инцидентов в команде. Рядом лежит **cross-team ownership** *(TBD)* — что делать, когда задача требует изменений в чужой команде; эскалация тут отдельный набор паттернов, и одним абзацем он не закрывается.
+
+Не хватает и политики устаревания. Через какой срок — полгода, год, полтора — просроченная задача закрывается автоматически с явным обоснованием? Канонического правила я не встречал, у каждой команды свой.
+
+Я не уверен и в том, какой порог completion rate правилен как алертный сигнал. 70% — практическая догадка. Если у вас есть данные, расскажите через PR.
