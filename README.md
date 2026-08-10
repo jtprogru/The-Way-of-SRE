@@ -47,21 +47,31 @@
 
 ## Локальный запуск сайта
 
-Проект — Astro Starlight. Команды доступны через [Task](https://taskfile.dev/):
+Проект — Astro Starlight. Команды собраны в `Makefile`, `make` без аргументов покажет список:
 
 ```bash
-task dev      # dev-сервер на http://localhost:4321/The-Way-of-SRE/
-task build    # билд в dist/
-task preview  # локальный preview готовой сборки
+make dev      # dev-сервер на http://localhost:4321/The-Way-of-SRE/
+make build    # билд в dist/
+make preview  # локальный preview готовой сборки
+make check    # все проверки: оглавление, линт, типы, стиль листьев
 ```
 
-Зависимости устанавливаются автоматически при первом запуске любой задачи.
+Зависимости устанавливаются автоматически при первом запуске любой цели.
 
-Эквивалент без Taskfile:
+Эквивалент без Makefile:
 
 ```bash
 npm install && npm run dev
 ```
+
+Отдельно — стиль-чек листьев, механическая часть чеклиста из `inventory/style-guide.md`:
+
+```bash
+make style                                                    # весь корпус
+make style LEAF=src/content/docs/leaves/culture/runbooks.md   # один лист
+```
+
+Как он устроен и почему пороги именно такие — в [`tools/style/README.md`](tools/style/README.md).
 
 Деплой на GitHub Pages — автоматический через `.github/workflows/deploy-site.yml` на каждый push в `main`, затрагивающий Astro-проект.
 
