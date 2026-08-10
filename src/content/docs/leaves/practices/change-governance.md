@@ -1,6 +1,6 @@
 ---
 title: Change Governance
-description: Дисциплина границ изменения в production — change classification, production readiness review, freeze policy, error budget gating
+description: Дисциплина границ — что катится в production без review, что через PRR, а что не катится вовсе
 ---
 
 :::note[Метаданные листа]
@@ -11,7 +11,7 @@ description: Дисциплина границ изменения в production 
 - **Статус:** draft
 :::
 
-«Мы catit в любой момент, у нас zero-friction culture» — лозунг, за которым часто стоит «у нас нет production readiness, мы катит и надеемся». Change Governance — это **дисциплина границ**, не bureaucracy: какие изменения попадают на fast lane (standard change, без review), какие требуют PRR, какие никогда не катятся в peak season. Я регулярно вижу команды, которые думают, что бинарный выбор — либо «CAB-meeting раз в неделю» (heavy bureaucracy), либо «zero process» (Russian roulette). Между ними — лёгкий, явный classification и явные gates, которые добавляют 30 секунд к standard change и 2 дня к high-risk change. Это и есть здоровое governance.
+«Мы катим в любой момент, у нас zero-friction culture» — лозунг, за которым часто стоит «у нас нет production readiness, мы катим и надеемся». Change Governance — это **дисциплина границ**, а не бюрократия: какие изменения идут по быстрой полосе без review, какие требуют PRR, какие вообще не катятся в высокий сезон. Я регулярно вижу команды, уверенные, что выбор бинарный: либо еженедельный CAB, либо полное отсутствие процесса. Между этими полюсами лежит нормальная жизнь — явная классификация и явные gates, которые добавляют полминуты к рядовому изменению и пару дней к рискованному. Это и есть здоровое governance.
 
 Граница: [Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/) — *техника* deployment (canary / blue-green / feature flag). Change Governance — *policy и process*: что классифицируется как high-risk, кто approves, когда заморозка. [Architecture Decision Records](/The-Way-of-SRE/leaves/practices/architecture-decision-records/) — про architectural decisions; change governance — про operational/release decisions с риском в production.
 
@@ -40,8 +40,8 @@ description: Дисциплина границ изменения в production 
 ### Книги
 
 - Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/evolving-sre-engagement-model/)** (O'Reilly, 2016), глава 32 «The Evolving SRE Engagement Model». Google's PRR процесс — каноническое описание PRR как gate перед SRE-engagement. Главный публичный источник по PRR.
-- Jennifer Davis, Katherine Daniels — **[Effective DevOps](https://www.oreilly.com/library/view/effective-devops/9781491926291/)** (O'Reilly, 2016). Глава про change management в DevOps-контексте: как избежать bureaucracy без потери контроля.
-- Mark Schwartz — **[A Seat at the Table](https://itrevolution.com/product/a-seat-at-the-table/)** (IT Revolution, 2017). Не SRE-книга, но фундамент про change governance в продуктовых организациях: почему ITIL-style change management не работает в agile-команде и что вместо.
+- Jennifer Davis, Katherine Daniels — **[Effective DevOps](https://www.oreilly.com/library/view/effective-devops/9781491926291/)** (O'Reilly, 2016). Глава про change management в контексте DevOps: как избежать bureaucracy без потери контроля.
+- Mark Schwartz — **[A Seat at the Table](https://itrevolution.com/product/a-seat-at-the-table/)** (IT Revolution, 2017). Не SRE-книга, но фундамент про change governance в продуктовых организациях: почему ITIL-style change management не работает там, где команда живёт по agile, и что ставить вместо.
 - Nicole Forsgren, Jez Humble, Gene Kim — **[Accelerate](https://itrevolution.com/product/accelerate/)** (IT Revolution, 2018). Связка change governance ↔ deployment frequency ↔ change failure rate (DORA-метрики). Главный аргумент против heavy change approval boards.
 
 ### Статьи и доклады
@@ -60,21 +60,19 @@ description: Дисциплина границ изменения в production 
 
 ## Best practices
 
-Главный публичный кейс — **Knight Capital Group, August 1, 2012**. За 45 минут утром на Уолл-стрит компания потеряла **$440M** из-за deploy-ошибки: deploy script был run на 7 из 8 серверов; восьмой сервер запустил старую версию кода с repurposed feature flag и отправил на биржу миллионы ошибочных заявок. Компания не обанкротилась в прямом смысле — через четыре дня её спасли экстренным вливанием капитала, но самостоятельным бизнесом она быть перестала и в следующем году была поглощена. Разница между «умерла» и «перестала себе принадлежать» в этой истории невелика. SEC-документ детально разбирает: не было PRR для repurposed feature flag, deploy script не проверял consistency между серверами, rollback procedure не валидировалась. Я регулярно вижу команды, у которых такое же сочетание факторов («deploy на N серверов, потом проверим»; «feature flag repurposed без change record») — но без trading-volume Knight Capital impact меньше, и команда не учится. Knight Capital — лучший public reminder того, что governance не nice-to-have.
+Главный публичный кейс — **Knight Capital Group, August 1, 2012**. За 45 минут утром на Уолл-стрит компания потеряла **$440M** из-за ошибки выкатки: deploy script был run на 7 из 8 серверов; восьмой сервер запустил старую версию кода с repurposed feature flag и отправил на биржу миллионы ошибочных заявок. Компания не обанкротилась в прямом смысле — через четыре дня её спасли экстренным вливанием капитала, но самостоятельным бизнесом она быть перестала и в следующем году была поглощена. Разница между «умерла» и «перестала себе принадлежать» в этой истории невелика. SEC-документ детально разбирает: не было PRR для repurposed feature flag, deploy script не проверял consistency между серверами, rollback procedure не валидировалась. Я регулярно вижу команды, у которых такое же сочетание факторов («deploy на N серверов, потом проверим»; «feature flag repurposed без change record») — но без trading-volume Knight Capital impact меньше, и команда не учится. Knight Capital — лучший public reminder того, что governance не nice-to-have.
 
-**Короткие правила:**
+Минимум, который отделяет живое governance от его отсутствия, состоит из трёх вещей. Классификация: пока нет явной разницы между standard, normal и emergency, все изменения равнозначны, и команда либо тонет в процессе, либо обходит его целиком. Ориентир — 80–90% изменений в быстрой полосе, где хватает code review.
 
-- **Classification обязателен.** Без явной разницы «standard / normal / emergency» все changes равнозначны — и команда либо тонет в process, либо обходит его. 80–90% changes должны быть standard (fast lane, code review достаточен).
-- **Каждый change имеет rollback plan, validated.** «Rollback задеплоим если что» — не plan. Pre-deployment validation rollback на staging для high-risk changes — обязательна.
-- **PRR — обязательный gate для новых сервисов перед production.** Написанный checklist, owner of review, follow-up open items. PRR без follow-up — theatre.
+Дальше — откат. У каждого изменения он есть, и для рискованных он проверен заранее, на staging. «Откатим, если что» планом не считается: в момент, когда откат понадобится, выяснять его работоспособность уже поздно.
 
-Подробнее:
+И PRR как обязательный gate перед выходом нового сервиса в production: письменный checklist, владелец процесса, доведение открытых пунктов до конца. Без последнего PRR превращается в театр — пункты записали, никто к ним не вернулся.
 
 **Production Readiness Review — checklist, не interview.** В Google PRR — комбинация written review (checklist) + meeting (questions). Команды часто пытаются делать PRR как «meeting раз в неделю» — это не работает, потому что preparation важнее meeting'а. Healthy PRR: команда сервиса заполняет written checklist (SLO defined, monitoring + alerts, runbooks present, on-call configured, capacity plan, dependencies mapped, rollback validated, security review done); meeting — дополнение к review, а не replacement. По моим наблюдениям, если PRR существует только как meeting — checklist деградирует к «формальностям», и через год PRR становится theatre.
 
 **Error budget gating связывает change governance с SLO program.** Без gating SLO — dashboard, который никто не смотрит. С gating SLO становится tool принятия решений: budget сожжён → пауза feature changes, разрешены только reliability fixes. Это не «всем замолчать» — это явный сигнал, что приоритеты смещаются. Я регулярно вижу команды, которые объявили SLO + error budget, но не реализовали gating — и через полгода budget chronically negative, никаких изменений в поведении нет, потому что нет actual consequence.
 
-**Change freeze ≠ полный stop.** Распространённый страх: «freeze = команда простаивает». Healthy freeze — это явный whitelist: «во время Black Friday week разрешены только reliability fixes / security patches с SEV2+; feature changes — отложены на post-freeze». Whitelist + duration + signed-off list — лёгкая дисциплина. Freeze без whitelist становится либо игнорируемым (все продолжают катит), либо болезненно строгим (важные fixes не доезжают).
+**Change freeze ≠ полный stop.** Распространённый страх: «freeze = команда простаивает». Healthy freeze — это явный whitelist: «во время Black Friday week разрешены только reliability fixes / security patches с SEV2+; feature changes — отложены на post-freeze». Whitelist + duration + signed-off list — лёгкая дисциплина. Freeze без whitelist становится либо игнорируемым (все продолжают катить), либо болезненно строгим (важные fixes не доезжают).
 
 **Standard change category — главный мускул governance.** Парадоксально: качество governance мерится не тем, как строго проходят high-risk changes, а тем, как много changes квалифицируются как standard (fast lane). Если 50% changes требуют review — governance душит team velocity и саботируется. Healthy ratio: 80–90% standard (proven pattern, low risk: bugfix в одном сервисе, config change validated by tests, dependency bump within minor version), 10–15% normal (требует PRR / review), 1–5% emergency / freeze-bypass.
 
@@ -91,7 +89,8 @@ description: Дисциплина границ изменения в production 
 
 ## Открытые вопросы
 
-- **Production Readiness Review как отдельный лист** *(TBD)* — детальный checklist, ownership, scaling PRR на 50+ сервисов.
-- **Change Risk Assessment Frameworks** *(TBD)* — heuristics для оценки risk: blast radius × probability × reversibility. Нет canonical модели; разные команды строят свои.
-- **Compliance-Driven Change Management** *(TBD)* — SOX / PCI-DSS / SOC2 формальные требования к change records; пересечение с regulatory leaves.
-- Я не уверен, **где правильная граница** между Change Governance и Progressive Delivery для команд, где governance lightweight (deploy on push, no explicit review). Если у вас есть рабочая модель — расскажите через PR.
+Production Readiness Review просится в отдельный лист *(TBD)*: подробный checklist, кто им владеет, как эта практика масштабируется на полсотни сервисов. Рядом — оценка риска изменения *(TBD)*, где нужны рабочие эвристики уровня «blast radius × вероятность × обратимость». Канонической модели тут нет, каждая команда строит свою, и сравнить их между собой негде.
+
+Третья дыра — change management под регуляторику *(TBD)*: формальные требования SOX, PCI-DSS и SOC 2 к записям об изменениях. Это пересечение с листьями про compliance, и писать его нужно вместе с ними.
+
+Я не уверен и в том, где проходит правильная граница между Change Governance и Progressive Delivery в командах с совсем лёгким процессом — деплой по пушу, явного review нет вообще. Если у вас есть рабочая модель, расскажите через PR.

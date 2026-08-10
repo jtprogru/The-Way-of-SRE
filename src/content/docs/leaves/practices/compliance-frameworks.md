@@ -1,6 +1,6 @@
 ---
 title: Compliance Frameworks
-description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы security-требований, а не самостоятельная цель
+description: SOC 2, ISO 27001, PCI-DSS и GDPR как драйверы требований к безопасности, а не самостоятельная цель
 ---
 
 :::note[Метаданные листа]
@@ -11,14 +11,14 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 - **Статус:** draft
 :::
 
-Я регулярно вижу две крайности в отношении compliance. Первая — «compliance это бумажки для аудита, нам как инженерам это не нужно»: команда узнаёт о SOC 2 за две недели до аудита, в панике собирает evidence руками, проходит audit, забывает до следующего года. Вторая — «у нас SOC 2 Type II, значит мы secure»: чек прошёл, контролы зелёные, а в это же время [Capital One](https://krebsonsecurity.com/2019/07/capital-one-data-theft-impacts-106m-people/) теряет данные 106 миллионов человек через неверно настроенный WAF — банк, живущий под непрерывным регуляторным надзором и всеми возможными аудитами. Compliance — это **доказательство соответствия externally-defined requirements**, а не security. Грамотный SRE использует compliance как драйвер для требований, которые всё равно нужно делать ([Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/), [Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/), [audit trail](/The-Way-of-SRE/glossary/#audit-trail) во всех системах), и автоматизирует evidence collection до уровня «непрерывно», а не «раз в год вручную».
+Я регулярно вижу две крайности в отношении compliance. Первая — «compliance это бумажки для аудита, инженеров не касается»: команда узнаёт о SOC 2 за две недели до аудита, в панике собирает evidence руками, проходит audit, забывает до следующего года. Вторая — «у нас SOC 2 Type II, значит мы secure»: чек прошёл, контролы зелёные, а в это же время [Capital One](https://krebsonsecurity.com/2019/07/capital-one-data-theft-impacts-106m-people/) теряет данные 106 миллионов человек через неверно настроенный WAF — банк, живущий под непрерывным регуляторным надзором и всеми возможными аудитами. Compliance — это **доказательство соответствия externally-defined requirements**, а не security. Грамотный SRE использует compliance как драйвер для требований, которые команда закрывает и без всякого аудита ([Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/), [Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/), [audit trail](/The-Way-of-SRE/glossary/#audit-trail) во всех системах), и автоматизирует evidence collection до уровня «непрерывно», а не «раз в год вручную».
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — **mapping контролов на технические практики**. SOC 2 CC6.1 («logical access controls») — это не «напишем policy документ», это IAM модель + [принцип наименьших привилегий](/The-Way-of-SRE/glossary/#least-privilege) + audit log + access review cadence. PCI-DSS Requirement 8 — это MFA + password policy + session management. Когда compliance трактуется как «техническая работа, которую всё равно нужно делать», audits проходят без героизма. Когда compliance трактуется как «отдельная работа поверх инженерии» — рождается *compliance theater*.
+Главный навык на уровне L5 — **mapping контролов на технические практики**. SOC 2 CC6.1 («logical access controls») — это не «напишем policy документ», это IAM модель + [принцип наименьших привилегий](/The-Way-of-SRE/glossary/#least-privilege) + audit log + access review cadence. PCI-DSS Requirement 8 — это MFA + password policy + session management. Когда compliance читается как обычная инженерная работа, которую команда делает и без аудитора, аудит проходит без героизма. Когда compliance трактуется как «отдельная работа поверх инженерии» — рождается *compliance theater*.
 
 **L3**
-- Знает, какие compliance-фреймворки применяются к продукту команды (SOC 2 / PCI-DSS / HIPAA / FedRAMP / GDPR), и понимает, какие части кода/инфраструктуры в scope.
+- Знает, какие фреймворки compliance применяются к продукту команды (SOC 2 / PCI-DSS / HIPAA / FedRAMP / GDPR), и понимает, какие части кода/инфраструктуры в scope.
 - Понимает разницу regulation (закон, GDPR / HIPAA — обязательны при условии applicable) vs framework (стандарт сертификации, SOC 2 / ISO 27001 / PCI-DSS — добровольны, но требуются клиентами).
 
 **L4**
@@ -48,7 +48,7 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 - **[ISO/IEC 27001:2022](https://www.iso.org/standard/27001)** (ISO, 2022). Платный стандарт, но контролы (Annex A, 93 controls) — публично доступны и используются как чеклист.
 - **[PCI DSS](https://www.pcisecuritystandards.org/document_library/)** (PCI SSC; v4.0 — март 2022, актуальная редакция v4.0.1 — июнь 2024). Если работаете с card data — обязательно. Стандарт жёстче и конкретнее, чем SOC 2: явные требования, не «design appropriate controls».
 - **[NIST Cybersecurity Framework 2.0](https://www.nist.gov/cyberframework)** (NIST, февраль 2024). Не сертификация, а meta-framework. В версии 2.0 функций стало шесть: к привычным Identify / Protect / Detect / Respond / Recover добавили Govern, и она стоит в центре — то есть NIST явно зафиксировал, что без ответа на вопрос «кто здесь принимает решения о рисках» остальные пять функций повисают в воздухе. Полезен для structuring подхода даже если не нужен formal cert.
-- **[FedRAMP Authorization](https://www.fedramp.gov/)** (GSA). Для SaaS, продающего в US федеральные agencies. Высокий barrier (Low / Moderate / High baselines на базе NIST SP 800-53). Если не продаёте в US gov — не нужно.
+- **[FedRAMP Authorization](https://www.fedramp.gov/)** (GSA). Для SaaS, продающего в US федеральные agencies. Высокий barrier (Low / Moderate / High baselines на базе NIST SP 800-53). Не продаёте в US gov — проходите мимо.
 - **[GDPR](https://gdpr-info.eu/)** + **[California CCPA/CPRA](https://oag.ca.gov/privacy/ccpa)**. Privacy regulations, не security frameworks; но GDPR требует security controls (Art. 32) — пересекается с SOC 2/ISO 27001.
 
 ### Статьи и доклады
@@ -59,7 +59,7 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 
 ### Инструменты
 
-- **GRC platforms (automated compliance):** [Vanta](https://www.vanta.com/), [Drata](https://drata.com/), [Secureframe](https://secureframe.com/), [Hyperproof](https://hyperproof.io/), [Sprinto](https://sprinto.com/), [OneTrust](https://www.onetrust.com/) (enterprise). По моим наблюдениям, Vanta и Drata доминируют в startup-сегменте для первого SOC 2; OneTrust чаще выбирают крупные orgs со сложным privacy scope.
+- **GRC platforms (automated compliance):** [Vanta](https://www.vanta.com/), [Drata](https://drata.com/), [Secureframe](https://secureframe.com/), [Hyperproof](https://hyperproof.io/), [Sprinto](https://sprinto.com/), [OneTrust](https://www.onetrust.com/) (enterprise). По моим наблюдениям, Vanta и Drata доминируют в сегменте стартапов на первом SOC 2; OneTrust чаще выбирают крупные orgs со сложным privacy scope.
 - **Cloud-native compliance:** [AWS Audit Manager](https://aws.amazon.com/audit-manager/), [AWS Security Hub](https://aws.amazon.com/security-hub/), [Google Cloud Compliance Reports Manager](https://cloud.google.com/security/compliance/compliance-reports-manager), [Microsoft Purview Compliance Manager](https://learn.microsoft.com/en-us/purview/compliance-manager). Полезны если 90% инфраструктуры в одном cloud; для multi-cloud — недостаточно.
 - **Policy as code:** [Open Policy Agent (OPA)](https://www.openpolicyagent.org/) + [Conftest](https://www.conftest.dev/), [HashiCorp Sentinel](https://www.hashicorp.com/sentinel), [Cloud Custodian](https://cloudcustodian.io/), [Checkov](https://www.checkov.io/), [Kyverno](https://kyverno.io/). Continuous compliance test на каждый IaC PR; Checkov часто берут на старт за низкий barrier.
 - **Evidence collection automation:** Vanta/Drata integrations + custom скрипты (boto3 / gcloud / kubectl → JSON snapshots в S3 bucket с retention). По моим наблюдениям, разница между «compliance каторгой» и «compliance в фоне» — именно в этом слое.
@@ -67,17 +67,15 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 
 ## Best practices
 
-Главный публичный кейс — **Capital One 2019 breach** (CVE никогда не было; misconfigured WAF). Данные 106 миллионов человек утекли через SSRF на AWS metadata endpoint. Речь про банк с полным набором регуляторных требований, внутренними security-аудитами и работающим vulnerability management — то есть про организацию, где формальная сторона была закрыта лучше, чем у большинства читателей этого листа. Что не сработало — control над **configuration drift в WAF rules**: одна misconfiguration на одном WAF не была отловлена ни одним audit-control, потому что аудит проверял «WAF существует и настроен» в момент времени, не «WAF configuration соответствует policy непрерывно». Урок для меня: compliant ≠ secure; *audit моментом времени* ≠ *continuous compliance*. Это второй по силе аргумент в пользу compliance-as-code (первый — снижение audit pain).
+Главный публичный кейс — **Capital One 2019 breach** (CVE никогда не было; misconfigured WAF). Данные 106 миллионов человек утекли через SSRF на AWS metadata endpoint. Речь про банк с полным набором регуляторных требований, внутренними аудитами безопасности и работающим vulnerability management — то есть про организацию, где формальная сторона была закрыта лучше, чем у большинства читателей этого листа. Что не сработало — control над **configuration drift в WAF rules**: одна misconfiguration на одном WAF не была отловлена ни одним audit-control, потому что аудит проверял «WAF существует и настроен» в момент времени, не «WAF configuration соответствует policy непрерывно». Урок для меня: compliant ≠ secure; *audit моментом времени* ≠ *continuous compliance*. Это второй по силе аргумент в пользу compliance-as-code (первый — снижение audit pain).
 
-**Короткие правила:**
+Отсюда три рабочих правила. Первое: compliance — драйвер требований, а не самостоятельная цель. Каждый control ложится на техническую практику, которая имеет смысл и без аудитора. Если контроль порождает работу исключительно ради аудита и больше нигде не всплывает, это compliance theater — либо драйвер слабый, либо технический эквивалент уже есть и контроль его дублирует. Раз в год scoping полезно перепроверять целиком.
 
-- **Compliance — driver требований, не самостоятельная цель.** Каждый control mapped на техническую практику, которую всё равно нужно делать. Если control порождает работу только ради аудита и нигде больше не используется — это compliance theater; либо driver слабый, либо технический эквивалент уже есть и control дублирует. Перепроверять scoping раз в год.
-- **Automate evidence collection с первого дня сертификации.** Manual evidence collection накануне аудита — самая трудозатратная и самая хрупкая часть compliance. По моим наблюдениям, команды, которые автоматизировали evidence на старте, тратят на следующий аудит ≤ 20% времени относительно первого. Команды, которые «соберём руками, потом подумаем», застревают в этом режиме на годы.
-- **SOC 2 Type II — это период, не момент.** Контролы должны работать **весь** observation period (обычно 6–12 месяцев). Если IAM access review был проведён один раз перед аудитом, но не каждый квартал по policy — это finding. Cadence policy = cadence реальной практики, иначе recipe для qualified opinion от auditor.
+Второе: сбор evidence автоматизируется с первого дня сертификации, а не после первого болезненного аудита. Ручной сбор накануне — самая трудоёмкая и самая хрупкая часть всей истории. По моим наблюдениям, команды, автоматизировавшие evidence на старте, тратят на следующий аудит пятую часть времени от первого. Те, кто решил «соберём руками, потом подумаем», сидят в этом режиме годами.
 
-Подробнее:
+Третье: SOC 2 Type II — период, а не момент. Контроль работает **весь** observation period, обычно от полугода до года. Access review, проведённый один раз накануне аудита вместо ежеквартального по политике, превращается в finding. Записанная cadence обязана совпадать с фактической, иначе на выходе будет qualified opinion.
 
-**Choose your frameworks по клиентскому спросу, не по «полнее — лучше».** Я регулярно вижу startup'ы, которые в первый год хотят SOC 2 Type II + ISO 27001 + HIPAA + PCI-DSS «на будущее». Стоимость — половина security headcount на год, ROI — минимальный, потому что клиенты не просят. Сначала клиентский спрос (sales pipeline застревает на «у вас SOC 2?»), потом сертификация. Исключения — regulated industries (healthcare → HIPAA сразу, payments → PCI-DSS сразу).
+**Choose your frameworks по клиентскому спросу, не по «полнее — лучше».** Я регулярно вижу startup'ы, которые в первый год хотят SOC 2 Type II + ISO 27001 + HIPAA + PCI-DSS «на будущее». Такая стратегия не работает: стоит она половины security headcount за год, а отдачи не даёт, потому что клиенты этого не просили. Сначала клиентский спрос (sales pipeline застревает на «у вас SOC 2?»), потом сертификация. Исключения — regulated industries (healthcare → HIPAA сразу, payments → PCI-DSS сразу).
 
 **Inheritance model — серьёзная экономия в multi-product / multi-subsidiary orgs.** Если parent org сертифицирован по SOC 2, subsidiary могут inherit infrastructure controls (data center physical security, network segmentation), и аудит subsidiary становится дешевле и быстрее. Cloud providers (AWS, GCP, Azure) публикуют SOC reports — их inheritance покрывает часть infra-control'ов для всех клиентов. Это надо явно использовать в scoping; auditor сам не предложит.
 
@@ -101,8 +99,8 @@ description: SOC 2, ISO 27001, PCI-DSS, HIPAA, GDPR как драйверы secu
 
 ## Открытые вопросы
 
-- **HITRUST CSF** — стоит ли отдельный лист для healthcare-специфики или это под-секция Compliance Frameworks? Мне кажется, под-секция, но не уверен.
-- **Continuous Controls Monitoring (CCM)** как отдельная практика — рынок tooling (Drata Trust Center, Vanta Vendor Risk) растёт быстро; возможно, через 1–2 года это будет отдельный лист.
-- **Compliance-Driven Change Management** *(TBD)* — отдельный лист про change governance в SOX/PCI scope, где каждое change требует formal approval + evidence. Сейчас в L1 Change Management, потенциально пересекается.
-- Я не разбирался глубоко с **SOC 1** (financial reporting controls) — это другой класс аудита, и в SRE-командах он редкий. Если в вашей команде SOC 1 в scope — расскажите PR'ом, как живёте.
-- **GRC platform selection** — нет публичной модели сравнения Vanta vs Drata vs Secureframe для конкретного use case. Вендорские demo дают одностороннюю картину. Если у вас была migration между ними — был бы интересен опыт.
+HITRUST CSF пока висит без решения: отдельный лист под специфику healthcare или подсекция здесь? Мне кажется, подсекция, но уверенности нет. Похожая история с Continuous Controls Monitoring — рынок инструментов растёт быстро, и через год-два это, возможно, вырастет в самостоятельную практику. Ещё один сосед — change management под SOX и PCI *(TBD)*, где каждое изменение тянет за собой формальное одобрение и evidence; тема сейчас числится за L1 Change Management и с этим листом заметно пересекается.
+
+С SOC 1 я глубоко не разбирался. Это другой класс аудита, про финансовую отчётность, и в SRE-командах он встречается редко. Если он у вас в scope, расскажите PR'ом, как с этим живётся.
+
+Отдельно не хватает честного сравнения GRC-платформ. Публичной модели выбора между Vanta, Drata и Secureframe под конкретный сценарий я не нашёл, а вендорские demo показывают ровно одну сторону. Если у вас была миграция между ними, такой опыт был бы очень к месту.

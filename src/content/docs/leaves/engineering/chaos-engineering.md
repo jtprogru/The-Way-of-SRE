@@ -1,6 +1,6 @@
 ---
 title: Chaos Engineering
-description: Hypothesis-driven эксперименты для проверки reliance-свойств системы — не «сломаем что-нибудь», а ритуал
+description: Проверка устойчивости системы гипотезой и контролируемой инъекцией, а не «сломаем что-нибудь и посмотрим»
 ---
 
 :::note[Метаданные листа]
@@ -18,7 +18,7 @@ description: Hypothesis-driven эксперименты для проверки 
 Главный навык на уровне L4 — формулировать **steady-state hypothesis**. Это умение, которое отличает chaos от outage: до начала эксперимента ты пишешь «при инъекции X метрика Y сохранится в пределах Z». Если SSM не зафиксирован до старта — это не chaos engineering. Я наблюдаю, что команды часто пропускают этот шаг («ну ясно же, что сервис должен жить») и в итоге не могут сказать, доказал ли эксперимент что-то.
 
 **L3**
-- Понимает, что такое chaos engineering и чем оно не является; знает [Principles of Chaos Engineering](http://principlesofchaos.org/); участвует в game day своей команды.
+- Понимает, что такое chaos engineering и где проходит граница с обычной поломкой прода; знает [Principles of Chaos Engineering](http://principlesofchaos.org/); участвует в game day своей команды.
 - Знает основные failure modes для своего сервиса: dependency outage, network latency, resource exhaustion, instance kill, region failure. Готов их репродуцировать в dev/staging.
 
 **L4**
@@ -43,37 +43,37 @@ description: Hypothesis-driven эксперименты для проверки 
 
 ### Статьи и доклады
 
-- **[Principles of Chaos Engineering](https://principlesofchaos.org/)** (2015). Основополагающий документ от Netflix-команды, которым дисциплина и была формально названа. Короткий, читается за 10 минут.
+- **[Principles of Chaos Engineering](https://principlesofchaos.org/)** (2015). Основополагающий документ от команды Netflix, которым дисциплина и была формально названа. Короткий, читается за 10 минут.
 - **[Netflix Tech Blog — Chaos Engineering Upgraded](https://netflixtechblog.com/chaos-engineering-upgraded-878d341f15fa)** (2015). История эволюции от Chaos Monkey к ChAP. Главный кейс листа — см. ниже.
 - Casey Rosenthal — **[Principles of Chaos Engineering](https://www.usenix.org/conference/srecon17americas/program/presentation/rosenthal)** (SREcon17 Americas). Доклад одного из авторов манифеста: откуда взялись принципы и почему эксперимент ставится именно в проде.
 - Kelly Shortridge, Aaron Rinehart — **[Security Chaos Engineering](https://www.oreilly.com/library/view/security-chaos-engineering/9781098113810/)** (O'Reilly, 2023). Применение chaos к security-controls: validation через эксперименты, не статический audit.
 
 ### Инструменты
 
-- **[Chaos Mesh](https://chaos-mesh.org/)** (CNCF, k8s-native) — declarative chaos через CRD (PodChaos / NetworkChaos / IOChaos / StressChaos). Я вижу, что в k8s-сценариях чаще берут именно его.
+- **[Chaos Mesh](https://chaos-mesh.org/)** (CNCF, k8s-native) — declarative chaos через CRD (PodChaos / NetworkChaos / IOChaos / StressChaos). Я вижу, что в сценариях с k8s чаще берут именно его.
 - **[Litmus](https://litmuschaos.io/)** (CNCF, k8s) — альтернатива Chaos Mesh с богатым каталогом готовых experiments (ChaosHub) и Argo Workflows integration.
 - **[AWS Fault Injection Service](https://aws.amazon.com/fis/) / [Azure Chaos Studio](https://learn.microsoft.com/en-us/azure/chaos-studio/)** — managed chaos в cloud providers: EC2 instance termination, EBS pause, API throttling, network disruption. Без своего chaos-operator.
-- **[Chaos Toolkit](https://chaostoolkit.org/)** — open-source declarative experiments в JSON/YAML. Multi-provider. Берут, когда нужен инструмент-agnostic к runtime.
+- **[Chaos Toolkit](https://chaostoolkit.org/)** — open-source declarative experiments в JSON/YAML. Multi-provider. Берут, когда нужен инструмент, не привязанный к конкретному runtime.
 - **[Gremlin](https://www.gremlin.com/) / [Steadybit](https://www.steadybit.com/)** — commercial платформы. Reliable safety controls (auto-abort на SLO), визуальный experiment builder, журнал аудита для regulatory.
-- **[Pumba](https://github.com/alexei-led/pumba)** — Docker-focused chaos: pause / kill / netem / stress в локальном Docker. Lightweight для experiments на dev-машине.
+- **[Pumba](https://github.com/alexei-led/pumba)** — Docker-focused chaos: pause / kill / netem / stress в локальном Docker. Lightweight для экспериментов на локальной машине разработчика.
 
 ## Best practices
 
 Главный публичный кейс — **Netflix Chaos Monkey → ChAP**. Netflix запустил Chaos Monkey в 2010 году с простой идеи: «выключим случайный production-instance, посмотрим что упадёт». Подход шокировал многих, включая их собственную команду. Но через пять лет в blog post «Chaos Engineering Upgraded» (2015) Netflix явно сказал: «kill random instance оказалось недостаточно». Эволюционировали к ChAP (Chaos Automation Platform) с явными гипотезами, blast radius management, auto-abort по SLI. То есть **canonical case самой идеи прошёл собственную эволюцию от «сломаем что-нибудь» к «проверим гипотезу»**. Если читаете этот лист и впервые сталкиваетесь с chaos engineering — сначала статью Netflix 2015 года, потом сюда.
 
-**Короткие правила:**
+Отсюда три правила, на которых держится вся практика.
 
-- **Chaos = hypothesis-driven эксперимент, не «сломаем что-нибудь».** Process: (1) baseline steady-state metric; (2) hypothesis «при injection X метрика Y сохранится в пределах Z»; (3) injection; (4) compare to baseline; (5) findings → action items. Если SSM не зафиксирован до старта — это не chaos engineering, это outage.
-- **Start in staging, expand to production через minimal blast radius.** Путь: dev → staging → 1% prod traffic / 1 instance / 1 region → expand с явными success criteria на каждом шаге. Первый chaos сразу в prod = реальный incident, и команда теряет trust в практику.
-- **Auto-abort на observability signal, не «оператор нажмёт кнопку».** SLO burn rate threshold, error rate spike, p99 latency above X → experiment автоматически прекращается. Когнитивная нагрузка + reaction time оператора → реальный impact на клиентов. Litmus probes, Chaos Toolkit rollback hooks, Gremlin halt-conditions — все это поддерживают.
+Эксперимент начинается с гипотезы, а не с инъекции. Порядок такой: зафиксировать baseline steady-state метрики, написать гипотезу «при инъекции X метрика Y останется в пределах Z», сделать инъекцию, сравнить с baseline, превратить находки в action items. Если SSM не записан до старта — это не chaos engineering. Это outage, которому задним числом придумали смысл.
 
-Подробнее:
+Дальше — маршрут: dev, staging, потом 1% продового трафика или один instance в одном регионе, и на каждом шаге явные success criteria для перехода к следующему. Первый chaos сразу в проде — это просто инцидент. После него команда теряет доверие к практике, и вернуть его дороже, чем было бы подождать один квартал.
 
-**GameDay — это ритуал, не разовая активность для OKR.** «Провели один game day год назад, отметили в OKR» — single-shot chaos не строит культуру и не находит новые gaps. Регулярный ритуал (квартально / раз в N спринтов), scenarios варьируются (network / dependency / resource / region / human), участвуют разные роли (on-call rotation testing), документируется в общем календаре с post-game review.
+Третье правило про остановку. Эксперимент прерывается автоматически по сигналу от observability — burn rate SLO, всплеск error rate, p99 выше порога, — а не «оператор нажмёт кнопку». Пока оператор осознаёт и реагирует, клиенты уже получают impact. Litmus probes, rollback hooks в Chaos Toolkit, halt-conditions в Gremlin — всё это умеют.
+
+**GameDay — это ритуал, не разовая активность для OKR.** «Провели один game day год назад, отметили в OKR» — так культура не строится и новые gaps не находятся. Норма — квартально или раз в N спринтов, с варьирующимися сценариями (network, dependency, resource, region, человеческий фактор), с разными ролями в дежурстве и с post-game review. И всё это в общем календаре, иначе не случится.
 
 **Chaos требует observability как пре-условие — не «подтянем по ходу».** Я регулярно вижу попытки «начнём chaos, observability допилим параллельно». Без метрик / трейсов / логов impact chaos незаметен — критерий «измерить эффект» проваливается, выводов нет. Готовность к chaos: SLI/SLO определены, дашборды собраны, alerts работают, runbook'и существуют. Это **pre-check** перед adoption, не задача в параллель.
 
-**Cultural prerequisites: blameless-постмортем, error budget, runbook-практика.** Я наблюдаю чёткое разделение: команды, у которых эти три практики работают, успешно адоптируют chaos; команды, у которых нет, — либо chaos не приживается, либо превращается в blame после первого выявленного gap. Эксперимент **найдёт** реальную проблему — это его цель. Если в команде сбои караются — feedback loop сломан, найденный gap превращается в «кто виноват», и chaos перестаёт быть инструментом. Pre-check: [blameless-постмортем](/The-Way-of-SRE/leaves/practices/blameless-postmortem/) → error budget → chaos в этом порядке.
+**Культурные предусловия — blameless, error budget и живые runbook'и.** Я наблюдаю чёткое разделение: команды, у которых эти три практики работают, успешно адоптируют chaos; команды, у которых нет, — либо chaos не приживается, либо превращается в blame после первого выявленного gap. Эксперимент **найдёт** реальную проблему — это его цель. Если в команде сбои караются — feedback loop сломан, найденный gap превращается в «кто виноват», и chaos перестаёт быть инструментом. Порядок такой: [постмортем без поиска виноватых](/The-Way-of-SRE/leaves/practices/blameless-postmortem/) → error budget → chaos.
 
 **Связь с error budget: chaos в окне budget headroom.** Chaos сам по себе тратит budget. Правило, которое я считаю объективным: запуск только при ≥50% budget headroom; high-risk experiments — ≥75%; experimental chaos in production — никогда при burning budget. Спор не «можно ли запускать», а «есть ли headroom». Это снимает субъективность из решений.
 
@@ -87,11 +87,12 @@ description: Hypothesis-driven эксперименты для проверки 
 - **[Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/)** — game day findings обрабатываются через постмортем-процесс; cultural prerequisite адопции.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — game day валидирует runbook'и: если шаги не сработали, runbook outdated.
 - **[Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)** — game day scenarios варьируются по severity, тренируют correct severity declaration.
-- **[Security Chaos Engineering](/The-Way-of-SRE/leaves/practices/security-chaos-engineering/)** — тот же метод, объект — security-контролы вместо reliability-свойств: проверяем, срабатывает ли detection / response, а не остаётся ли система живой.
+- **[Security Chaos Engineering](/The-Way-of-SRE/leaves/practices/security-chaos-engineering/)** — тот же метод, объект — механизмы защиты вместо свойств надёжности: проверяем, срабатывает ли detection / response, а не остаётся ли система живой.
 - **[Game Day / Chaos Drills](/The-Way-of-SRE/leaves/culture/game-day/)** — chaos engineering = метод проверки гипотез о системе; game day = ритуал тренировки команды. Пересекаются по tooling, но разные по scope: continuous / automated chaos vs scheduled team drill.
 - **[DR Policy & Stakeholders](/The-Way-of-SRE/leaves/culture/dr-policy/)** — DR drills (regional failover, DB failure, full data center loss) — большие chaos experiments верхнего уровня; здесь — про метод, там — про policy и stakeholder map, под которые они проводятся.
 
 ## Открытые вопросы
-- **Security Chaos Engineering** — выделен в отдельный лист (Practices / Information Security; см. Связанные листья).
-- **Failure Modes Catalog** *(TBD)* — систематический каталог known failure modes для сервиса/системы как корень chaos scenarios.
-- Я не знаю, как корректно делать chaos в regulated industries (banking / healthcare / payments) — Federal Reserve guidance / FDA / PCI-DSS накладывают ограничения, и публичной литературы про практику chaos в банках я не видел. Если есть опыт — расскажите PR'ом.
+
+**Security Chaos Engineering** уехал в отдельный лист (Practices / Information Security, см. «Связанные листья»). Остался **Failure Modes Catalog** *(TBD)* — систематический каталог известных режимов отказа сервиса, из которого потом растут сценарии экспериментов.
+
+Я не знаю, как корректно делать chaos в regulated industries (banking / healthcare / payments) — Federal Reserve guidance / FDA / PCI-DSS накладывают ограничения, и публичной литературы про практику chaos в банках я не видел. Если есть опыт — расскажите PR'ом.

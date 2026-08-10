@@ -10,7 +10,9 @@
 
 ## Чеклист для листа
 
-Полные правила — в [`inventory/style-guide.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/inventory/style-guide.md) и [`inventory/terminology.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/inventory/terminology.md). Краткая выжимка:
+Полные правила — в [`inventory/style-guide.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/inventory/style-guide.md) и [`inventory/terminology.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/inventory/terminology.md). Краткая выжимка ниже.
+
+Часть пунктов проверяется командой: `make style LEAF=<файл.md>`. Она не заменяет чтение — §3.9 (ссылки и числа) и §2.1 (пример из практики) остаются за человеком, — но экономит время на механике.
 
 ### Голос и структура
 

@@ -1,6 +1,6 @@
 ---
 title: Composite SLO Methodology
-description: Математика multi-component SLO — серийные / параллельные пути, vendor SLA как input, critical path, не «99.95% потому что хочется четыре девятки»
+description: Как складывать SLO зависимостей и почему потолок системы обычно ниже, чем хочется обещать
 ---
 
 :::note[Метаданные листа]
@@ -11,7 +11,7 @@ description: Математика multi-component SLO — серийные / п�
 - **Статус:** draft
 :::
 
-«Наш SLO — 99.95%» — типичная декларация после quarterly planning. Если посмотреть на сервис-граф: 4 зависимости с vendor SLA 99.9% ([auth](/The-Way-of-SRE/glossary/#auth), payment, CDN, managed DB), 2 internal-сервиса с 99.99%, shared DNS / TLS layer. Простая арифметика для последовательного пути: `0.999⁴ × 0.9999² × 0.9999 ≈ 0.9957` — наш достижимый SLO ceiling **99.57%**, не 99.95%. Composite SLO Methodology — это **математика multi-component систем**: когда «хочется четыре девятки» сталкивается с реальностью composite, и нужно либо снизить commitment, либо добавить redundancy, либо явно принять honest baseline. Я регулярно вижу команды, которые декларируют SLO без composite math — и потом первый dependency outage сжигает квартальный error budget целиком.
+«Наш SLO — 99.95%» — типичная декларация после quarterly planning. Если посмотреть на сервис-граф: 4 зависимости с vendor SLA 99.9% ([auth](/The-Way-of-SRE/glossary/#auth), payment, CDN, managed DB), 2 внутренних сервиса с 99.99%, shared DNS / TLS layer. Простая арифметика для последовательного пути: `0.999⁴ × 0.9999² × 0.9999 ≈ 0.9957` — наш достижимый SLO ceiling **99.57%**, не 99.95%. Composite SLO Methodology — это **математика multi-component систем**: когда «хочется четыре девятки» сталкивается с реальностью composite, и нужно либо снизить commitment, либо добавить redundancy, либо явно принять honest baseline. Я регулярно вижу команды, которые декларируют SLO без composite math — и потом первый dependency outage сжигает квартальный error budget целиком.
 
 Граница: [SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/) — *как формулировать* SLO для одного компонента (SLI, target, window); этот лист — *как складывать* SLO для multi-component system. [Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/) — vendor SLA как input в composite math; reliability-side зависимостей от внешних сервисов. [Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/) — что делать, чтобы composite SLO **превысить** математический ceiling через redundancy / graceful degradation.
 
@@ -29,7 +29,7 @@ description: Математика multi-component SLO — серийные / п�
 - Различает serial vs parallel dependencies и применяет правильные формулы. Parallel: `1 − ∏(1 − SLA_i)`, serial: `∏ SLA_i`.
 - Включает **vendor SLAs как нижнюю границу** в composite math, не как ожидаемый uptime. SLA — contractual floor (vendor готов вернуть credit); real uptime может быть выше, но planning под SLA, не под наблюдаемое.
 - Разделяет **mandatory vs best-effort dependencies**: observability backplane / logging pipeline / async analytics — не часть user-facing composite (их падение не означает «пользователь страдает»); auth / payment / DB — часть.
-- Применяет multi-burn-rate alerting **per critical path / per journey**, не только per service. SLI собирается на journey-уровне (synthetic / RUM / business event), не только на endpoint.
+- Применяет multi-burn-rate alerting **per critical path / per journey**, не только per service. SLI собирается на уровне journey (synthetic / RUM / business event), не только на endpoint.
 - Проверяет заявленную классификацию зависимостей данными: корреляция [burn rate](/The-Way-of-SRE/glossary/#burn-rate) зависимости с собственным, game day на подозрительных рёбрах графа. Слова разработчиков про «слабую связь» — гипотеза, а не факт.
 - Умеет калибровать target эмпирически, когда у зависимостей нет ни SLA, ни SLO: сверху вниз от жалоб пользователей и шума алертов, а не снизу вверх от арифметики.
 - Вовремя останавливает уточнение расчёта: спрашивает, какое решение изменится от следующего знака после запятой, и, если ни одно, оставляет грубую оценку.
@@ -68,13 +68,15 @@ description: Математика multi-component SLO — серийные / п�
 
 Главный публичный кейс — не отдельный инцидент, а **широко документированная статистика AWS SLA**. AWS публикует SLA на каждый сервис (S3 — 99.9% для standard storage, EC2 — 99.99% для regional fleet, RDS — 99.95% для Multi-AZ). Если построить типовое веб-приложение в AWS — Application Load Balancer (99.99%) → EC2 fleet (99.99%) → RDS Multi-AZ (99.95%) → S3 (99.9%) для статики, всё в одном регионе — composite serial SLA: `0.9999 × 0.9999 × 0.9995 × 0.999 ≈ 0.9983`. Это **99.83%** — ceiling, который AWS contractually готов компенсировать через credits. Многие команды декларируют 99.95% или выше, не глядя на эту арифметику. Я регулярно вижу архитектурные обсуждения «как нам достичь 99.99% uptime», в которых composite math никогда не появляется — и достижение 99.99% становится либо реалистическим (если добавлены multi-region failover, multi-AZ, redundancy), либо wishful (если просто декларация поверх той же топологии). Один лист бумаги с composite math перед SLO-commitment — час работы и год честности.
 
-**Короткие правила:**
+Прежде чем считать, нужен граф. Без явного critical path composite math превращается в произвольную сумму чужих SLA: рисуем граф, отмечаем, без чего пользователь реально страдает, и только потом берёмся за формулы.
 
-- **Critical path сначала, math потом.** Без идентифицированного critical path через сервис-граф composite math — это произвольная сумма SLA. Нарисовать граф, отметить «без чего пользователь страдает» — пре-условие.
-- **Vendor SLA — floor, не ceiling.** Vendor SLA — то, что vendor готов compensate (credits) при нарушении. Не «реальный uptime»; не «ожидание». Composite math на SLA — conservative baseline; реальность обычно лучше, но planning под worst case.
-- **Mandatory vs best-effort dependencies явно.** Observability backplane / logging / async analytics — best-effort (их down ≠ пользователь страдает); auth / payment / DB / CDN — mandatory. Включать в composite только mandatory; иначе SLO ceiling drops без user-facing reason.
-- **Сначала очевидные дыры, потом третий знак.** Если сервис недоступен час в день, точность арифметики не меняет ни одного решения: чинить надо очевидное. Уточнение расчёта окупается только тогда, когда фактическая доступность подошла к потолку и вопрос «где взять ещё девятку» стал реальным.
-- **Точка измерения = граница зоны ответственности.** Пользователь видит одно число, в которое входят его провайдер, глобальная маршрутизация и защита периметра от DDoS. Команда за это не отвечает и повлиять не может, поэтому измерение начинается там, где начинается ответственность, и эта граница записана в SLO-документе явно.
+Vendor SLA идёт в расчёт как пол, а не как потолок. Это число, за нарушение которого вендор готов вернуть деньги, а не его ожидаемый uptime и уж точно не ваш прогноз. Реальность обычно лучше SLA. Планировать всё равно приходится по нему.
+
+Зависимости делятся на обязательные и best-effort, и это деление стоит проговорить явно. Observability backplane, logging pipeline, асинхронная аналитика — их падение не означает, что пользователю плохо. Auth, payment, DB, CDN — означает. В composite входят только вторые, иначе потолок SLO опускается без всякой причины со стороны пользователя.
+
+Порядок работ — сначала очевидные дыры, потом третий знак. Если сервис недоступен час в день, точность арифметики не изменит ни одного решения. Уточнять расчёт окупается только тогда, когда фактическая доступность подошла к потолку и вопрос «где взять ещё девятку» стал настоящим.
+
+И последнее: точка измерения совпадает с границей зоны ответственности. Пользователь видит одно число, в которое входят его собственный провайдер, глобальная маршрутизация и защита периметра от DDoS, — команда на это не влияет никак. Поэтому измерение начинается там, где начинается ответственность, и эта граница записана в SLO-документе явно.
 
 Подробнее:
 
@@ -94,9 +96,9 @@ description: Математика multi-component SLO — серийные / п�
 
 **Vendor SLA включается с conservatism, не optimism.** Vendor может иметь observed uptime 99.99%, но SLA — 99.9%. Использовать SLA как input в composite, не observed. **Why:** vendor может изменить infrastructure, нагружать других клиентов, иметь региональный incident — observed uptime прошлого квартала не предсказывает следующий. SLA — это нижняя граница, которую vendor готов защищать contractually. Conservatism на vendor side освобождает internal budget на собственные инциденты.
 
-**Refresh composite math после каждой major dependency change.** Service graph меняется: новый vendor (Stripe → Adyen migration), removed redundancy (closed second region for cost), added intermediate cache (Redis layer перед DB). После каждой такой change composite math должна быть пересчитана и SLO commitment пересмотрен. Я регулярно вижу команды, у которых composite SLO документ датирован 18 месяцев назад, а сервис-граф за это время изменился 3 раза — math не отражает реальности.
+**Refresh composite math после каждой major dependency change.** Service graph меняется: новый vendor (Stripe → Adyen migration), removed redundancy (closed second region for cost), added intermediate cache (Redis layer перед DB). После каждой такой перемены composite math пересчитывается, а SLO commitment пересматривается. Я регулярно вижу команды, у которых composite SLO документ датирован 18 месяцев назад, а сервис-граф за это время изменился 3 раза — math не отражает реальности.
 
-**Multi-burn-rate per journey, не per component.** Classical multi-burn-rate alerting часто строится per individual SLI (latency, error rate каждого endpoint). Composite world требует journey-level SLI: synthetic user journey, RUM event chain, business transaction (order placed). Алерт срабатывает при burn на journey-уровне — то есть «пользователи реально не могут купить», а не «один из 12 backend endpoints деградировал». По моим наблюдениям, разница между mature SLO program и developing — наличие journey-level SLI как primary, component-level — как diagnostic.
+**Multi-burn-rate per journey, не per component.** Classical multi-burn-rate alerting часто строится per individual SLI (latency, error rate каждого endpoint). Composite world требует journey-level SLI: synthetic user journey, RUM event chain, business transaction (order placed). Алерт срабатывает при burn на уровне journey — то есть «пользователи реально не могут купить», а не «один из 12 backend endpoints деградировал». По моим наблюдениям, разница между mature SLO program и developing — наличие journey-level SLI как primary, component-level — как diagnostic.
 
 ## Связанные листья
 
@@ -104,7 +106,7 @@ description: Математика multi-component SLO — серийные / п�
 - **[Vendor Management](/The-Way-of-SRE/leaves/practices/vendor-management/)** — vendor SLAs — input в composite math. Vendor management ведёт inventory, composite methodology — использует.
 - **[Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/)** — что делать, чтобы composite SLO **превысить** математический ceiling: redundancy, graceful degradation, fallbacks. Resilience patterns превращают serial dependencies в parallel.
 - **[Capacity Planning](/The-Way-of-SRE/leaves/engineering/capacity-planning/)** — composite SLO определяет, какие компоненты требуют redundancy (parallel paths), а это — capacity decisions с lead time.
-- **[Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)** — redundancy для composite SLO improvement имеет cost; trade-off «one more nine» vs cost доллар-on-доллар.
+- **[Cost Management](/The-Way-of-SRE/leaves/engineering/cost-management/)** — redundancy для composite SLO improvement имеет cost; trade-off «ещё одна девятка» против затрат считается доллар в доллар.
 - **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** / **[Symptom vs Cause Alerting](/The-Way-of-SRE/leaves/engineering/symptom-vs-cause-alerting/)** — journey-level SLI требует multi-burn-rate alerting на composite path, не только per component.
 - **[SLO / Budget Review](/The-Way-of-SRE/leaves/culture/slo-budget-review/)** — ритуал, на котором composite math пересматривается: что изменилось в graph, осталась ли арифметика честной, нужно ли скорректировать commitment.
 

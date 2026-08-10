@@ -52,39 +52,37 @@ description: Сетевой стек как фундамент надёжнос�
 ### Инструменты
 
 - **Базовая диагностика** — `ping`, `traceroute`, `mtr`, `dig`, `nslookup`, `curl`, `wget`. Должны быть в каждом on-call container.
-- **Продвинутая диагностика** — `tcpdump`, `tshark`, Wireshark, `ss`, `netstat`, `iptables` / `nftables`. Для разбора packet capture и состояния kernel-сетки.
+- **Продвинутая диагностика** — `tcpdump`, `tshark`, Wireshark, `ss`, `netstat`, `iptables` / `nftables`. Для разбора packet capture и состояния сетевого стека ядра.
 - **Modern observability** — `bpftrace` и `bcc-tools` для eBPF-based трассировки TCP-событий без overhead'а tcpdump на нагруженном production. По моим наблюдениям, на 2026 это стандарт в командах с серьёзной сетевой нагрузкой.
 - **Service mesh** — **[Envoy](https://www.envoyproxy.io/)** (data plane), **[Istio](https://istio.io/)** (control plane + Envoy), **[Linkerd](https://linkerd.io/)** (легковесная альтернатива). Выбор оправдан, когда нужны mTLS, traffic shaping и L7-наблюдаемость без правок кода.
 
 ## Best practices
 
-Хороший публичный кейс сетевой сложности — **Cloudflare 2019-07-02 incident**. Регулярное regex-правило в WAF (Web Application Firewall) ввело катастрофический backtracking в PCRE; CPU 100% на edge nodes; глобальный outage 27 минут. Не «сетевой» в традиционном смысле, но иллюстрирует, как **сетевой слой** (WAF на пути запроса) может стать источником системного отказа. Postmortem публичен и подробно разобран — стоит читать для понимания, что L7-логика на сетевом пути требует такой же осторожности, как код приложения. По моим наблюдениям, это лучший публичный case study на тему «сетевая инфраструктура — это код, который тоже надо тестировать».
+Лучший публичный кейс сетевой сложности, который я знаю, — **Cloudflare 2019-07-02 incident**. Обычное правило в WAF (Web Application Firewall) с регулярным выражением ввело катастрофический backtracking в PCRE; CPU 100% на edge nodes; глобальный outage 27 минут. Сетевой он только формально. Зато показывает, как **сетевой слой** — а WAF стоит ровно на пути запроса — становится источником системного отказа. Postmortem публичен и подробно разобран, и читать его стоит ради одного вывода: логика седьмого уровня на сетевом пути требует такой же осторожности, как код приложения. По моим наблюдениям, это лучший публичный case study на тему «сетевая инфраструктура — это код, который тоже надо тестировать».
 
-**Короткие правила:**
+Timeouts ставятся на каждом слое, а не только на самом верхнем. Единый «пятьдесят секунд на всё» выглядит аккуратно ровно до момента, когда внутренний downstream висит сорок девять секунд, а сервис всё это время честно держит соединение и тянет за собой всех, кто ждёт его самого. Рабочий набор: connect timeout в одну-три секунды, read и write под реальный p99, total timeout как потолок всей операции. Сетевой вызов без явного таймаута — это заготовка каскадного отказа, других вариантов у него нет.
 
-- **Timeouts на каждом слое, не только на топовом.** Единый «50 секунд на всё» — внутренний downstream висит 49 секунд, и сервис всё равно держит соединение. Правильно: connect timeout (1–3 c), read/write timeout (адаптирован к p99), total timeout (cap для всей операции). Без явных timeout любой сетевой вызов — потенциальный источник cascading failure.
-- **Retries только на идемпотентных операциях, с exponential backoff и jitter.** Retry-storm после общего сбоя — все клиенты одновременно повторяют запрос и добивают downstream. Jitter (рандомизация задержки) разносит попытки во времени; backoff растягивает интервал.
-- **TLS-сертификаты с истечением — событие в календаре, а не сюрприз.** «Cert expired» как трёхзвёздочный инцидент — типичный признак отсутствия автоматизации. Мониторинг expiry с alerting за 30 / 14 / 7 / 1 день, автоматизация ротации (cert-manager / Let's Encrypt / Vault), runbook на ручную ротацию — обязательный набор.
+Retry разрешён только там, где операция идемпотентна, и только с экспоненциальной задержкой и jitter. Иначе получается retry-storm: сбой прошёл, а все клиенты одновременно ломятся обратно и добивают downstream, который только начал вставать. Backoff растягивает интервал. Jitter разносит попытки. Без второго первый почти бесполезен: синхронные клиенты и повторяют синхронно.
 
-Подробнее:
+Срок жизни TLS-сертификата — событие в календаре, а не сюрприз в три ночи. «Cert expired» в качестве инцидента я до сих пор вижу регулярно, и каждый раз это диагноз не сертификату, а автоматизации. Мониторинг истечения с оповещением за 30, 14, 7 и 1 день, автоматическая ротация через cert-manager, Let's Encrypt или Vault и runbook на случай, когда ротацию всё-таки придётся делать руками, — вот и весь набор, который закрывает этот класс инцидентов целиком.
 
-**DNS — это часть приложения, а не «infra, которая просто работает».** «DNS быстрый, не мониторим» — частая позиция, которая ломается при первом DNS-инциденте. Пять секунд DNS-resolve кладут сервис так же надёжно, как пять секунд БД. Кэширование на уровне клиента (с учётом TTL), monitoring DNS latency, alerting на resolver-проблемы — норма для production. Я наблюдаю, что DNS-инциденты часто оказываются «никто не отвечает» — потому что DNS обычно лежит на инфра-команде, а проявляется на product-сервисах.
+DNS — часть приложения, а не «инфра, которая просто работает». Позиция «DNS быстрый, мы его не мониторим» ломается на первом же инциденте: пять секунд резолва кладут сервис ровно так же надёжно, как пять секунд ожидания базы. Клиентское кэширование с учётом TTL, метрика latency резолва, алерт на проблемы резолвера — это норма для production, а не роскошь. И отдельная беда таких инцидентов в том, что отвечать за них некому: DNS живёт у инфраструктурной команды, а проявляется на продуктовых сервисах.
 
-**Circuit breaker для нестабильных downstream.** «Попробуем ещё раз» бесконечно — путь к slow death сервиса. CB размыкает цепь после N подряд ошибок и периодически проверяет recovery — даёт fail fast вместо медленной деградации. Особенно важно на L7-вызовах через service mesh. Подробнее — в [Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/).
+Circuit breaker нужен там, где downstream нестабилен. Бесконечное «попробуем ещё раз» убивает сервис медленно. Размыкание цепи после N подряд ошибок с периодической проверкой восстановления даёт быстрый отказ вместо вязкой деградации, и особенно заметно это на вызовах через service mesh. Подробнее — в [Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/).
 
-**Distributed tracing на сетевых границах обязателен.** «Логи разрозненно по сервисам» — в инциденте разработчик собирает timeline вручную из 6 grep. Trace ID, проброшенный через каждый hop (HTTP header, gRPC metadata), позволяет восстановить полный путь запроса и точку отказа за секунды. По моим наблюдениям, разница между «есть tracing» и «нет tracing» — это разница между 10-минутным и 2-часовым MTTR на distributed-инциденты.
+Distributed tracing на сетевых границах я считаю обязательным. Когда логи разбросаны по сервисам, дежурный в инциденте собирает timeline руками из шести разных grep, и половина времени уходит не на диагноз, а на склейку. Trace ID, проброшенный через каждый hop в HTTP-заголовке или метаданных gRPC, восстанавливает путь запроса и точку отказа за секунды. Разница между «есть tracing» и «нет tracing» — это разница между десятью минутами и двумя часами MTTR на инцидентах в распределённой системе.
 
 ## Связанные листья
 
-- **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — сетевая latency и error rate — основные SLI; алерты на нарушение SLO упираются в качество networking-стека.
+- **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — сетевая latency и error rate — основные SLI; алерты на нарушение SLO упираются в качество сетевого стека.
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — error budget для сетевого слоя (DNS uptime, TLS handshake latency, cross-AZ availability) формулируется на той же модели.
-- **[Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/)** — circuit breaker, retry с backoff/jitter, bulkhead, timeouts на каждом слое — пересечение с networking-практикой.
-- **[Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/)** — реализация retries / circuit breaker / timeouts происходит в коде; знание сетевых библиотек языка — половина resilience-практики.
+- **[Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/)** — circuit breaker, retry с backoff/jitter, bulkhead, timeouts на каждом слое — пересечение с сетевой практикой.
+- **[Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/)** — реализация retries / circuit breaker / timeouts происходит в коде; знание сетевых библиотек языка — половина практики устойчивости.
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — сетевые инциденты (DNS, TLS, peer'ы, certs, mesh) — отдельный класс с собственным набором диагностических действий.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook'и для типичных сетевых сценариев (cert expired, DNS resolver down, mesh control plane unhealthy).
 - **[Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)** — kernel networking, TCP-стек ядра, network namespaces — соседняя по domain'у тема; границы пересекаются на `tcpdump` / `ss` / `conntrack` / namespaces.
 - **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — CNI plugins, NetworkPolicy, kube-proxy / IPVS, ingress controllers — k8s-native слой сетевой инфраструктуры.
-- **[Service Mesh](/The-Way-of-SRE/leaves/engineering/service-mesh/)** — sidecar-proxy для mTLS / traffic shifting / L7-наблюдаемости — отдельная axis сетевой инфраструктуры со своим failure-классом.
+- **[Service Mesh](/The-Way-of-SRE/leaves/engineering/service-mesh/)** — sidecar-proxy для mTLS / traffic shifting / L7-наблюдаемости — отдельная ось сетевой инфраструктуры со своим классом отказов.
 
 ## Открытые вопросы
 

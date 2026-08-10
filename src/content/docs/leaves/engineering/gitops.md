@@ -28,7 +28,7 @@ description: Pull-based reconciliation — git как источник исти�
 **L5**
 - Проектирует структуру repos: разделение application code repo и config repo; environment overlays (Kustomize bases + overlays per env, или Helm values per env); app-of-apps или ApplicationSet для управления множеством apps.
 - Реализует secrets workflow в GitOps: Sealed Secrets / External Secrets Operator / SOPS; никогда plain secrets в репозитории.
-- Интегрирует progressive delivery: Argo Rollouts поверх Argo CD или Flagger поверх Flux. Canary / blue-green выполняются GitOps-нативно — promotion через PR.
+- Интегрирует progressive delivery: Argo Rollouts поверх Argo CD или Flagger поверх Flux. Canary и blue-green едут внутри той же схемы — promotion через PR.
 
 **L6+**
 - Multi-cluster GitOps strategy: hub-spoke, fan-out через ApplicationSet или Flux Kustomization-targets, regional fail-over для критичных систем.
@@ -43,7 +43,7 @@ description: Pull-based reconciliation — git как источник исти�
 ### Документация инструментов
 
 - **[Argo CD Documentation](https://argo-cd.readthedocs.io/en/stable/)**. Declarative GitOps continuous delivery; поддержка Kustomize / Helm / Jsonnet / plain YAML; multi-cluster + RBAC + SSO + журнал аудита. По моим наблюдениям, стандарт enterprise.
-- **[Flux](https://fluxcd.io/)** (CNCF Graduated). GitOps семейство для Kubernetes; pull-based, minimal privileges design, multi-tenancy через native RBAC. Альтернатива Argo CD; чаще выбирают команды, ценящие minimal pull architecture и tight k8s-native integration.
+- **[Flux](https://fluxcd.io/)** (CNCF Graduated). Семейство контроллеров для Kubernetes: модель pull, минимум привилегий, multi-tenancy через штатный RBAC. Альтернатива Argo CD. По моим наблюдениям, к нему чаще приходят команды, которые ценят компактную архитектуру и близость к самому Kubernetes.
 
 ### Инструменты
 
@@ -56,26 +56,24 @@ description: Pull-based reconciliation — git как источник исти�
 
 ## Best practices
 
-**Короткие правила:**
+Git — единственный источник истины, и `kubectl apply` мимо него ломает всю конструкцию. Через минуту controller увидит расхождение и либо откатит ручную правку (если включён self-heal), либо оставит её висеть в UI как `OutOfSync`. Второй вариант хуже: изменение работает, но нигде не записано, и следующий, кто откроет репозиторий, увидит другую реальность. Click-ops в проде я разбираю как операционный инцидент с постмортемом, а не как «срочно поправил».
 
-- **Git = единый источник истины, никаких `kubectl apply` напрямую.** Через минуту controller обнаружит drift и откатит ручное изменение (если self-heal = true) или зафиксирует drift в UI. Click-ops в проде = операционный инцидент с постмортемом, а не «срочно поправил».
-- **Rollback = git revert, не «руками».** `kubectl edit` в инциденте работает на 5 минут, потом controller возвращает старое из git. Правильно: `git revert` PR → controller подтягивает revert → изменение откатано atomically с журналом аудита.
-- **Secrets никогда в plain виде в git, даже в private repo.** Base64-encoded secret в git — «оно же encoded» — не шифрование; любой с read access на repo видит секрет. Sealed Secrets / External Secrets / SOPS — единственный безопасный путь.
+Откат делается через `git revert`, а не руками. `kubectl edit` в инциденте живёт ровно до следующей синхронизации: controller вернёт то, что лежит в git, и дежурный поймает ту же аварию второй раз, уже не понимая почему. Revert в виде PR откатывает изменение целиком и оставляет запись в журнале аудита — это и есть весь механизм отката, другого в GitOps нет.
 
-Подробнее:
+Секреты не лежат в git в открытом виде даже в приватном репозитории. Base64 — не шифрование. «Оно же encoded» — самая частая отговорка, которую я слышу, а по факту любой с read access на репозиторий читает секрет как обычный текст, и ротировать после этого нужно всё, что там лежало. Sealed Secrets, External Secrets Operator и SOPS закрывают дыру, оставаясь внутри PR-процесса.
 
-**Разделять application code repo и config repo (или хотя бы environments).** Код приложения и desired state в одном repo с одним PR-flow смешивают изменения «деплой» и «фича»; отдельный rollback невозможен. Норма: код приложения → CI собирает image → updates image tag в config repo через bot; config repo — desired state, ArgoCD/Flux его подтягивают. Я наблюдаю чёткое разделение между зрелыми GitOps-командами по этому критерию: те, у кого один repo, рано или поздно упираются в проблему смешанных rollback'ов.
+Код приложения и desired state лучше держать в разных репозиториях или хотя бы разводить окружения. Когда всё в одном месте и один PR-поток, изменение «выкатить фичу» и изменение «поменять конфиг деплоя» перемешиваются, и откатить только второе уже нельзя. Рабочая схема простая: CI собирает образ, бот обновляет тег в config repo, Argo CD или Flux подтягивают его оттуда. Зрелые команды я отличаю ровно по этому признаку; те, у кого один репозиторий на всё, рано или поздно упираются в смешанные откаты.
 
-**Drift detection включён и мониторится.** «Drift где-то отображается, но никто не смотрит» — типичная ситуация. GitOps controller покажет drift status, но без alert на длительный drift его никто не заметит — пока не наступит инцидент. Alert на `Application status != Synced` или `OutOfSync` дольше N минут — обязательный.
+Drift detection стоит почти у всех. Смотрит на него почти никто. Controller честно покажет статус, но сама по себе эта панель бесполезная: расхождение живёт неделями и всплывает уже инцидентом, когда кто-то наконец спрашивает, почему в кластере не то, что в репозитории. Алерт на `Application status != Synced` дольше N минут превращает наблюдение в сигнал.
 
-**Bootstrapping самого GitOps в Git (app-of-apps / GitOps engine in GitOps).** ArgoCD/Flux установлен kubectl, конфиг controller нигде не зафиксирован — при DR (lost cluster) восстановление руками. Правильно: ArgoCD сам управляется через ArgoCD `Application` (app-of-apps), bootstrap через git → один command поднимает controller и все apps. Это базовая дисциплина, которую часто откладывают «на потом».
+Сам GitOps тоже описывается в git. Если Argo CD или Flux ставились `kubectl`-ом руками, а конфигурация контроллера нигде не зафиксирована, то при потере кластера восстанавливать придётся по памяти — в тот единственный момент, когда памяти доверять нельзя. Лечится схемой app-of-apps: контроллер управляет сам собой через собственный `Application`, и bootstrap сводится к одной команде. Откладывают это постоянно. До первого DR.
 
-**Progressive delivery интегрирована, а не отдельно.** GitOps по умолчанию выкатывает изменения атомарно — без canary. Argo Rollouts + Argo CD или Flagger + Flux дают canary / health gate / automated rollback нативно — promotion через PR. По моим наблюдениям, команды, у которых progressive delivery «отдельно от GitOps», заканчивают с дублирующимися механизмами rollout и хрупкой склейкой.
+Progressive delivery имеет смысл встраивать в тот же поток, а не рядом с ним. По умолчанию изменение едет атомарно, без canary; Argo Rollouts с Argo CD или Flagger с Flux добавляют канареечный выкат, health gate и автоматический откат, оставляя promotion в виде PR. Команды, у которых выкат по частям живёт отдельно от git, я вижу регулярно, и заканчивается это одинаково — два механизма rollout и хрупкая склейка между ними.
 
 ## Связанные листья
 
 - **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — IaC = код описывает инфраструктуру; GitOps = git как источник + reconciliation. Один может работать без другого, на практике вместе.
-- **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — canary / blue-green / feature flags. Argo Rollouts (с ArgoCD) и Flagger (с Flux) — основные GitOps-нативные tools.
+- **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — canary / blue-green / feature flags. Argo Rollouts (с ArgoCD) и Flagger (с Flux) — основные инструменты, которые работают внутри самого потока git.
 - **[Secrets Management](/The-Way-of-SRE/leaves/practices/secrets-management/)** — secrets workflow в GitOps-flow: never plain в repo, всегда через Sealed Secrets / External Secrets / SOPS.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — каталог сервиса содержит ссылку на GitOps Application и repo; owner отвечает за PR-flow.
 - **[Architecture Decision Records](/The-Way-of-SRE/leaves/practices/architecture-decision-records/)** — выбор GitOps tooling (Argo CD vs Flux), структуры repos, secret-workflow — типичные ADR.

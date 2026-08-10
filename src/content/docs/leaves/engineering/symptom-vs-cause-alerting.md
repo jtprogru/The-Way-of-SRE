@@ -11,7 +11,7 @@ description: Дисциплина alert design — page на симптомы (�
 - **Статус:** draft
 :::
 
-«DB CPU > 80% → page» — типичный cause-based алерт. При DB outage он генерирует 50 пейджеров под одним инцидентом и парализует on-call; а при slow query на decoupled-сервисе пейджит при работающем продукте. Symptom-based алерт ловит то, что реально чувствует пользователь — latency, error rate, availability — и пейджит один раз за инцидент, ровно когда нужно. Rob Ewaschuk в 2014 году написал внутренний Google-документ «My Philosophy on Alerting», который стал каноном; SRE Book главы 6 и 4 закрепили это в индустрии. Лист — про дисциплину различения и про то, как реструктурировать alert portfolio после миграции на SLO-driven подход.
+«DB CPU > 80% → page» — типичный алерт на причину. При отказе базы он выдаёт полсотни пейджеров на один инцидент и парализует on-call, а при медленном запросе на слабо связанном сервисе будит человека, пока продукт спокойно работает. Алерт на симптом ловит то, что реально чувствует пользователь: latency, error rate, availability. И звонит один раз за инцидент, ровно когда надо. Rob Ewaschuk в 2014 году написал внутренний документ Google «My Philosophy on Alerting», который стал каноном; SRE Book главы 6 и 4 закрепили это в индустрии. Этот лист — про дисциплину различения и про то, как перебрать alert portfolio после перехода на SLO-driven подход.
 
 Граница: [SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/) — *как* алерт устроен (SLI как сигнал, burn rate как порог); этот лист — *на что именно* алертить (симптом, не причина). [Alert Fatigue Management](/The-Way-of-SRE/leaves/engineering/alert-fatigue-management/) — что делать, когда система уже зашумлена; этот — как с самого начала не зашумлять.
 
@@ -25,7 +25,7 @@ description: Дисциплина alert design — page на симптомы (�
 
 **L4**
 - Проектирует **golden signals** для своего сервиса: latency (per percentile), errors (rate + share), traffic (qps / req/min), saturation (utilization vs capacity). Все 4 — symptom-side; cause-side — отдельный набор.
-- Использует cause-based данные как **secondary** в runbook'е, а не **primary** в alert. Cause-метрики в dashboard, симптомы — в пейджере.
+- Использует cause-based данные как **secondary** в runbook'е, а не **primary** в alert. Метрики причин живут в дашборде, симптомы — в пейджере.
 
 **L5**
 - Применяет multi-burn-rate alerting для symptom-side SLI: быстрая burn (fast burn 1h / 5min) и медленная (slow burn 6h / 30min) — один алерт, два window'а.
@@ -55,27 +55,21 @@ description: Дисциплина alert design — page на симптомы (�
 - **[Prometheus + Alertmanager](https://prometheus.io/docs/alerting/latest/overview/)** — де-факто стандарт. Multi-window multi-burn-rate реализуется через `for` + recording rules. Sloth / Pyrra / OpenSLO — генераторы SLO-aware alert rules поверх Prometheus.
 - **[Grafana](https://grafana.com/oss/alerting/)** / **[Datadog](https://docs.datadoghq.com/monitoring/)** / **[New Relic](https://docs.newrelic.com/docs/alerts-applied-intelligence/)** — alerting на векторах observability platforms; pattern одинаков, синтаксис разный.
 - **[Sloth](https://sloth.dev/)** / **[Pyrra](https://github.com/pyrra-dev/pyrra)** / **[OpenSLO](https://openslo.com/)** — SLO-as-code; alert-rules генерируются из SLO spec автоматически. По моим наблюдениям, чаще выбирают Sloth — proven и интегрирован с Prometheus.
-- **Анти-инструмент:** «алёрт-rule на каждую метрику dashboard» — антипаттерн, доводящий до alert fatigue за месяц. Pattern «алерт — это пейджер; всё остальное — dashboard» — самый сильный фильтр.
+- **Анти-инструмент:** правило алерта на каждую метрику дашборда — антипаттерн, доводящий до alert fatigue за месяц. Pattern «алерт — это пейджер; всё остальное — dashboard» — самый сильный фильтр.
 
 ## Best practices
 
 Главный публичный кейс — **Rob Ewaschuk, «My Philosophy on Alerting» (Google internal, ~2014)**. Документ короткий (10 страниц), и каждая его рекомендация выдержала ~10 лет: «page on symptoms, not causes», «every page must be actionable», «if you don't know what to do, it shouldn't be a page», «alert quality matters more than alert quantity». Я регулярно вижу команды, которые читали SRE Book, но не сам этот документ — и теряют главный nuance: Ewaschuk пишет про **операционную работу человека** ночью, не про «правильный мониторинг». Это смещает рамку: alert design — это UX-задача для on-call инженера в 3 часа ночи. Один час чтения и пять лет дисциплины.
 
-**Короткие правила:**
+Правил, из которых всё вырастает, ровно три. Пейджер звонит только на симптомы: данные о причинах живут в дашборде и runbook, а будит человека только то, что означает «пользователю плохо прямо сейчас или станет плохо через десять минут». Каждый алерт actionable — если on-call не знает, что с сигналом делать, это не алерт, а строчка в логе; cookbook на тридцать шагов в духе «может быть X, а может быть Y» означает, что условие алерта слишком широкое. И один инцидент — один пейджер. Алерты на причины по всем зависимостям дают кратный шум на один и тот же отказ downstream, симптомная сторона даёт один звонок. Лакмус простой: больше трёх пейджеров на инцидент — portfolio сломан.
 
-- **Page только на симптомы.** Cause-based данные — в dashboard и runbook; пейджит только то, что реально означает «пользователь страдает прямо сейчас или скоро».
-- **Каждый алерт — actionable.** Если on-call не знает, что делать с сигналом, это не алерт, это лог. «Alert investigation cookbook» из 30 шагов «может быть X, может быть Y» — признак того, что условие алерта слишком широкое.
-- **One incident → one page.** Cause-based алерты на dependencies дают N-кратный шум на тот же downstream outage. Symptom-side даёт один пейджер. Это лакмус: если incident сгенерировал > 3 пейджеров — alert portfolio сломан.
+**Алерты на причины не отменяются, они переезжают.** Распространённый страх звучит так: уберём алерт на CPU — и кто-то пропустит его исчерпание. Метрики причин никуда не деваются, просто живут в дашборде и runbook, а не в пейджере. Поднялся симптомный алерт по latency или ошибкам — on-call открывает дашборд и сразу видит причинную сторону как контекст. Разделение проходит по роли сигнала: первичный говорит, что чувствует пользователь, диагностический — где копать.
 
-Подробнее:
+**Multi-burn-rate — шаг от аксиомы про симптомы к работающей формуле.** Чистый «error rate > 1%» реагирует только на очевидную аварию. Чистый «сгорело 2% бюджета» реагирует, когда всё уже случилось. Multi-window решает обе беды сразу: fast burn (окно 1h @ 14.4x) ловит быстрый инцидент, slow burn (окно 6h @ 6x) — медленную деградацию. Формулы и параметры — в SRE Workbook, глава 5. По моим наблюдениям, чистый alert portfolio от зашумлённого почти всегда отличает наличие multi-burn-rate, остальное вторично.
 
-**Cause-based алерты не отменяются — они переезжают.** Распространённый страх: «если уберём CPU alert, кто-то пропустит CPU exhaustion». Cause-side метрики остаются — но в dashboard и runbook, не в pager. Когда symptom alerts (latency / errors) поднимаются, on-call открывает dashboard и сразу видит cause-side как контекст. Это разделение primary signal (что чувствует пользователь) и diagnostic signal (где смотреть в дебаге).
+**Ежеквартальный пересмотр алертов — обязательная гигиена.** Portfolio, который просто копится без ревью, через год превращается в сотни правил: часть не срабатывала ни разу, часть срабатывала шумом, и только часть по делу. Раз в квартал каждое правило проходит три вопроса. Срабатывало ли за период? Было ли по нему что делать? Понизить, повысить или выкинуть? Без такой ревизии даже хорошо спроектированный alert design сползает обратно к усталости от алертов.
 
-**Multi-burn-rate alerting — практический шаг от symptom-аксиомы к работающей формуле.** Чистый «error rate > 1%» — слишком reactive (срабатывает только в очевидном инциденте); чистый «budget burn 2%» — слишком reactive по-другому (срабатывает после факта). Multi-window: fast burn (1h window @ 14.4x burn) пейджит быстрый incident; slow burn (6h window @ 6x burn) пейджит медленный degradation. SRE Workbook глава 5 — формулы и параметры. По моим наблюдениям, разница между командами с whitelined alerts и зашумлёнными — наличие multi-burn-rate почти всегда; всё остальное вторично.
-
-**Quarterly alert review — обязательная гигиена.** Команды, у которых alert portfolio «накапливается» без review — через год имеют сотни правил, из которых треть не срабатывала, треть срабатывала шумом, и треть актуальна. Раз в квартал — review каждого правила: срабатывал ли за период? было ли actionable? стоит ли понизить / повысить / убрать? Без review alert design деградирует к baseline alert fatigue даже при хорошем initial design.
-
-**Black-box ≠ замена white-box.** Symptom monitoring часто ассоциируется с black-box (синтетические probes, external uptime checks). Это полезно, но не достаточно: black-box ловит «сервис недоступен», но не «сервис отвечает, но 20% запросов с ошибкой». White-box symptom (error rate / latency из самого сервиса) и black-box (synthetic user journey) — комплементарны. Я регулярно вижу команды, у которых либо только black-box (миссит частичные деградации), либо только white-box (миссит network / DNS / TLS issues между пользователем и сервисом).
+**Black-box не заменяет white-box.** Мониторинг симптомов часто сводят к black-box: синтетические probes, внешние проверки доступности. Полезно, но в одиночку не годится. Black-box видит «сервис недоступен» и не видит «сервис отвечает, но каждый пятый запрос с ошибкой». White-box (error rate и latency из самого сервиса) и black-box (synthetic user journey) дополняют друг друга. Я регулярно вижу команды, у которых либо только black-box (миссит частичные деградации), либо только white-box (миссит network / DNS / TLS issues между пользователем и сервисом).
 
 ## Связанные листья
 
@@ -88,7 +82,6 @@ description: Дисциплина alert design — page на симптомы (�
 
 ## Открытые вопросы
 
-- **Alert SLO** *(TBD)* — meta-SLI для самого alerting'а: alert precision (true positive rate), recall, time-to-page-after-incident. Отдельный лист про измерение качества alert program.
-- **Synthetic Monitoring как practice** *(TBD)* — black-box probes, end-user monitoring (RUM), synthetic user journeys. Соседняя ветка observability.
-- **Anomaly Detection как замена threshold-based** *(TBD)* — Holt-Winters / Prophet / ML-based; границы применимости.
-- Я не уверен, как **корректно ловить partial degradation** на feature flag уровне (часть пользователей в плохом cohort). Если у вас есть опыт — расскажите через PR.
+Три темы ждут своих листьев. Alert SLO *(TBD)* — meta-SLI для самого алертинга: precision, recall, время от начала инцидента до пейджера; отдельный разговор про то, как измерять качество alert program. Synthetic monitoring *(TBD)* — black-box probes, RUM, synthetic user journeys, соседняя ветка observability. И детект аномалий вместо пороговых правил *(TBD)* — Holt-Winters, Prophet, модели: где это работает и где нет.
+
+Чего я не знаю сам — как аккуратно ловить частичную деградацию на уровне фичефлагов, когда плохо только одной когорте пользователей. Если у вас такой опыт есть, расскажите через PR.

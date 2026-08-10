@@ -22,7 +22,7 @@ description: Управление secrets через централизован�
 - Знает rotation cadence для secrets своего сервиса; использует pre-commit hook (`gitleaks` / `detect-secrets`) локально.
 
 **L4**
-- Настраивает доступ к secrets через IAM/RBAC по принципу наименьших привилегий: сервис A не видит secrets сервиса B; разработчик читает prod-secrets только под audit.
+- Настраивает доступ к secrets через IAM/RBAC по принципу наименьших привилегий: сервис A не видит secrets сервиса B; разработчик читает секреты прода только под audit.
 - Интегрирует Vault / Secrets Manager в сервис: sidecar / SDK / env injection / Kubernetes Secrets через External Secrets Operator; код работает с reference, не с literal.
 
 **L5**
@@ -51,24 +51,22 @@ description: Управление secrets через централизован�
 - **AWS Secrets Manager / GCP Secret Manager / Azure Key Vault** — cloud-native альтернативы. Минимум integration overhead для команд внутри одного cloud; auto-rotation для RDS / Cloud SQL через managed-functions.
 - **[External Secrets Operator](https://external-secrets.io/latest/)** — Kubernetes operator: синхронизирует secrets из external API в native Kubernetes Secrets. Стандарт для k8s команд.
 - **[Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets)** (Bitnami) — k8s controller для encrypted-at-rest secrets прямо в git. Альтернатива External Secrets для команд без отдельного store.
-- **[SOPS](https://github.com/getsops/sops)** — encrypted-files-in-git через age / KMS / PGP; формат-agnostic. Удобно для конфигов с примесью secrets.
+- **[SOPS](https://github.com/getsops/sops)** — encrypted-files-in-git через age / KMS / PGP, не привязан к формату файла. Удобно для конфигов с примесью secrets.
 - **Detection** — **[gitleaks](https://github.com/gitleaks/gitleaks)** (regex + entropy detection, pre-commit hook, CI integration), `detect-secrets`, `trufflehog`. Обязательны в pre-commit и в CI.
 
 ## Best practices
 
-**Короткие правила:**
+Секрет не коммитится в git никогда. Ни на минуту, ни в приватный репозиторий, ни «я сразу удалю». Удаление коммита не помогает: секрет остаётся в истории, в reflog, в форках, в кэше CI и в локальной копии у каждого, кто успел сделать pull. Pre-commit hooks с gitleaks или detect-secrets — не паранойя, а обязательный нижний слой защиты.
 
-- **Никогда не коммить секрет в git, даже на минуту, даже в private repo.** Удаление коммита не помогает — секрет в git history, reflog, forks, CI кэше, local repo у каждого, кто pull'нул. Pre-commit hooks (gitleaks / detect-secrets) — обязательная защита в глубину.
-- **Rotation — regular practice, а не «когда взломали».** Auto-rotation для DB credentials, short-lived tokens с TTL минуты/часы, regular cadence для тех, что нельзя автоматизировать (квартал / полгода). Чем старше secret, тем больше копий и mishandling вокруг него.
-- **Наименьшие привилегии для доступа.** «Всем prod-доступ ко всем secrets на всякий случай» — при компрометации одной учётки атакующий получает всё. Доступ по принципу need-to-know, через IAM/RBAC, с audit log; через временную elevation (just-in-time access).
+Ротация — регулярная практика, а не реакция на взлом. Динамические credentials для баз, короткоживущие токены с TTL в минуты и часы, календарный ритм для того, что автоматизировать не вышло. Логика простая. Чем старше секрет, тем больше вокруг него накопилось копий и небрежного обращения: он лежит в чьём-то локальном `.env`, всплывает в старом тикете, куда его вставили для воспроизведения бага, попадает в переписку и в скриншот из чата, про который забыли все, кроме поисковой индексации.
 
-Подробнее:
+Про наименьшие привилегии всё известно, и всё равно я регулярно вижу «дадим всем доступ в прод ко всем секретам, чтобы не блокировать людей». Цена такого решения выясняется при компрометации одной учётки: атакующий получает сразу всё. Правильная схема скучная и известная: доступ выдаётся по need-to-know через IAM/RBAC, каждое обращение к секрету пишется в audit log с именем и временем, а повышение прав выдаётся под конкретную задачу и живёт минуты, а не до следующей инвентаризации.
 
-**Auto-rotation там, где возможно; manual — exception.** Manual rotation требует discipline, которая ломается через 6 месяцев. По моим наблюдениям, в командах с заявленной policy «ротация раз в квартал» через год реально ротируются только токены, для которых это автоматизировано. Auto-rotation выбирается на дешёвом уровне tooling (Vault dynamic secrets, AWS Secrets Manager rotation Lambda) — это инвестиция, которая окупается за первый incident.
+**Автоматическая ротация там, где возможно; ручная — исключение.** Ручная ротация держится на дисциплине, а дисциплина ломается примерно через полгода. По моим наблюдениям, в командах с заявленной политикой «ротируем раз в квартал» через год реально ротируются только те токены, для которых это делает машина. Инструменты дешёвые — dynamic secrets в Vault, rotation Lambda в AWS Secrets Manager — и окупаются они на первом же инциденте.
 
-**Detection — защита в глубину, не «мы аккуратные».** «У нас нет проблем, мы аккуратно коммитим» — один новичок или один debug-момент закоммитит токен. Pre-commit hook (locally), CI scan (gitleaks в pipeline), regular history scan (поиск исторически закоммиченных) — три уровня. Я регулярно вижу команды, в которых secret находят через год после коммита, потому что не было historical scan.
+**Detection — это защита в глубину, а не «мы аккуратные».** Достаточно одного новичка или одного отладочного захода в три часа ночи, чтобы токен уехал в коммит. Уровней три: pre-commit локально, скан в CI, регулярный скан истории. Последний забывают чаще всего, и я регулярно вижу команды, где секрет находят через год после коммита именно потому, что все три года настроенный gitleaks смотрел только на новые изменения, а до накопленной истории ни у кого не доходили руки.
 
-**Emergency revocation отрепетирована, а не «прочитали runbook».** При leak в проде команда первый раз открывает Vault UI и ищет, где «revoke» — минуты теряются, секрет работает у атакующего. Game day: симулируется leak, команда отрабатывает revocation за target time (например, < 10 минут); время фиксируется как метрика. Без репетиции runbook — это документ, а не процедура.
+**Emergency revocation отрепетирована, а не «прочитали runbook».** Утечка в проде — и команда первый раз в жизни открывает UI Vault в поисках кнопки revoke. Минуты уходят, а секрет всё это время работает на атакующего. Лечится это game day: симулируем утечку, отрабатываем отзыв на время, фиксируем это время как метрику. Непроверенный runbook — документ, а не процедура.
 
 ## Связанные листья
 
@@ -86,8 +84,6 @@ description: Управление secrets через централизован�
 
 ## Открытые вопросы
 
-- **Threat Modeling** уже выделен в отдельный лист под `Secure Development`.
-- **Access Control & IAM** — выделен в отдельный лист (см. Связанные листья).
-- **Workload Identity** — выделен в отдельный лист; покрывает SPIFFE/SPIRE, AWS IRSA, GCP/Azure Workload Identity, OIDC federation в CI/CD.
-- **Compliance Frameworks** — выделен в отдельный лист; SOC 2 / PCI-DSS / GDPR / HIPAA как драйверы требований к secrets management (encryption at rest / in transit, key rotation, audit trail).
-- **Security Code Review** — выделен в отдельный лист (см. Связанные листья).
+Большая часть того, что раньше висела здесь как открытые вопросы, уже разъехалась по отдельным листьям. Threat Modeling ушёл под `Secure Development`. Access Control & IAM и Security Code Review стоят рядом и слинкованы выше. Workload Identity забрал SPIFFE/SPIRE, AWS IRSA, Workload Identity в GCP и Azure, OIDC federation в CI/CD. Compliance Frameworks — SOC 2, PCI-DSS, GDPR и HIPAA как драйверы требований к шифрованию, ротации ключей и журналу аудита.
+
+Что осталось открытым лично у меня — как жить с секретами, которые физически нельзя ротировать без простоя. Ключ, зашитый в прошивку устройства, или сертификат, который принимает контрагент по договору, ломают всю красивую схему с TTL в минуты. Готового ответа нет.
