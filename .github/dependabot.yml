@@ -1,0 +1,29 @@
+version: 2
+
+# До перехода на bun обновления прилетали сами: Dependabot security updates
+# работают без конфига и правили `package-lock.json`, включая транзитивные
+# зависимости. Для bun security updates пока не поддерживаются — только version
+# updates и только по конфигу, поэтому он здесь и появился.
+# https://docs.github.com/en/code-security/reference/supply-chain-security/supported-ecosystems-and-repositories
+updates:
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "build(deps)"
+    open-pull-requests-limit: 5
+    ignore:
+      # js-yaml держится на 4.x намеренно: это не наша зависимость, а способ
+      # зафиксировать, какая копия окажется в корневом node_modules. Astro
+      # ждёт default-экспорт (js-yaml 4), markdownlint-cli2 требует ровно
+      # 5.2.2 и получает свою вложенную копию. Мажорный бамп сломает билд.
+      - dependency-name: "js-yaml"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci(deps)"
