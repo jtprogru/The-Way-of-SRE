@@ -15,7 +15,10 @@ LEAF ?=
 BUN_INSTALL_FLAGS := $(if $(CI),--frozen-lockfile,)
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build preview typecheck toc lint style style-ci check clean
+.PHONY: help install dev build preview typecheck toc toc-check lint style style-ci check clean
+
+# Порядок целей в check значим: типы раньше сборки, дешёвое раньше дорогого.
+.NOTPARALLEL:
 
 help: ## Показать доступные команды
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
@@ -45,6 +48,20 @@ typecheck: node_modules ## astro check — типы и структура дан
 toc: node_modules ## Обновить оглавление в README
 	bun run toc
 
+# doctoc умеет только править файл на месте, флага «проверь и не трогай» у него
+# нет. Поэтому прогон идёт по копии во временном каталоге: README остаётся как
+# был, и цель одинаково честна и в чистом CI, и поверх незакоммиченных правок.
+toc-check: node_modules ## Проверить, что оглавление README актуально (README не правится)
+	@tmp=$$(mktemp -d); cp README.md "$$tmp/README.md"; \
+		./node_modules/.bin/doctoc "$$tmp/README.md" --github --notitle >/dev/null; \
+		if diff -q README.md "$$tmp/README.md" >/dev/null; then \
+			rm -rf "$$tmp"; \
+		else \
+			echo "README: оглавление устарело, запусти make toc"; \
+			diff -u README.md "$$tmp/README.md" | head -40; \
+			rm -rf "$$tmp"; exit 1; \
+		fi
+
 lint: node_modules ## Линт markdown
 	bun run lint
 
@@ -58,7 +75,7 @@ style: ## Стиль-чек листьев; LEAF=<файл.md> — по одно
 style-ci: ## Стиль-чек: только детерминированные правила, ненулевой код при нарушении
 	@$(PYTHON) tools/style/scan_leaf.py --all --ci
 
-check: toc lint typecheck style-ci ## Все проверки разом
+check: toc-check lint typecheck build style-ci ## Всё, что гоняет CI на PR
 
 clean: ## Убрать сборку и кеши
 	rm -rf dist .astro
