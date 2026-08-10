@@ -1,6 +1,6 @@
 ---
 title: Infrastructure as Code
-description: Production-инфраструктура как версионируемый код в git — PR → review → plan → apply
+description: Инфраструктура production как версионируемый код в git — PR → review → plan → apply
 ---
 
 :::note[Метаданные листа]
@@ -11,7 +11,7 @@ description: Production-инфраструктура как версиониру
 - **Статус:** draft
 :::
 
-Каждый раз, когда команда говорит «у нас [IaC](/The-Way-of-SRE/glossary/#iac)» — мой первый вопрос: «click-ops в проде у вас есть?». Если ответ «иногда, в срочных случаях» — IaC у вас нет, у вас IaC-театр. Production-инфраструктура (cloud resources, k8s манифесты, IAM, network policies, secrets references) описана как **версионируемый код** в git и применяется декларативно через автоматизированный pipeline. PR → review → plan → apply, и никакой «срочно правлю через console облака». Главная практика внутри L1 `Configuration Management`; соседи (GitOps, Policy as Code, Secrets Management) — в открытых вопросах.
+Каждый раз, когда команда говорит «у нас [IaC](/The-Way-of-SRE/glossary/#iac)», мой первый вопрос звучит одинаково: click-ops в проде есть? Ответ «иногда, в срочных случаях» означает, что IaC нет, а есть его театр. Инфраструктура production (ресурсы облака, k8s манифесты, IAM, network policies, ссылки на секреты) описана как **версионируемый код** в git и применяется декларативно через автоматизированный pipeline. PR → review → plan → apply, и никакой «срочно правлю через console облака». Главная практика внутри L1 `Configuration Management`; соседи (GitOps, Policy as Code, Secrets Management) — в открытых вопросах.
 
 ## Что должен уметь
 
@@ -33,7 +33,7 @@ description: Production-инфраструктура как версиониру
 
 **L6+**
 - Дизайнит IaC strategy для org: выбор tooling, структура repos (mono vs multi), workflow (CI-based vs GitOps), интеграция со service catalog.
-- Балансирует blast radius IaC-изменений: критические (IAM, network policies, DNS, prod DB) — больше gate и явный pre-apply review; routine — auto-merge при passing checks.
+- Балансирует blast radius изменений в коде инфраструктуры: критические (IAM, network policies, DNS, prod DB) — больше gate и явный review перед apply; рутинные — auto-merge при зелёных проверках.
 
 ## Материалы
 
@@ -58,29 +58,27 @@ description: Production-инфраструктура как версиониру
 
 ## Best practices
 
-**Короткие правила:**
+Click-ops в проде не бывает «один разочек». Это всегда система. «Быстро поправлю в консоли облака, потом запишу в код» — фраза, после которой через месяц никто не помнит, что именно менялось, drift растёт, а следующий `terraform apply` бодро «чинит» сделанное руками и роняет сервис. Поэтому у меня правка через консоль в проде — операционный инцидент с постмортемом, а не срочный фикс.
 
-- **Никаких click-ops в проде, ни разу, никем.** «Быстро поправлю в console облака, потом запишу в код» — через месяц никто не помнит, что менялось; drift растёт; следующий `terraform apply` пытается «починить» руками сделанное и роняет сервис. Click-ops в проде = операционный инцидент с постмортемом, не «срочный фикс».
-- **Plan перед apply, всегда; review plan — обязательная часть PR.** Plan показывает точный diff (create / update-in-place / replace / destroy); apply без review плана — гадание с правами root в проде.
-- **Remote state с locking, никогда локальный state.** Два параллельных apply → corruption, потеря ресурсов из state, ручное восстановление часами. Backend (S3 + DynamoDB / GCS + native locking / Terraform Cloud) даёт locking и shared visibility.
+Plan идёт перед apply всегда. Читает его не только автор PR. Plan показывает точный diff: что создастся, что обновится на месте, что пересоздастся, а что будет уничтожено. Apply без прочитанного плана — гадание с правами root в проде. Разница между «мы посмотрели diff» и «мы посмотрели, что CI зелёный» — это разница между изменением и лотереей.
 
-Подробнее:
+State — удалённый и с блокировкой, локального state не бывает в принципе. Два параллельных apply дают повреждённый файл, потерянные из учёта ресурсы и несколько часов ручного восстановления в самый неудачный момент. Backend вроде S3 с DynamoDB, GCS со штатной блокировкой или Terraform Cloud закрывает сразу две дыры: блокировку и общую видимость того, кто именно сейчас катит изменение. Локальный state этого не даёт никогда.
 
-**Один environment — один state, без cross-env coupling.** Единый state на dev / staging / prod — случайное изменение или test в dev делает plan в prod ненулевым, и кто-то нажмёт apply. Разделение state по environment физически изолирует blast radius. Это базовая дисциплина, которая часто откладывается «потом разделим, когда вырастем» — а потом разделить становится в разы дороже.
+Один environment — один state, без сцепок между окружениями. Когда dev, staging и prod живут в общем файле, случайный эксперимент в dev делает plan в prod ненулевым, и рано или поздно кто-нибудь нажмёт apply не глядя. Разделение по окружениям физически ограничивает blast radius. Дисциплина простая, но её постоянно откладывают до «вырастем — разделим», а к тому моменту разделение стоит в разы дороже.
 
-**Secrets никогда в коде, ни в виде, ни в зашифрованном виде в plain repo.** Vault / AWS Secrets Manager / GCP Secret Manager / Sealed Secrets (k8s); в коде — только references. Даже зашифрованный secret в git — это «расшифруется, когда ключ утечёт». Encryption-at-rest для git как backup-механизм, не как primary defense.
+Секретов в коде нет ни в открытом, ни в зашифрованном виде. Vault, AWS Secrets Manager, GCP Secret Manager, Sealed Secrets для k8s — в коде остаются только ссылки. Зашифрованный секрет в git — это «расшифруется, когда утечёт ключ». А ключ утечёт не в удобный день, и в этот момент разбираться придётся уже не с одним секретом, а со всей историей коммитов, где он лежал. Шифрование репозитория на диске работает как страховка, а не как защита, и от утечки самого секрета оно не спасает.
 
-**IaC тестируется, не «применили в prod — увидели».** «Тест-стенд = prod» — антипаттерн, который дорого стоит при первой ошибке в IAM или network policy. Unit-tests на module level (`terraform test`, terratest, kuttl для k8s), integration-tests в staging-environment, plan-проверка в PR, policy-checks в pipeline. Стоимость теста IaC ничтожна по сравнению со стоимостью инцидента из-за непроверенного `*` в IAM.
+Инфраструктурный код тестируется до prod, а не проверяется им. «Тест-стенд у нас prod» стоит дорого ровно один раз. На первой ошибке в IAM или network policy. Модульные проверки (`terraform test`, terratest, kuttl для k8s), интеграционные прогоны в staging, проверка plan в PR и policy checks в pipeline вместе занимают минуты. Стоимость непроверенной звёздочки в IAM измеряется инцидентом.
 
 ## Связанные листья
 
 - **[GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)** — push-based CI-applying vs pull-based reconciliation. Соседняя практика внутри `Configuration Management` L1.
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — owner сервиса = owner IaC repo / module этого сервиса; catalog связывает service ↔ IaC location.
 - **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — IaC изменения сами требуют progressive rollout (особенно для k8s deployments, network policies, IAM).
-- **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook'и для типичных IaC-инцидентов (state corruption / drift recovery / manual revert) — обязательный набор.
+- **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook'и для типичных инцидентов с инфраструктурным кодом (state corruption / drift recovery / manual revert) — обязательный набор.
 - **[Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/)** — Pulumi через мейнстрим языки делает IaC частью обычного software engineering.
 - **[Networking](/The-Way-of-SRE/leaves/engineering/networking/)** — network policies, ingress, load balancer config — частая часть IaC.
-- **[Cloud Providers](/The-Way-of-SRE/leaves/engineering/cloud-providers/)** — cloud-ресурсы (VPC, IAM, managed-сервисы) — главный target IaC; shared-responsibility модель провайдера определяет, что вообще можно описать кодом.
+- **[Cloud Providers](/The-Way-of-SRE/leaves/engineering/cloud-providers/)** — ресурсы облака (VPC, IAM, managed-сервисы) — главный target IaC; shared-responsibility модель провайдера определяет, что вообще можно описать кодом.
 - **[Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)** — k8s-кластер провижится через IaC; манифесты приложений — следующий декларативный слой того же подхода.
 
 ## Открытые вопросы
@@ -88,4 +86,5 @@ description: Production-инфраструктура как версиониру
 - **Policy as Code** *(TBD)* — OPA / Conftest / Sentinel — самостоятельная практика на стыке `Configuration Management` и `Information Security`.
 - **Secrets Management** *(TBD)* — Vault / Secrets Manager / Sealed Secrets — отдельная подтема на стыке с `Information Security`.
 - **Multi-cloud / hybrid IaC strategy** — отдельная тема (когда multi-cloud оправдан, vendor lock-in vs operational simplicity).
-- Я не уверен в правильности выбора Terraform vs OpenTofu для команды на 2026. OpenTofu обещает community-driven путь, но по поводу долгосрочной стратегии консенсуса пока не вижу. Команды, которые я наблюдаю, делятся примерно поровну — wait-and-see vs migrated.
+
+Отдельно висит выбор между Terraform и OpenTofu для команды, которая стартует сейчас. У меня нет уверенного ответа. OpenTofu обещает путь, который ведёт сообщество, но консенсуса по долгосрочной стратегии я пока не вижу, а команды вокруг делятся примерно поровну: одни выжидают, другие уже переехали.
