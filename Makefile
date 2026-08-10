@@ -1,9 +1,18 @@
 # The Way of SRE — Astro Starlight.
 # Команды дублируют bun-скрипты и добавляют стиль-чек листьев (tools/style/).
+#
+# Makefile — единственное место, где описано, как проект ставится, проверяется
+# и собирается. Workflow в .github/workflows зовут ровно эти цели, поэтому
+# «у меня локально прошло» и «в CI прошло» означают одно и то же.
 
 SHELL := /bin/bash
 PYTHON ?= python3
 LEAF ?=
+
+# GitHub Actions выставляет CI=true сам. Разница между локальной установкой и
+# CI — только в этом флаге: в CI лок обязан совпадать с package.json, локально
+# bun вправе его дописать. Команда при этом остаётся одна и та же.
+BUN_INSTALL_FLAGS := $(if $(CI),--frozen-lockfile,)
 
 .DEFAULT_GOAL := help
 .PHONY: help install dev build preview typecheck toc lint style style-ci check clean
@@ -16,7 +25,7 @@ help: ## Показать доступные команды
 # node_modules лежала версия 4.x. Astro ждёт от неё default-экспорт, а
 # markdownlint-cli2 требует ровно 5.2.2 и живёт со своей вложенной копией.
 node_modules: package.json bun.lock
-	bun install
+	bun install $(BUN_INSTALL_FLAGS)
 	@touch node_modules
 
 install: node_modules ## Установить зависимости

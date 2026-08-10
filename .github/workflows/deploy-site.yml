@@ -3,6 +3,9 @@ name: Deploy site to GitHub Pages
 # Триггеры:
 # - push в main, затрагивающий Astro-проект или сам workflow
 # - ручной запуск через UI (workflow_dispatch)
+#
+# Установка и сборка идут через цели Makefile — те же, что и локально, и те же,
+# что в build-check.yml. Деплой не должен собирать сайт иначе, чем проверка.
 on:
   push:
     branches: [main]
@@ -13,6 +16,7 @@ on:
       - 'tsconfig.json'
       - 'package.json'
       - 'bun.lock'
+      - 'Makefile'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
 
@@ -40,11 +44,12 @@ jobs:
         with:
           bun-version: '1.3.14'
 
+      # make install при CI=true уходит в bun install --frozen-lockfile
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: make install
 
       - name: Build
-        run: bun run build
+        run: make build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
