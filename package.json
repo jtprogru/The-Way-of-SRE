@@ -14,14 +14,15 @@
     "lint": "markdownlint-cli2 \"**/*.md\""
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.41.3",
-    "astro": "^7.1.1",
-    "sharp": "^0.35.0"
+    "@astrojs/starlight": "^0.41.7",
+    "astro": "^7.2.0",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.9",
-    "doctoc": "^2.2.1",
-    "markdownlint-cli2": "^0.23.1",
+    "@astrojs/check": "^0.9.10",
+    "doctoc": "^2.5.0",
+    "js-yaml": "^4.3.1",
+    "markdownlint-cli2": "^0.23.2",
     "typescript": "^6.0.3"
   }
 }

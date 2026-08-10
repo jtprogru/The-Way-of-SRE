@@ -1,5 +1,5 @@
 # The Way of SRE — Astro Starlight.
-# Команды дублируют npm-скрипты и добавляют стиль-чек листьев (tools/style/).
+# Команды дублируют bun-скрипты и добавляют стиль-чек листьев (tools/style/).
 
 SHELL := /bin/bash
 PYTHON ?= python3
@@ -12,29 +12,32 @@ help: ## Показать доступные команды
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2}'
 
-node_modules: package.json package-lock.json
-	npm install
+# js-yaml в devDependencies никто не импортирует: он там, чтобы в корне
+# node_modules лежала версия 4.x. Astro ждёт от неё default-экспорт, а
+# markdownlint-cli2 требует ровно 5.2.2 и живёт со своей вложенной копией.
+node_modules: package.json bun.lock
+	bun install
 	@touch node_modules
 
 install: node_modules ## Установить зависимости
 
 dev: node_modules ## Dev-сервер на http://localhost:4321/The-Way-of-SRE/
-	npm run dev
+	bun run dev
 
 build: node_modules ## Билд сайта в dist/
-	npm run build
+	bun run build
 
 preview: build ## Локальный preview готовой сборки
-	npm run preview
+	bun run preview
 
 typecheck: node_modules ## astro check — типы и структура данных в src/data
-	npm run check
+	bun run check
 
 toc: node_modules ## Обновить оглавление в README
-	npm run toc
+	bun run toc
 
 lint: node_modules ## Линт markdown
-	npm run lint
+	bun run lint
 
 style: ## Стиль-чек листьев; LEAF=<файл.md> — по одному листу
 	@if [ -n "$(LEAF)" ]; then \
