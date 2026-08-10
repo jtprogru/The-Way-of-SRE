@@ -61,7 +61,7 @@ make check    # все проверки: оглавление, линт, тип�
 Эквивалент без Makefile:
 
 ```bash
-npm install && npm run dev
+bun install && bun run dev
 ```
 
 Отдельно — стиль-чек листьев, механическая часть чеклиста из `inventory/style-guide.md`:
