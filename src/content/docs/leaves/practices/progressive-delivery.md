@@ -11,7 +11,7 @@ description: Выкатка изменений малыми долями с heal
 - **Статус:** draft
 :::
 
-«Deploy сразу всем» — паттерн, который я регулярно вижу в командах без progressive delivery, и почти всегда из него растут production-инциденты с большим blast radius. Progressive Delivery — это **дисциплина** выкатки изменений малыми долями с возможностью наблюдать и откатиться: code deploy через [canary](/The-Way-of-SRE/glossary/#canary-release) с явным SLI health gate, feature flags отделяют момент release от deploy, rollback автоматизирован по burn rate, не «нажмём кнопку». Главная практика внутри L1 `Change Management`.
+«Выкатим сразу всем» — так живут команды без progressive delivery, и я регулярно вижу, чем это заканчивается: инцидент в проде с blast radius во весь трафик. Progressive Delivery — это **дисциплина** выкатки малыми долями с возможностью посмотреть и откатиться. Код едет через [canary](/The-Way-of-SRE/glossary/#canary-release) с явным SLI health gate, feature flags отделяют момент release от момента deploy, а rollback срабатывает по burn rate, а не по чьей-то команде «жми кнопку». Главная практика внутри L1 `Change Management`.
 
 ## Что должен уметь
 
@@ -40,7 +40,7 @@ description: Выкатка изменений малыми долями с heal
 
 - Jez Humble, David Farley — **Continuous Delivery** (Addison-Wesley, 2010). Фундамент дисциплины частых, безопасных, автоматизированных выкаток.
 - Nicole Forsgren, Jez Humble, Gene Kim — **Accelerate** (IT Revolution, 2018). Эмпирическая основа исходной модели DORA; для текущих пяти метрик и failed deployment recovery time нужен [актуальный guide DORA](https://dora.dev/guides/dora-metrics/).
-- Gene Kim, Jez Humble, Patrick Debois, John Willis — **The DevOps Handbook**, 2-е изд. (IT Revolution, 2021). Deployment patterns в широком DevOps-контексте.
+- Gene Kim, Jez Humble, Patrick Debois, John Willis — **The DevOps Handbook**, 2-е изд. (IT Revolution, 2021). Deployment patterns в широком контексте DevOps.
 
 ### Статьи
 
@@ -49,27 +49,25 @@ description: Выкатка изменений малыми долями с heal
 
 ### Инструменты
 
-- **[Argo Rollouts](https://argoproj.github.io/argo-rollouts/)** — Kubernetes-native controller для canary / blue-green; интеграция с Prometheus / Datadog для metric-driven promotion и automated rollback.
+- **[Argo Rollouts](https://argoproj.github.io/argo-rollouts/)** — нативный для Kubernetes контроллер под canary / blue-green; интеграция с Prometheus / Datadog для metric-driven promotion и automated rollback.
 - **[Flagger](https://flagger.app/)** — progressive delivery operator поверх service mesh (Istio, Linkerd) с SLI-driven traffic shifting.
 - **[Unleash](https://www.getunleash.io/)** — open-source feature flags platform. По моим наблюдениям, чаще выбирают для self-hosted сценариев.
 - **LaunchDarkly** — коммерческая feature flags платформа с расширенными targeting / experimentation. Полезна, когда команда выходит за десятки активных флагов и нужен enterprise SSO / audit.
-- **Spinnaker** / **Argo CD** / **Flux** — deployment orchestration; не сами по себе делают progressive delivery, но дают pipeline-обвязку для Argo Rollouts / Flagger.
+- **Spinnaker** / **Argo CD** / **Flux** — deployment orchestration; не делают progressive delivery сами по себе, но дают обвязку pipeline для Argo Rollouts и Flagger.
 
 ## Best practices
 
-**Короткие правила:**
+Deploy и release — разные события, и feature flag их разделяет. Сначала код едет в прод выключенным, и мы убеждаемся, что он там просто лежит и ничего не ломает. Потом функциональность включается — на когорту, на процент трафика, на внутренних пользователей. Если что-то пошло не так, флаг гасится, и откатывать выкатку не нужно вовсе.
 
-- **Deploy ≠ release.** Feature flag отделяет момент выкатки кода (низкий риск) от момента включения функциональности (высокий риск). Сначала проверяем, что код работает в проде в выключенном состоянии; затем включаем для cohort / % traffic / внутренних пользователей; в случае проблем — выключаем flag, не откатывая deploy.
-- **Canary всегда с health gate, не «постоит часик».** Ручное продвижение по таймеру — антипаттерн. Гейт = явное условие на SLI / burn rate / error rate; если 5% трафика держит SLO в течение N минут — pipeline автоматически продвигает; если нет — auto-rollback.
-- **Rollback должен быть проще, чем roll-forward.** «Сейчас докатим фикс быстрее, чем откатим» — в инциденте мозг работает хуже; написание fix под давлением — самый рискованный момент. Откат — однострочный command или PR revert, готовый и проверенный *до* деплоя.
+Canary без health gate — это не canary, а «пусть постоит часик». Ручное продвижение по таймеру выглядит как осторожность. Проверяет оно ровно ничего. Гейт — это явное условие на SLI, burn rate или error rate: держит пять процентов трафика SLO заданное время — pipeline продвигает сам, не держит — сам же и откатывает.
 
-Подробнее:
+Откат обязан быть проще, чем накат фикса. «Сейчас докатим быстрее, чем откатим» — фраза, после которой инцидент обычно удлиняется вдвое: под давлением человек пишет код хуже всего, а проверить его негде. Откат — это одна команда или заранее подготовленный revert, проверенный *до* деплоя, а не придуманный в момент пожара.
 
-**Blast radius явно ограничен на каждом шаге.** «Новый код сразу на всех» — антипаттерн, который особенно дорого стоит при breaking changes в hot path. Канарейка по доле трафика (5/25/50/100%), по геозоне (один регион → весь), по cohort (внутренние → beta → все). Цель — чтобы баг увидели единицы, а не миллионы. По моим наблюдениям, разница между «canary 5%» и «full rollout» в blast radius — это разница между «postmortem» и «public PR-disaster».
+**Blast radius ограничен на каждом шаге.** Особенно дорого «сразу всем» обходится на breaking changes в горячем пути. Канарейка режется по доле трафика (5 / 25 / 50 / 100%), по геозоне (один регион, потом остальные), по когорте (внутренние, бета, все). Цель простая. Пусть баг увидят единицы, а не миллионы. По моим наблюдениям, разница между канарейкой на пяти процентах и выкаткой на весь трафик — это разница между внутренним постмортемом и публичным разбирательством.
 
-**DB / config schema changes — отдельный паттерн, не «один deploy».** Schema migration + code change в одном deploy → rollback ломает данные. Норма: сначала backward-compatible schema (старый и новый код могут читать оба варианта); затем code change; затем forward-only cleanup (удаление старых колонок / полей) — отдельным deploy через недели после стабилизации. Команды, которые делают schema migration в одном PR с code change, в первый же rollback теряют данные.
+**Изменения схемы БД и конфигов — отдельный паттерн, а не «ещё один deploy».** Миграция схемы и изменение кода в одном деплое означают, что откат сломает данные. Норма — три шага: сначала обратно совместимая схема, где старый и новый код читают оба варианта, затем изменение кода, и только потом, через недели после стабилизации, отдельный деплой с удалением старых колонок и полей. Команды, которые кладут миграцию в один PR с кодом, теряют данные на первом же откате.
 
-**Pre-deployment checklist для high-risk изменений, не «всё на ревью PR».** Data migration / security-critical / customer-facing breaking changes через тот же поток, что typo в README — антипаттерн. Для high-risk — отдельный pre-deploy review (явный список рисков, rollback plan, communication plan); для low-risk — обычный PR + auto-deploy. Severity-based triage экономит время на низком риске и фокусирует внимание на высоком.
+**Для рискованных изменений — отдельный чеклист перед деплоем.** Миграция данных, правки в безопасности и breaking changes, которые видит клиент, не должны идти тем же путём, что опечатка в README. Для них — отдельный предварительный разбор: список рисков, план отката, план коммуникации. Всё остальное едет обычным PR с автодеплоем. Разбор по тяжести изменения экономит время на дешёвом и концентрирует внимание на дорогом.
 
 ## Связанные листья
 
@@ -78,11 +76,13 @@ description: Выкатка изменений малыми долями с heal
 - **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — rollback во время инцидента — стандартный mitigation.
 - **[SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/)** — burn rate в canary phase = health gate; алертинг — основа auto-rollback.
 - **[SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/)** — SLO определяет, насколько safe canary phase; без явного SLO health gate настроить нельзя.
-- **[GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)** — Argo Rollouts (с ArgoCD) и Flagger (с Flux) — GitOps-нативные tools для progressive delivery.
+- **[GitOps](/The-Way-of-SRE/leaves/engineering/gitops/)** — Argo Rollouts (с ArgoCD) и Flagger (с Flux) — нативные для GitOps инструменты progressive delivery.
 - **[Test Strategy](/The-Way-of-SRE/leaves/engineering/test-strategy/)** — pre-deploy tests vs canary как runtime test; дополняют друг друга.
 - **[Change Governance](/The-Way-of-SRE/leaves/practices/change-governance/)** — *техника* deployment (этот лист) и *policy / process* (governance) — соседние практики. Canary без явного change classification — half practice.
 - **[DORA Metrics](/The-Way-of-SRE/leaves/culture/dora-metrics/)** — эффект progressive delivery проверяется по throughput и instability; для восстановления после неудачного deploy используется failed deployment recovery time, а не общий MTTR инцидентов.
 
 ## Открытые вопросы
-- **Rollback Discipline** *(TBD)* — углублённая тема: rollback testing (regular fire drills), automated rollback testing in CI, time-to-rollback как метрика.
-- **Database Migration Patterns** — детальная схема (expand-contract, dual-write, backfill, shadow read).
+- **Rollback Discipline** *(TBD)* — учения на откат, автоматическая проверка отката в CI, time-to-rollback как отдельная метрика.
+- **Database Migration Patterns** *(TBD)* — детальная схема: expand-contract, dual-write, backfill, shadow read.
+
+Отдельно висит граница. Всё описанное выше держится на измеримом SLI: canary упирается в health gate, а health gate — в то, что вообще меряется. На сервисах без метрик схема не работает, получается та же выкатка на всех, только в несколько шагов и с ложным чувством безопасности. Хорошего ответа тут у меня нет.

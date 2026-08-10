@@ -15,7 +15,7 @@ description: Рамка измерения серьёзности инциден
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — связывать **SLO burn rate с severity** через автоматическое правило. Severity отдельно от alerting — это субъективная оценка IC «по ощущениям». High burn rate (5% бюджета за час) — это уже сигнал severity 1: customer impact в данный момент. Auto-escalation rule в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity становится subjective, и в разных инцидентах одинаковая ситуация получает разный severity.
+Главный навык на уровне L5 — связывать **SLO burn rate с severity** через автоматическое правило. Severity отдельно от alerting — это субъективная оценка IC «по ощущениям». High burn rate (5% бюджета за час) — это уже сигнал severity 1: пользователи страдают прямо сейчас. Auto-escalation rule в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity становится subjective, и в разных инцидентах одинаковая ситуация получает разный severity.
 
 **L3**
 - Знает severity scheme своей команды; применяет корректную severity при declare, не «всё SEV1 потому что страшно».
@@ -46,31 +46,29 @@ description: Рамка измерения серьёзности инциден
 - **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)** — open-source playbook. Полная глава по severity definitions, escalation policies, communication cadence. По моим наблюдениям, чаще всего именно её берут как стартовый шаблон. Apache 2.0.
 - **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management)**. Собственная шкала severity, escalation policies, customer communication patterns, интеграция со Statuspage. Полезно как пример того, что число уровней — решение компании, а не универсальный стандарт.
 - Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), главы 17–18. Severity для security-incidents, decision-making под давлением.
-- **[GDPR, Article 33](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A02016R0679-20160504)** — первичный текст требования об уведомлении supervisory authority. Нужен для точной границы: не каждый security incident является personal data breach, а исключение зависит от риска для прав и свобод людей.
+- **[GDPR, Article 33](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A02016R0679-20160504)** — первичный текст требования об уведомлении supervisory authority. Нужен для точной границы: не каждый security incident — это personal data breach, а исключение зависит от риска для прав и свобод людей.
 
 ### Инструменты
 
-- **[PagerDuty](https://www.pagerduty.com/) / [incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/)** — paging + escalation policies + severity tracking. Opsgenie из этого ряда выбывает: Atlassian прекратила продажи в 2025 и отключает продукт в апреле 2027. Auto-escalation по timeout встроена; severity classification конфигурируема per-team.
+- **[PagerDuty](https://www.pagerduty.com/) / [incident.io](https://incident.io/) / [FireHydrant](https://firehydrant.com/)** — paging + escalation policies + severity tracking. Opsgenie из этого ряда выбывает: Atlassian прекратила продажи в 2025 и отключает продукт в апреле 2027. Auto-escalation по timeout встроена везде, severity classification настраивается на команду. По моим наблюдениям, инструмент здесь редко выбирают под severity — берут тот, что уже стоит под paging, и достраивают классификацию поверх него.
 - **[Atlassian Statuspage](https://www.atlassian.com/software/statuspage) / [Better Stack](https://betterstack.com/status-page)** — customer-facing severity communication. Mapping internal severity → public status.
 - **Slack workflows + ChatOps боты** — declare incident через `/incident sev1 <description>`, auto-create war room channel, auto-page on-call. Netflix [Dispatch](https://github.com/Netflix/dispatch) — open-source пример.
 
 ## Best practices
 
-**Короткие правила:**
+Severity считается по impact и scope, а не по громкости крика в чате. Когда критично всё, критичного нет вовсе — это и есть severity inflation, от которой команда выгорает за квартал. Рамка держится на четырёх вопросах: что именно пострадало (потеря данных хуже деградации для пользователя, деградация хуже внутренних неудобств), какой охват в процентах пользователей и blast radius, затронута ли целостность данных, есть ли регуляторные последствия.
 
-- **Severity = impact + scope, не «громкость крика».** Severity-inflation: всё «критично» → ничего реально не критично. Severity — рамка по критериям: customer impact (data loss > user-facing degradation > internal-only), scope (% пользователей / blast radius), data integrity, regulatory implications.
-- **Severity-based response — не уравниловка.** Для каждого incident — full war room и all-hands → burnout, потеря фокуса. SEV0 = war room + leadership + customer comms; SEV1 = IC + senior eng; SEV2 = on-call + уведомление руководителя; SEV3 = on-call async fix.
-- **Auto-escalation по timeout, не «жду ответа».** Pager сработал, primary не ответил за 30 минут — никто не знает. Auto-escalation в paging tool: 5 мин без ack → secondary; 15 мин → IC; 30 мин → leadership (при SEV1+). Настроить однажды, тестировать на game day.
+Реакция на уровень тоже разная, и это принципиально. Полный war room с созывом всех подряд на каждый инцидент — прямая дорога к выгоранию и потере фокуса. SEV0 поднимает war room, руководство и коммуникацию с клиентами. SEV1 — IC и старший инженер. SEV2 обходится дежурным и уведомлением руководителя, а SEV3 вообще чинится асинхронно и никого не будит.
 
-Подробнее:
+Эскалация по таймауту настраивается один раз и дальше работает сама. Иначе получается классика: pager сработал, primary не ответил, и полчаса об этом никто не знает. Пять минут без ack — уходит secondary, пятнадцать — IC, тридцать — руководство, если severity не ниже SEV1. Цепочка проверяется на game day. Не на реальном инциденте.
 
-**Severity не статична — upgrade/downgrade в ходе incident.** «Один раз declared SEV2 — навсегда SEV2» (стыдно повышать) — реальные incidents меняют scope в ходе investigation. Думали один пользователь → оказалось 50% базы → SEV0. Process: IC явно declare severity change с уведомлением stakeholders; downgrade тоже валиден (initial assessment был алармистский — формальный downgrade с явным обоснованием). По моим наблюдениям, нежелание менять severity в ходе инцидента — частая причина mismatched response.
+**Severity не статична — её повышают и понижают по ходу.** «Один раз объявили SEV2 — значит, SEV2 до конца» держится на неловкости: повышать вроде как стыдно, признавать преувеличение тоже. А scope в реальных инцидентах меняется постоянно: думали, задет один пользователь, выяснилось — половина базы, и это уже SEV0. Процедура простая: IC объявляет смену уровня явно и уведомляет заинтересованных. Понижение так же законно, как повышение, если первичная оценка была алармистской и для понижения есть обоснование. По моим наблюдениям, именно нежелание трогать однажды выставленный уровень чаще всего разводит реакцию и реальную тяжесть инцидента.
 
-**SLO burn rate → severity bridge.** «Severity отдельно, alerting отдельно» — high burn rate (5% бюджета за час) — это уже сигнал severity 1. Auto-escalation rules в alerting: burn rate > threshold → page IC + auto-classify SEV1 минимум. Без этого моста severity становится subjective.
+**Мост от burn rate к severity.** «Severity отдельно, alerting отдельно» означает, что уровень выставляется на глаз. Высокий burn rate — пять процентов бюджета за час — это уже сигнал первой тяжести. Правило в алертинге закрывает разрыв: burn rate выше порога поднимает IC и автоматически ставит минимум SEV1. Без этого моста одинаковые ситуации в разных инцидентах получают разные уровни, и вся матрица обесценивается.
 
-**У регуляторных уведомлений нет одного универсального таймера.** По GDPR Article 33 controller уведомляет supervisory authority без неоправданной задержки и, где это возможно, не позднее 72 часов после того, как ему стало известно о personal data breach; исключение действует, если нарушение с низкой вероятностью создаёт риск для прав и свобод людей. Это не правило «72 часа для любого security incident». Severity matrix должна быстро подключать CISO / Legal / Compliance, а применимость и момент awareness определяются с ними по конкретному факту и юрисдикции.
+**У регуляторных уведомлений нет одного универсального таймера.** По GDPR Article 33 controller уведомляет supervisory authority без неоправданной задержки и, где это возможно, не позднее 72 часов после того, как ему стало известно о personal data breach; исключение действует, если нарушение с низкой вероятностью создаёт риск для прав и свобод людей. Это не универсальные 72 часа на любой инцидент. Задача матрицы здесь одна — быстро подключить CISO, Legal и Compliance. Применимость и момент awareness определяются уже с ними, по конкретному факту и юрисдикции, а не таблицей в вики.
 
-**Calibration lookback каждый квартал.** «Severity scheme прописали год назад и не трогаем» — reality drift: распределение incidents меняется. Quarterly review: distribution по severity (если 80% SEV1 — критерии слишком низкие), false-positives, missed cases. Adjust criteria, document examples per level. Я регулярно вижу команды с устаревшей severity matrix, по которой через полгода стало невозможно отличить SEV1 от SEV2.
+**Пересмотр матрицы раз в квартал.** «Схему прописали год назад и больше не трогаем» — и она тихо расходится с реальностью, потому что состав инцидентов меняется. Раз в квартал стоит смотреть на распределение: если восемьдесят процентов инцидентов оказались SEV1, критерии выставлены слишком низко. Туда же — ложные срабатывания и случаи, которые матрица не поймала вовсе. Дальше правим критерии и дописываем примеры к каждому уровню. Я регулярно вижу команды с матрицей, по которой через полгода уже невозможно отличить SEV1 от SEV2, и спор об уровне съедает первые минуты инцидента.
 
 ## Связанные листья
 
@@ -83,12 +81,13 @@ description: Рамка измерения серьёзности инциден
 - **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — escalation идёт по service ownership chain.
 - **[War Room Patterns](/The-Way-of-SRE/leaves/practices/war-room-patterns/)** — SEV0+ требует структурированного war room.
 - **[Action Items Tracking](/The-Way-of-SRE/leaves/practices/action-items-tracking/)** — severity определяет, требуется ли formal action items review (SEV0/1 — обязательно, SEV3 — optional).
-- **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — declare-incident через slash-command (`/incident sev1 <description>`) — каноническая ChatOps команда; SEV-routing к разным каналам и pager-группам.
+- **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — declare-incident через slash-command (`/incident sev1 <description>`) — каноническая ChatOps команда; routing по SEV к разным каналам и группам дежурных.
 - **[Status Page Management](/The-Way-of-SRE/leaves/practices/status-page-management/)** — internal severity → public component status mapping (`operational / degraded / partial outage / major outage`) должен быть формальным, не «по ощущениям».
 
 ## Открытые вопросы
 
-- **Customer Communications** уже выделена в отдельный лист.
-- **War Room Patterns** уже выделен в отдельный лист.
-- **Status Page Management** — выделен в отдельный лист (см. Связанные листья).
-- **Severity vs Priority в trackers** — соотношение incident severity (момент инцидента) и priority в backlog для follow-up.
+Customer Communications, War Room Patterns и Status Page Management разъехались отсюда в отдельные листья и слинкованы выше.
+
+- **Severity vs Priority в трекерах** *(TBD)* — как соотносятся тяжесть в момент инцидента и приоритет задачи в бэклоге, куда уезжает follow-up.
+
+Чего у меня нет — критерия, сколько уровней держать в шкале. Число уровней остаётся решением компании, а не универсальным стандартом, и формулировка честная, но выбирать-то всё равно приходится наугад. Здесь же и граница листа: описанная рамка рассчитана на команду с собственным дежурством, а в организации, где инциденты разбирает выделенный отдел, она не работает — там решение об уровне принимает не тот, кто тушит.
