@@ -11,11 +11,11 @@ description: Обнаружение, классификация и измере�
 - **Статус:** draft
 :::
 
-«Мы все ужасно заняты on-call'ом» — фраза, которую я слышу регулярно, и без данных она ничего не значит. Без явного учёта [toil](/The-Way-of-SRE/glossary/#toil) невозможно ни ограничить его (toil budget), ни автоматизировать прицельно (автоматизируешь не то, что съедает время), ни обосновать hiring. Toil — это **technical** категория с конкретным определением (Google SRE: manual / repetitive / automatable / tactical / devoid of enduring value / scales linearly), а не «всё, что бесит». Лист — про **измерение** этой работы; соседние практики под тем же L1: [Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/) (про *как* устранять), [Personal SRE Toolkit](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/) (individual-level), [ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/) (chat-driven team automation).
+«Мы все ужасно заняты on-call'ом» — эту фразу я слышу регулярно. Без данных она не значит ничего. Пока [toil](/The-Way-of-SRE/glossary/#toil) не посчитан, его нельзя ни ограничить (toil budget), ни автоматизировать прицельно — руки тянутся не к тому, что съедает время, а к тому, что интереснее написать, — ни превратить в аргумент для найма. Toil — техническая категория с конкретным определением (Google SRE: manual / repetitive / automatable / tactical / devoid of enduring value / scales linearly), а не «всё, что бесит». Этот лист — про **измерение** такой работы. Соседние практики под тем же L1: [Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/) (про *как* устранять), [Personal SRE Toolkit](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/) (уровень одного инженера), [ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/) (командная автоматизация через чат).
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — поддерживать **toil budget команды** в реальности, а не на бумаге. Google SRE convention — ≤ 50% на инженера; на практике в командах, которые я наблюдаю, это либо игнорируется (80%+ toil как норма), либо превращается в KPI без обратной связи. Toil budget работает, только когда over budget автоматически означает приоритизацию автоматизации **выше** feature work — иначе это просто число.
+Главный навык на уровне L5 — держать **toil budget команды** в реальности, а не на бумаге. Google SRE convention — ≤ 50% на инженера. На практике в командах, которые я наблюдаю, это либо игнорируется (80%+ toil как норма), либо превращается в KPI без обратной связи. Budget работает только тогда, когда выход за него автоматически поднимает автоматизацию **выше** feature work в приоритетах. Иначе это просто число в вики.
 
 **L3**
 - Понимает каноническое определение toil (шесть признаков: ручная, повторяющаяся, автоматизируемая, тактическая, не создающая долговременной ценности работа, объём которой растёт линейно с сервисом); различает toil и project work, не сваливает всё «нелюбимое» в toil.
@@ -54,34 +54,30 @@ description: Обнаружение, классификация и измере�
 
 ## Best practices
 
-**Короткие правила:**
+Первое правило простое: считай, а не предполагай. Без данных приоритеты автоматизации спорят на эмоциях, budget ставится «по ощущениям», а запрос на найм отбивается фразой «у вас же всё работает». Минимальный учёт лучше отсутствующего. Неделя честного spreadsheet'а даёт больше, чем месяц разговоров «мы и так знаем, где toil».
 
-- **Track toil, do not assume.** Без данных приоритеты автоматизации спорят на эмоциях, budget устанавливается «по ощущениям», обращения за hire'ом отклоняются «у вас же всё работает». Минимальный tracking лучше отсутствующего; spreadsheet за неделю даёт больше, чем месяц «мы знаем, где toil».
-- **Стой на 5-критериальном определении, не «всё, что бесит».** «Сложный code review» — не toil (требует enduring judgment); «копировать configs руками между env'ами» — toil (automatable, repetitive, scales linearly). Без жёсткого определения tracking превращается в complaint log.
-- **Toil ≤ 50% на инженера (Google SRE convention).** На уровне 80%+ инженер не делает project work, не учится, не автоматизирует — система самоподдерживается в высоком toil. Если 50% недостижимо — явное решение: либо нанимать, либо сократить scope.
+Второе — держаться определения, а не ощущения «меня это бесит». Сложный code review не toil, он требует суждения, которое ничем не заменишь. А копирование конфигов руками между окружениями — toil по всем признакам: повторяется, автоматизируется, растёт линейно с числом сервисов. Стоит отпустить границу, и tracker превращается в complaint log, из которого нельзя вывести ни одного решения.
 
-Подробнее:
+**Toil ≤ 50% на инженера (Google SRE convention).** На уровне 80%+ инженер не делает project work, не учится и не автоматизирует, а значит, ничего не меняет в системе, которая этот toil производит, — и она спокойно самоподдерживается в том же режиме год за годом. Круг замыкается. Если 50% недостижимо, это тоже решение, только его надо принять явно: нанимать или резать scope.
 
-**Автоматизируй highest impact (volume × frequency), не «fun project».** ROI от автоматизации toil — линейная функция от частоты × длительности. Я регулярно вижу команды, которые автоматизируют clever rare cases (потому что интересно), оставляя ежедневные мелочи. Tracking даёт данные для правильной приоритизации, иначе автоматизация выбирается по принципу «что приятнее сделать».
+**Автоматизируй самое дорогое (частота × длительность), а не самое интересное.** ROI автоматизации считается по этим двум числам, и они обычно указывают на скучную ежедневную мелочь. Я регулярно вижу обратное: команда берёт редкий хитрый случай, потому что его приятнее писать. Tracking тут работает как холодный душ — он показывает ranked list, с которым спорить трудно.
 
-**Toil review как часть регулярного ritual'а, не «один раз и забыли».** Tracking установлен раз, через месяц никто не смотрит, toil tracker превращается в data graveyard. Toil review — отдельный пункт sprint retro или встроенный в SLO Review; данные смотрят и принимают решения регулярно. Без review сбор данных бессмыслен.
+**Toil review живёт внутри существующего ритуала.** Учёт заводят один раз, через месяц в него никто не смотрит, ещё через квартал tracker перестаёт работать и превращается в data graveyard. Лечится это дёшево: отдельный пункт в sprint retro или в SLO Review, где данные смотрят и принимают по ним решение. Сбор без разбора бессмыслен.
 
-**Eliminate before automate.** Перед написанием скрипта на toil — вопрос: «можно ли вообще убрать эту работу, изменив систему или контракт?». Например: вместо автоматизации копирования configs — централизация config в IaC; вместо автоматизации rotate prod credentials по email — auto-rotation через Vault. Дешевле и долговременнее, чем clever automation. По моим наблюдениям, ≈30% задач, которые команды собираются автоматизировать, можно вообще удалить — но это требует переосмысления процесса, а не «написать скрипт».
+**Eliminate before automate.** Прежде чем писать скрипт, стоит задать вопрос: а можно ли убрать эту работу вообще, поменяв систему или контракт? Вместо автоматизации копирования конфигов — централизация в IaC. Вместо скрипта, который ротирует prod credentials по письму, — авторотация через Vault. Скрипт — не всегда ответ. Дешевле и живёт дольше, чем любая ловкая автоматизация, ровно потому, что убранная работа не требует ни поддержки, ни владельца, ни строчки в дашборде. По моим наблюдениям, ≈30% задач, которые команды собираются автоматизировать, можно просто удалить, но это разговор о процессе, а не про «написать скрипт».
 
 ## Связанные листья
 
-- **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service catalog ассоциирует каждый сервис с его toil-уровнем; владельцы видят, какие сервисы дают непропорциональный toil.
+- **[Service Ownership](/The-Way-of-SRE/leaves/culture/service-ownership/)** — service catalog связывает каждый сервис с его уровнем toil; владельцы видят, какие сервисы дают непропорциональный toil.
 - **[Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/)** — runbook reduces toil, только если *хороший*. Плохой runbook увеличивает toil.
 - **[Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/)** — deploy operations — крупный класс toil; canary / feature flags / auto-rollback устраняют рутинные шаги.
-- **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — IaC устраняет config-toil; один из самых высоких-impact toil-reduction уровней.
+- **[Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/)** — IaC устраняет toil вокруг конфигураций; один из самых окупаемых шагов сокращения toil.
 - **[Alert Fatigue Management](/The-Way-of-SRE/leaves/engineering/alert-fatigue-management/)** — alert fatigue — отдельный класс toil; SLO-based alerts с high signal-to-noise + runbook сокращают alert-toil сильнее, чем любая другая техника.
-- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — fire-fighting context-switch — высоковесь toil; уменьшается зрелым incident response.
+- **[Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/)** — переключение на тушение пожара — самый тяжёлый класс toil; уменьшается зрелым incident response.
 - **[Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/)** — пара: tracking даёт ranked list самого дорогого toil; automation реализует elimination. Здесь — про *что*; там — про *как*.
 - **[Personal SRE Toolkit](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/)** — самый дешёвый уровень toil reduction (alias / CLI / templates) для individual-level задач.
 - **[ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/)** — chat-driven форма team-level automation; снимает operational запросы через bot interface.
 
 ## Открытые вопросы
 
-- **Toil Automation** — выделена в отдельный лист (см. Связанные листья).
-- **Capacity Planning & Toil** — связь toil ↔ capacity ↔ hiring заслуживает отдельной разработки.
-- **Toil ROI Calculation** — методика расчёта возврата (saved hours × hourly rate − automation cost − maintenance).
+Automation отсюда уже выделена в отдельный лист (см. Связанные листья). Что осталось нерешённым у меня самого — связка toil ↔ capacity ↔ hiring: интуитивно понятно, что растущий toil упирается в потолок capacity, но внятной методики перевода часов toil в заявку на найм я не встречал. Туда же — расчёт возврата от автоматизации (saved hours × hourly rate − automation cost − maintenance): формула выглядит очевидной ровно до момента, когда надо честно оценить последнее слагаемое.
