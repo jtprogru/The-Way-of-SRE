@@ -16,6 +16,9 @@ on:
       - 'src/**'
       - 'public/**'
       - 'tools/**'
+      # markdownlint и проверка оглавления ходят по всем .md вне src/ и dist/
+      - '**/*.md'
+      - '.markdownlint-cli2.yaml'
       - 'astro.config.mjs'
       - 'tsconfig.json'
       - 'package.json'
@@ -49,14 +52,13 @@ jobs:
       - name: Install dependencies
         run: make install
 
-      - name: Typecheck
-        run: make typecheck
-
-      - name: Build
-        run: make build
-
-      # Стиль листьев: только детерминированные правила style-guide (§3.1–§3.8).
-      # Оценка источников, примеры из практики, границы применимости и ритм
-      # требуют человека и в CI не блокируют — см. tools/style/README.md.
-      - name: Leaf style check
-        run: make style-ci
+      # Одна цель на всю проверку: оглавление README, линт markdown, типы,
+      # сборка, стиль листьев. Что гоняется здесь — гоняется и локально тем же
+      # `make check`, разойтись им негде.
+      #
+      # Стиль листьев внутри — только детерминированные правила style-guide
+      # (§3.1–§3.8). Оценка источников, примеры из практики, границы
+      # применимости и ритм требуют человека и не блокируют — см.
+      # tools/style/README.md.
+      - name: Check
+        run: make check
