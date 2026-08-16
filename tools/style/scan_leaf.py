@@ -359,6 +359,11 @@ def check(path, baseline):
         prose_zone = list(lead)
         for name, lines in sections.items():
             if name not in STRUCT_SECTIONS:
+                # Заголовок возвращается в поток: сам он в метрики не попадает
+                # (rutext выбрасывает его как непрозаическую строку), но именно
+                # по нему рвётся цепочка ровного ритма. Без него конец одной
+                # секции и начало следующей выглядят соседними фразами.
+                prose_zone.append(f'## {name}')
                 prose_zone += lines
         rhythm = scan_rhythm.measure('\n'.join(prose_zone))
         lo_cv = baseline.get('rhythm', {}).get('sent_cv', {}).get('lo')
