@@ -102,6 +102,14 @@ CALQUES = [(re.compile(rx, re.IGNORECASE), name) for rx, name in CALQUES]
 BP_TEMPLATE = re.compile(r'(антипаттерн|правильно:)', re.IGNORECASE)
 BULLET = re.compile(r'^\s*(?:[-*+]|\d+[.)])\s+\S')
 
+# Тот же шаблон, переехавший из буллета в абзац: жирный тезис, следом расхожая
+# фраза в кавычках, которую абзац опровергает. Слов «антипаттерн» и «правильно:»
+# там уже нет, поэтому BP_TEMPLATE его не видит, а структура осталась той же —
+# и выдаёт себя ровным ритмом (см. #136). Буллетов в Best practices нет у
+# большинства листьев, так что без этой проверки §3.1 просто молчит.
+BP_PARA_LEAD = re.compile(r'^\*\*.+?\*\*')
+BP_PARA_QUOTE = re.compile(r'«[^»]{10,}»')
+
 # §3.5: падежные гибриды латиница-кириллица через дефис.
 HYBRID = re.compile(r'\b([A-Za-z][A-Za-z0-9.+]*)-([а-яё]{3,})|\b([а-яё]{3,})-([A-Za-z][A-Za-z0-9.+]*)')
 # Латинская часть, для которой сложение легитимно. Источник — terminology.md,
@@ -188,6 +196,23 @@ def lex_of(lines):
 
 def bullets_of(lines):
     return [l for l in lines if BULLET.match(l)]
+
+
+def paragraphs_of(lines):
+    """Абзацы секции: блоки непустых строк, кроме буллетов и подзаголовков."""
+    out, buf = [], []
+    for line in lines:
+        if not line.strip():
+            if buf:
+                out.append(' '.join(buf))
+                buf = []
+            continue
+        if BULLET.match(line) or line.startswith('#'):
+            continue
+        buf.append(line.strip())
+    if buf:
+        out.append(' '.join(buf))
+    return out
 
 
 def subsection(lines, title):
@@ -278,6 +303,15 @@ def check(path, baseline):
     if bp_bullets and len(templated) / len(bp_bullets) > 0.5:
         add('!', '§3.1', f'«утверждение/антипаттерн/правильно»: {len(templated)} из '
                          f'{len(bp_bullets)} bullets (лимит половина)')
+
+    # §3.1 в прозе: тот же шаблон без слов-маркеров. Наблюдение, не нарушение —
+    # жирный тезис с цитатой сам по себе законен, вопрос в его доле.
+    bp_paras = paragraphs_of(bp)
+    templated_paras = [p for p in bp_paras
+                       if BP_PARA_LEAD.match(p) and BP_PARA_QUOTE.search(p)]
+    if bp_paras and len(templated_paras) / len(bp_paras) > 0.5:
+        add('~', '§3.1', f'прозаический шаблон «жирный тезис + расхожая фраза в кавычках»: '
+                         f'{len(templated_paras)} из {len(bp_paras)} абзацев (лимит половина)')
 
     # §3.5: падежные гибриды
     hybrids = []
@@ -382,7 +416,10 @@ def main(argv):
     results = [check(p, baseline) for p in paths]
 
     if '--ci' in flags:
-        hits = [(r, f) for r in results for f in r['findings'] if f['code'] in CI_CODES]
+        # Уровень '~' означает «решает человек» — такие находки в CI не блокируют,
+        # даже если код правила детерминированный.
+        hits = [(r, f) for r in results for f in r['findings']
+                if f['code'] in CI_CODES and f['level'] == '!']
         if not hits:
             print(f'стиль-чек: {len(results)} листьев, детерминированные правила чисты')
             return 0
