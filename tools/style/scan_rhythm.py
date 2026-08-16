@@ -17,7 +17,9 @@ scan_tells.py ищет штампы — конкретные слова и ко�
   три слова и период на сорок. Модель держится середины.
 - **Самый длинный ровный участок.** Сколько предложений подряд идут в пределах
   ±25% друг от друга. Средние по тексту могут быть хорошими, а внутри сидеть
-  двадцать одинаковых фраз.
+  двадцать одинаковых фраз. Считается внутри куска прозы: через заголовок,
+  список или таблицу цепочка не тянется, там читатель видит структуру, а не
+  соседние фразы.
 - **Сущ./глаг.** (нужен pymorphy3). Чем номинальнее текст, тем сильнее
   канцелярит: действие превращается в «осуществление действия».
 
@@ -98,6 +100,18 @@ def _longest_flat_run(lengths):
     return best
 
 
+def _flat_run(stripped):
+    """Ровный участок ищется внутри куска прозы, а не сквозь весь текст.
+
+    Через заголовок, список или таблицу цепочка не тянется: предложения по
+    разные стороны подзаголовка соседями не выглядят, а сквозной счёт надувал
+    цифру на ровном месте — участок «8 фраз подряд» мог оказаться концом одной
+    секции и началом следующей.
+    """
+    return max((_longest_flat_run(rutext.sentence_lengths(seg))
+                for seg in rutext.prose_segments(stripped)), default=0)
+
+
 _LIST_MARK = re.compile(r'^\s*(?:[-*+•]|\d+[.)])\s+\S')
 
 
@@ -128,7 +142,7 @@ def measure(raw_text):
         'sent_max': max(lengths) if lengths else 0,
         'short_share': round(sum(1 for x in lengths if x < 6) / n, 3) if n else 0.0,
         'long_share': round(sum(1 for x in lengths if x > 25) / n, 3) if n else 0.0,
-        'flat_run': _longest_flat_run(lengths),
+        'flat_run': _flat_run(stripped),
         'paragraphs': len(para_lengths),
         'para_cv': round(_cv(para_lengths), 3),
         'para_mean': round(statistics.mean(para_lengths), 1) if para_lengths else 0.0,
