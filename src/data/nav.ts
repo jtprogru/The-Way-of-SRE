@@ -115,7 +115,7 @@ export const socials: SocialEntry[] = [
   {
     icon: 'telegram',
     label: 'Telegram канал',
-    href: 'https://t.me/jtprogru_channel',
+    href: 'https://t.me/+LFsXS2FuZiwwMzky',
   },
   {
     icon: 'comment-alt',

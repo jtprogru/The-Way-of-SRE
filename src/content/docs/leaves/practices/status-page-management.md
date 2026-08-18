@@ -70,7 +70,7 @@ description: "Публичная страница статуса как опер
   - **[Cachet](https://cachethq.io/)** — Laravel-based, OG open-source statuspage. Старый, но live; используется в командах с PHP-stack или compliance constraints.
   - **[Gatus](https://github.com/TwiN/gatus)** — Go-based, modern OSS; YAML-конфигурация, built-in synthetic monitoring. По моим наблюдениям, чаще выбирают для команд, готовых к self-hosting.
   - **[Uptime Kuma](https://github.com/louislam/uptime-kuma)** — самая популярная OSS статуспейдж сейчас (под 90 тысяч звёзд на GitHub, с большим отрывом от остальных); self-hosted, modern UI, multiple notification integrations.
-- **Minimal viable communication** — для personal проектов или MVP-stage, где dedicated statuspage overkill: RSS-feed от blog'а, канал в Telegram ([jtprogru_channel](https://t.me/jtprogru_channel) — как использую сам), отдельная категория для инцидентов в Discourse / GitHub Discussions. Не industry-grade, но работает на масштабе до сотен клиентов.
+- **Minimal viable communication** — для personal проектов или MVP-stage, где dedicated statuspage overkill: RSS-feed от blog'а, канал в Telegram ([jtprogru_channel](https://t.me/+LFsXS2FuZiwwMzky) — как использую сам), отдельная категория для инцидентов в Discourse / GitHub Discussions. Не industry-grade, но работает на масштабе до сотен клиентов.
 
 ## Best practices
 
