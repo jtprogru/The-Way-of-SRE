@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 692" width="1120" height="692" role="img" aria-label="The Way of SRE — карта компетенций SRE: 3 ветви, 24 домена, 70 листьев. SRE Culture: 15, SRE Engineering: 30, SRE Practices: 25">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, "Helvetica Neue", Arial, sans-serif; }
+    .eyebrow  { font-size: 13px; font-weight: 600; letter-spacing: .2em; fill: #9aa4b2; }
+    .title    { font-size: 42px; font-weight: 800; letter-spacing: -.01em; fill: #e6edf3; }
+    .tagline  { font-size: 16px; font-weight: 400; fill: #9aa4b2; }
+    .stat-num { font-size: 28px; font-weight: 700; fill: #e6edf3; }
+    .stat-lbl { font-size: 12.5px; font-weight: 500; fill: #9aa4b2; }
+    .col-name { font-size: 21px; font-weight: 700; fill: #e6edf3; }
+    .col-num  { font-size: 14px; font-weight: 600; }
+    .col-sub  { font-size: 13.5px; font-weight: 400; fill: #9aa4b2; }
+    .chip-lbl { font-size: 15.5px; font-weight: 500; fill: #e6edf3; }
+    .chip-num { font-size: 13px; font-weight: 600; }
+    .note     { font-size: 13.5px; font-weight: 400; fill: #9aa4b2; }
+    .note-url { font-size: 13.5px; font-weight: 600; fill: #e6edf3; }
+  </style>
+  <!-- знак -->
+  <g transform="translate(40 64) scale(0.72)" stroke="#9aa4b2" stroke-opacity="0.45" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M32 32 12 18M32 32 54 22M32 32 32 56"/>
+  </g>
+  <g transform="translate(40 64) scale(0.72)">
+    <circle cx="32" cy="32" r="8" fill="#e6edf3"/>
+    <circle cx="12" cy="18" r="5" fill="#f59e0b"/>
+    <circle cx="54" cy="22" r="5" fill="#2dd4bf"/>
+    <circle cx="32" cy="56" r="5" fill="#818cf8"/>
+  </g>
+  <!-- шапка -->
+  <text class="eyebrow" x="104" y="60">КАРТА КОМПЕТЕНЦИЙ SITE RELIABILITY ENGINEERING</text>
+  <text class="title" x="102" y="106">The Way of SRE</text>
+  <text class="tagline" x="104" y="134">Что входит в роль и в какой последовательности это осваивать</text>
+  <text class="stat-num" x="1080" y="100" text-anchor="end">3</text>
+  <text class="stat-lbl" x="1080" y="122" text-anchor="end">ветви</text>
+  <text class="stat-num" x="1010.56" y="100" text-anchor="end">24</text>
+  <text class="stat-lbl" x="1010.56" y="122" text-anchor="end">домена</text>
+  <text class="stat-num" x="934.44" y="100" text-anchor="end">70</text>
+  <text class="stat-lbl" x="934.44" y="122" text-anchor="end">листьев</text>
+  <!-- culture -->
+  <rect x="40" y="156" width="328" height="6" rx="3" fill="#f59e0b"/>
+  <text class="col-name" x="40" y="192">SRE Culture</text>
+  <text class="col-num" x="368" y="191" text-anchor="end" fill="#f59e0b">15 листьев</text>
+  <text class="col-sub" x="40" y="214">люди и нормы · 6 доменов</text>
+  <rect x="40" y="232" width="328" height="36" rx="10" fill="#f59e0b" fill-opacity="0.14" stroke="#f59e0b" stroke-opacity="0.42"/>
+  <circle cx="55" cy="250" r="4.5" fill="#f59e0b"/>
+  <text class="chip-lbl" x="70" y="255.5">Relationship Management</text>
+  <text class="chip-num" x="354" y="255" text-anchor="end" fill="#f59e0b">2</text>
+  <rect x="40" y="277" width="328" height="36" rx="10" fill="#f59e0b" fill-opacity="0.14" stroke="#f59e0b" stroke-opacity="0.42"/>
+  <circle cx="55" cy="295" r="4.5" fill="#f59e0b"/>
+  <text class="chip-lbl" x="70" y="300.5">Learning Delivery</text>
+  <text class="chip-num" x="354" y="300" text-anchor="end" fill="#f59e0b">3</text>
+  <rect x="40" y="322" width="328" height="36" rx="10" fill="#f59e0b" fill-opacity="0.14" stroke="#f59e0b" stroke-opacity="0.42"/>
+  <circle cx="55" cy="340" r="4.5" fill="#f59e0b"/>
+  <text class="chip-lbl" x="70" y="345.5">Measurement</text>
+  <text class="chip-num" x="354" y="345" text-anchor="end" fill="#f59e0b">2</text>
+  <rect x="40" y="367" width="328" height="36" rx="10" fill="#f59e0b" fill-opacity="0.14" stroke="#f59e0b" stroke-opacity="0.42"/>
+  <circle cx="55" cy="385" r="4.5" fill="#f59e0b"/>
+  <text class="chip-lbl" x="70" y="390.5">Knowledge Management</text>
+  <text class="chip-num" x="354" y="390" text-anchor="end" fill="#f59e0b">3</text>
+  <rect x="40" y="412" width="328" height="36" rx="10" fill="#f59e0b" fill-opacity="0.14" stroke="#f59e0b" stroke-opacity="0.42"/>
+  <circle cx="55" cy="430" r="4" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="70" y="435.5">IT Management</text>
+  <text class="chip-num" x="354" y="435" text-anchor="end" fill="#f59e0b">2</text>
+  <rect x="40" y="457" width="328" height="50" rx="10" fill="#f59e0b" fill-opacity="0.14" stroke="#f59e0b" stroke-opacity="0.42"/>
+  <circle cx="55" cy="482" r="4" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="70" y="478">Organisational Capability</text>
+  <text class="chip-lbl" x="70" y="497">Development</text>
+  <text class="chip-num" x="354" y="487" text-anchor="end" fill="#f59e0b">3</text>
+  <!-- engineering -->
+  <rect x="396" y="156" width="328" height="6" rx="3" fill="#2dd4bf"/>
+  <text class="col-name" x="396" y="192">SRE Engineering</text>
+  <text class="col-num" x="724" y="191" text-anchor="end" fill="#2dd4bf">30 листьев</text>
+  <text class="col-sub" x="396" y="214">системы и стек · 9 доменов</text>
+  <rect x="396" y="232" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="250" r="4.5" fill="#2dd4bf"/>
+  <text class="chip-lbl" x="426" y="255.5">Observability</text>
+  <text class="chip-num" x="710" y="255" text-anchor="end" fill="#2dd4bf">4</text>
+  <rect x="396" y="277" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="295" r="4.5" fill="#2dd4bf"/>
+  <text class="chip-lbl" x="426" y="300.5">Reliability Engineering</text>
+  <text class="chip-num" x="710" y="300" text-anchor="end" fill="#2dd4bf">6</text>
+  <rect x="396" y="322" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="340" r="4.5" fill="#2dd4bf"/>
+  <text class="chip-lbl" x="426" y="345.5">IT Infrastructure</text>
+  <text class="chip-num" x="710" y="345" text-anchor="end" fill="#2dd4bf">5</text>
+  <rect x="396" y="367" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="385" r="4.5" fill="#2dd4bf"/>
+  <text class="chip-lbl" x="426" y="390.5">Programming / Scripting</text>
+  <text class="chip-num" x="710" y="390" text-anchor="end" fill="#2dd4bf">5</text>
+  <rect x="396" y="412" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="430" r="4" fill="none" stroke="#2dd4bf" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="426" y="435.5">Toil Reduction</text>
+  <text class="chip-num" x="710" y="435" text-anchor="end" fill="#2dd4bf">4</text>
+  <rect x="396" y="457" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="475" r="4" fill="none" stroke="#2dd4bf" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="426" y="480.5">Configuration Management</text>
+  <text class="chip-num" x="710" y="480" text-anchor="end" fill="#2dd4bf">2</text>
+  <rect x="396" y="502" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="520" r="4" fill="none" stroke="#2dd4bf" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="426" y="525.5">Platform Engineering</text>
+  <text class="chip-num" x="710" y="525" text-anchor="end" fill="#2dd4bf">2</text>
+  <rect x="396" y="547" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="565" r="4" fill="none" stroke="#2dd4bf" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="426" y="570.5">Database Reliability</text>
+  <text class="chip-num" x="710" y="570" text-anchor="end" fill="#2dd4bf">1</text>
+  <rect x="396" y="592" width="328" height="36" rx="10" fill="#2dd4bf" fill-opacity="0.14" stroke="#2dd4bf" stroke-opacity="0.42"/>
+  <circle cx="411" cy="610" r="4" fill="none" stroke="#2dd4bf" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="426" y="615.5">Financial Management</text>
+  <text class="chip-num" x="710" y="615" text-anchor="end" fill="#2dd4bf">1</text>
+  <!-- practices -->
+  <rect x="752" y="156" width="328" height="6" rx="3" fill="#818cf8"/>
+  <text class="col-name" x="752" y="192">SRE Practices</text>
+  <text class="col-num" x="1080" y="191" text-anchor="end" fill="#818cf8">25 листьев</text>
+  <text class="col-sub" x="752" y="214">процессы и ритуалы · 9 доменов</text>
+  <rect x="752" y="232" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="250" r="4.5" fill="#818cf8"/>
+  <text class="chip-lbl" x="782" y="255.5">Incident Management</text>
+  <text class="chip-num" x="1066" y="255" text-anchor="end" fill="#818cf8">6</text>
+  <rect x="752" y="277" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="295" r="4.5" fill="#818cf8"/>
+  <text class="chip-lbl" x="782" y="300.5">Problem Management</text>
+  <text class="chip-num" x="1066" y="300" text-anchor="end" fill="#818cf8">2</text>
+  <rect x="752" y="322" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="340" r="4" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="782" y="345.5">Change Management</text>
+  <text class="chip-num" x="1066" y="345" text-anchor="end" fill="#818cf8">2</text>
+  <rect x="752" y="367" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="385" r="4" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="782" y="390.5">Information Security</text>
+  <text class="chip-num" x="1066" y="390" text-anchor="end" fill="#818cf8">5</text>
+  <rect x="752" y="412" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="430" r="4" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="782" y="435.5">Secure Development</text>
+  <text class="chip-num" x="1066" y="435" text-anchor="end" fill="#818cf8">4</text>
+  <rect x="752" y="457" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="475" r="4" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="782" y="480.5">Methods &amp; Tools</text>
+  <text class="chip-num" x="1066" y="480" text-anchor="end" fill="#818cf8">1</text>
+  <rect x="752" y="502" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="520" r="4" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="782" y="525.5">Professional Development</text>
+  <text class="chip-num" x="1066" y="525" text-anchor="end" fill="#818cf8">2</text>
+  <rect x="752" y="547" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="565" r="4" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="782" y="570.5">Performance Management</text>
+  <text class="chip-num" x="1066" y="570" text-anchor="end" fill="#818cf8">2</text>
+  <rect x="752" y="592" width="328" height="36" rx="10" fill="#818cf8" fill-opacity="0.14" stroke="#818cf8" stroke-opacity="0.42"/>
+  <circle cx="767" cy="610" r="4" fill="none" stroke="#818cf8" stroke-width="1.6" stroke-opacity="0.75"/>
+  <text class="chip-lbl" x="782" y="615.5">Sourcing</text>
+  <text class="chip-num" x="1066" y="615" text-anchor="end" fill="#818cf8">1</text>
+  <!-- легенда -->
+  <path d="M40 650 H1080" stroke="#3d444d" stroke-width="1"/>
+  <circle cx="45" cy="665.5" r="4.5" fill="#e6edf3"/>
+  <text class="note" x="58" y="670">Must Have — база роли</text>
+  <circle cx="237" cy="665.5" r="4" fill="none" stroke="#9aa4b2" stroke-width="1.6"/>
+  <text class="note" x="250" y="670">остальные приоритеты</text>
+  <text class="note-url" x="1080" y="670" text-anchor="end">jtprogru.github.io/The-Way-of-SRE</text>
+  <text class="note" x="852.4" y="670" text-anchor="end">Цифра в чипе — сколько листьев написано  ·</text>
+</svg>
