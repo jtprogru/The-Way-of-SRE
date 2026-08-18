@@ -22,7 +22,10 @@
 </p>
 
 <p align="center">
-  <img src="./logo/sre.svg" alt="The Way of SRE — карта компетенций: ветви Culture (15 листьев), Engineering (30), Practices (25)" width="900">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./logo/cover-dark.svg">
+    <img src="./logo/cover-light.svg" alt="The Way of SRE — карта компетенций SRE: три ветви (Culture, Engineering, Practices), домены верхнего уровня и число написанных листьев в каждом" width="960">
+  </picture>
 </p>
 
 > Вдохновлен проектом [The-Way-of-DevOps](https://github.com/evgeniy-kharchenko/The-Way-of-DevOps) за авторством [Евгения Харченко](https://github.com/evgeniy-kharchenko).

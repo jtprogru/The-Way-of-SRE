@@ -15,7 +15,7 @@ LEAF ?=
 BUN_INSTALL_FLAGS := $(if $(CI),--frozen-lockfile,)
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build preview typecheck toc toc-check lint style style-ci check clean
+.PHONY: help install dev build preview typecheck toc toc-check cover cover-check lint style style-ci check clean
 
 # Порядок целей в check значим: типы раньше сборки, дешёвое раньше дорогого.
 .NOTPARALLEL:
@@ -62,6 +62,15 @@ toc-check: node_modules ## Проверить, что оглавление READM
 			rm -rf "$$tmp"; exit 1; \
 		fi
 
+# Обложка README рисуется из src/data/roadmap.ts (tools/cover/build.ts).
+# Как и с оглавлением, в check идёт не перерисовка, а сверка: файлы в logo/
+# коммитятся, и цель ловит момент, когда данные ушли вперёд картинки.
+cover: node_modules ## Перерисовать обложку README из данных roadmap
+	bun run tools/cover/build.ts
+
+cover-check: node_modules ## Проверить, что обложка собрана из текущих данных
+	@bun run tools/cover/build.ts --check
+
 lint: node_modules ## Линт markdown
 	bun run lint
 
@@ -75,7 +84,7 @@ style: ## Стиль-чек листьев; LEAF=<файл.md> — по одно
 style-ci: ## Стиль-чек: только детерминированные правила, ненулевой код при нарушении
 	@$(PYTHON) tools/style/scan_leaf.py --all --ci
 
-check: toc-check lint typecheck build style-ci ## Всё, что гоняет CI на PR
+check: toc-check cover-check lint typecheck build style-ci ## Всё, что гоняет CI на PR
 
 clean: ## Убрать сборку и кеши
 	rm -rf dist .astro
