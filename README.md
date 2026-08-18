@@ -95,6 +95,7 @@ make style LEAF=src/content/docs/leaves/culture/runbooks.md   # один лис�
 - [Мотивация](https://jtprogru.github.io/The-Way-of-SRE/about/) — зачем проект существует и для кого (`src/content/docs/about.mdx`).
 - [Формат проекта](https://jtprogru.github.io/The-Way-of-SRE/format/) — как устроена карта, шаблон листа, правила контрибуции (`src/content/docs/format.mdx`).
 - [Методология](https://jtprogru.github.io/The-Way-of-SRE/methodology/) — методологический каркас, принцип разделения ветвей, оси priority и SFIA, источники структуры (`src/content/docs/methodology.mdx`).
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — как приносить правки: рабочий процесс, добавление нового листа, проверки перед PR (в репозитории, не на сайте).
 - [`inventory/overlaps.md`](inventory/overlaps.md) — рабочий артефакт ребаланса (в репозитории, не на сайте).
 - [`inventory/tlroadmap-review.md`](inventory/tlroadmap-review.md) — разбор соседнего проекта tlroadmap.io (в репозитории, не на сайте).
 - Шаблон листа — [`src/content/docs/leaves/_template.md`](src/content/docs/leaves/_template.md) (Astro игнорирует `_`-префикс, шаблон виден только в GitHub UI).
