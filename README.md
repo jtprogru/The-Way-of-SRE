@@ -9,6 +9,16 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-Apache--2.0-brightgreen" alt="Apache 2.0 License">
   </a>
+  <a href="https://t.me/+LFsXS2FuZiwwMzky">
+    <img src="https://img.shields.io/badge/Telegram-канал-2CA5E0?logo=telegram&logoColor=white" alt="Telegram-канал проекта">
+  </a>
+  <a href="https://t.me/+BPP6mMOs34s2Yzcy">
+    <img src="https://img.shields.io/badge/Telegram-чат-2CA5E0?logo=telegram&logoColor=white" alt="Telegram-чат проекта">
+  </a>
+</p>
+
+<p align="center">
+  Анонсы новых листьев — в <a href="https://t.me/+LFsXS2FuZiwwMzky">Telegram-канале</a>, обсуждение и вопросы — в <a href="https://t.me/+BPP6mMOs34s2Yzcy">чате</a>.
 </p>
 
 <p align="center">
