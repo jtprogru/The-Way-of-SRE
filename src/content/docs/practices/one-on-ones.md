@@ -5,48 +5,48 @@ sfia: [3, 4, 5, 6]
 status: draft
 ---
 
-«Расскажи, что у тебя по тикетам?» — типичное начало [1:1](/The-Way-of-SRE/glossary/#1-1), после которого встреча перестаёт быть тем, чем должна быть. 1:1 — это **не status update**: status есть в Jira, в standup, в retro. 1:1 — пространство для того, что **не покрыто** другими ритуалами: личные блокеры, обратная связь, growth conversations, отношения в команде, ожидания. Andy Grove сформулировал это в 1983: 1:1 — это **встреча сотрудника**, а не руководителя. Главная практика внутри L1 `Performance Management`; без неё performance review через год становится сюрпризом (no surprises rule).
+«Расскажи, что у тебя по тикетам?» — типичное начало [1:1](/The-Way-of-SRE/glossary/#1-1), после которого встреча перестаёт быть тем, чем должна быть. 1:1 — это **не статус-встреча**: статус есть в Jira, на стендапе, на ретро. Здесь место тому, что другими ритуалами **не покрыто**: личные блокеры, обратная связь, разговор о росте, отношения в команде, ожидания. Andy Grove сформулировал это в 1983: 1:1 — это **встреча сотрудника**, а не руководителя. Главная практика внутри L1 `Performance Management`; без неё ревью через год становится сюрпризом, а правило «никаких сюрпризов» держится именно на этих встречах.
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — формулировать **growth conversations** конкретно. «Хочу расти в seniority» — не conversation, это пожелание. «Я закрываю L4-expectations через X / Y / Z; в L5 expectations N и M я ещё не закрываю — как двинуться в эту сторону на следующий квартал?» — это conversation. Без конкретики 1:1 деградируют в status, потому что говорить про абстрактный рост труднее, чем про абстрактные тикеты.
+Главный навык на уровне L5 — вести **разговор о росте** конкретно. «Хочу расти дальше» — это не разговор, а пожелание. «Ожидания L4 я закрываю через X, Y и Z; из ожиданий L5 у меня не закрыты N и M — как сдвинуться туда за следующий квартал?» — вот это разговор. Без конкретики 1:1 сползают в статус, потому что говорить про абстрактный рост труднее, чем про абстрактные тикеты.
 
 **L3**
 - Приходит на 1:1 с конкретной повесткой (хотя бы 1–2 темы), а не «ну, что у тебя?»; фиксирует action items со своей стороны после встречи.
 - Различает 1:1 и status update: 1:1 — про то, что **не покрыто** другими ритуалами, а не пересказ заданий из Jira.
 
 **L4**
-- Готовит focused agenda за день до 1:1: список тем (status, blockers, growth, feedback, personal); делится с собеседником заранее.
-- Даёт peer-feedback после совместной работы по модели SBI — Situation / Behavior / Impact — а не «было нормально».
+- Готовит короткую повестку за день: список тем — статус, блокеры, рост, обратная связь, личное — и заранее делится им с собеседником.
+- Даёт обратную связь коллегам после совместной работы по модели SBI — Situation / Behavior / Impact, — а не «было нормально».
 
 **L5**
-- Ведёт 1:1 с менее опытным инженером или mentee: balance professional + technical + personal topics; держит «their meeting, not yours» — повестка ведомого выше повестки ведущего.
-- Формулирует career growth conversations: где сейчас, куда хочется (1–2 квартала / год), какие компетенции прокачивать, конкретные next steps.
-- Даёт structured feedback по SBI или radical candor (care personally + challenge directly); не сваливается ни в «ты молодец», ни в «всё плохо без обоснований».
+- Ведёт 1:1 с менее опытным инженером или учеником: держит баланс между профессиональным, техническим и личным; помнит, что встреча принадлежит собеседнику, и повестка ведомого приоритетнее повестки ведущего.
+- Формулирует разговор о карьере: где человек сейчас, куда хочет через квартал-два и через год, какие компетенции подтягивать, какие шаги следующие.
+- Даёт структурированную обратную связь по SBI или radical candor (искренне заботиться и прямо возражать); не сваливается ни в «ты молодец», ни в «всё плохо» без обоснований.
 
 **L6+**
-- Внедряет 1:1 cadence в команде: ожидаемая частота, shared notes template, expectations для руководителя и IC; защищает 1:1 от «cancel-first».
-- Связывает 1:1 с performance review cycle: 1:1 — **не** review (no surprises rule); review informed by 1:1 history, но не заменяет её.
+- Задаёт ритм 1:1 в команде: ожидаемая частота, шаблон общих заметок, ожидания от обеих сторон; защищает встречу от того, чтобы её отменяли первой.
+- Связывает 1:1 с циклом ревью: сама встреча ревью **не заменяет**, но ревью опирается на её историю — отсюда и правило «никаких сюрпризов».
 
 ## Материалы
 
 ### Книги
 
-- Camille Fournier — **The Manager's Path** (O'Reilly, 2017). Главы про 1:1, mentorship, feedback. Канонический guide для tech leads и engineering managers.
-- Will Larson — **[Staff Engineer](https://staffeng.com/)** (2021). 1:1 со стороны staff IC — как готовиться, как использовать для влияния, как давать feedback без hierarchical authority.
+- Camille Fournier — **The Manager's Path** (O'Reilly, 2017). Главы про 1:1, наставничество и обратную связь. Канонический справочник для tech lead и инженерного руководителя.
+- Will Larson — **[Staff Engineer](https://staffeng.com/)** (2021). 1:1 со стороны инженера уровня staff: как готовиться, как использовать для влияния, как давать обратную связь, не имея власти по должности.
 - Andy Grove — **High Output Management** (Vintage, 1983). Классическая книга, где 1:1 формализован как ритуал. Grove ввёл идею «1:1 — это встреча сотрудника». До сих пор актуальна.
-- Kim Scott — **Radical Candor** (St. Martin's Press, 2017). Модель feedback (care personally + challenge directly), применимая в 1:1.
-- Lara Hogan — **Resilient Management** (A Book Apart, 2019). Практический guide.
+- Kim Scott — **Radical Candor** (St. Martin's Press, 2017). Модель обратной связи «искренне заботиться и прямо возражать», приложимая к 1:1.
+- Lara Hogan — **Resilient Management** (A Book Apart, 2019). Практическое руководство.
 
 ### Статьи
 
-- **[Lara Hogan — One-on-Ones Resources](https://larahogan.me/resources/one-on-ones/)**. Подборка worksheets и статей по подготовке к 1:1, формулировке feedback, «questions for our first 1:1». По моим наблюдениям, главный практический ресурс для tech leads.
+- **[Lara Hogan — One-on-Ones Resources](https://larahogan.me/resources/one-on-ones/)**. Подборка рабочих листов и статей: как готовиться к 1:1, как формулировать обратную связь, о чём спрашивать на самой первой встрече. По моим наблюдениям, главный практический ресурс для tech lead.
 
 ### Инструменты
 
-- **Shared notes в repo / wiki / Notion / Google Doc** — самый простой формат: один документ на пару `manager + IC`, добавляется новая секция на каждую встречу. Видим обеим сторонам, history доступна для review.
-- **1:1 templates** — публичные шаблоны от GitLab handbook, Lattice, 15Five. Минимальный шаблон: previous action items / status / blockers / growth / personal / new action items.
-- **[Team Health 1:1](https://github.com/fadeinflames/team-health)** — open-source платформа специально под 1:1: shared agenda, регулярные замеры состояния (energy / load / clarity / trust), development plans. Self-hosted; полезна, когда хочется структуры между shared doc и тяжёлой коммерческой платформой.
+- **Shared notes в repo / wiki / Notion / Google Doc** — самый простой формат: один документ на пару, на каждую встречу новая секция. Виден обеим сторонам, история под рукой.
+- **Шаблоны 1:1** — публичные образцы из handbook GitLab, Lattice, 15Five. Минимальный набор секций: задачи с прошлой встречи, статус, блокеры, рост, личное, новые задачи.
+- **[Team Health 1:1](https://github.com/fadeinflames/team-health)** — открытая платформа специально под 1:1: общая повестка, регулярные замеры состояния (энергия, нагрузка, ясность, доверие), планы развития. Ставится на своих серверах; берут её, когда общего документа уже мало, а тяжёлая коммерческая платформа ещё не нужна.
 - **Lattice / 15Five / Officevibe** — коммерческие платформы для performance management. По моим наблюдениям, пока пар не набирается несколько десятков, общий документ выигрывает у любой из них: он бесплатный, его видно обеим сторонам и он не требует онбординга. Платформу берут, когда за 1:1 начинает стоять формальный цикл ревью.
 
 ## Best practices
@@ -67,14 +67,14 @@ status: draft
 
 ## Связанные листья
 
-- **[SRE Onboarding](/The-Way-of-SRE/culture/sre-onboarding/)** — onboardee имеет 1:1 со своим mentor еженедельно; качество 1:1 в первые 12 недель определяет churn.
-- **[Dev Team Partnership](/The-Way-of-SRE/culture/dev-team-partnership/)** — engagement contract включает 1:1 cadence между SRE и tech lead продуктовой команды; 1:1 через границу команд — паттерн партнёрства.
-- **[Architecture Decision Records](/The-Way-of-SRE/practices/architecture-decision-records/)** — обсуждение технических решений на 1:1 даёт contextual sounding board перед формальным ADR.
-- **[Postmortem Culture](/The-Way-of-SRE/culture/postmortem-culture/)** — feedback после инцидента не валится в Slack; 1:1 даёт безопасную приватную обратную связь.
-- **[Career Ladders](/The-Way-of-SRE/culture/career-ladders/)** — ladder — vocabulary growth conversations; 1:1 — ритуал, в котором ladder используется.
-- **[Personal Growth Plan](/The-Way-of-SRE/practices/personal-growth-plan/)** — план обновляется на quarterly 1:1.
-- **[Calibration Meeting](/The-Way-of-SRE/practices/calibration-meeting/)** — 1:1 даёт continuous feedback, calibration — periodic alignment между руководителями; «no surprises rule» — побочный эффект первой практики, прозрачность calibration — второй.
-- **[Mentoring as Practice](/The-Way-of-SRE/practices/mentoring-as-practice/)** — менторская встреча технически — это разновидность 1:1 без manager-IC контекста; дисциплина та же, контракт другой.
+- **[SRE Onboarding](/The-Way-of-SRE/culture/sre-onboarding/)** — новичок встречается с наставником еженедельно; качество этих встреч в первые двенадцать недель определяет, останется ли человек в компании вообще.
+- **[Dev Team Partnership](/The-Way-of-SRE/culture/dev-team-partnership/)** — контракт взаимодействия включает ритм 1:1 между SRE и tech lead продуктовой команды; встреча через границу команд — отдельный паттерн партнёрства.
+- **[Architecture Decision Records](/The-Way-of-SRE/practices/architecture-decision-records/)** — обсудить техническое решение на 1:1 — способ проверить его вслух до того, как оно уйдёт в формальную ADR.
+- **[Postmortem Culture](/The-Way-of-SRE/culture/postmortem-culture/)** — обратная связь после инцидента не валится в Slack; 1:1 даёт для неё приватное и безопасное место.
+- **[Career Ladders](/The-Way-of-SRE/culture/career-ladders/)** — ladder даёт словарь для разговора о росте; 1:1 — ритуал, в котором этот словарь и применяется.
+- **[Personal Growth Plan](/The-Way-of-SRE/practices/personal-growth-plan/)** — план обновляется на квартальном 1:1.
+- **[Calibration Meeting](/The-Way-of-SRE/practices/calibration-meeting/)** — 1:1 даёт непрерывную обратную связь, калибровка — периодическую сверку между руководителями; «никаких сюрпризов» — побочный эффект первой практики, прозрачность решений о повышении — второй.
+- **[Mentoring as Practice](/The-Way-of-SRE/practices/mentoring-as-practice/)** — менторская встреча технически это разновидность 1:1, только без отношений «руководитель — подчинённый»; дисциплина та же, контракт другой.
 
 ## Открытые вопросы
 

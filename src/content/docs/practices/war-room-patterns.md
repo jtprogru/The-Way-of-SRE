@@ -5,41 +5,41 @@ sfia: [4, 5, 6]
 status: draft
 ---
 
-«Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без [war room](/The-Way-of-SRE/glossary/#war-room) discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для клиентов, IC меняется неявно через «я устал, кто-то другой», а timeline для постмортема потом не восстановить. War Room Patterns — это **дисциплина координации, когда инцидент тушат несколько команд сразу**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как след аудита, shift transition по чек-листу. Уточнение [Incident Response](/The-Way-of-SRE/practices/incident-response/): тот лист описывает lifecycle инцидента целиком, этот — механику фазы mitigation, когда тушат несколько команд сразу.
+«Созвонились в Zoom, тушим» — типичная реакция на SEV0 в команде, где дисциплины [war room](/The-Way-of-SRE/glossary/#war-room) нет. Через два часа десять человек говорят одновременно, никто не помнит, что уже пробовали, клиентам не пишет никто, IC меняется неявно, через «я устал, кто-то другой», а хронологию для постмортема потом не восстановить. War Room Patterns — это **дисциплина координации, когда инцидент тушат несколько команд сразу**: явный Incident Commander (IC) со сменой каждые два-четыре часа, разделение ролей (IC, Ops, Comms, Scribe, SME), ритм сводок как ритуал (раз в 15–30 минут), журнал решений как след аудита, передача смены по чек-листу. Уточнение [Incident Response](/The-Way-of-SRE/practices/incident-response/): тот лист описывает весь жизненный цикл инцидента, этот — механику фазы гашения, когда тушат несколько команд сразу.
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — проектировать **IC rotation**. IC не может вести инцидент дольше 2–4 часов без потери эффективности — fatigue, tunnel vision, привязанность к гипотезам. Я регулярно вижу инциденты длиной 8+ часов с одним IC, который под конец принимает решения хуже, чем on-call инженер в первый час. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает). Без rotation IC становится bottleneck.
+Главный навык на уровне L5 — спроектировать **смену IC**. Дольше двух-четырёх часов вести инцидент без потери качества не выходит: усталость, туннельное зрение, прирастание к собственной гипотезе. Я регулярно вижу инциденты на восемь часов и больше с одним IC, который к концу принимает решения хуже, чем дежурный инженер в первый час. Передача второму IC планируется заранее и включает пятиминутную сверку: текущая гипотеза, что попробовали, что не сработало. Без смены IC сам становится узким местом.
 
 **L4**
-- Понимает роли war room. У Google (SRE Book, гл. 14) их четыре: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние коммуникации; **Planning Lead** — всё, что живёт дольше текущей смены (баги, передача дежурства, снабжение людьми). У PagerDuty набор другой и шире: к IC добавлены **Deputy** (дублёр и второй взгляд), **Scribe** (фиксирует timeline в реальном времени), **SME** (domain knowledge) и две отдельные роли связи — с клиентами и с внутренними стейкхолдерами. Смешивать наборы можно, но стоит понимать, откуда что взято: Scribe — это PagerDuty, Planning Lead — это Google.
-- Выступает как IC для **SEV2+** incident в своём домене — открывает war room channel, объявляет роли, ведёт sitrep cadence. Принимает решения 70/30: ждать 100% уверенности — терять время; 70%+ — действовать, записывать в decision log.
-- Применяет **sitrep cadence** как explicit ritual — каждые 15 минут (SEV0/critical) или 30 минут (SEV1/major). Структура: `current status / what we tried / what we're doing now / next step / blockers / next sitrep at HH:MM`.
+- Понимает роли war room. У Google (SRE Book, гл. 14) их четыре: **IC** — координация и решения, не делает руками; **Ops Lead** — техническая mitigation; **Comms Lead** — внешние и внутренние коммуникации; **Planning Lead** — всё, что живёт дольше текущей смены (баги, передача дежурства, снабжение людьми). У PagerDuty набор другой и шире: к IC добавлены **Deputy** (дублёр и второй взгляд), **Scribe** (ведёт хронологию в реальном времени), **SME** (знаток конкретной системы) и две отдельные роли связи — с клиентами и с внутренними стейкхолдерами. Смешивать наборы можно, но стоит понимать, откуда что взято: Scribe — это PagerDuty, Planning Lead — это Google.
+- Работает как IC на инцидентах от **SEV2** в своей области: открывает канал war room, объявляет роли, держит ритм сводок. Решает по правилу семидесяти процентов: ждать полной уверенности — терять время, есть семьдесят — действуй и записывай в журнал решений.
+- Держит **ритм сводок** как явный ритуал: каждые 15 минут на SEV0, каждые 30 на SEV1. Структура одна и та же: `где мы сейчас / что попробовали / что делаем прямо сейчас / что дальше / что блокирует / следующая сводка в HH:MM`.
 
 **L5**
-- Проектирует **role rotation** — pre-planned handoff на second IC; 5-минутный sync (current hypothesis, что попробовано, что не работает). Распространяется на Ops Lead, Comms Lead.
-- Применяет **decision log** как separate artifact — каждое значимое решение `WHO decided WHAT at WHEN, alternatives considered, rollback plan`. Primary input для post-mortem.
-- Проектирует **shift transition** для multi-day incidents — handoff doc, explicit reassignment всех ролей, overlap window (15–30 минут handoff sync).
-- Управляет **incident channel hygiene** — единый источник истины, separation `incident-${id}-warroom` (executors) и `incident-${id}-stakeholders` (broadcast). Запрет DM-обсуждений «решений», запрет parallel war rooms.
+- Проектирует **смену ролей**: заранее спланированная передача второму IC и пятиминутная сверка (текущая гипотеза, что попробовано, что не работает). То же касается Ops Lead и Comms Lead.
+- Ведёт **журнал решений** отдельным артефактом: кто, что и когда решил, какие были альтернативы, как откатываемся. Главный источник для постмортема.
+- Проектирует **передачу смены** для многодневных инцидентов: документ передачи, явное переназначение всех ролей, окно пересечения на 15–30 минут.
+- Держит **гигиену канала**: один источник истины, разделение `incident-${id}-warroom` (исполнители) и `incident-${id}-stakeholders` (вещание). Никаких решений в личке, никаких параллельных war room.
 
 **L6+**
-- Внедряет **org-level war room infrastructure** — incident management tool, recurring IC training, IC certification, review IC performance в post-mortem.
-- Принимает strategic decisions — 24×7 IC coverage, executive escalation thresholds, legal/PR involvement, war room compensation.
+- Строит **инфраструктуру на уровне организации**: платформа для инцидентов, регулярное обучение IC, аттестация, разбор работы IC на постмортеме.
+- Принимает стратегические решения: круглосуточное покрытие IC, пороги эскалации к руководству, подключение юристов и пиара, оплата участия в war room.
 
 ## Материалы
 
 ### Книги
 
 - **[Site Reliability Engineering: How Google Runs Production Systems](https://sre.google/sre-book/managing-incidents/)** (O'Reilly, 2016), Chapter 14. Канонический заход: четыре роли (Incident Command, Operational Work, Communication, Planning), рекурсивное разделение ответственности, шаблон документа инцидента и протокол передачи. Сама глава опирается на ICS пожарных, а не изобретает модель заново. Короткая, читать целиком.
-- Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), Chapter 17 «Crisis Management». Шире — security incidents, legal, regulatory, executive coordination.
-- **[Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), Chapter 9. Practical examples из Google, разбор role assignments, что пошло не так в координации. Здесь же вводится аббревиатура IMAG (Incident Management At Google) — в SRE Book гл. 14 её ещё нет.
+- Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), Chapter 17 «Crisis Management». Шире: инциденты безопасности, юристы, регуляторы, координация с руководством.
+- **[Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), Chapter 9. Прикладные примеры из Google, разбор распределения ролей и того, что ломалось в координации. Здесь же вводится аббревиатура IMAG (Incident Management At Google) — в SRE Book гл. 14 её ещё нет.
 
 ### Статьи и доклады
 
-- **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)**. Open-source playbook под Apache 2.0, форкается и правится под себя. Включает war room protocols, IC checklist, role templates, sitrep templates, handoff docs. По моим наблюдениям, чаще всего именно её берут как стартовый шаблон.
-- **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management/handbook)**. Detailed playbook с фокусом на coordination. Альтернативный взгляд к PagerDuty.
+- **[PagerDuty Incident Response Documentation](https://response.pagerduty.com/)**. Открытый playbook под Apache 2.0, который форкают и правят под себя. Внутри протоколы war room, чеклист IC, шаблоны ролей, сводок и передачи смены. По моим наблюдениям, чаще всего именно её берут как стартовый шаблон.
+- **[Atlassian Incident Management Handbook](https://www.atlassian.com/incident-management/handbook)**. Подробный playbook с упором на координацию. Альтернативный взгляд к PagerDuty.
 - Brent Chapman — **[Incident Command for IT: What We Can Learn from the Fire Department](https://www.usenix.org/legacy/events/lisa05/tech/chapman.pdf)** (LISA 2005). Тот самый доклад, который принёс NIMS / ICS (система командования, которой пожарные США пользуются с 1970-х) в мир IT-эксплуатации. История role separation идёт оттуда — и стоит отметить, что это 2005 год, за одиннадцать лет до того, как SRE-сообщество начало обсуждать роли в инцидентах как что-то новое. [Обновлённая версия доклада](https://www.usenix.org/conference/srecon18americas/presentation/chapman) — SREcon18 Americas.
-- **[FEMA Incident Command System (ICS-100, ICS-200 free courses)](https://training.fema.gov/is/courseoverview.aspx?code=is-100.c)**. Original framework, на котором базируется PagerDuty / Google IMAG. Free online courses от 2 часов.
+- **[FEMA Incident Command System (ICS-100, ICS-200 free courses)](https://training.fema.gov/is/courseoverview.aspx?code=is-100.c)**. Исходная рамка, на которой стоят и PagerDuty, и IMAG у Google. Бесплатные онлайн-курсы от двух часов.
 - **[Honeycomb — How We Manage Incident Response](https://www.honeycomb.io/blog/incident-response-at-honeycomb)** (Fred Hebert). Разбор внутренней кухни небольшой команды: кто объявляет инцидент, как устроены роли, когда команда сознательно не разворачивает полную процедуру.
 
 ### Шаблоны
@@ -50,10 +50,10 @@ status: draft
 
 ### Инструменты
 
-- **Incident management platforms (с встроенным war room support):** [incident.io](https://incident.io/) (modern, opinionated, Slack-native), [FireHydrant](https://firehydrant.com/), [Rootly](https://rootly.com/), [PagerDuty](https://www.pagerduty.com/platform/incident-management/) с rooms. Все provide: roles assignment, scribe / timeline auto-export, sitrep templates, integration со Slack/Zoom/Statuspage. Сегмент активно консолидируется — Blameless как отдельный продукт исчез, его купил FireHydrant в 2024, — так что при выборе стоит смотреть не только на функциональность, но и на то, кому платформа принадлежит.
-- **Real-time collaboration:** Slack / Microsoft Teams (incident channel как canonical source), Zoom / Google Meet (audio bridge для high-severity), Slack Huddles (lightweight ad-hoc voice).
-- **Scribe / timeline tools:** incident.io timeline (auto-export Slack messages в structured timeline), FireHydrant scribe, [Jeli](https://www.pagerduty.com/platform/jeli/) — теперь часть PagerDuty после покупки в 2023. Без tooling scribe role становится ad-hoc.
-- **Decision log как plain artifact:** Google Doc / Notion / Confluence page per incident — explicit «Decision log» section. Tool-agnostic, важно что log существует как separate artifact, не embedded в Slack scrollback.
+- **Платформы для инцидентов (со встроенной поддержкой war room):** [incident.io](https://incident.io/) (современный, с характером, живёт в Slack), [FireHydrant](https://firehydrant.com/), [Rootly](https://rootly.com/), [PagerDuty](https://www.pagerduty.com/platform/incident-management/) с комнатами. Умеют они одно и то же: назначать роли, автоматически выгружать хронологию, давать шаблоны сводок, связываться со Slack, Zoom и статусной страницей. Сегмент активно консолидируется — Blameless как отдельный продукт исчез, его купил FireHydrant в 2024, — так что при выборе стоит смотреть не только на функциональность, но и на то, кому платформа принадлежит.
+- **Совместная работа в реальном времени:** Slack или Microsoft Teams (канал инцидента как основной источник), Zoom или Google Meet (голосовой мост для тяжёлых инцидентов), Slack Huddles (быстрый голос без подготовки).
+- **Scribe / timeline tools:** incident.io timeline (auto-export Slack messages в structured timeline), FireHydrant scribe, [Jeli](https://www.pagerduty.com/platform/jeli/) — теперь часть PagerDuty после покупки в 2023. Без инструментов роль scribe держится на одном энтузиазме.
+- **Журнал решений как обычный артефакт:** документ на инцидент в Google Docs, Notion или Confluence с явной секцией «журнал решений». Инструмент не важен, важно, что журнал существует отдельно, а не растворён в переписке Slack.
 
 Если инцидентов, ради которых собирают war room, у вас единицы в год, отдельная платформа избыточна: канал в Slack плюс отдельный документ с decision log закрывают ровно ту же потребность. Платформа начинает окупаться там, где ролей много, инциденты идут потоком и timeline нужно собирать не руками.
 
@@ -67,28 +67,28 @@ Sitrep — обещание, а не отчётность. Каждые 15 ми�
 
 Decision log живёт отдельным артефактом. Кто, что и когда решил, какие были альтернативы, как откатываемся — это не размазывается по переписке. Потом на разборе обязательно всплывёт вопрос «почему мы вообще пошли этим путём», и без лога ответ на него будет реконструкцией по памяти.
 
-**IC rotation после 2–4 часов — норма для long incidents.** Я регулярно вижу инциденты длиной 6+ часов с одним IC, который под конец принимает решения хуже, чем on-call инженер в первый час. Это не слабость. Усталость, туннельное зрение и привязанность к собственной гипотезе — физиология, и волевым усилием она не отменяется. Pre-planned handoff на second IC; handoff включает 5-минутный sync (current hypothesis, что попробовано, что не работает, текущий decision pending). Без rotation качество incident management падает экспоненциально.
+**Смена IC каждые два-четыре часа — норма для затяжных инцидентов.** Я регулярно вижу инциденты по шесть часов и дольше с одним IC, который под конец принимает решения хуже, чем дежурный инженер в первый час. Это не слабость. Усталость, туннельное зрение и привязанность к собственной гипотезе — физиология, и волевым усилием она не отменяется. Передача второму IC планируется заранее и включает пятиминутную сверку: текущая гипотеза, что попробовано, что не работает, какое решение висит нерешённым. Без смены качество управления инцидентом падает быстро — и незаметно для самого IC.
 
-**Shift transition для multi-day incidents — handoff doc обязателен.** Без shift transition новая смена начинает с нуля каждые 8 часов — incident длится в 2 раза дольше. Handoff doc: current state, hypothesis tree, что попробовано, что работает, что не работает, next steps. Explicit reassignment всех ролей. Overlap window — 15–30 минут handoff sync, не one-line «передаю». Это базовая дисциплина для регулируемых индустрий, но полезна везде.
+**Передача смены в многодневном инциденте — документ, а не реплика.** Без неё новая смена каждые восемь часов начинает с нуля, и инцидент растягивается вдвое. В документе: где мы сейчас, дерево гипотез, что попробовано, что работает, что нет, какие следующие шаги. Все роли переназначаются явно. Окно пересечения — 15–30 минут живой сверки, а не строчка «передаю». В регулируемых отраслях это базовая дисциплина, но полезна она везде.
 
-**Incident channel hygiene — единый источник истины.** Личка убивает координацию. Решения обсуждаются в канале или попадают в decision log, параллельные war room запрещены — иначе получаются две реальности, которые расходятся тем сильнее, чем дольше идёт инцидент. Канал исполнителей и канал стейкхолдеров разводятся: `incident-${id}-warroom` и `incident-${id}-stakeholders`. Так исполнители не отвлекаются на вопросы руководства, а руководство не тонет в жаргоне.
+**Гигиена канала: один источник истины.** Личка убивает координацию. Решения обсуждаются в канале или попадают в журнал, параллельные war room запрещены — иначе получаются две реальности, которые расходятся тем сильнее, чем дольше идёт инцидент. Канал исполнителей и канал стейкхолдеров разводятся: `incident-${id}-warroom` и `incident-${id}-stakeholders`. Так исполнители не отвлекаются на вопросы руководства, а руководство не тонет в жаргоне.
 
-**Game day и IC training регулярно.** Худший вариант первого опыта в роли IC — настоящий SEV0 в три ночи. Команда паникует, IC не уверен в роли, sitrep не выходят, decision log пустой. Tabletop и game day с искусственными SEV0 — единственный способ построить мышечную память заранее. IC certification / on-call IC roster (не каждый on-call может быть IC) — следующий уровень зрелости.
+**Game day и обучение IC — регулярно.** Худший вариант первого опыта в этой роли — настоящий SEV0 в три ночи. Команда паникует, IC не уверен в себе, сводки не выходят, журнал решений пуст. Штабные игры и game day с придуманным SEV0 — единственный способ наработать мышечную память заранее. Аттестация IC и отдельный список тех, кто может им быть — а может не каждый дежурный, — следующий уровень зрелости.
 
 ## Связанные листья
 
-- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — IR = lifecycle одного инцидента; War Room = внутренняя механика фазы гашения, когда координируются несколько команд.
-- **[Severity Classification](/The-Way-of-SRE/practices/severity-classification/)** — SEV0+ автоматически triggers war room; severity определяет sitrep cadence и audience.
-- **[Customer Communications](/The-Way-of-SRE/practices/customer-communications/)** — Comms Lead в war room — отдельная роль; pre-staged comm templates живут в runbook.
-- **[On-Call Rotation](/The-Way-of-SRE/practices/on-call-rotation/)** — war room rotation может быть отдельной ротацией от service on-call (24×7 IC coverage).
-- **[Blameless Postmortem](/The-Way-of-SRE/practices/blameless-postmortem/)** — decision log из war room — основной input для timeline постмортема.
-- **[Runbooks](/The-Way-of-SRE/culture/runbooks/)** — IC checklist, sitrep template, handoff template — часть runbook для major incidents.
-- **[ChatOps](/The-Way-of-SRE/engineering/chatops/)** — war room канал и есть ChatOps canvas; bots координируют sitrep cadence, scribe role, decision log fixing.
+- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — тот лист про жизненный цикл одного инцидента, этот — про внутреннюю механику фазы гашения, когда координируются несколько команд.
+- **[Severity Classification](/The-Way-of-SRE/practices/severity-classification/)** — SEV0 и выше автоматически поднимают war room; уровень же задаёт ритм сводок и аудиторию.
+- **[Customer Communications](/The-Way-of-SRE/practices/customer-communications/)** — Comms Lead в war room — отдельная роль; заготовленные шаблоны сообщений живут в runbook.
+- **[On-Call Rotation](/The-Way-of-SRE/practices/on-call-rotation/)** — ротация IC может быть отдельной от дежурства по сервису, вплоть до круглосуточного покрытия.
+- **[Blameless Postmortem](/The-Way-of-SRE/practices/blameless-postmortem/)** — журнал решений из war room — основной источник для хронологии в постмортеме.
+- **[Runbooks](/The-Way-of-SRE/culture/runbooks/)** — чеклист IC, шаблон сводки и шаблон передачи смены — часть runbook для крупных инцидентов.
+- **[ChatOps](/The-Way-of-SRE/engineering/chatops/)** — канал war room и есть холст ChatOps: боты держат ритм сводок, помогают scribe и фиксируют решения.
 
 ## Открытые вопросы
 
-- **24×7 IC Coverage** — отдельная rotation от service on-call: когда оправдано, как scaling.
-- **War Room Compensation** — overtime, on-call IC compensation — связано с On-Call Rotation comp models.
+- **Круглосуточное покрытие IC** — отдельная от дежурства по сервису ротация: когда оправдана и как её масштабировать.
+- **Оплата участия в war room** — переработки и компенсация дежурства IC; тема связана с моделями оплаты из листа про ротацию.
 
 Не разобрана и эскалация наверх: в какой момент IC поднимает CTO или CEO в war room. Формально порог описывают через влияние на клиентов или регуляторные последствия, но живой формулировки, которая работала бы в моменте, я пока не нашёл. Рядом лежит вопрос про legal и PR — когда их подключать и как развести их работу с технической митигацией, чтобы одно не мешало другому.
 

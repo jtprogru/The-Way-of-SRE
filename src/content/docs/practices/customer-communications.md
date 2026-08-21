@@ -1,61 +1,61 @@
 ---
 title: Customer Communications
-description: Внешняя коммуникация во время инцидента — severity, cadence, honest framing
+description: Внешняя коммуникация во время инцидента — кому пишем, как часто и в каком тоне
 sfia: [3, 4, 5, 6]
 status: draft
 ---
 
-Я регулярно вижу две крайности communication during incident. Одна — молчание: команда тушит, никто наружу не пишет, клиенты читают Twitter и пишут в support. Вторая — overcommunication: каждые 5 минут update «всё ещё расследуем», клиенты устают и отписываются от status page. Между ними — дисциплина: [severity](/The-Way-of-SRE/glossary/#severity) определяет audience, cadence — обещание (а не «когда есть что сказать»), honest framing без alarm. Четвёртый лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/practices/severity-classification/)).
+Я регулярно вижу две крайности во внешней коммуникации во время инцидента. Одна — молчание: команда тушит, наружу не пишет никто, клиенты читают Twitter и заваливают поддержку. Вторая — поток: каждые пять минут «всё ещё расследуем», клиенты устают и отписываются от статусной страницы. Между ними лежит дисциплина: [severity](/The-Way-of-SRE/glossary/#severity) определяет аудиторию, ритм сводок — это обещание, а не «когда будет что сказать», тон честный и без нагнетания. Четвёртый лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/practices/severity-classification/)).
 
 ## Что должен уметь
 
-Главный навык на уровне L4 — выдерживать **sitrep cadence как обещание**, даже когда «нечего сказать». Клиенты видят молчание как «они растеряны / не работают над проблемой». Update вида «в 14:30 — статус: расследуем; пробовали X (не помогло); сейчас проверяем Y; следующее сообщение в 15:00» — это валидное сообщение, и оно строит trust лучше, чем 20-минутное молчание с последующим «всё починили».
+Главный навык на уровне L4 — выдерживать **sitrep cadence как обещание**, даже когда «нечего сказать». Клиенты читают молчание как «они растерялись или вообще не занимаются проблемой». Сообщение вида «в 14:30 — статус: расследуем; пробовали X, не помогло; сейчас проверяем Y; следующее сообщение в 15:00» — полноценное обновление, и доверия оно приносит больше, чем двадцать минут тишины и финальное «всё починили».
 
 **L3**
-- Знает channel/audience матрицу команды — какие incidents идут на public statuspage, какие на internal Slack, какие на email customer success.
-- Знает базовые правила тона: honest без alarm; acknowledge impact; what we know; what we don't know; ETA только при ≥80% уверенности.
+- Знает матрицу «канал — аудитория»: какие инциденты идут на публичную статусную страницу, какие во внутренний Slack, какие письмом в customer success.
+- Знает базовые правила тона: честно и без нагнетания, признать влияние, сказать, что известно, сказать, что неизвестно, срок называть только при уверенности выше 80%.
 
 **L4**
-- Ведёт customer comms во время incident в роли Comms Lead — sitrep cadence ≤30 минут при SEV0+ active, обновления статусов `investigating / identified / monitoring / resolved` в правильном lifecycle.
-- Координирует с customer success и sales — уведомление key accounts, шаблоны «что говорить клиенту, который звонит», сегментированные уведомления (только affected клиенты).
+- Ведёт внешнюю коммуникацию во время инцидента в роли Comms Lead: сводки не реже раза в полчаса, пока активен SEV0, статусы `investigating / identified / monitoring / resolved` идут в правильном порядке.
+- Работает вместе с customer success и продажами: уведомление ключевых клиентов, шаблоны «что говорить тому, кто позвонил», адресные рассылки только затронутым.
 
 **L5**
-- Проектирует severity → communications matrix для команды — какой SEV → какие channels (statuspage / email / in-app banner / executive notify / regulators); cadence per severity; templates per комбинация, ревьюнутые legal / customer success.
-- Вместе с Legal/CISO применяет точные regulatory triggers: по GDPR Article 33 — awareness о personal data breach и risk exception; по SEC Item 1.05 Form 8-K — determination, что cybersecurity incident material для registrant.
-- Использует statuspage стратегически — subscriber management, uptime history transparency trade-off, localization для international клиентской базы.
+- Проектирует матрицу «severity → коммуникация»: какому уровню какие каналы (статусная страница, письмо, баннер в продукте, уведомление руководства, регулятор), какой ритм на каждом уровне, какие шаблоны под каждую комбинацию — и всё это пропущено через юристов и customer success.
+- Вместе с юристами и CISO применяет регуляторные триггеры точно: в GDPR ст. 33 отсчёт идёт от момента, когда контролёр узнал об утечке персональных данных, и там же есть исключение по уровню риска; в SEC Item 1.05 Form 8-K — от решения о том, что инцидент существенен для эмитента.
+- Использует статусную страницу осознанно: управление подписчиками, компромисс между открытой историей аптайма и её ценой, локализация под международную клиентскую базу.
 
 **L6+**
-- Проектирует org-level customer comms framework — coordination с регуляторами через legal/CISO, board-level reporting threshold, post-mortem публикация как deliberate trust-building.
-- Принимает strategic comms decisions — когда incident `public vs private`, pre-emptive comms до confirmed impact, post-incident «what we learned» публикация как часть бренда.
+- Проектирует внешнюю коммуникацию на уровне организации: взаимодействие с регуляторами через юристов и CISO, порог, с которого докладывают совету директоров, публикация постмортемов как осознанная работа с доверием.
+- Решает, что выносить наружу: делать ли инцидент публичным вообще, писать ли до того, как влияние подтверждено, публиковать ли разбор «что мы из этого поняли» как часть бренда.
 
 ## Материалы
 
 ### Книги
 
-- Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), главы 17–18 (Crisis Management, Recovery and Aftermath). Crisis communications в SRE-контексте, internal vs external messaging, regulatory escalations.
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), глава 9, секция Communications. Comms Lead role в incident structure, sitrep cadence, audience separation.
-- Kathleen Fearn-Banks — **Crisis Communications: A Casebook Approach** (Routledge, 5-е изд.). Academic crisis communications. Не SRE-specific, но даёт обоснование подходов.
+- Heather Adkins et al. — **[Building Secure and Reliable Systems](https://google.github.io/building-secure-and-reliable-systems/raw/toc.html)** (O'Reilly, 2020), главы 17–18 (Crisis Management, Recovery and Aftermath). Кризисная коммуникация в контексте SRE: внутренние сообщения против внешних, эскалации к регуляторам.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/incident-response/)** (O'Reilly, 2018), глава 9, секция Communications. Роль Comms Lead в структуре инцидента, ритм сводок, разделение аудиторий.
+- Kathleen Fearn-Banks — **Crisis Communications: A Casebook Approach** (Routledge, 5-е изд.). Академическая кризисная коммуникация. Не про SRE, но подкладывает теорию под приёмы, которые в отрасли применяют по наитию.
 
 ### Статьи и доклады
 
-- **[Atlassian Statuspage Best Practices](https://www.atlassian.com/incident-management/incident-communication)** — guide от создателей Statuspage. Когда обновлять, какой tone, как handle ETA.
+- **[Atlassian Statuspage Best Practices](https://www.atlassian.com/incident-management/incident-communication)** — руководство от создателей Statuspage: когда обновлять, каким тоном писать, что делать с обещанными сроками.
 - **[GitHub October 21, 2018 Incident Report](https://github.blog/news-insights/company-news/oct21-post-incident-analysis/)**. Главный публичный кейс — см. ниже.
-- **[Cloudflare incident reports](https://blog.cloudflare.com/tag/post-mortem/)**. Регулярные public post-mortems от Cloudflare. По моим наблюдениям, один из лучших benchmark'ов «public-ready» post-mortem.
+- **[Cloudflare incident reports](https://blog.cloudflare.com/tag/post-mortem/)**. Регулярные public post-mortems от Cloudflare. По моим наблюдениям, один из лучших образцов постмортема, который не стыдно опубликовать.
 - Honeycomb — **[How We Manage Incident Response](https://www.honeycomb.io/blog/incident-response-at-honeycomb)** (Fred Hebert). Про внутреннюю механику, но с честным разделом о том, кто и когда говорит с клиентами в маленькой команде, где выделенного Comms Lead просто нет.
 - Increment — **[Incident Response issue](https://increment.com/on-call/)**. Статьи от Stripe / Slack / Asana о customer comms.
-- **[GDPR, Article 33](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A02016R0679-20160504)** — первичный текст: notification supervisory authority без неоправданной задержки и, где это возможно, в течение 72 часов после awareness; также содержит risk exception.
-- U.S. SEC — **[Cybersecurity incident disclosure rules](https://www.sec.gov/newsroom/press-releases/2023-139)**. Первичный источник для точной формулировки: Item 1.05 Form 8-K обычно подаётся в течение четырёх рабочих дней после determination, что incident material, а не через четыре дня после обнаружения любого события.
+- **[GDPR, Article 33](https://eur-lex.europa.eu/legal-content/EN/ALL/?uri=CELEX%3A02016R0679-20160504)** — первичный текст: уведомление надзорного органа без неоправданной задержки и, где это возможно, в течение 72 часов с момента, когда об утечке стало известно; там же исключение по уровню риска.
+- U.S. SEC — **[Cybersecurity incident disclosure rules](https://www.sec.gov/newsroom/press-releases/2023-139)**. Первичный источник для точной формулировки: Item 1.05 Form 8-K обычно подаётся в течение четырёх рабочих дней после того, как эмитент признал инцидент существенным, а не через четыре дня после обнаружения любого события.
 
 ### Инструменты
 
-- **[Atlassian Statuspage](https://www.atlassian.com/software/statuspage)** — наиболее установленный provider; subscriber management, scheduled maintenance, incident lifecycle, custom domains, API для auto-update из monitoring.
-- **[Better Stack Status](https://betterstack.com/status-page) / [Instatus](https://instatus.com/) / [Statuspal](https://statuspal.io/)** — альтернативы Statuspage. По моим наблюдениям, чаще выбирают за свежий UX и более низкую цену. Statuspal — European-based, для GDPR-aware клиентской базы.
-- **Email / SMS broadcast** — Customer.io, Braze, Mailchimp + transactional SendGrid/Mailgun. Должны быть pre-configured с templates для разных incident scenarios.
-- **In-app banners / system notifications** — feature flags + UI компонент для broadcast'а внутри продукта. Подходит, когда клиентская база — authenticated users (B2B SaaS).
+- **[Atlassian Statuspage](https://www.atlassian.com/software/statuspage)** — самый распространённый вариант: управление подписчиками, плановые работы, жизненный цикл инцидента, свои домены, API для автообновления из мониторинга.
+- **[Better Stack Status](https://betterstack.com/status-page) / [Instatus](https://instatus.com/) / [Statuspal](https://statuspal.io/)** — альтернативы Statuspage. По моим наблюдениям, их берут за более свежий интерфейс и цену. Statuspal хостится в Европе — аргумент для клиентов, которым важен GDPR.
+- **Email / SMS broadcast** — Customer.io, Braze, Mailchimp + transactional SendGrid/Mailgun. Настраиваются заранее, с готовыми шаблонами под разные сценарии.
+- **In-app banners / system notifications** — feature flag плюс компонент интерфейса, который показывает сообщение прямо в продукте. Работает, когда все клиенты авторизованы, то есть в B2B SaaS.
 
 ## Best practices
 
-Главный публичный кейс — **GitHub October 21, 2018 Incident Report**. Сервис работал с деградацией 24 часа 11 минут: 43-секундный разрыв связи между сетевым узлом на восточном побережье и основным дата-центром запустил автоматический failover MySQL, после чего в кластерах на двух побережьях оказались расходящиеся записи. Вернуться назад без потери данных было нельзя, и GitHub сознательно выбрал долгое восстановление вперёд вместо быстрого. Часть платформы всё это время работала штатно, а часть отдавала устаревшие данные, не доставляла webhooks и не публиковала Pages. Их post-mortem — эталон того, как делать public communication: detailed timeline, конкретные contributing factors (не одна «причина»), список того, что они меняют, и прямое объяснение, почему выбрали медленный путь. Обратите внимание на подачу: нигде не сказано «мы лежали 24 часа», везде описано, что именно не работало — это честнее и одновременно мягче, чем формулировка, которую за них потом придумала пресса. По моим наблюдениям, это один из 3–4 публичных post-mortems, которые в SRE-индустрии цитируют десятки раз — если читаете лист и впервые в теме, сначала туда.
+Главный публичный кейс — **GitHub October 21, 2018 Incident Report**. Сервис работал с деградацией 24 часа 11 минут: 43-секундный разрыв связи между сетевым узлом на восточном побережье и основным дата-центром запустил автоматический failover MySQL, после чего в кластерах на двух побережьях оказались расходящиеся записи. Вернуться назад без потери данных было нельзя, и GitHub сознательно выбрал долгое восстановление вперёд вместо быстрого. Часть платформы всё это время работала штатно, а часть отдавала устаревшие данные, не доставляла webhooks и не публиковала Pages. Их постмортем — эталон публичной коммуникации: подробная хронология, конкретные факторы вклада вместо одной «причины», список того, что меняют, и прямое объяснение, почему выбрали медленный путь. Обратите внимание на подачу: нигде не сказано «мы лежали 24 часа», везде описано, что именно не работало — это честнее и одновременно мягче, чем формулировка, которую за них потом придумала пресса. По моим наблюдениям, это один из трёх-четырёх публичных постмортемов, которые в отрасли цитируют десятки раз, — если вы в теме впервые, начинайте с него.
 
 Дальше — три вещи, которые проще решить до инцидента, чем во время. Первая: матрица «severity → аудитория» пишется заранее и целиком. SEV0 — статусная страница, письмо и уведомление руководства в первые пятнадцать минут; SEV1 — статусная страница плюс customer success через полчаса; SEV2 — статусная страница, если клиент это видит; SEV3 — только внутрь. Под давлением инцидента вопрос «писать наружу или нет» решается субъективно, и решают его каждый раз по-разному: то промолчат там, где надо было сказать, то поднимут панику на пустом месте.
 
@@ -63,24 +63,24 @@ status: draft
 
 Третья: статусная страница — первый источник правды, и обновляется она раньше почты и соцсетей. Порядок такой: страница, потом рассылка, потом Twitter, потом точечная работа customer success. Твит «мы лежим» при зелёной статусной странице бьёт по доверию сильнее самого инцидента.
 
-**Honest framing без alarm; acknowledge без blame.** Я регулярно вижу `we are investigating an issue`, висящее четыре часа без единой детали. Клиент из такого сообщения не понимает blast radius и не может принять ни одного решения: ни переключиться на запасной вариант, ни предупредить собственных клиентов. Работает другой шаблон. Признать импакт — что именно не работает. Сказать, что известно. Сказать, что пока неизвестно. ETA давать только при уверенности выше 80%, а не в режиме `we will be back in 15 minutes`, если это догадка. Невыполненный ETA бьёт по доверию сильнее честного «не знаем».
+**Честно, без нагнетания и без поиска виноватых.** Я регулярно вижу `we are investigating an issue`, висящее четыре часа без единой детали. Клиент из такого сообщения не понимает ни масштаба, ни что ему с этим делать: ни переключиться на запасной вариант, ни предупредить собственных клиентов. Работает другой шаблон. Признать влияние — что именно не работает. Сказать, что известно. Сказать, что пока неизвестно. Срок называть только при уверенности выше 80%, а не бросать `we will be back in 15 minutes`, когда это догадка. Невыполненное обещание бьёт по доверию сильнее честного «не знаем».
 
-**Customer-facing severity ≠ internal severity.** «Internal SEV1 → public banner red» — типичная путаница. Internal severity отражает team mobilization (war room, comm cadence); customer-facing — actual user impact. SEV1 для команды (war room) может быть `degraded performance` для клиента (10% reads slower, no data loss, transparent fallback). Public statuspage state — отдельная классификация (`operational / degraded performance / partial outage / major outage`), mapped from internal severity И customer-facing impact.
+**Severity для клиента и severity внутри — разные шкалы.** «У нас внутри SEV1, значит, на странице красный баннер» — типичная путаница. Внутренний уровень описывает, как мобилизуется команда: собирать ли war room, с каким ритмом писать сводки. Клиентский описывает, что реально сломалось у пользователя. SEV1 с war room внутри вполне может выглядеть снаружи как `degraded performance`: чтение на десять процентов медленнее, данные целы, запасной путь работает прозрачно. Состояние публичной страницы (`operational / degraded performance / partial outage / major outage`) — третья, отдельная классификация, и выводится она из обоих значений сразу.
 
-**Regulatory comms начинаются с применимости, а не с одного таймера.** GDPR Article 33 привязывает срок к awareness controller о personal data breach и содержит risk exception. SEC Item 1.05 Form 8-K обычно отсчитывает четыре рабочих дня от determination registrant, что cybersecurity incident material. Это разные триггеры для разных субъектов и юрисдикций; pre-staged templates и routing к Legal/CISO должны ссылаться на первичный текст, а не на сокращённую памятку «72 часа / 4 дня».
+**Уведомление регулятора начинается с вопроса о применимости, а не с одного таймера.** GDPR ст. 33 привязывает срок к моменту, когда контролёр узнал об утечке персональных данных, и оставляет исключение по уровню риска. SEC Item 1.05 Form 8-K отсчитывает четыре рабочих дня от решения эмитента о том, что инцидент существенен. Это разные триггеры для разных субъектов и юрисдикций, поэтому заготовленные шаблоны и маршрут к юристам и CISO должны ссылаться на первичный текст, а не на памятку «72 часа и четыре дня».
 
-**Trust building через transparency, не через тишину.** GitHub, Cloudflare, Stripe, Discord публикуют detailed public post-mortems после major incidents — по моим наблюдениям, **это строит trust на годы**. Honest «here's what happened, here's what we learned» = клиенты видят профессионализм. Hidden post-mortems → клиенты догадываются, и слухи хуже фактов. Decision: any incident с customer-facing impact > X получает public post-mortem в течение N дней.
+**Доверие строится открытостью, а не тишиной.** GitHub, Cloudflare, Stripe и Discord публикуют подробные разборы после крупных инцидентов, и, по моим наблюдениям, **это работает на доверие годами**. Честное «вот что случилось, вот что мы из этого поняли» читается как профессионализм. Спрятанный разбор клиенты всё равно достроят сами, а слухи хуже фактов. Правило стоит записать заранее: инцидент, задевший клиента сильнее порога X, получает публичный постмортем в течение N дней.
 
 ## Связанные листья
 
-- **[Severity Classification](/The-Way-of-SRE/practices/severity-classification/)** — severity определяет audience matrix и cadence. Без severity classification audience-decisions делаются субъективно «в моменте».
-- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — Comms Lead role в incident command structure. В small team Comms — обязанность IC; в big team — выделенный человек.
-- **[Blameless Postmortem](/The-Way-of-SRE/practices/blameless-postmortem/)** — post-incident comm = публичный sanitized постмортем; blameless framing translates наружу как professional reflection.
-- **[Runbooks](/The-Way-of-SRE/culture/runbooks/)** — pre-staged comm templates живут в runbook для типовых сценариев (data breach / regional outage / security event).
-- **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — service owner отвечает за customer comms своего сервиса; key accounts знает CSM, кого уведомлять.
-- **[Threat Modeling](/The-Way-of-SRE/practices/threat-modeling/)** — security incidents имеют специфические regulatory comms; threat modeling определяет, какие данные требуют какого уведомления.
-- **[Status Page Management](/The-Way-of-SRE/practices/status-page-management/)** — operational practice самой платформы: subscriber model, uptime transparency policy, scheduled maintenance pre-announce, decoupled infrastructure. Этот лист — про *что говорить*; SPM — про *как устроен канал*.
-- **[DR Policy & Stakeholders](/The-Way-of-SRE/culture/dr-policy/)** — communication tree для DR-сценариев (executive → board → regulators → customers → public) — часть DR policy; обычная severity-based audience matrix отсюда расширяется до DR-scope.
+- **[Severity Classification](/The-Way-of-SRE/practices/severity-classification/)** — severity задаёт и аудиторию, и ритм. Без явной классификации решение «кому писать» принимается на глаз прямо в инциденте.
+- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — роль Comms Lead в структуре командования инцидентом. В маленькой команде её несёт IC, в большой под неё выделяют отдельного человека.
+- **[Blameless Postmortem](/The-Way-of-SRE/practices/blameless-postmortem/)** — коммуникация после инцидента и есть публичный, вычищенный от лишнего постмортем; тон *blameless* читается снаружи как профессиональная рефлексия.
+- **[Runbooks](/The-Way-of-SRE/culture/runbooks/)** — заготовленные шаблоны сообщений живут в runbook под типовые сценарии: утечка данных, отказ региона, инцидент безопасности.
+- **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — владелец сервиса отвечает и за внешнюю коммуникацию по нему; кого из ключевых клиентов уведомлять, знает их менеджер.
+- **[Threat Modeling](/The-Way-of-SRE/practices/threat-modeling/)** — у инцидентов безопасности своя регуляторная часть; моделирование угроз показывает, какие данные какого уведомления требуют.
+- **[Status Page Management](/The-Way-of-SRE/practices/status-page-management/)** — эксплуатация самой площадки: модель подписки, политика открытости по аптайму, анонс плановых работ, инфраструктура, не зависящая от продукта. Этот лист про *что говорить*, соседний — про *как устроен канал*.
+- **[DR Policy & Stakeholders](/The-Way-of-SRE/culture/dr-policy/)** — дерево оповещения для сценариев восстановления (руководство → совет директоров → регуляторы → клиенты → публика) — часть политики DR; обычная матрица аудиторий по severity расширяется до этого масштаба.
 
 ## Открытые вопросы
 
