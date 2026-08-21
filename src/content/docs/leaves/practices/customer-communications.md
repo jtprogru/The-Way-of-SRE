@@ -1,15 +1,9 @@
 ---
 title: Customer Communications
 description: Внешняя коммуникация во время инцидента — severity, cadence, honest framing
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Incident Management / Customer Communications
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 Я регулярно вижу две крайности communication during incident. Одна — молчание: команда тушит, никто наружу не пишет, клиенты читают Twitter и пишут в support. Вторая — overcommunication: каждые 5 минут update «всё ещё расследуем», клиенты устают и отписываются от status page. Между ними — дисциплина: [severity](/The-Way-of-SRE/glossary/#severity) определяет audience, cadence — обещание (а не «когда есть что сказать»), honest framing без alarm. Четвёртый лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/), [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/), [Severity Classification](/The-Way-of-SRE/leaves/practices/severity-classification/)).
 

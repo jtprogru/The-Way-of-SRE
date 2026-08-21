@@ -1,15 +1,9 @@
 ---
 title: Playbooks
 description: Сценарии реагирования на класс инцидентов с явными ролями, decision points и cadence — про координацию, не про команды
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Culture
-- **Путь:** Knowledge Management / Playbooks
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Playbook и [runbook](/The-Way-of-SRE/glossary/#runbook) — это одно и то же?» — вопрос, который я слышу почти от каждой команды, у которой первый раз появляется инцидент с двумя командами в war room. Терминология в индустрии действительно плавающая: Google SRE Workbook называет «playbook» то, что в индустрии DevOps обычно зовут runbook. Я придерживаюсь различения, которое закрепилось в incident-response сообществе после PagerDuty / incident.io в 2020-х: **runbook — это конкретные шаги для одного симптома** («увидел 5xx > 1% → выполни шаги 1-N»); **playbook — это сценарий реагирования для класса инцидентов** с ролями, decision points, cadence, escalation. Лист — про playbook'и; про runbook'и — соседний лист [Runbooks](/The-Way-of-SRE/leaves/culture/runbooks/), который явно вынес обсуждение границы как TBD; этот лист её закрывает.
 

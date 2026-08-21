@@ -1,15 +1,9 @@
 ---
 title: Alert Fatigue Management
 description: Систематическое снижение alert fatigue — actionable rate, review ritual, шумоподавление
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Observability / Alert Fatigue Management
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 Я регулярно вижу команды, у которых 200+ active алертов в Prometheus и actionable rate ниже 30%. Это симптом, не норма. [Alert fatigue](/The-Way-of-SRE/glossary/#alert-fatigue) — операционная проблема, которую можно измерить (alerts/week, actionable rate, time-to-ack) и можно лечить (review ritual, grouping/inhibition в Alertmanager, auto-remediation). Лист — про это лечение. Соседний к [SLI-based Alerting](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/) под L1 `Observability`; вместе с [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/) формируют тройку **design (SLI-based) → measure & reduce (Alert Fatigue) → cope (On-Call)** для здорового алертинга.
 

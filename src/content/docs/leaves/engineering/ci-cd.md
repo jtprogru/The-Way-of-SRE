@@ -1,15 +1,9 @@
 ---
 title: CI/CD
 description: Pipeline сборки и доставки кода как кодовый артефакт; платформа для progressive delivery, IaC, GitOps
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Programming / Scripting / CI/CD
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 Я регулярно вижу pipeline, настолько медленный и нестабильный, что разработчик успевает переключиться на другую задачу раньше, чем придёт результат. Диаграмма Continuous Delivery тут уже ничего не объясняет. [CI/CD](/The-Way-of-SRE/glossary/#ci-cd) — про измеримую скорость обратной связи, **immutable artifacts** с явным versioning и системную работу с flaky tests. Это не «инструмент DevOps команды», а **платформа**, на которой стоят [Progressive Delivery](/The-Way-of-SRE/leaves/practices/progressive-delivery/), [Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/) и [GitOps](/The-Way-of-SRE/leaves/engineering/gitops/). Соседний лист к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) под L1 `Programming / Scripting`.
 

@@ -37,7 +37,7 @@ LEAVES = REPO / 'src' / 'content' / 'docs' / 'leaves'
 # Правила, которые проверяются однозначно и потому годятся в CI. Остальные
 # (§4.3 личная оценка источников, §2.x пример и граница, ритм) требуют
 # человека или суждения и в CI не блокируют.
-CI_CODES = {'§3.1', '§3.2', '§3.4', '§3.5', '§3.6', '§3.7', '§3.8'}
+CI_CODES = {'§3.1', '§3.2', '§3.4', '§3.5', '§3.6', '§3.7', '§3.8', '§3.10'}
 
 HUMANIZER = Path(os.environ.get('HUMANIZER_SCRIPTS', HERE))
 
@@ -154,7 +154,7 @@ def split_leaf(raw):
     if m:
         block = m.group(1)
         body = raw[m.end():]
-        for key in ('title', 'description'):
+        for key in ('title', 'description', 'sfia', 'status'):
             km = re.search(rf'^{key}:\s*(.*(?:\n[ \t]+.*)*)$', block, re.M)
             if km:
                 value = ' '.join(l.strip() for l in km.group(1).split('\n')).strip()
@@ -279,6 +279,17 @@ def check(path, baseline):
     impersonal = IMPERSONAL.findall(whole_prose)
     if len(impersonal) > 3:
         add('!', '§3.4', f'безличных «должен/следует/нужно»: {len(impersonal)} (лимит 3)')
+
+    # §3.10: метаданные листа приходят из данных, а не из текста. Диапазон
+    # уровней и словарь статусов проверяет схема коллекции при сборке
+    # (src/content.config.ts) — здесь только наличие полей и отсутствие
+    # рукописного блока, который эти поля когда-то заменял.
+    if re.search(r':::\w+\[[^\]]*Метаданные', raw):
+        add('!', '§3.10', 'рукописный блок «Метаданные листа»: ветвь, путь и '
+                          'приоритет рендерятся из roadmap.ts, дубль в тексте расходится')
+    for key in ('sfia', 'status'):
+        if key not in fm:
+            add('!', '§3.10', f'нет `{key}` во фронт-маттере (§3.10)')
 
     # §3.8: description
     if 'description' in fm:

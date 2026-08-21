@@ -1,15 +1,9 @@
 ---
 title: Vendor Management
 description: Управление зависимостями от внешних поставщиков как инженерная практика, а не как контракт, купленный закупками
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Sourcing / Vendor Management
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Cloudflare лежит — мы тоже лежим, ничего не поделаешь» — позиция, легальная для разговора с CEO раз в год, но не для каждый месяц. Vendor management — это **engineering practice**, не «купить контракт у procurement»: понять зависимости, измерить SLO-impact каждого vendor, иметь fallback стратегию для критичных, regularly review portfolio. SRE — естественная точка ответственности, потому что vendor-outage — это incident, и зависимости видно из топологии. По моим наблюдениям, чаще всего vendor management в SRE-команде существует фрагментарно: «AWS bill курирует FinOps, status page Cloudflare смотрит DevOps, Stripe owns billing team», — и в день outage Cloudflare никто не знает, какие сервисы у нас критически зависят и какой emergency playbook применять.
 

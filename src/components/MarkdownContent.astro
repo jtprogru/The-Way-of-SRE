@@ -1,0 +1,16 @@
+---
+// Override Starlight MarkdownContent: перед содержимым страницы вставляем
+// метаданные листа.
+//
+// Слот здесь единственная причина переопределения: блок должен стоять первым
+// элементом содержимого, а не в шапке страницы, — ровно там, где до этого
+// стоял рукописный `:::note`. Всё остальное отдаёт стандартный компонент,
+// вместе со своими стилями `.sl-markdown-content`.
+import Default from '@astrojs/starlight/components/MarkdownContent.astro';
+import LeafMeta from './LeafMeta.astro';
+---
+
+<Default>
+  <LeafMeta />
+  <slot />
+</Default>

@@ -1,15 +1,9 @@
 ---
 title: Service Ownership
 description: Систематическое владение боевыми сервисами — owner, catalog, актуальность при изменениях
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Culture
-- **Путь:** IT Management / Service Ownership
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «У нас всё в SRE team» — один из ответов, который я регулярно слышу на вопрос «кто owner этого сервиса?». Это не ownership. Это размазанная ответственность, и она перестаёт работать на первом же инциденте: никто не помнит, кто принимает решения, [runbook](/The-Way-of-SRE/glossary/#runbook) не обновляется, sunset невозможен. Service ownership — это **конкретный человек или конкретная команда** как accountable owner, зафиксированный в catalog и связанный с deploy, on-call, dashboards и SLO. Практика базовая, внутри L1 `IT Management`, и без неё сыпется всё, что опирается на owner: SLO Review, ротация дежурств, change governance.
 

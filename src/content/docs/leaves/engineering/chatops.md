@@ -1,15 +1,9 @@
 ---
 title: ChatOps
 description: Операции через чат — уведомления, запросы статуса и команды с встроенным audit trail
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Toil Reduction / Toil Automation / ChatOps
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Nice to have
-- **Статус:** draft
-:::
 
 Практика родилась в GitHub: в 2011 году они открыли [Hubot](https://hubot.github.com/) — фреймворк на Node.js для ботов, которые жили в Campfire, а позже в Slack, и через текстовые команды деплоили, мониторили, рестартили сервисы. Само слово «ChatOps» закрепилось за подходом чуть позже, когда Джесси Ньюленд из той же компании начал рассказывать про это на конференциях. Идея с тех пор сильно эволюционировала: от «прикольный bot, который отвечает на @hubot deploy» к платформам, построенным вокруг incident management, — [incident.io](https://incident.io/) и [Netflix Dispatch](https://github.com/Netflix/dispatch), где chat стал primary surface для всего жизненного цикла инцидента. Я для своих нужд писал серию ботов для Telegram — [owl_clerk_bot](https://github.com/jtprogru/owl_clerk_bot) (личный секретарь), [py-tg-moder](https://github.com/jtprogru/py-tg-moder) (модерация чата), плюс пара закрытых: аналитика каналов и админские инструменты. Каждый закрывал свой класс toil. Главная ценность ChatOps не в «прикольно тыкать команды в chat», а в трёх вещах: **встроенный audit trail** (всё видно в канале и доступно для поиска), **low-friction access** (zero context switch для команды, которая и так в chat), **shared visibility** (5 человек видят, что 6-й делает действие — встроенный peer review). Этот лист — про когда и как строить ChatOps уровень, и где его границы со специализированными tools.
 

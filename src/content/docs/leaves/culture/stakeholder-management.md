@@ -1,15 +1,9 @@
 ---
 title: Stakeholder Management
 description: Работа с не-инженерными стейкхолдерами SRE — про перевод и числа, не про «обещали ничего не ломать»
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Culture
-- **Путь:** Relationship Management / Stakeholder Management
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Я просто хочу делать SRE-работу, не хочу заниматься политикой» — эту фразу я регулярно слышу от старших SRE. Обычно она означает, что в следующем квартале команда упрётся в нехватку headcount, в отсутствие executive buy-in на вложения в надёжность или в freeze, который наверху никто не принял всерьёз. Stakeholder Management — это не «политика». Это **работа с не-инженерными людьми, от которых зависят решения, влияющие на reliability**: product management, executives, finance, legal, customer success, sales. Граница с [Dev Team Partnership](/The-Way-of-SRE/leaves/culture/dev-team-partnership/) явная: тот лист — engineering ↔ engineering (joint rituals, embedded SRE, shared accountability за код); этот — engineering ↔ non-engineering (объяснить error budget product manager'у, обосновать $200k cost-cut перед finance, договориться с legal про public postmortem).
 

@@ -1,15 +1,9 @@
 ---
 title: Toil Automation
 description: Переход от tracking к elimination — паттерны автоматизации повторяющейся operational работы
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Toil Reduction / Toil Automation
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 Я писал [zbx2jira](https://github.com/jtprogru/zbx2jira) (Zabbix → Jira ServiceDesk integration) ровно потому, что устал смотреть, как оператор каждое утро руками создаёт 5–10 одинаковых тикетов из ночных алертов: открыть Zabbix, найти EventID, скопировать в новый Jira-issue, выставить severity, прицепить ссылку обратно. Тридцать секунд на тикет × 10 тикетов × 365 дней ≈ 30 часов в год на одного оператора. И это только видимая часть, невидимая сидит в переключениях контекста и в усталости. После того как [Toil Tracking](/The-Way-of-SRE/leaves/engineering/toil-tracking/) показал ranked list самого дорогого toil, следующий шаг — автоматизировать прицельно. Этот лист про *как*: иерархия уровней (alias → скрипт → CI job → controller / operator), паттерны интеграций (event-driven, scheduled diff, alert-to-ticket) и трезвое отношение к стоимости автоматизации, которую написать дёшево, а поддерживать дорого. Tracking без automation — data graveyard. Automation без tracking — ловкие одноразовые скрипты не там, где болит.
 

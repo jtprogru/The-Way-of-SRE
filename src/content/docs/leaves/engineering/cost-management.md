@@ -1,15 +1,9 @@
 ---
 title: Cost Management
 description: Управление стоимостью облака как инженерная практика, а не как отчётность для финансов
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Financial Management / Cost Management
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «У нас всё в облаке, биллинг — проблема CFO» — позиция инженерной команды, после которой через год компания платит за забытые кластеры в dev, лесные node-pools и over-provisioned RDS. Cost Management — это **engineering practice**, не финансовый учёт: тот же FinOps Lifecycle (Inform → Optimize → Operate) опирается на observability, IaC и [auto-scaling](/The-Way-of-SRE/glossary/#auto-scaling) — инструменты, которые уже принадлежат SRE. По моим наблюдениям, чаще именно SRE-команда становится точкой ответственности за облачные траты, потому что у платформенной команды есть нужные данные и нужный доступ.
 

@@ -1,15 +1,9 @@
 ---
 title: Toil Tracking
 description: Обнаружение, классификация и измерение toil — фундамент решений об автоматизации и hiring
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Toil Reduction / Toil Tracking
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Мы все ужасно заняты on-call'ом» — эту фразу я слышу регулярно. Без данных она не значит ничего. Пока [toil](/The-Way-of-SRE/glossary/#toil) не посчитан, его нельзя ни ограничить (toil budget), ни автоматизировать прицельно — руки тянутся не к тому, что съедает время, а к тому, что интереснее написать, — ни превратить в аргумент для найма. Toil — техническая категория с конкретным определением (Google SRE: manual / repetitive / automatable / tactical / devoid of enduring value / scales linearly), а не «всё, что бесит». Этот лист — про **измерение** такой работы. Соседние практики под тем же L1: [Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/) (про *как* устранять), [Personal SRE Toolkit](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/) (уровень одного инженера), [ChatOps](/The-Way-of-SRE/leaves/engineering/chatops/) (командная автоматизация через чат).
 

@@ -1,15 +1,9 @@
 ---
 title: Networking
 description: Сетевой стек как фундамент надёжности — TCP/IP, DNS, TLS, HTTP/gRPC, resilience patterns
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** IT Infrastructure / Networking
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 [SRE](/The-Way-of-SRE/glossary/#sre) без сетевого инструментария — наполовину слепой инженер. Половина инцидентов начинается на сетевом уровне (DNS, TLS, peer'ы, certs, mesh, балансировщик), и без умения читать handshake / packet capture / связывать сетевые события во времени диагностика превращается в гадание. Лист — про базовый набор инструментов: что читать, как снимать packet capture, какие symptom различать с первой минуты инцидента. Соседи под `IT Infrastructure` пока не сделаны — Operating Systems в открытых вопросах.
 

@@ -1,15 +1,9 @@
 ---
 title: Service Mesh
 description: Sidecar-proxy слой для mTLS, traffic shifting и L7-observability — когда оправдан, как дебажить и почему чаще «пока без него» правильный ответ
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** IT Infrastructure / Containerization & Orchestration / Service Mesh
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Nice to have
-- **Статус:** draft
-:::
 
 «Поставим service mesh, и mTLS, ретраи и трассировка будут из коробки». После такой позиции я регулярно вижу команды, у которых mesh стал новой точкой отказа: control plane со своей недоступностью, sidecar в каждом pod'е плюс 200 мс к старту, а инцидент теперь разбирается через два слоя логов — приложение и Envoy. Инструмент мощный, спору нет. Но это **инфраструктурный слой**, и эксплуатировать его придётся с той же зрелостью, что и сам Kubernetes (см. [Containerization & Orchestration](/The-Way-of-SRE/leaves/engineering/container-orchestration/)). Этот лист — про то, когда mesh оправдан, как он устроен и какими компромиссами за него платят в production.
 

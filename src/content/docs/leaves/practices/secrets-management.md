@@ -1,15 +1,9 @@
 ---
 title: Secrets Management
 description: Управление secrets через централизованный store с наименьшими привилегиями, ротацией, аудитом
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Information Security / Secrets Management
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Закоммитил токен, удалил следующим коммитом — ок» — фраза, после которой я начинаю говорить про ротацию **немедленно**. Токен остался в git history, в reflog, в forks, в CI кэше, в local repo у каждого, кто pull'нул. Удаление коммита не помогает — секрет нужно ротировать **сразу**. Secrets Management — это **дисциплина**: централизованный store (Vault / Secrets Manager / Sealed Secrets), [наименьшие привилегии](/The-Way-of-SRE/glossary/#least-privilege) для доступа, регулярная rotation, полный [журнал аудита](/The-Way-of-SRE/glossary/#audit-trail), отрепетированная emergency revocation. Главная практика внутри L1 `Information Security`; соседи по рантайм-периметру — [Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/), Security Chaos Engineering и Compliance Frameworks.
 

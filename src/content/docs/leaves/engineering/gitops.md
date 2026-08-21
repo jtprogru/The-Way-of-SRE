@@ -1,15 +1,9 @@
 ---
 title: GitOps
 description: Pull-based reconciliation — git как источник истины desired state, controller в кластере непрерывно сводит
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Configuration Management / GitOps
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 Если у меня в команде кто-то делает `kubectl apply` напрямую в prod — это операционный инцидент с постмортемом, а не «срочно поправил». [GitOps](/The-Way-of-SRE/glossary/#gitops) — это не «удобство», а **дисциплина**: git как источник истины, controller в кластере непрерывно сводит реальное состояние с git. Click-ops в проде — несовместимая с GitOps практика. Соседний лист к [Infrastructure as Code](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/) под L1 `Configuration Management`; различие чёткое: **IaC = код описывает инфраструктуру**, **GitOps = git как источник + автоматическое непрерывное сведение**.
 

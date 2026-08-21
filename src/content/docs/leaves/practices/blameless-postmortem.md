@@ -1,15 +1,9 @@
 ---
 title: Blameless Postmortem
 description: Ритуал разбора инцидента — timeline на фактах, factor analysis, action items с владельцем
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Problem Management / Blameless Postmortem
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 Лист — про **ритуал**: что команда делает на встрече, в каком порядке, с какими артефактами. Норма (почему вообще разбираем [blameless](/The-Way-of-SRE/glossary/#blameless), психологическая безопасность, факторы вклада вместо корневой причины) — в соседнем листе [Postmortem Culture](/The-Way-of-SRE/leaves/culture/postmortem-culture/). Я регулярно вижу команды, в которых первое (ритуал, шаблон) есть, а второго (норма) нет — формальный шаблон без культурной поддержки даёт *blameless*-театр, и любой реальный конфликт интересов его ломает. Оба листа читаются вместе.
 

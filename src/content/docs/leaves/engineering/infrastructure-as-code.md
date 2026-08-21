@@ -1,15 +1,9 @@
 ---
 title: Infrastructure as Code
 description: Инфраструктура production как версионируемый код в git — PR → review → plan → apply
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Configuration Management / Infrastructure as Code
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 Каждый раз, когда команда говорит «у нас [IaC](/The-Way-of-SRE/glossary/#iac)», мой первый вопрос звучит одинаково: click-ops в проде есть? Ответ «иногда, в срочных случаях» означает, что IaC нет, а есть его театр. Инфраструктура production (ресурсы облака, k8s манифесты, IAM, network policies, ссылки на секреты) описана как **версионируемый код** в git и применяется декларативно через автоматизированный pipeline. PR → review → plan → apply, и никакой «срочно правлю через console облака». Главная практика внутри L1 `Configuration Management`; соседи (GitOps, Policy as Code, Secrets Management) — в открытых вопросах.
 

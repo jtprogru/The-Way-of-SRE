@@ -1,15 +1,9 @@
 ---
 title: Career Ladders
 description: Документированные уровни и переходы — expectations per level и signals для promotion
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Culture
-- **Путь:** Organisational Capability Development / Career Ladders
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Вырастешь — посмотрим». Эту фразу я регулярно слышу в командах, у которых нет документированной [career ladder](/The-Way-of-SRE/glossary/#career-ladder), и дальше всё идёт по одному сценарию. Инженер не понимает, чего от него ждут. Руководитель читает слово «senior» по-своему, поэтому калибровка между командами невозможна в принципе, а промоушн через два года приходит вместе с обратной связью, которая ни разу не прозвучала на 1:1. Career ladder — это **организационный артефакт**: явный список компетенций на каждом уровне, конкретные сигналы для промоушна, калибровочная встреча ради общего толкования. Соседний лист к [SRE Onboarding](/The-Way-of-SRE/leaves/culture/sre-onboarding/) под L1 `Organisational Capability Development`.
 

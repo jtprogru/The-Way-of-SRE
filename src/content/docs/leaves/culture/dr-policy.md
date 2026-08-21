@@ -1,15 +1,9 @@
 ---
 title: DR Policy & Stakeholders
 description: Политика реагирования на катастрофические сценарии — про decision rights и stakeholder map, не про backup
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Culture
-- **Путь:** IT Management / DR Policy & Stakeholders
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «У нас есть disaster recovery, мы делаем backup'ы» — фраза, которую я слышу регулярно и которая ничего не означает. Backup — это инженерная практика, она про **технологию**: где данные, какой PITR, какой restore MTTR. См. [Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/), там подробно. DR Policy — это **управленческий документ**: какие сценарии мы планируем (полная потеря региона? компрометация cloud account? cyber-attack? физическое уничтожение DC?), какой RTO/RPO **на уровне org**, кто принимает решение о failover (CTO? service owner? on-call IC?), кого информируем и в каком порядке (executive → board → regulators → customers → public). Лист — про эту вторую часть, которая чаще всего отсутствует или существует в виде слайдов трёхлетней давности.
 

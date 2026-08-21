@@ -1,15 +1,9 @@
 ---
 title: Containerization & Orchestration
 description: Контейнеры как packaging и Kubernetes как orchestrator — что нужно знать про кластер помимо kubectl
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** IT Infrastructure / Containerization & Orchestration
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 «У нас всё в Kubernetes» — в 2026 это звучит как «у нас всё на Linux» десять лет назад: уже не отличительная характеристика, а фон. И я регулярно вижу команды, в которых k8s-fluency сводится к `kubectl get pods` и копированию манифестов с прошлого проекта. Когда происходит нетривиальный инцидент — etcd compaction lag, pod stuck in `Terminating`, неожиданный CrashLoopBackOff после rolling update, network policy не пропускает трафик между namespace'ами — выясняется, что control plane для команды — это чёрный ящик с UI. Этот лист — про то, что нужно знать, чтобы Kubernetes был не «магией платформенной команды», а observable системой: контейнер как процесс (см. [Operating Systems](/The-Way-of-SRE/leaves/engineering/operating-systems/)), pod как unit scheduling, control plane как набор взаимодействующих контроллеров.
 

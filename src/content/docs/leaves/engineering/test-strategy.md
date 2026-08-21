@@ -1,15 +1,9 @@
 ---
 title: Test Strategy
 description: Дисциплина проектирования testing portfolio — что тестируется и на каком уровне
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Programming / Scripting / Test Strategy
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 «У нас [coverage](/The-Way-of-SRE/glossary/#coverage) 80%, с тестами всё нормально» — каждый раз, когда я это слышу, у меня появляется один встречный вопрос. Покрытие чего именно, и сколько багов оно поймало? Coverage — диагностика, а не цель. Этот лист про **архитектуру** портфолио тестов: какие слои (unit / integration / contract / e2e), какой ценой они поддерживаются и какие регрессии ловят. Третий лист под L1 `Programming / Scripting`, сосед к [Programming Languages](/The-Way-of-SRE/leaves/engineering/programming-languages/) и [CI/CD](/The-Way-of-SRE/leaves/engineering/ci-cd/).
 

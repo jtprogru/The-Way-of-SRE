@@ -1,15 +1,9 @@
 ---
 title: Chaos Engineering
 description: Проверка устойчивости системы гипотезой и контролируемой инъекцией, а не «сломаем что-нибудь и посмотрим»
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Reliability Engineering / Chaos Engineering
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 Первое впечатление о [chaos engineering](/The-Way-of-SRE/glossary/#chaos-engineering) у людей обычно одно: «вы что, прод ломаете намеренно?». Если упростить тезис до этого — да, ломаем. Но между «давайте сломаем что-нибудь» и **«у нас есть гипотеза, мы её проверяем контролируемой инъекцией, измеряем SLI до и после, делаем вывод»** — пропасть. Первое — внеплановый outage. Второе — chaos engineering. Лист про вторую часть. Соседний лист к [Resilience Patterns](/The-Way-of-SRE/leaves/engineering/resilience-patterns/): patterns — **что строим**, chaos — **как проверяем, что построенное работает**.
 

@@ -1,15 +1,9 @@
 ---
 title: Workload Identity
 description: Криптографическая идентичность сервисов вместо долгоживущих общих секретов — SPIFFE, IRSA, OIDC federation
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Information Security / Access Control & IAM / Workload Identity
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 В апреле 2021 атакующий модифицировал [Codecov bash uploader](https://about.codecov.io/security-update/) — скрипт, который CI-сервисы тысяч компаний запускали для загрузки coverage reports. Изменение было крошечным: добавлен `curl` на endpoint атакующего с дампом environment variables. Большинство CI-pipeline'ов держало в environment **long-lived API tokens** к AWS, GCP, GitHub. Подменённый скрипт больше двух месяцев собирал переменные окружения у более чем двадцати тысяч клиентов Codecov, а дальше атакующие автоматически перебрали собранные креды и проникли в сотни клиентских сетей. Один скрипт в чужом сервисе — и компрометация расходится по всей отрасли. Этот инцидент стал industry-trigger для массового перехода к **OIDC federation** в CI/CD: GitHub Actions выкатил OIDC support через полгода, остальные подтянулись. Workload Identity решает корневую проблему: long-lived shared secret для нечеловеческого subject (CI runner, pod, Lambda, скрипт) — это credential, который **обязательно** утечёт, потому что хранится в десятках мест, ротируется редко, шарится между средами. Заменяем на cryptographic identity, привязанную к workload, с TTL минуты-часы, без secret в файловой системе. SPIFFE как стандарт, SPIRE как reference implementation, AWS IRSA / GCP Workload Identity / Azure Workload Identity как cloud-native реализации, OIDC federation как мост между ID provider'ами. Прямой сосед [Secrets Management](/The-Way-of-SRE/leaves/practices/secrets-management/) — но граница чёткая: secrets management управляет shared secret'ами, workload identity делает большинство shared secret'ов ненужными.
 
