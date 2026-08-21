@@ -7,7 +7,7 @@ status: draft
 
 Один label с идентификатором пользователя, добавленный ради удобного дашборда, — самый частый способ вырастить счёт за observability, не меняя нагрузку. Сюжет я регулярно вижу в одном и том же порядке. Строка проходит review как безобидная. Число временных рядов растёт вместе с аудиторией, запросы к TSDB начинают отваливаться по таймауту, и только на этом шаге кто-то открывает billing. В документации Prometheus про это написано прямо: каждая уникальная комбинация label создаёт новый временной ряд, поэтому `user_id` и email не годятся как значения label. Начинается всё с одной строки инструментации, а вылезает в storage, в запросах и в деньгах.
 
-**Telemetry Economics** — инженерная дисциплина управления полезностью и полной стоимостью метрик, логов и трейсов: объём приёма, [cardinality](/The-Way-of-SRE/glossary/#cardinality), индексация, [sampling](/The-Way-of-SRE/glossary/#sampling), retention, вычисления, egress и время сопровождения. Это не общий [Cost Management](/The-Way-of-SRE/engineering/cost-management/): здесь единица решения — сигнал и путь telemetry от SDK до backend. И это не разрешение резать данные вслепую ради экономии. После каждого такого изменения проверяется одно: сохранилась ли диагностика известных failure modes.
+**Telemetry Economics** — инженерная дисциплина управления полезностью и полной стоимостью метрик, логов и трейсов: объём приёма, [cardinality](/The-Way-of-SRE/glossary/#cardinality), индексация, [sampling](/The-Way-of-SRE/glossary/#sampling), retention, вычисления, egress и время сопровождения. Это не общий [Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/): здесь единица решения — сигнал и путь telemetry от SDK до backend. И это не разрешение резать данные вслепую ради экономии. После каждого такого изменения проверяется одно: сохранилась ли диагностика известных failure modes.
 
 ## Что должен уметь
 
@@ -72,7 +72,7 @@ status: draft
 
 ## Связанные листья
 
-- **[Cost Management](/The-Way-of-SRE/engineering/cost-management/)** — задаёт общий контур FinOps; этот лист уточняет unit economics observability pipeline.
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — задаёт общий контур FinOps; этот лист уточняет unit economics observability pipeline.
 - **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — telemetry, питающую SLI и paging, нельзя удалять без проверки алертов и burn-rate расчёта.
 - **[Alert Fatigue Management](/The-Way-of-SRE/engineering/alert-fatigue-management/)** — неиспользуемые сигналы и некачественные алерты создают одновременно cognitive и financial waste.
 - **[Capacity Planning](/The-Way-of-SRE/engineering/capacity-planning/)** — нагрузка pipeline telemetry требует собственного capacity model, особенно для stateful sampling.

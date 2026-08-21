@@ -9,7 +9,7 @@ status: draft
 
 У меня есть несколько petproject'ов в Yandex Cloud: [`yccli`](https://github.com/jtprogru/yccli) — плагин для zsh с 60+ алиасами и 80+ функциями поверх `yc` CLI, покрывает iam / vpc / managed-k8s / lockbox / KMS / managed DB; [`yc-quotas-exporter`](https://github.com/jtprogru/yc-quotas-exporter) — экспортер квот Yandex Cloud для Prometheus (типичная operational задача в облаке: квота — это не «справочная информация», это hard limit); [`evo-tf-argocd`](https://github.com/jtprogru/evo-tf-argocd) — demo инфра под Cloud.ru Evolution Managed Kubernetes. Лист написан с упором на стек Yandex Cloud, но концепты (shared responsibility, managed vs self-hosted, quota-as-SLI, multi-region) переносятся на любого hyperscaler'а.
 
-Граница: [Infrastructure as Code](/The-Way-of-SRE/engineering/infrastructure-as-code/) — про *как провижить* облачные ресурсы (Terraform / Pulumi); этот лист — про *как они устроены и как ломаются*. [Containerization & Orchestration](/The-Way-of-SRE/engineering/container-orchestration/) — про k8s как abstraction; этот лист — про managed-k8s как сервис провайдера. [Financial Management](/The-Way-of-SRE/engineering/cost-management/) — про экономику облака; этот лист — про техническую сторону тех же сервисов.
+Граница: [Infrastructure as Code](/The-Way-of-SRE/engineering/infrastructure-as-code/) — про *как провижить* облачные ресурсы (Terraform / Pulumi); этот лист — про *как они устроены и как ломаются*. [Containerization & Orchestration](/The-Way-of-SRE/engineering/container-orchestration/) — про k8s как abstraction; этот лист — про managed-k8s как сервис провайдера. [Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/) — про экономику облака; этот лист — про техническую сторону тех же сервисов.
 
 ## Что должен уметь
 
@@ -28,7 +28,7 @@ status: draft
 **L5**
 - Дизайнит multi-AZ архитектуру: load balancer + minimum 2 AZ, managed services с автоматическим failover, состояние без single AZ. Различает, какие сервисы провайдера действительно multi-AZ, а какие zonal с replication поверх.
 - Проектирует DR-стратегию для cloud-environment: cross-region backup'ы (managed DBs, object storage), runbook на «полный regional outage», RPO/RTO с учётом ограничений конкретного провайдера. См. [DR Policy & Stakeholders](/The-Way-of-SRE/culture/dr-policy/).
-- Понимает биллинговую модель: что списывается посекундно, что почасово, что фиксировано в месяц; egress traffic как hidden cost; reserved/spot/preemptible как trade-off (см. [Cost Management](/The-Way-of-SRE/engineering/cost-management/)).
+- Понимает биллинговую модель: что списывается посекундно, что почасово, что фиксировано в месяц; egress traffic как hidden cost; reserved/spot/preemptible как trade-off (см. [Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)).
 - Различает control plane vs data plane инциденты провайдера. Control plane down (API не отвечает) часто не убивает existing workloads, но блокирует deploy / scale. Data plane down кладёт сервисы. Знает, что мониторить разное.
 
 **L6+**
@@ -87,7 +87,7 @@ status: draft
 - **[Infrastructure as Code](/The-Way-of-SRE/engineering/infrastructure-as-code/)** — Terraform / Pulumi — primary способ управления облачными ресурсами; CLI/UI — для exploration, не для repeatable ops.
 - **[Containerization & Orchestration](/The-Way-of-SRE/engineering/container-orchestration/)** — managed Kubernetes (EKS / GKE / AKS / Yandex Managed Kubernetes) — частный случай сервиса под управлением провайдера со своей границей ответственности.
 - **[Networking](/The-Way-of-SRE/engineering/networking/)** — VPC / subnet / load balancer / VPC peering — специфичные для облака network primitives; в каждом провайдере свои абстракции.
-- **[Cost Management](/The-Way-of-SRE/engineering/cost-management/)** — биллинговая модель провайдера — fundamental input в FinOps lifecycle.
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — биллинговая модель провайдера — fundamental input в FinOps lifecycle.
 - **[Capacity Planning](/The-Way-of-SRE/engineering/capacity-planning/)** — квоты провайдера — отдельная axis capacity planning; quota-as-SLI — паттерн оттуда.
 - **[Backup & Restore](/The-Way-of-SRE/engineering/backup-restore/)** — managed backup провайдера ≠ ваш runbook; tested restore — обязательно.
 - **[DR Policy & Stakeholders](/The-Way-of-SRE/culture/dr-policy/)** — multi-region / cross-region DR — стратегическое решение, не техническое.

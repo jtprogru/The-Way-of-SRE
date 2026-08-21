@@ -29,7 +29,7 @@ status: draft
 
 **L6+**
 - Строит perf budget / latency budget программу: каждый сервис имеет latency budget по компонентам (network / CPU / IO / downstream), tracked over time, regression alerts при отклонении.
-- Связывает performance discipline с SLO program: profile-driven optimization targets SLI deltas, а не «общую скорость»; resource efficiency как explicit metric (cost-per-request, см. [Cost Management](/The-Way-of-SRE/engineering/cost-management/)).
+- Связывает performance discipline с SLO program: profile-driven optimization targets SLI deltas, а не «общую скорость»; resource efficiency как explicit metric (cost-per-request, см. [Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)).
 
 ## Материалы
 
@@ -84,7 +84,7 @@ Memory profiling — про скорость аллокаций, а не про 
 - **[Operating Systems](/The-Way-of-SRE/engineering/operating-systems/)** — kernel-level profiling (eBPF, perf events, ftrace) — это OS-внутренности; performance L5+ невозможен без понимания OS.
 - **[Capacity Planning](/The-Way-of-SRE/engineering/capacity-planning/)** — «хватит ли ресурсов» (capacity) vs «правильно ли используем» (profiling) — две стороны одной задачи.
 - **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — SLI определяет, что мерить; profiling — как именно копать, когда SLI деградировал.
-- **[Cost Management](/The-Way-of-SRE/engineering/cost-management/)** — resource efficiency через profiling — input для cost-aware decisions; cost-per-request reflects perf engineering quality.
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — resource efficiency через profiling — input для cost-aware decisions; cost-per-request reflects perf engineering quality.
 - **[Networking](/The-Way-of-SRE/engineering/networking/)** — network-side profiling (tcpdump, packet capture, mtr) — отдельная под-область с собственными tools.
 
 ## Открытые вопросы

@@ -1,13 +1,13 @@
 ---
-title: Vendor Management
+title: Vendor Reliability
 description: Управление зависимостями от внешних поставщиков как инженерная практика, а не как контракт, купленный закупками
 sfia: [3, 4, 5, 6]
 status: draft
 ---
 
-«Cloudflare лежит — мы тоже лежим, ничего не поделаешь» — позиция, легальная для разговора с CEO раз в год, но не для каждый месяц. Vendor management — это **engineering practice**, не «купить контракт у procurement»: понять зависимости, измерить SLO-impact каждого vendor, иметь fallback стратегию для критичных, regularly review portfolio. SRE — естественная точка ответственности, потому что vendor-outage — это incident, и зависимости видно из топологии. По моим наблюдениям, чаще всего vendor management в SRE-команде существует фрагментарно: «AWS bill курирует FinOps, status page Cloudflare смотрит DevOps, Stripe owns billing team», — и в день outage Cloudflare никто не знает, какие сервисы у нас критически зависят и какой emergency playbook применять.
+«Cloudflare лежит — мы тоже лежим, ничего не поделаешь» — позиция, легальная для разговора с CEO раз в год, но не для каждый месяц. Vendor Reliability — это **engineering practice**, не «купить контракт у procurement»: понять зависимости, измерить SLO-impact каждого vendor, иметь fallback стратегию для критичных, regularly review portfolio. SRE — естественная точка ответственности, потому что vendor-outage — это incident, и зависимости видно из топологии. По моим наблюдениям, чаще всего работа с вендорами в SRE-команде существует фрагментарно: «AWS bill курирует FinOps, status page Cloudflare смотрит DevOps, Stripe owns billing team», — и в день outage Cloudflare никто не знает, какие сервисы у нас критически зависят и какой emergency playbook применять.
 
-Граница: [Service Ownership](/The-Way-of-SRE/culture/service-ownership/) — каталог *наших* сервисов; vendor management — каталог *их* сервисов с *нашей* зависимостью. [Supply Chain Security](/The-Way-of-SRE/practices/supply-chain-security/) — security-side dependencies (CVE, SBOM, signed artifacts); vendor management — reliability-side (SLA, outage history, fallback). [Cost Management](/The-Way-of-SRE/engineering/cost-management/) — финансовая сторона vendor отношений.
+Граница: [Service Ownership](/The-Way-of-SRE/culture/service-ownership/) — каталог *наших* сервисов; этот лист — каталог *их* сервисов с *нашей* зависимостью. [Supply Chain Security](/The-Way-of-SRE/practices/supply-chain-security/) — security-side dependencies (CVE, SBOM, signed artifacts); этот лист — reliability-side (SLA, outage history, fallback). [Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/) — финансовая сторона vendor отношений.
 
 ## Что должен уметь
 
@@ -47,7 +47,7 @@ status: draft
 
 ### Инструменты
 
-- **Vendor inventory in repo / Notion** — самый базовый и самый часто пропускаемый инструмент. Markdown table: vendor / SLA / criticality / SLO impact / fallback / playbook link / contract renewal date. По моим наблюдениям, разница между командами с рабочим vendor management и без — наличие этой таблицы.
+- **Vendor inventory in repo / Notion** — самый базовый и самый часто пропускаемый инструмент. Markdown table: vendor / SLA / criticality / SLO impact / fallback / playbook link / contract renewal date. По моим наблюдениям, разница между командами, у которых вендоры под контролем, и остальными — наличие этой таблицы.
 - **[StatusGator](https://statusgator.com/) / [IsDown](https://isdown.app/)** — aggregators status pages внешних vendors; sends alerts при vendor incident. Полезны для команд с десятками SaaS vendors.
 - **Synthetic monitoring (Datadog Synthetics / [Checkly](https://www.checklyhq.com/))** — проактивная проверка vendor endpoint health; ловит partial degradation раньше public status update.
 - **[Cloudflare Workers](https://workers.cloudflare.com/) / multi-CDN configuration** — практический инструмент redundancy для CDN tier. Один из немногих vendor-types, где multi-vendor реально работает.
@@ -75,7 +75,7 @@ status: draft
 
 ## Связанные листья
 
-- **[Cost Management](/The-Way-of-SRE/engineering/cost-management/)** — vendor portfolio — крупный share cost bill; vendor commitment strategy (reserved capacity, multi-year contracts) — часть cost optimization.
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — vendor portfolio — крупный share cost bill; vendor commitment strategy (reserved capacity, multi-year contracts) — часть cost optimization.
 - **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — composite SLO math: own SLO = product (vendor SLAs × own reliability). Vendor SLA — input для honest SLO commitment.
 - **[Capacity Planning](/The-Way-of-SRE/engineering/capacity-planning/)** — vendor quotas, lead time для scaling, concentration risk в одном vendor region.
 - **[Supply Chain Security](/The-Way-of-SRE/practices/supply-chain-security/)** — security-side vendor risk (CVE, SBOM, signed artifacts); этот лист — reliability-side. Соседние практики с общим vendor inventory.
@@ -87,7 +87,7 @@ status: draft
 
 ## Открытые вопросы
 
-- **Multi-Cloud Strategy** *(TBD)* — когда multi-cloud оправдан, когда anti-pattern; пересечение с capacity planning и cost management.
+- **Multi-Cloud Strategy** *(TBD)* — когда multi-cloud оправдан, когда anti-pattern; пересечение с capacity planning и управлением стоимостью облака.
 - **Vendor Concentration Metrics** *(TBD)* — как количественно мерить vendor concentration risk (% of revenue / % of critical paths / blast radius).
 
 Отдельная незакрытая тема — open source как «поставщик». дистрибутив Linux, Kubernetes, PostgreSQL: вопросы governance те же самые, а контекст совсем другой, потому что предъявить SLA некому. Туда же переговорная часть: инженерная сторона переговоров, где технические аргументы конвертируются в условия контракта, живёт на стыке с закупками, и я не видел устоявшейся практики, как это делить.

@@ -81,7 +81,7 @@ SolarWinds (2020), Codecov (2021), 3CX (2023), xz-utils (2024) — атака н
 - **[Progressive Delivery](/The-Way-of-SRE/practices/progressive-delivery/)** — verify-on-deploy admission policies встроены в deployment pipeline.
 - **[Infrastructure as Code](/The-Way-of-SRE/engineering/infrastructure-as-code/)** — Terraform modules / Helm charts / Ansible roles тоже supply chain. Аналогичные практики: signed releases, pinned versions, SBOM.
 - **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — supply chain compromise — особый класс инцидентов: огромный blast radius, remediation требует revoke-and-rotate scope.
-- **[Vendor Management](/The-Way-of-SRE/practices/vendor-management/)** — security-side зависимостей (этот лист) и reliability-side (vendor management) — соседние практики с общим vendor inventory.
+- **[Vendor Reliability](/The-Way-of-SRE/practices/vendor-reliability/)** — security-side зависимостей (этот лист) и reliability-side (Vendor Reliability) — соседние практики с общим vendor inventory.
 - **[Workload Identity](/The-Way-of-SRE/practices/workload-identity/)** — OIDC federation в CI убирает long-lived credentials в build pipeline; signed artifact ↔ workload identity, который собрал артефакт — часть SLSA chain.
 - **[Compliance Frameworks](/The-Way-of-SRE/practices/compliance-frameworks/)** — SOC 2 / ISO 27001 vendor risk requirements + EU Cyber Resilience Act — первый regulatory mandate с конкретными supply chain requirements. Регламент вступил в силу 10 декабря 2024, но основные обязанности производителей начинают действовать только с 11 декабря 2027, а требования по отчётности об уязвимостях — с сентября 2026. То есть время подготовиться формально есть, и именно поэтому большинство команд к нему ещё не приступало.
 

@@ -88,7 +88,7 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     gist: 'Отказ от нехватки ресурсов — предсказуемый и потому предотвратимый класс отказов.',
     leaves: [
       'capacity-planning',
-      'cost-management',
+      'cloud-cost-control',
     ],
   },
   {

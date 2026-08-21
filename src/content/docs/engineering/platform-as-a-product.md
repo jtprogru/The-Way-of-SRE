@@ -69,7 +69,7 @@ status: draft
 - **[Toil Automation](/The-Way-of-SRE/engineering/toil-automation/)** — источник большинства первых возможностей платформы; разница в том, что у платформы автоматизация обязана иметь поддерживаемый интерфейс и владельца.
 - **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — данные о владении сервисами; каталог платформы отражает этот источник истины, а не заводит второй.
 - **[Stakeholder Management](/The-Way-of-SRE/culture/stakeholder-management/)** — как договариваться с теми, кто платит за платформу и чьи команды ею пользуются.
-- **[Cost Management](/The-Way-of-SRE/engineering/cost-management/)** — стоимость платформы и её возможностей; без неё разговор про удаление невостребованного упирается в «пусть лежит, есть не просит».
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — стоимость платформы и её возможностей; без неё разговор про удаление невостребованного упирается в «пусть лежит, есть не просит».
 
 ## Открытые вопросы
 
