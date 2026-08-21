@@ -20,6 +20,15 @@ updates:
       # 5.2.2 и получает свою вложенную копию. Мажорный бамп сломает билд.
       - dependency-name: "js-yaml"
         update-types: ["version-update:semver-major"]
+      # typescript держится на 6.x, пока `astro check` не умеет работать с 7.
+      # Нативный компилятор TypeScript 7 не отдаёт программный API, на котором
+      # построен @astrojs/language-server, и цель typecheck падает целиком:
+      # «The TypeScript module loaded (found 7.0.2) does not expose the
+      # programmatic API that `astro check` relies on». Апстрим ведёт поддержку
+      # в https://github.com/withastro/roadmap/discussions/1321 — как появится,
+      # снять эти две строки.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
