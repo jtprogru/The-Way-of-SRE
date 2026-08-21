@@ -1,0 +1,17 @@
+---
+title: Secure Development
+description: Безопасность на пути «дизайн → код → сборка → зависимости» — threat modeling, security review, CVE, supply chain
+---
+
+import L2Concepts from '../../../components/L2Concepts.astro';
+import NodeCards from '../../../components/NodeCards.astro';
+
+Всё, что делается с безопасностью до того, как изменение попало в прод: разбор угроз на этапе дизайна, проверка собственного кода на security-дефекты, реакция на известные уязвимости в зависимостях и защита цепочки сборки и распространения артефактов. Компетенция выделена из [Information Security](/The-Way-of-SRE/practices/information-security/) — там остался рантайм-периметр: секреты, доступы, идентичность нагрузок, требования регуляторов.
+
+Граница между двумя компетенциями проходит по моменту, а не по инструменту: SAST и SCA живут здесь, потому что срабатывают до merge; ротация ключей — там, потому что происходит в работающем сервисе.
+
+<L2Concepts branchId="practices" l1Id="secure-development" />
+
+## Практики
+
+<NodeCards kind="leaves" branchId="practices" l1Id="secure-development" />

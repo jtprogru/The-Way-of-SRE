@@ -12,7 +12,13 @@ import EditLink from 'virtual:starlight/components/EditLink';
 import LastUpdated from 'virtual:starlight/components/LastUpdated';
 import Pagination from 'virtual:starlight/components/Pagination';
 import { Icon } from '@astrojs/starlight/components';
-import { findLeafContext, l1Href, priorityLabels, type Priority } from '../data/roadmap.ts';
+import {
+  findLeafContext,
+  findPageContext,
+  l1Href,
+  priorityLabels,
+  type Priority,
+} from '../data/roadmap.ts';
 import { navFor, socials } from '../data/nav.ts';
 
 const year = new Date().getFullYear();
@@ -34,7 +40,7 @@ const commitSha = (() => {
 })();
 
 /*
- * Leaf-context: на страницах /leaves/{branch}/{slug}/ показываем над
+ * Leaf-context: на страницах листьев /{branch}/{slug}/ показываем над
  * стандартным футером ссылку на родителя + соседние практики. Помогает
  * не теряться при глубоком переходе и видеть связанные листья без
  * возврата на главную карту.
@@ -42,8 +48,8 @@ const commitSha = (() => {
 const localPath = Astro.url.pathname.startsWith(base)
   ? Astro.url.pathname.slice(base.length)
   : Astro.url.pathname;
-const leafMatch = localPath.match(/^\/leaves\/([^/]+)\/([^/]+)\/?$/);
-const leafCtx = leafMatch ? findLeafContext(leafMatch[1], leafMatch[2]) : null;
+const page = findPageContext(localPath);
+const leafCtx = page?.kind === 'leaf' ? findLeafContext(page.branch.id, page.leaf.id) : null;
 
 interface Chip {
   label: string;
