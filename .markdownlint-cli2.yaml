@@ -2,6 +2,10 @@ ignores:
   - "node_modules/**"
   - "src/**"  # Starlight-специфичный синтаксис (admonitions, frontmatter, mdx)
   - "dist/**"
+  # Шаблон листа воспроизводит синтаксис листа целиком, включая **L3** как
+  # подзаголовок уровня SFIA. Это формат контента, а не markdown-небрежность:
+  # раньше файл лежал под src/** и попадал под то же исключение.
+  - "inventory/leaf-template.md"
 
 config:
   default: true

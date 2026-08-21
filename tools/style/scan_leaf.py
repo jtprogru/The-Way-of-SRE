@@ -32,7 +32,10 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
-LEAVES = REPO / 'src' / 'content' / 'docs' / 'leaves'
+DOCS = REPO / 'src' / 'content' / 'docs'
+# Листья лежат вперемешку с hub-страницами L1 в каталоге ветви и отличаются
+# расширением: лист — .md, hub — .mdx (он импортирует компоненты).
+BRANCHES = ('culture', 'engineering', 'practices')
 
 # Правила, которые проверяются однозначно и потому годятся в CI. Остальные
 # (§4.3 личная оценка источников, §2.x пример и граница, ритм) требуют
@@ -401,7 +404,7 @@ def load_baseline():
 
 
 def report(res):
-    rel = res['path'].relative_to(LEAVES) if LEAVES in res['path'].parents else res['path']
+    rel = res['path'].relative_to(DOCS) if DOCS in res['path'].parents else res['path']
     hard = sum(1 for f in res['findings'] if f['level'] == '!')
     soft = len(res['findings']) - hard
     print(f"\n{rel}  — нарушений {hard}, наблюдений {soft}")
@@ -422,7 +425,7 @@ def main(argv):
     baseline = load_baseline()
 
     if '--all' in flags:
-        paths = sorted(p for p in LEAVES.rglob('*.md') if p.name != '_template.md')
+        paths = sorted(p for b in BRANCHES for p in (DOCS / b).glob('*.md'))
     else:
         paths = [Path(a).resolve() for a in args]
     if not paths:
@@ -441,7 +444,7 @@ def main(argv):
             return 0
         print(f'стиль-чек: {len(hits)} нарушений в {len(results)} листьях\n')
         for r, f in hits:
-            rel = r['path'].relative_to(LEAVES) if LEAVES in r['path'].parents else r['path']
+            rel = r['path'].relative_to(DOCS) if DOCS in r['path'].parents else r['path']
             print(f"  {rel}: {f['code']} — {f['msg']}")
         print('\nПравила — в inventory/style-guide.md. Здесь проверяется только то, '
               'что проверяется однозначно; §4.3, §2.1, §2.3 и ритм остаются человеку.')
@@ -472,7 +475,7 @@ def main(argv):
         for r in ranked[:15]:
             hard = sum(1 for f in r['findings'] if f['level'] == '!')
             codes = ' '.join(f['code'] for f in r['findings'] if f['level'] == '!')
-            print(f"  {hard:>2}!  {r['path'].relative_to(LEAVES)}  [{codes}]")
+            print(f"  {hard:>2}!  {r['path'].relative_to(DOCS)}  [{codes}]")
         return 0
 
     for r in results:

@@ -18,8 +18,8 @@ The Way of SRE — карта компетенций, а не сборник с�
 | Путь | За что отвечает |
 | ---- | --------------- |
 | `src/data/roadmap.ts` | источник правды по структуре: ветви, L1, листья, приоритеты |
-| `src/content/docs/leaves/<branch>/<slug>.md` | содержимое листа |
-| `src/content/docs/leaves/_template.md` | шаблон листа (Astro игнорирует `_`-префикс) |
+| `src/content/docs/<branch>/<slug>.md` | содержимое листа (`.md`), рядом с hub-страницами L1 (`.mdx`) |
+| `inventory/leaf-template.md` | шаблон листа |
 | `src/content/docs/<branch>/<l1-id>.mdx` | страница L1: описание прозой, L2 и практики из данных |
 | `src/content/docs/glossary.mdx` | глоссарий, единое место истины по терминам |
 | `inventory/style-guide.md` | голос, структура секций, запрещённые паттерны, чеклист готовности |
@@ -61,7 +61,7 @@ make check    # ровно то, что гоняет CI на PR
 **2. Создать файл из шаблона.**
 
 ```bash
-cp src/content/docs/leaves/_template.md src/content/docs/leaves/engineering/<slug>.md
+cp inventory/leaf-template.md src/content/docs/engineering/<slug>.md
 ```
 
 Ветвь — `culture`, `engineering` или `practices`. Slug латиницей через дефис, совпадает с последним сегментом URL.
@@ -76,12 +76,12 @@ cp src/content/docs/leaves/_template.md src/content/docs/leaves/engineering/<slu
 {
   id: 'sli-based-alerting',
   label: 'SLI-based Alerting',
-  href: '/leaves/engineering/sli-based-alerting/',
+  href: '/engineering/sli-based-alerting/',
   priority: 'must',
 },
 ```
 
-`id` совпадает со slug файла, `href` — плоский путь `/leaves/<branch>/<slug>/` независимо от вложенности. Приоритет — один из `must`, `mandatory`, `nice`, `ondemand`; что они значат, описано в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
+`id` совпадает со slug файла, `href` — плоский путь `/<branch>/<slug>/` независимо от вложенности; slug не должен совпадать с id какого-нибудь L1 этой ветви, они делят одно пространство имён. Приоритет — один из `must`, `mandatory`, `nice`, `ondemand`; что они значат, описано в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
 
 И назвать компетенцию в инвентаре `l2` того же L1 — там она встанет ссылкой на новый лист. Если такого концепта в инвентаре ещё не было, он добавляется в осмысленное по смыслу место списка, а не в конец. `make data-check` не пропустит лист, которого нет в `l2`.
 
@@ -90,7 +90,7 @@ cp src/content/docs/leaves/_template.md src/content/docs/leaves/engineering/<slu
 **7. Прогнать проверки.**
 
 ```bash
-make style LEAF=src/content/docs/leaves/engineering/<slug>.md
+make style LEAF=src/content/docs/engineering/<slug>.md
 make check
 ```
 
