@@ -41,9 +41,9 @@ status: draft
 
 ### Инструменты
 
-- **Markdown в репозитории команды** — самый простой и работающий формат. Один runbook = один файл; PR-based review; история через git. Я вижу, что большинство зрелых команд так и живёт — отдельная платформа избыточна для большинства случаев.
+- **Markdown в репозитории команды** — самый простой и работающий формат. Один runbook = один файл, ревью через pull request, история в git. Я вижу, что большинство зрелых команд так и живёт, а отдельную платформу заводят единицы.
 - **[Rundeck](https://www.rundeck.com/)** — open-source платформа для исполняемых runbook'ов (job runner + access control + audit). Имеет смысл, когда часть шагов автоматизируется и нужно фиксировать исполнение.
-- **[StackStorm](https://stackstorm.com/)** — event-driven automation platform; runbook как сценарий, запускаемый по триггеру. Альтернатива Rundeck для команд, у которых уже есть event-bus.
+- **[StackStorm](https://stackstorm.com/)** — event-driven automation platform; runbook как сценарий, запускаемый по триггеру. Альтернатива Rundeck для команд, у которых уже есть шина событий.
 - **Prometheus AlertRule `runbook_url` annotation** — стандартный паттерн: каждому алерту в `prometheus.yml` прописывается ссылка на runbook. Alertmanager пробрасывает её в нотификацию (Slack/Pager).
 
 ## Best practices
@@ -71,7 +71,7 @@ status: draft
 - **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — runbook — главный инструмент в моменте инцидента; качество runbook прямо определяет MTTR.
 - **[Postmortem Culture](/The-Way-of-SRE/culture/postmortem-culture/)** — каждый постмортем порождает обновление runbook (новый или правки существующего); без обновления lesson learned не закреплён.
 - **[Dev Team Partnership](/The-Way-of-SRE/culture/dev-team-partnership/)** — co-ownership: runbook'и пишутся совместно с продуктовой командой; иначе SRE дежурит вслепую по чужому сервису.
-- **[Toil Automation](/The-Way-of-SRE/engineering/toil-automation/)** — automatable runbook steps мигрируют в automation; «runbook говорит сделать X — пусть делает скрипт» как естественный следующий шаг.
+- **[Toil Automation](/The-Way-of-SRE/engineering/toil-automation/)** — шаги, которые дежурный выполняет одинаково каждый раз, переезжают в код: «runbook говорит сделать X — пусть делает скрипт».
 - **[Playbooks](/The-Way-of-SRE/culture/playbooks/)** — runbook отвечает «как делать», playbook — «что решать и кого звать». Runbook'и встраиваются в playbook'и как ссылки на конкретные шаги; разделение явное.
 
 ## Открытые вопросы

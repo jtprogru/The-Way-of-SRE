@@ -33,16 +33,16 @@ status: draft
 
 ### Книги
 
-- Etienne Wenger — **Communities of Practice: Learning, Meaning, and Identity** (Cambridge University Press, 1998). Канонический academic источник. Тяжёлая книга — но если выбирать одну для глубины — эту.
-- Etienne Wenger-Trayner, Beverly Wenger-Trayner — **[Learning to Make a Difference: Value Creation in Social Learning Spaces](https://www.cambridge.org/core/books/learning-to-make-a-difference/8B82E1F6D9B66CC4D11FB04A4906F1A6)** (Cambridge, 2020). Современный апдейт; включает практические frameworks оценки value.
-- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. 2025). Глава про enabling teams; разделение enabling team / CoP / guild — полезный vocabulary.
+- Etienne Wenger — **Communities of Practice: Learning, Meaning, and Identity** (Cambridge University Press, 1998). Канонический академический источник. Тяжёлая книга — но если выбирать одну для глубины, то эту.
+- Etienne Wenger-Trayner, Beverly Wenger-Trayner — **[Learning to Make a Difference: Value Creation in Social Learning Spaces](https://www.cambridge.org/core/books/learning-to-make-a-difference/8B82E1F6D9B66CC4D11FB04A4906F1A6)** (Cambridge, 2020). Современное продолжение: включает практические рамки оценки пользы.
+- Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. 2025). Глава про enabling teams; разделение enabling team, сообщества и гильдии — полезный словарь.
 
 ### Статьи и доклады
 
-- Henrik Kniberg, Anders Ivarsson — **[Scaling Agile @ Spotify](https://blog.crisp.se/wp-content/uploads/2012/11/SpotifyScaling.pdf)** (Crisp, 2012). Канонический white paper про Tribes / Squads / Chapters / Guilds. Полезно как первоисточник — и как отправная точка для критики.
+- Henrik Kniberg, Anders Ivarsson — **[Scaling Agile @ Spotify](https://blog.crisp.se/wp-content/uploads/2012/11/SpotifyScaling.pdf)** (Crisp, 2012). Канонический white paper про Tribes / Squads / Chapters / Guilds. Полезен как первоисточник — и как отправная точка для критики.
 - Jeremiah Lee — **[Spotify's Failed #SquadGoals](https://www.jeremiahlee.com/posts/failed-squad-goals/)** (2020). Бывший сотрудник Spotify публично разбирает, что guild model в практике работала хуже, чем декларировалось — обязательно к прочтению вместе с предыдущим.
 - Jean Lave, Etienne Wenger — **Situated Learning: Legitimate Peripheral Participation** (Cambridge University Press, 1991). Первоисточник термина. Читать необязательно, знать про него — стоит: там сообщество практики описано как способ обучения через участие, а не как формат встреч.
-- Will Larson — **[StaffEng: руководства](https://staffeng.com/guides/)** (2021). Раздел про влияние за пределами своей команды: вести сообщество — один из ключевых каналов такого влияния для staff IC.
+- Will Larson — **[StaffEng: руководства](https://staffeng.com/guides/)** (2021). Раздел про влияние за пределами своей команды: вести сообщество — один из главных каналов такого влияния для инженера уровня staff.
 
 ### Инструменты
 
@@ -69,12 +69,12 @@ Charter обязателен. Без явной цели, аудитории и 
 
 ## Связанные листья
 
-- **[SRE Onboarding](/The-Way-of-SRE/culture/sre-onboarding/)** — onboarding curriculum может включать introduction к существующим CoP как часть networking. CoP — место, где новый инженер находит peer learning после первых 12 недель.
-- **[Postmortem Culture](/The-Way-of-SRE/culture/postmortem-culture/)** — cross-team incident review session — частая форма Incident Response CoP; «как мы learn from incidents across teams» — отдельная задача поверх per-team постмортемов.
+- **[SRE Onboarding](/The-Way-of-SRE/culture/sre-onboarding/)** — программа обучения может включать знакомство с существующими сообществами; там новый инженер начинает учиться у коллег из других команд — обычно после первых 12 недель.
+- **[Postmortem Culture](/The-Way-of-SRE/culture/postmortem-culture/)** — общий разбор инцидентов между командами — частая форма такого сообщества; учиться на чужих инцидентах — отдельная задача поверх разборов внутри команды.
 - **[Career Ladders](/The-Way-of-SRE/culture/career-ladders/)** — вести сообщество — типичное ожидание на L5 / L6+; ladder засчитывает вклад в CoP как доказательство влияния за пределами своей команды.
-- **[Personal Growth Plan](/The-Way-of-SRE/practices/personal-growth-plan/)** — CoP — один из multi-format learning channels (см. лист про deliberate practice + community contribution).
+- **[Personal Growth Plan](/The-Way-of-SRE/practices/personal-growth-plan/)** — сообщество — один из каналов обучения рядом с осознанной практикой и личным вкладом в общее.
 - **[Dev Team Partnership](/The-Way-of-SRE/culture/dev-team-partnership/)** — сообщество масштабирует SRE-практики за пределы текущей модели взаимодействия: в него приходят и SRE, и разработчики.
-- **[Mentoring as Practice](/The-Way-of-SRE/practices/mentoring-as-practice/)** — соседняя практика: 1-on-1 mentorship вместо group learning. Pair vs group — разные mechanics; хорошие компании держат оба канала.
+- **[Mentoring as Practice](/The-Way-of-SRE/practices/mentoring-as-practice/)** — соседняя практика: наставничество один на один вместо групповой учёбы. Пара и группа работают по-разному, и вменяемые компании держат оба канала.
 
 ## Открытые вопросы
 
