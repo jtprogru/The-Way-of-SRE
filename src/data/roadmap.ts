@@ -9,7 +9,7 @@
 //   - l2 — инвентарь концептов каждого L1 в осмысленном порядке
 //   - leaves под L1 (фактически написанные leaf-страницы)
 //
-// За что отвечают src/content/docs/sre-{culture,engineering,practices}/<l1>.mdx:
+// За что отвечают src/content/docs/{culture,engineering,practices}/<l1>.mdx:
 //   - описание L1 прозой, и только оно
 //
 // src/content/docs/methodology.mdx — методологический документ про ось
