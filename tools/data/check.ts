@@ -82,6 +82,23 @@ for (const branch of roadmap.branches) {
   }
 }
 
+// Листья адресуются по id и по label из других файлов: иерархия надёжности
+// берёт лист по id, строка «L2-концепты» ищет его по label. Оба поиска дают
+// один узел только при уникальности имени по всей карте — два листа с общим
+// id или label превратят поиск в лотерею «кто последний в массиве».
+const allLeaves = roadmap.branches.flatMap((b) => b.l1.flatMap((l1) => leavesOf(l1)));
+for (const field of ['id', 'label'] as const) {
+  const seen = new Map<string, string>();
+  for (const leaf of allLeaves) {
+    const first = seen.get(leaf[field]);
+    if (first !== undefined) {
+      fail('листья', `${field} «${leaf[field]}» занят дважды: ${first} и ${leaf.href}`);
+    } else {
+      seen.set(leaf[field], leaf.href);
+    }
+  }
+}
+
 // Иерархия надёжности ссылается на листья своими href — это единственное
 // место, где адрес листа продублирован вне roadmap.ts. Переехал лист,
 // забыли поправить здесь — молча битая ссылка на /reliability-hierarchy/.
