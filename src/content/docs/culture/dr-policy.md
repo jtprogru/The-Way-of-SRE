@@ -78,7 +78,7 @@ status: draft
 - **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — DR scenario — особый класс инцидентов (SEV1+ с long-running response); incident response process в DR-scope расширен (executive escalation, regulatory notification, prolonged war room).
 - **[Customer Communications](/The-Way-of-SRE/practices/customer-communications/)** — communication tree — часть DR policy; частота сообщений в зависимости от severity и выбор каналов живут на пересечении.
 - **[Playbooks](/The-Way-of-SRE/culture/playbooks/)** — DR scenario playbook — отдельный артефакт; роли (CTO, IC, Comms, Legal), first 60 minutes, decision points, regulatory notifications.
-- **[Vendor Management](/The-Way-of-SRE/practices/vendor-management/)** — DR policy включает vendor-dependent сценарии (cloud provider outage, SaaS vendor incident); vendor exit strategy — DR concern.
+- **[Vendor Reliability](/The-Way-of-SRE/practices/vendor-reliability/)** — DR policy включает vendor-dependent сценарии (cloud provider outage, SaaS vendor incident); vendor exit strategy — DR concern.
 - **[Compliance Frameworks](/The-Way-of-SRE/practices/compliance-frameworks/)** — SOC 2 Availability, PCI-DSS 12.10, ISO 22301 требуют документированную DR policy с testing evidence; DR policy — артефакт audit.
 - **[Status Page Management](/The-Way-of-SRE/practices/status-page-management/)** — DR scenario требует extended status page cadence (часы → дни), стратегия communications должна быть задана policy заранее.
 - **[Stakeholder Management](/The-Way-of-SRE/culture/stakeholder-management/)** — DR stakeholder map — scenario-specific governance в моменте disaster; тот лист — про continuous stakeholder relationship, этот — про crisis-specific.

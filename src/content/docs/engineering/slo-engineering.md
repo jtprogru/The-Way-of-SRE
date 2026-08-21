@@ -86,7 +86,7 @@ status: draft
 - **[Networking](/The-Way-of-SRE/engineering/networking/)** — большинство SLI строятся на сетевых метриках (latency, error rate, DNS); знание сетевого стека определяет, что вообще можно измерить корректно.
 - **[Programming Languages](/The-Way-of-SRE/engineering/programming-languages/)** — инструментирование SLI требует кода в сервисе (Prometheus client, OpenTelemetry SDK).
 - **[Capacity Planning](/The-Way-of-SRE/engineering/capacity-planning/)** — capacity planning опирается на SLO как на целевой уровень надёжности.
-- **[Vendor Management](/The-Way-of-SRE/practices/vendor-management/)** — vendor SLAs — нижняя граница composite SLO math: own SLO ≤ product(vendor SLAs × own reliability) без явной redundancy.
+- **[Vendor Reliability](/The-Way-of-SRE/practices/vendor-reliability/)** — vendor SLAs — нижняя граница composite SLO math: own SLO ≤ product(vendor SLAs × own reliability) без явной redundancy.
 - **[Symptom vs Cause Alerting](/The-Way-of-SRE/engineering/symptom-vs-cause-alerting/)** — symptom-side SLI — то, на что алертит paging-level; cause-side — diagnostic context.
 - **[Composite SLO Methodology](/The-Way-of-SRE/engineering/composite-slo-methodology/)** — *как формулировать* SLO для одного компонента (этот лист) и *как складывать* SLO для multi-component системы. Читать вместе.
 

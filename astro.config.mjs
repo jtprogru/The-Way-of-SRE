@@ -19,15 +19,29 @@ import { leavesOf, roadmap } from './src/data/roadmap';
 // константой и используется в обоих местах.
 const BASE = '/The-Way-of-SRE';
 
-const legacyRedirects = Object.fromEntries(
-  roadmap.branches.flatMap((branch) => [
+// Переименованные листья: прежнее имя → нынешний id. Из данных это не выводится
+// — после переименования в roadmap.ts старого имени уже нет, а адрес с ним
+// остался в закладках, в поиске и во внешних ссылках. Здесь же оживает и
+// legacy-адрес /leaves/<branch>/<старое имя>: правило ниже строит его по
+// текущему id и прежний бы потеряло.
+const renamedLeaves = [
+  { branch: 'engineering', from: 'cost-management', to: 'cloud-cost-control' },
+  { branch: 'practices', from: 'vendor-management', to: 'vendor-reliability' },
+];
+
+const legacyRedirects = Object.fromEntries([
+  ...roadmap.branches.flatMap((branch) => [
     [`/sre-${branch.id}`, `${BASE}${branch.href}`],
     ...branch.l1.map((l1) => [`/sre-${branch.id}/${l1.id}`, `${BASE}${branch.href}${l1.id}/`]),
     ...branch.l1.flatMap((l1) =>
       leavesOf(l1).map((leaf) => [`/leaves/${branch.id}/${leaf.id}`, `${BASE}${leaf.href}`]),
     ),
   ]),
-);
+  ...renamedLeaves.flatMap(({ branch, from, to }) => [
+    [`/${branch}/${from}`, `${BASE}/${branch}/${to}/`],
+    [`/leaves/${branch}/${from}`, `${BASE}/${branch}/${to}/`],
+  ]),
+]);
 
 // Production config: The Way of SRE roadmap site.
 // Деплой автоматический через .github/workflows/deploy-site.yml на push в main.

@@ -7,7 +7,7 @@ status: draft
 
 «Наш SLO — 99.95%» — типичная декларация после quarterly planning. Если посмотреть на сервис-граф: 4 зависимости с vendor SLA 99.9% ([auth](/The-Way-of-SRE/glossary/#auth), payment, CDN, managed DB), 2 внутренних сервиса с 99.99%, shared DNS / TLS layer. Простая арифметика для последовательного пути: `0.999⁴ × 0.9999² × 0.9999 ≈ 0.9957` — наш достижимый SLO ceiling **99.57%**, не 99.95%. Composite SLO Methodology — это **математика multi-component систем**: когда «хочется четыре девятки» сталкивается с реальностью composite, и нужно либо снизить commitment, либо добавить redundancy, либо явно принять honest baseline. Я регулярно вижу команды, которые декларируют SLO без composite math — и потом первый dependency outage сжигает квартальный error budget целиком.
 
-Граница: [SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/) — *как формулировать* SLO для одного компонента (SLI, target, window); этот лист — *как складывать* SLO для multi-component system. [Vendor Management](/The-Way-of-SRE/practices/vendor-management/) — vendor SLA как input в composite math; reliability-side зависимостей от внешних сервисов. [Resilience Patterns](/The-Way-of-SRE/engineering/resilience-patterns/) — что делать, чтобы composite SLO **превысить** математический ceiling через redundancy / graceful degradation.
+Граница: [SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/) — *как формулировать* SLO для одного компонента (SLI, target, window); этот лист — *как складывать* SLO для multi-component system. [Vendor Reliability](/The-Way-of-SRE/practices/vendor-reliability/) — vendor SLA как input в composite math; reliability-side зависимостей от внешних сервисов. [Resilience Patterns](/The-Way-of-SRE/engineering/resilience-patterns/) — что делать, чтобы composite SLO **превысить** математический ceiling через redundancy / graceful degradation.
 
 ## Что должен уметь
 
@@ -30,7 +30,7 @@ status: draft
 
 **L6+**
 - Org-level composite portfolio: какие user journeys получают SLO commitment, какие остаются best-effort. Не каждый journey стоит SLO — обоснование выбора явное.
-- Composite math как **input для capacity и cost decisions**: где redundancy оправдана (revenue-critical journey), где нет (low-traffic admin tool). Связь с [Cost Management](/The-Way-of-SRE/engineering/cost-management/) явная.
+- Composite math как **input для capacity и cost decisions**: где redundancy оправдана (revenue-critical journey), где нет (low-traffic admin tool). Связь с [Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/) явная.
 - Refresh composite math после каждой major dependency change (new vendor, removed redundancy, schema change затрагивающий fan-out). Без refresh composite SLO становится stale за квартал.
 - Держит две модели одновременно: composite math отвечает на вопрос «что можно обещать», продуктовая разметка error budget — на вопрос «чей бюджет горит при каскаде». Смешение этих вопросов даёт большинство споров на ревью SLO.
 - Держит модель дешёвой в сопровождении и понятной продуктовым командам. Расчёт, который умеет защитить только его автор, на масштабе организации не живёт: его перестают обновлять, а споры о его корректности съедают больше времени, чем сама работа над доступностью.
@@ -97,10 +97,10 @@ Vendor SLA идёт в расчёт как пол, а не как потолок
 ## Связанные листья
 
 - **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — *как формулировать* SLO для одного компонента; этот лист — *как складывать* SLO для multi-component system. Читать вместе.
-- **[Vendor Management](/The-Way-of-SRE/practices/vendor-management/)** — vendor SLAs — input в composite math. Vendor management ведёт inventory, composite methodology — использует.
+- **[Vendor Reliability](/The-Way-of-SRE/practices/vendor-reliability/)** — vendor SLAs — input в composite math. Vendor Reliability ведёт inventory, composite methodology — использует.
 - **[Resilience Patterns](/The-Way-of-SRE/engineering/resilience-patterns/)** — что делать, чтобы composite SLO **превысить** математический ceiling: redundancy, graceful degradation, fallbacks. Resilience patterns превращают serial dependencies в parallel.
 - **[Capacity Planning](/The-Way-of-SRE/engineering/capacity-planning/)** — composite SLO определяет, какие компоненты требуют redundancy (parallel paths), а это — capacity decisions с lead time.
-- **[Cost Management](/The-Way-of-SRE/engineering/cost-management/)** — redundancy для composite SLO improvement имеет cost; trade-off «ещё одна девятка» против затрат считается доллар в доллар.
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — redundancy для composite SLO improvement имеет cost; trade-off «ещё одна девятка» против затрат считается доллар в доллар.
 - **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** / **[Symptom vs Cause Alerting](/The-Way-of-SRE/engineering/symptom-vs-cause-alerting/)** — journey-level SLI требует multi-burn-rate alerting на composite path, не только per component.
 - **[SLO / Budget Review](/The-Way-of-SRE/culture/slo-budget-review/)** — ритуал, на котором composite math пересматривается: что изменилось в graph, осталась ли арифметика честной, нужно ли скорректировать commitment.
 

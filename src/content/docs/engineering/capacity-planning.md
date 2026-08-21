@@ -69,7 +69,7 @@ status: draft
 - **[Infrastructure as Code](/The-Way-of-SRE/engineering/infrastructure-as-code/)** — capacity provisioning описывается как IaC; capacity decisions реализуются через PR в IaC repo.
 - **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — каталог сервиса содержит данные о capacity: текущий resource budget, forecast horizon, owner.
 - **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — capacity-induced incidents — отдельный класс с собственным response (emergency scale-up, traffic shed, criticality demotion).
-- **[Cost Management](/The-Way-of-SRE/engineering/cost-management/)** — capacity рассматривается с двух сторон: «хватит ли» (этот лист) и «во что обходится» (cost management). Forecast — один.
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — capacity рассматривается с двух сторон: «хватит ли» (этот лист) и «во что обходится» (Cloud Cost Control). Forecast — один.
 - **[Performance & Profiling](/The-Way-of-SRE/engineering/performance-profiling/)** — две стороны ресурса: «хватит ли» (этот лист) и «правильно ли используем те, что есть» (profiling). Resource efficiency через profiling — input для capacity decisions.
 
 ## Открытые вопросы
