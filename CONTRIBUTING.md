@@ -20,7 +20,7 @@ The Way of SRE — карта компетенций, а не сборник с�
 | `src/data/roadmap.ts` | источник правды по структуре: ветви, L1, листья, приоритеты |
 | `src/content/docs/leaves/<branch>/<slug>.md` | содержимое листа |
 | `src/content/docs/leaves/_template.md` | шаблон листа (Astro игнорирует `_`-префикс) |
-| `src/content/docs/<branch>/<l1-id>.mdx` | страница L1 и её L2 inventory |
+| `src/content/docs/<branch>/<l1-id>.mdx` | страница L1: описание прозой, L2 и практики из данных |
 | `src/content/docs/glossary.mdx` | глоссарий, единое место истины по терминам |
 | `inventory/style-guide.md` | голос, структура секций, запрещённые паттерны, чеклист готовности |
 | `inventory/terminology.md` | как переводить термины: четыре категории и правила графики |
@@ -82,6 +82,8 @@ cp src/content/docs/leaves/_template.md src/content/docs/leaves/engineering/<slu
 ```
 
 `id` совпадает со slug файла, `href` — плоский путь `/leaves/<branch>/<slug>/` независимо от вложенности. Приоритет — один из `must`, `mandatory`, `nice`, `ondemand`; что они значат, описано в [Методологии](https://jtprogru.github.io/The-Way-of-SRE/methodology/).
+
+И назвать компетенцию в инвентаре `l2` того же L1 — там она встанет ссылкой на новый лист. Если такого концепта в инвентаре ещё не было, он добавляется в осмысленное по смыслу место списка, а не в конец. `make data-check` не пропустит лист, которого нет в `l2`.
 
 **6. Добавить новые термины в глоссарий.** Если термин встречается в листе и его нет в `glossary.mdx` — он добавляется тем же PR или отдельным follow-up, с категорией по `inventory/terminology.md`.
 

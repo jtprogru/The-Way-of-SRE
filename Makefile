@@ -15,7 +15,7 @@ LEAF ?=
 BUN_INSTALL_FLAGS := $(if $(CI),--frozen-lockfile,)
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build preview typecheck toc toc-check cover cover-check lint style style-ci check clean
+.PHONY: help install dev build preview typecheck toc toc-check cover cover-check lint style style-ci data-check check clean
 
 # Порядок целей в check значим: типы раньше сборки, дешёвое раньше дорогого.
 .NOTPARALLEL:
@@ -71,6 +71,12 @@ cover: node_modules ## Перерисовать обложку README из да�
 cover-check: node_modules ## Проверить, что обложка собрана из текущих данных
 	@bun run tools/cover/build.ts --check
 
+# Инварианты графа: страница у каждого L1, файл у каждого листа, инвентарь L2
+# без дублей и без выпавших листьев. Astro ничего из этого не проверяет —
+# битая ссылка для него просто строка.
+data-check: node_modules ## Проверить структурные инварианты src/data/roadmap.ts
+	bun run tools/data/check.ts
+
 lint: node_modules ## Линт markdown
 	bun run lint
 
@@ -84,7 +90,7 @@ style: ## Стиль-чек листьев; LEAF=<файл.md> — по одно
 style-ci: ## Стиль-чек: только детерминированные правила, ненулевой код при нарушении
 	@$(PYTHON) tools/style/scan_leaf.py --all --ci
 
-check: toc-check cover-check lint typecheck build style-ci ## Всё, что гоняет CI на PR
+check: toc-check cover-check lint typecheck data-check build style-ci ## Всё, что гоняет CI на PR
 
 clean: ## Убрать сборку и кеши
 	rm -rf dist .astro

@@ -1,0 +1,111 @@
+---
+/*
+ * Строка «L2-концепты» на hub-странице L1.
+ *
+ * Инвентарь концептов домена лежит в src/data/roadmap.ts (поле `l2`), а не в
+ * тексте страницы: раньше это был единственный срез графа, который хранился
+ * прозой, и связь «у концепта есть написанный лист» читателю приходилось
+ * восстанавливать самому, сверяя строку с карточками ниже.
+ *
+ * Здесь она видна сразу: концепт, у которого есть лист, рендерится ссылкой,
+ * остальные — приглушённым текстом. Отдельного флага в данных нет, совпадение
+ * ищется по label; что ни один лист не выпал из инвентаря своего L1,
+ * проверяет tools/data/check.ts.
+ *
+ * Лист ищется по всей карте, а не только под этим L1: концепт может честно
+ * входить в инвентарь двух доменов, а страница у него одна. Так Architecture
+ * Decision Records в Knowledge Management ведут на лист в Methods & Tools, а
+ * не выглядят ненаписанными. Пересечения зафиксированы в inventory/overlaps.md.
+ */
+import { getBranch, leavesOf, roadmap, type LeafNode } from '../data/roadmap.ts';
+
+interface Props {
+  branchId: string;
+  l1Id: string;
+}
+
+const { branchId, l1Id } = Astro.props;
+
+const branch = getBranch(branchId);
+if (!branch) {
+  throw new Error(`L2Concepts: неизвестная ветвь "${branchId}"`);
+}
+const l1 = branch.l1.find((l) => l.id === l1Id);
+if (!l1) {
+  throw new Error(`L2Concepts: неизвестный узел "${branchId}/${l1Id}"`);
+}
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+/** Все листья карты по label: имена листьев уникальны, проверяет data-check. */
+const byLabel = new Map<string, { leaf: LeafNode; l1Label: string; own: boolean }>();
+for (const b of roadmap.branches) {
+  for (const node of b.l1) {
+    for (const leaf of leavesOf(node)) {
+      byLabel.set(leaf.label, { leaf, l1Label: node.label, own: node.id === l1.id });
+    }
+  }
+}
+
+const concepts = l1.l2.map((label) => ({ label, hit: byLabel.get(label) }));
+const written = concepts.filter((c) => c.hit).length;
+---
+
+<p class="l2-concepts" data-branch={branch.id}>
+  <strong>L2-концепты:</strong>{' '}
+  {
+    concepts.map((c, i) => (
+      <>
+        {i > 0 && <span class="sep"> · </span>}
+        {c.hit ? (
+          <a
+            href={`${base}${c.hit.leaf.href}`}
+            title={c.hit.own ? undefined : `Лист живёт в разделе «${c.hit.l1Label}»`}
+          >
+            {c.label}
+          </a>
+        ) : (
+          <span class="pending">{c.label}</span>
+        )}
+      </>
+    ))
+  }{' '}
+  <span class="count">— расписано {written} из {concepts.length}</span>
+</p>
+
+<style>
+  /* Концепт без листа — не ссылка и выглядеть должен иначе: строка читается
+     как карта покрытия домена, а не как список ссылок с провалами. */
+  .l2-concepts .pending {
+    color: var(--sl-color-gray-3);
+  }
+  .l2-concepts .sep {
+    color: var(--sl-color-gray-4);
+  }
+  .l2-concepts .count {
+    white-space: nowrap;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
+  }
+  .l2-concepts a {
+    color: var(--lc, var(--sl-color-text-accent));
+  }
+  .l2-concepts[data-branch='culture'] {
+    --lc: #d97706;
+  }
+  .l2-concepts[data-branch='engineering'] {
+    --lc: #0d9488;
+  }
+  .l2-concepts[data-branch='practices'] {
+    --lc: #6366f1;
+  }
+  :root[data-theme='dark'] .l2-concepts[data-branch='culture'] {
+    --lc: #f59e0b;
+  }
+  :root[data-theme='dark'] .l2-concepts[data-branch='engineering'] {
+    --lc: #2dd4bf;
+  }
+  :root[data-theme='dark'] .l2-concepts[data-branch='practices'] {
+    --lc: #818cf8;
+  }
+</style>
