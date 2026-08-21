@@ -75,9 +75,9 @@ Priority L1 живут только в `src/data/roadmap.ts` (поле `priority
 
 ### SFIA — уровень зрелости инженера
 
-Хранится в `:::note[Метаданные листа]` callout каждой leaf-страницы (поле `SFIA-уровни`), уровни 3..7 соответствуют Junior → Principal. См. [фреймворк SFIA](https://sfia-online.org/en/about-sfia/the-context-for-sfia).
+Хранится во frontmatter каждой leaf-страницы (поле `sfia`), уровни 3..7 соответствуют Junior → Principal. См. [фреймворк SFIA](https://sfia-online.org/en/about-sfia/the-context-for-sfia).
 
-В данных `roadmap.ts` SFIA-уровни **не отражаются** — для них есть отдельный источник (метаданные внутри листа).
+В данных `roadmap.ts` SFIA-уровни **не отражаются**: это ось про инженера, а граф описывает компетенции. Поэтому `sfia` — одно из двух полей, которые лист хранит у себя; второе — `status`. Всё остальное в блоке метаданных под заголовком листа рендерится из графа компонентом `LeafMeta.astro`.
 
 ### Что обе оси не описывают
 
@@ -100,7 +100,7 @@ Priority и SFIA — про инженера: что он обязан умет�
 | `src/content/docs/sre-{culture,engineering,practices}.mdx` | обзор ветви: интро и карта; карточки L1 рендерятся из данных | описания L1, L2 концепты, leaves |
 | `src/content/docs/<branch>/<l1-id>.mdx` | описание одного L1 и его L2 inventory концептов | priorities, leaves (рендерятся из `roadmap.ts` через `NodeCards.astro`) |
 | `inventory/overlaps.md` *(в репозитории, не на сайте)* | решения по пересечениям компетенций между ветвями | сами компетенции |
-| `src/content/docs/leaves/<branch>/<slug>.md` | содержимое одного листа: умения / материалы / best practices / связанные | priorities (там — в `roadmap.ts`) |
+| `src/content/docs/leaves/<branch>/<slug>.md` | содержимое одного листа: умения / материалы / best practices / связанные; во frontmatter — `sfia` и `status` | ветвь, путь и priority (там — в `roadmap.ts`, рендерятся `LeafMeta.astro`) |
 
 **Инвариант L1.** У каждого L1 из `roadmap.ts` должна быть страница `src/content/docs/<branch>/<l1-id>.mdx` — её адрес выводится из данных функцией `l1Href()`. При добавлении или переименовании L1 страница заводится или переименовывается тем же PR, иначе карточка на странице ветви ведёт в никуда. Порядок L1 задаёт только `roadmap.ts`: страницы ветвей и сайдбар рендерят карточки и группы из данных.
 
@@ -118,7 +118,7 @@ Priority и SFIA — про инженера: что он обязан умет�
 
 - [Google SRE Book](https://sre.google/sre-book/table-of-contents/) — каноничная книга про SRE-практики и принципы.
 - [Google SRE Workbook](https://sre.google/workbook/table-of-contents/) — прикладные приёмы (SLO, alerting on SLOs, on-call); главный источник по SLI-based алертингу.
-- [SFIA — DevOps View](https://sfia-online.org/en/tools-and-resources/sfia-views/devops-skills-in-sfia) — формальная рамка уровней зрелости компетенций; используется в `:::note` метаданных листьев как `SFIA-уровни`.
+- [SFIA — DevOps View](https://sfia-online.org/en/tools-and-resources/sfia-views/devops-skills-in-sfia) — формальная рамка уровней зрелости компетенций; используется в листьях как поле `sfia`.
 - [DORA Research](https://dora.dev/) — эмпирика производительности команд доставки; источник DORA-метрик и базы для разделения ветвей.
 
 Эти ссылки — фундамент, на котором строится граф и листья. Конкретные материалы по каждой компетенции (книги, статьи, доклады, инструменты) живут в секции «Материалы» соответствующего листа, а не здесь.
