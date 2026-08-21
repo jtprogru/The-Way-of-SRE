@@ -14,6 +14,7 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { l1Href, leavesOf, roadmap } from '../../src/data/roadmap.ts';
+import { reliabilityHierarchy } from '../../src/data/reliabilityHierarchy.ts';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const DOCS = `${REPO}/src/content/docs`;
@@ -22,7 +23,7 @@ const errors: string[] = [];
 const fail = (where: string, what: string) => errors.push(`${where}: ${what}`);
 
 for (const branch of roadmap.branches) {
-  // Страница ветви: /sre-culture/ → src/content/docs/sre-culture.mdx
+  // Страница ветви: /culture/ → src/content/docs/culture.mdx
   const branchSlug = branch.href.replace(/\//g, '');
   if (!existsSync(`${DOCS}/${branchSlug}.mdx`)) {
     fail(branch.id, `нет страницы src/content/docs/${branchSlug}.mdx`);
@@ -54,11 +55,43 @@ for (const branch of roadmap.branches) {
         fail(where, `лист «${leaf.label}» не назван в l2`);
       }
 
-      // Файл листа: /leaves/culture/runbooks/ → leaves/culture/runbooks.md
+      // Лист лежит под своей ветвью: findPageContext() определяет ветвь по
+      // первому сегменту адреса, лист в чужой ветви она просто не найдёт.
+      if (!leaf.href.startsWith(branch.href)) {
+        fail(where, `href листа «${leaf.label}» (${leaf.href}) вне ветви ${branch.href}`);
+      }
+
+      // Файл листа: /culture/runbooks/ → culture/runbooks.md
       const file = `${DOCS}${leaf.href.replace(/\/$/, '')}.md`;
       if (!existsSync(file)) {
         fail(where, `у листа «${leaf.label}» нет файла ${file.slice(REPO.length + 1)}`);
       }
+    }
+  }
+
+  // Общее пространство имён ветви: hub-страницы L1 и листья лежат рядом,
+  // /culture/<name>/ разбирается по данным. Совпадение имени L1 со slug'ом
+  // листа сделало бы адрес двусмысленным, а один из узлов — недостижимым.
+  const l1Ids = new Set(branch.l1.map((l1) => l1.id));
+  for (const l1 of branch.l1) {
+    for (const leaf of leavesOf(l1)) {
+      if (l1Ids.has(leaf.id)) {
+        fail(branch.id, `slug листа «${leaf.label}» совпадает с id L1 «${leaf.id}»`);
+      }
+    }
+  }
+}
+
+// Иерархия надёжности ссылается на листья своими href — это единственное
+// место, где адрес листа продублирован вне roadmap.ts. Переехал лист,
+// забыли поправить здесь — молча битая ссылка на /reliability-hierarchy/.
+const leafHrefs = new Set(
+  roadmap.branches.flatMap((b) => b.l1.flatMap((l1) => leavesOf(l1).map((leaf) => leaf.href))),
+);
+for (const layer of reliabilityHierarchy) {
+  for (const item of layer.leaves) {
+    if (!leafHrefs.has(item.href)) {
+      fail('reliability-hierarchy', `«${item.label}» ведёт на ${item.href}, такого листа нет`);
     }
   }
 }

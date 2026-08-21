@@ -15,7 +15,7 @@ LEAF ?=
 BUN_INSTALL_FLAGS := $(if $(CI),--frozen-lockfile,)
 
 .DEFAULT_GOAL := help
-.PHONY: help install dev build preview typecheck toc toc-check cover cover-check lint style style-ci data-check check clean
+.PHONY: help install dev build preview typecheck toc toc-check cover cover-check lint style style-ci data-check link-check check clean
 
 # Порядок целей в check значим: типы раньше сборки, дешёвое раньше дорогого.
 .NOTPARALLEL:
@@ -77,6 +77,11 @@ cover-check: node_modules ## Проверить, что обложка собр�
 data-check: node_modules ## Проверить структурные инварианты src/data/roadmap.ts
 	bun run tools/data/check.ts
 
+# Ссылки проверяются по dist/, поэтому цель зависит от сборки. Ловит то,
+# что данные поймать не могут: ссылку руками в тексте листа.
+link-check: build ## Проверить внутренние ссылки в собранном сайте
+	bun run tools/data/check-links.ts
+
 lint: node_modules ## Линт markdown
 	bun run lint
 
@@ -90,7 +95,7 @@ style: ## Стиль-чек листьев; LEAF=<файл.md> — по одно
 style-ci: ## Стиль-чек: только детерминированные правила, ненулевой код при нарушении
 	@$(PYTHON) tools/style/scan_leaf.py --all --ci
 
-check: toc-check cover-check lint typecheck data-check build style-ci ## Всё, что гоняет CI на PR
+check: toc-check cover-check lint typecheck data-check build link-check style-ci ## Всё, что гоняет CI на PR
 
 clean: ## Убрать сборку и кеши
 	rm -rf dist .astro
