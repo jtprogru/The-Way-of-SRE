@@ -1,15 +1,9 @@
 ---
 title: Threat Modeling
 description: Систематическое выявление угроз на design phase — STRIDE / PASTA, threat model как living document
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Secure Development / Threat Modeling
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Security ревьюим за неделю до релиза» — типичный антипаттерн, который я регулярно вижу в командах без threat modeling. Код написан, архитектура зафиксирована, security приходит и находит фундаментальные проблемы дизайна — стоимость fix'а сравнима со стоимостью feature, либо релиз сдвигается. Threat Modeling — это **дисциплина на design phase**: четыре вопроса Manifesto (What are we building? What can go wrong? What will we do about it? Did we do enough?), DFD с [trust boundaries](/The-Way-of-SRE/glossary/#trust-boundary), [STRIDE](/The-Way-of-SRE/glossary/#stride) per element, mitigation с явным статусом. Открывает L1 `Secure Development`: разбор угроз на дизайне стоит раньше кода, сборки и зависимостей.
 

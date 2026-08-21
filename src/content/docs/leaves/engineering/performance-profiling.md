@@ -1,15 +1,9 @@
 ---
 title: Performance & Profiling
 description: Измерение перед оптимизацией — pprof, perf, flame graphs, USE method; дисциплина против «оптимизирую то, что first comes to mind»
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Programming / Scripting / Performance & Profiling
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Сервис тормозит, нужно оптимизировать» — самая частая фраза, после которой инженер начинает менять код наугад. Ни одного измерения. Performance & Profiling — это **дисциплина измерения перед оптимизацией**: запустить pprof / perf / flame graph, увидеть реальные hotspots (не предполагаемые), и только потом трогать код. Я регулярно вижу циклы «оптимизировали неделю → сделали хуже» именно потому, что hotspot был не там, где казалось. Don Knuth известное «premature optimization is the root of all evil» — про это: оптимизация без измерения почти всегда трата времени. Brendan Gregg's flame graph (2011) и pprof из Google's gperftools — два самых видимых инструмента; USE method (Utilization / Saturation / Errors) — самая практичная methodology.
 

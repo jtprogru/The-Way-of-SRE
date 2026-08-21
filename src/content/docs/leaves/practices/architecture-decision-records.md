@@ -1,15 +1,9 @@
 ---
 title: Architecture Decision Records
 description: Фиксация технических решений в формате context → decision → consequences, версионируется в git
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Methods & Tools / Architecture Decision Records
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Решили в чате полтора года назад, теперь никто не помнит почему» — типичный диалог в команде без [ADR](/The-Way-of-SRE/glossary/#adr). Ещё через год приходит новый инженер, не видит причин терпеть странное решение и откатывает его, потому что контекста, в котором это решение принимали, нигде нет. ADR (Architecture Decision Record) — это **знание, переносимое между поколениями команды**: каждый значимый выбор метода или инструмента сопровождается записью **context → decision → consequences**, лежит в git и проходит ревью в PR. Главная практика внутри L1 `Methods & Tools`; соседи (Tech Radar, Tool Standardization, RFC process) — в открытых вопросах.
 

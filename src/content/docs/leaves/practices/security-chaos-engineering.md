@@ -1,15 +1,9 @@
 ---
 title: Security Chaos Engineering
 description: Проверка контролей безопасности методом chaos engineering — эксперимент показывает, что detection и response реально срабатывают, а не просто настроены
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Information Security / Security Chaos Engineering
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Nice to have
-- **Статус:** draft
-:::
 
 «Алерт на создание публичного S3-бакета у нас настроен» — и я спрашиваю, когда его в последний раз проверяли. Чаще всего ответ: при настройке, год назад. Огромная доля контролей безопасности живёт в режиме write-once, их никто не валидирует до настоящего breach, а к моменту breach logging уже отвалился, правило алерта кто-то снёс при рефакторинге терраформа, а IAM-политику расширили «временно» полгода назад. Security Chaos Engineering — это [chaos engineering](/The-Way-of-SRE/glossary/#chaos-engineering), нацеленный **на защиту, а не на надёжность**: та же схема «гипотеза — инъекция — измерение», но объект другой — detection, alerting, авторизация, auto-remediation. Метод тот же, что в [Chaos Engineering](/The-Way-of-SRE/leaves/engineering/chaos-engineering/) из Reliability Engineering. Вопрос другой. Не «остаётся ли система живой», а «срабатывает ли защита». Граница с [Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/) проходит так: VM ищет уязвимости, SCE проверяет, что контроли, которые должны поймать их эксплуатацию, реально работают.
 

@@ -1,15 +1,9 @@
 ---
 title: Status Page Management
 description: "Публичная страница статуса как операционная практика: подписки, честный uptime, анонс работ, отдельная инфраструктура"
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Incident Management / Customer Communications / Status Page Management
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 Я регулярно вижу в командах путаницу между двумя разными артефактами: **internal dashboard** (Grafana / Datadog с метриками сервиса для команды) и **public status page** (что клиент видит на `status.<company>.com`). Первый — для on-call, в нём всё про RED-метрики, log volumes, цвета по threshold, нюансы каждого component. Второй — для клиента, и у него совершенно другая роль: дать обещание, что вы честно сообщите об outage; зафиксировать когда был incident; рассказать в ретроспективе что произошло. Команды, которые путают эти два артефакта, либо строят status page для клиентов с инженерным жаргоном («503 spike on api-gw, p99 latency degraded»), либо превращают internal dashboard в публичный и пугают всех. Это уточнение [Customer Communications](/The-Way-of-SRE/leaves/practices/customer-communications/) под L1 `Incident Management`, и граница с родительским листом чёткая: CC — про *что говорить во время инцидента* (severity → audience matrix, cadence обещание, honest framing); этот лист — про *operational practice самой платформы* (subscriber model, uptime transparency policy, scheduled maintenance pre-announce, decoupled infrastructure, integration с monitoring).
 

@@ -1,15 +1,9 @@
 ---
 title: War Room Patterns
 description: "Механика инцидента, который тушат несколько команд сразу: роли, ротация IC, ритм sitrep, decision log"
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Incident Management / Incident Response / War Room Patterns
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 «Созвонились в Zoom, тушим» — типичная реакция на SEV0+ инцидент в команде без [war room](/The-Way-of-SRE/glossary/#war-room) discipline. Через два часа: 10 человек говорят одновременно, никто не помнит, что уже пробовали, нет sitrep для клиентов, IC меняется неявно через «я устал, кто-то другой», а timeline для постмортема потом не восстановить. War Room Patterns — это **дисциплина координации, когда инцидент тушат несколько команд сразу**: явный Incident Commander (IC) с rotation после 2–4 часов, role separation (IC / Ops / Comms / Scribe / SME), sitrep cadence как ритуал (каждые 15–30 минут), decision log как след аудита, shift transition по чек-листу. Уточнение [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/): тот лист описывает lifecycle инцидента целиком, этот — механику фазы mitigation, когда тушат несколько команд сразу.
 

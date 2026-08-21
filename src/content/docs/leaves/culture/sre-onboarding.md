@@ -1,15 +1,9 @@
 ---
 title: SRE Onboarding
 description: Систематическое введение нового SRE — curriculum, mentor, путь до первого on-call под supervision
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Culture
-- **Путь:** Organisational Capability Development / SRE Onboarding
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Nice to have
-- **Статус:** draft
-:::
 
 «Бросим в боевые инциденты с первой недели — научится быстрее». Совет, который я регулярно слышу от старших инженеров, и одна из самых частых причин, по которым новый человек уходит через три-шесть месяцев. SRE Onboarding — это **систематическое** введение в команду и в прод: явный curriculum, закреплённый mentor до выхода в ротацию, понятная последовательность освоения artefacts ([runbook](/The-Way-of-SRE/glossary/#runbook), dashboards, репозитории, [on-call](/The-Way-of-SRE/glossary/#on-call) rotation) и путь до первого дежурства под supervision. Практика базовая, внутри L1 `Organisational Capability Development`. Без неё инженер идёт в продакшен на ощупь. И уходит.
 

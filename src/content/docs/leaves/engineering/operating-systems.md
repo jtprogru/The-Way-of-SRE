@@ -1,15 +1,9 @@
 ---
 title: Operating Systems
 description: OS как SRE-инструмент — namespaces, cgroups, syscalls, page cache, network stack, eBPF; слой между процессом и железом
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** IT Infrastructure / Operating Systems
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 «У нас Kubernetes, kernel — это магия» — позиция, которая работает, пока инцидент не звучит как «pod жив, но не отвечает», «container OOM-killed при свободном RAM», «странный TCP timeout, который не воспроизводится в staging». В этот момент инженер без OS knowledge — заложник симптомов. Я регулярно вижу команды, которые держатся на 5 senior'ах с глубоким Linux-bg, и эти senior'ы становятся single point of failure для любого «странного» инцидента. Операционная система — это не «изучать kernel хобби»: это **слой между процессом и железом**, который нужно понимать, чтобы дебажить production. Namespaces / cgroups (на чём стоит Docker / k8s), syscalls (что процесс реально просит у kernel), page cache (почему `free` ничего не говорит про memory), network stack (где между приложением и сетью теряется пакет). eBPF в 2020-х превратился из niche-tech в обязательный observability layer — но без OS knowledge он magic, с — practical tool.
 

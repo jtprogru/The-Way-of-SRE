@@ -1,15 +1,9 @@
 ---
 title: Severity Classification & Escalation
 description: Рамка измерения серьёзности инцидента через impact × scope и связанные правила escalation
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Incident Management / Severity Classification & Escalation
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 «Всё SEV1, потому что страшно» — антипаттерн, который я регулярно вижу в команде без чёткой [severity](/The-Way-of-SRE/glossary/#severity) matrix. Severity inflation: всё «критично» → ничего реально не критично, команда выгорает, клиенты получают неуместные паникёрские сообщения, executive escalation тратится впустую. Severity Classification — это **рамка по критериям**: impact × scope даёт уровень (SEV0..SEV3), уровень определяет — кого пейджит, кого вовлекать, с какой каденцией общаться с клиентами, какой постмортем требуется. Третий лист под L1 `Incident Management` (рядом с [Incident Response](/The-Way-of-SRE/leaves/practices/incident-response/) и [On-Call Rotation](/The-Way-of-SRE/leaves/practices/on-call-rotation/)).
 

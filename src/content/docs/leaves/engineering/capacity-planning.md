@@ -1,15 +1,9 @@
 ---
 title: Capacity Planning
 description: Прогнозирование потребности в ресурсах — forecast, saturation thresholds, headroom, lead time
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Reliability Engineering / Capacity Planning
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 [Auto-scaling](/The-Way-of-SRE/glossary/#auto-scaling) в k8s сам по себе не решает capacity planning. Если кластер не имеет capacity под все auto-scale events — HPA увидит CPU, попробует scale-up, упрётся в node-pool limit или cloud quota, и сервис ляжет ровно так же, как до auto-scaling. Я регулярно вижу команды, считающие, что «у нас всё в k8s с HPA, planning не нужен». Capacity planning — это про **forecast** и **lead time**: какая ресурсная потребность будет через 1–4 квартала, сколько надо времени на приобретение, когда начинать действовать. Соседний лист к [SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/) под L1 `Reliability Engineering`.
 

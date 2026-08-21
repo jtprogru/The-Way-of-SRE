@@ -1,0 +1,82 @@
+---
+/*
+ * Метаданные листа: ветвь, путь в графе, SFIA-уровни, приоритет, статус.
+ *
+ * Раньше этот блок писался руками в каждом листе как `:::note[Метаданные
+ * листа]`. Четыре поля из пяти уже были в данных, и рукописная копия с ними
+ * разъехалась: на момент замены 21 лист из 70 показывал приоритет, которого
+ * нет в roadmap.ts, — сайдбар, карта и футер красили ту же практику иначе,
+ * чем её собственная страница. Проверять это было нечем: стиль-чек листьев
+ * про блок не знал.
+ *
+ * Теперь ветвь, путь и приоритет приходят из roadmap.ts по pathname — тем же
+ * findPageContext(), что рисует хлебные крошки и контекст в подвале. В листе
+ * остаётся только то, чего в графе нет: sfia и status во фронт-маттере
+ * (схема — src/content.config.ts).
+ *
+ * Рендерится через переопределённый MarkdownContent.astro первым элементом
+ * содержимого — там же, где стоял рукописный блок. На страницах вне графа
+ * компонент не отдаёт ничего.
+ */
+import { Aside } from '@astrojs/starlight/components';
+import { findPageContext, l1Href, priorityLabels } from '../data/roadmap.ts';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.startsWith(base)
+  ? Astro.url.pathname.slice(base.length)
+  : Astro.url.pathname;
+
+const ctx = findPageContext(path);
+const leafCtx = ctx?.kind === 'leaf' ? ctx : null;
+
+const { sfia, status } = Astro.locals.starlightRoute.entry.data;
+
+interface Step {
+  label: string;
+  href?: string;
+}
+
+// Путь строится до самого листа включительно; последний шаг остаётся
+// текстом — ссылка на страницу, где читатель уже стоит, не нужна.
+const trail: Step[] = leafCtx
+  ? [
+      { label: leafCtx.l1.label, href: l1Href(leafCtx.branch, leafCtx.l1) },
+      ...(leafCtx.parent ? [{ label: leafCtx.parent.label, href: leafCtx.parent.href }] : []),
+      { label: leafCtx.leaf.label },
+    ]
+  : [];
+
+const priority = leafCtx ? priorityLabels[leafCtx.leaf.priority] : null;
+---
+
+{
+  leafCtx && (
+    <Aside type="note" title="Метаданные листа">
+      <ul>
+        <li>
+          <strong>Ветвь:</strong> <a href={`${base}${leafCtx.branch.href}`}>{leafCtx.branch.label}</a>
+        </li>
+        <li>
+          <strong>Путь:</strong>{' '}
+          {trail.map((step, i) => (
+            <>
+              {i > 0 && ' / '}
+              {step.href ? <a href={`${base}${step.href}`}>{step.label}</a> : step.label}
+            </>
+          ))}
+        </li>
+        {sfia && (
+          <li>
+            <strong>SFIA-уровни:</strong> {sfia.join(', ')}
+          </li>
+        )}
+        <li>
+          <strong>Приоритет:</strong> {priority!.emoji} {priority!.ru}
+        </li>
+        <li>
+          <strong>Статус:</strong> {status}
+        </li>
+      </ul>
+    </Aside>
+  )
+}

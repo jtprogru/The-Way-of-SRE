@@ -1,15 +1,9 @@
 ---
 title: Compliance Frameworks
 description: SOC 2, ISO 27001, PCI-DSS и GDPR как драйверы требований к безопасности, а не самостоятельная цель
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Information Security / Compliance Frameworks
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 Я регулярно вижу две крайности в отношении compliance. Первая — «compliance это бумажки для аудита, инженеров не касается»: команда узнаёт о SOC 2 за две недели до аудита, в панике собирает evidence руками, проходит audit, забывает до следующего года. Вторая — «у нас SOC 2 Type II, значит мы secure»: чек прошёл, контролы зелёные, а в это же время [Capital One](https://krebsonsecurity.com/2019/07/capital-one-data-theft-impacts-106m-people/) теряет данные 106 миллионов человек через неверно настроенный WAF — банк, живущий под непрерывным регуляторным надзором и всеми возможными аудитами. Compliance — это **доказательство соответствия externally-defined requirements**, а не security. Грамотный SRE использует compliance как драйвер для требований, которые команда закрывает и без всякого аудита ([Access Control & IAM](/The-Way-of-SRE/leaves/practices/access-control-iam/), [Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [Backup & Restore](/The-Way-of-SRE/leaves/engineering/backup-restore/), [audit trail](/The-Way-of-SRE/glossary/#audit-trail) во всех системах), и автоматизирует evidence collection до уровня «непрерывно», а не «раз в год вручную».
 

@@ -1,15 +1,9 @@
 ---
 title: Personal SRE Toolkit
 description: Свой набор CLI-утилит и функций в shell под повседневные операционные задачи — самый дешёвый уровень toil reduction
+sfia: [3, 4, 5]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Toil Reduction / Toil Automation / Personal SRE Toolkit
-- **SFIA-уровни:** 3, 4, 5
-- **Приоритет:** Nice to have
-- **Статус:** draft
-:::
 
 В 2023 я начал [gch](https://github.com/jtprogru/gch) — `Go CLI Helper`, монолитную CLI-утилиту со всем, что мне регулярно нужно: генератор паролей, генератор лицензии, URL-shortener, поиск дубликатов JPG/PNG в каталоге, заготовка для investigation. За это время в команды добавился целый workflow вокруг SRE-артефактов (постмортемы, RFC, runbook'и, SLO-документы, on-call отчёты) — `gch` начал распухать, разные команды стали запутывать друг друга. В 2026 я выделил эти SRE-генераторы в отдельный [srekit](https://github.com/jtprogru/srekit), оставив `gch` для повседневной мелочи. Это типичный путь personal toolkit: один монолит → специализация → разделение. Этот лист — про **самый дешёвый уровень automation**: свой набор aliases, функций в shell и CLI-утилит, который один человек собирает под себя за годы. Цена входа околонулевая, ROI — мгновенный, но toolkit имеет жизненный цикл: накапливает технический долг, требует периодической чистки, перетекает между машинами через [dotfiles](https://dotfiles.github.io/). Сосед [Toil Automation](/The-Way-of-SRE/leaves/engineering/toil-automation/) — про *team-level* паттерны; здесь — про *personal-level*. Граница неточная (хороший personal toolkit становится team toolkit и обратно), но фокус разный.
 

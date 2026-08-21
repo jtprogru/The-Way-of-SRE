@@ -1,15 +1,9 @@
 ---
 title: Incident Response
 description: Координация реагирования на инцидент — роли (IC / Comms / Ops), escalation, war room
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Incident Management / Incident Response
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 «Работаем вместе» без распределения ролей — [IC](/The-Way-of-SRE/glossary/#ic), Ops Lead и Comms Lead в одном лице — антипаттерн, который я регулярно вижу в командах. Выглядит это всегда одинаково. Решения растворяются в общем чате, стейкхолдерам не пишет никто, MTTR растёт, а клиенты молчат просто потому, что им некуда написать. Incident Response — это **процесс координации**: явные роли, escalation paths, sitrep cadence, structured handoff между сменами. Цель в моменте — **минимизировать MTTR, не нарушая режим blameless** и сохранить достаточно сигнала для последующего постмортема. Не путать с [Blameless Postmortem](/The-Way-of-SRE/leaves/practices/blameless-postmortem/) (after-action разбор); здесь — про *during-action*.
 

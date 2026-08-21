@@ -1,15 +1,9 @@
 ---
 title: Security Code Review
 description: Проверка своего кода на дефекты безопасности на этапе review — OWASP Top 10, SAST / SCA / secret scanning как CI-гейты, secure coding
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Secure Development / Security Code Review
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «LGTM» через сорок секунд после открытия PR, который трогает авторизацию. Вижу такое регулярно и считаю главным антипаттерном темы. Ревью прошло, галочка стоит, а никто не проверил ни авторизацию на новом endpoint, ни экранирование вывода, ни то, что свежий dependency не тянет за собой уязвимую транзитивную версию. Security Code Review — это **дисциплина проверки собственного кода на дефекты безопасности на этапе review**: человеческое ревью на классы багов, которые линтер не ловит в принципе (broken access control, логика авторизации), плюс автоматика — [SAST](/The-Way-of-SRE/glossary/#sast), [SCA](/The-Way-of-SRE/glossary/#sca) и secret scanning — поставленная как CI-гейт, а не как необязательный комментарий в PR. Граница с [Threat Modeling](/The-Way-of-SRE/leaves/practices/threat-modeling/): threat modeling на design phase отвечает *что может пойти не так*; security code review на review phase проверяет, *что написанный код этого не допускает*. Граница с [Vulnerability Management](/The-Way-of-SRE/leaves/practices/vulnerability-management/): VM реагирует на known CVE в dependencies (reactive), security code review ловит дефекты в **своём** коде до merge (proactive).
 

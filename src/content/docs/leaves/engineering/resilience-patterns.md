@@ -1,15 +1,9 @@
 ---
 title: Resilience Patterns
 description: Явные правила, по которым сервис выживает при отказах зависимостей и перегрузке
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Reliability Engineering / Resilience Patterns
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Must Have
-- **Статус:** draft
-:::
 
 Resilience — не магия, а **набор явных правил**: circuit breaker, retry with backoff + jitter, timeout cascade, изоляция bulkhead, graceful degradation, [idempotency](/The-Way-of-SRE/glossary/#idempotency). Каждое из этих правил легко описывается, но я регулярно вижу команды, которые знают слова, но не реализуют дисциплинированно: retry без jitter (thundering herd при первом downtime), circuit breaker без recovery strategy («открылся навсегда»), idempotency «допилим потом» (а deploy уже завтра). Лист — про дисциплину применения. Соседний лист к [Capacity Planning](/The-Way-of-SRE/leaves/engineering/capacity-planning/) и [SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/) под L1 `Reliability Engineering`. Граница: capacity planning — **готовимся** к нагрузке; resilience patterns — **выживаем**, когда подготовка не сработала.
 

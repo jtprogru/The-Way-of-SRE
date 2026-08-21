@@ -1,15 +1,9 @@
 ---
 title: Progressive Delivery
 description: Выкатка изменений малыми долями с health gate и автоматическим rollback по SLO burn rate
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Practices
-- **Путь:** Change Management / Progressive Delivery
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Выкатим сразу всем» — так живут команды без progressive delivery, и я регулярно вижу, чем это заканчивается: инцидент в проде с blast radius во весь трафик. Progressive Delivery — это **дисциплина** выкатки малыми долями с возможностью посмотреть и откатиться. Код едет через [canary](/The-Way-of-SRE/glossary/#canary-release) с явным SLI health gate, feature flags отделяют момент release от момента deploy, а rollback срабатывает по burn rate, а не по чьей-то команде «жми кнопку». Главная практика внутри L1 `Change Management`.
 

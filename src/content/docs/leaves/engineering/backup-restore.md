@@ -1,15 +1,9 @@
 ---
 title: Backup & Restore
 description: Резервное копирование с проверенным восстановлением — без regular restore-test backup'а нет
+sfia: [3, 4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Database Reliability / Backup & Restore
-- **SFIA-уровни:** 3, 4, 5, 6
-- **Приоритет:** On Demand
-- **Статус:** draft
-:::
 
 Простое правило, которое я повторяю чаще всего на ревью: **[backup](/The-Way-of-SRE/glossary/#backup), который никто никогда не восстанавливал, не существует**. На бумаге он есть. В архиве — какие-то данные. Но пока кто-то фактически не достал его и не прогнал восстановление — это не backup, это надежда. Лист — про то, как превратить надежду в гарантию. Главная практика внутри L1 `Database Reliability`; соседи (Replication & Failover, Schema Migration Patterns, DB Performance Tuning) — в открытых вопросах.
 

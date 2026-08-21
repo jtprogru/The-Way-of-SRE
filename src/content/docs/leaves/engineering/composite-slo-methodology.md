@@ -1,15 +1,9 @@
 ---
 title: Composite SLO Methodology
 description: Как складывать SLO зависимостей и почему потолок системы обычно ниже, чем хочется обещать
+sfia: [4, 5, 6]
+status: draft
 ---
-
-:::note[Метаданные листа]
-- **Ветвь:** Engineering
-- **Путь:** Reliability Engineering / SLO Engineering / Composite SLO Methodology
-- **SFIA-уровни:** 4, 5, 6
-- **Приоритет:** Mandatory
-- **Статус:** draft
-:::
 
 «Наш SLO — 99.95%» — типичная декларация после quarterly planning. Если посмотреть на сервис-граф: 4 зависимости с vendor SLA 99.9% ([auth](/The-Way-of-SRE/glossary/#auth), payment, CDN, managed DB), 2 внутренних сервиса с 99.99%, shared DNS / TLS layer. Простая арифметика для последовательного пути: `0.999⁴ × 0.9999² × 0.9999 ≈ 0.9957` — наш достижимый SLO ceiling **99.57%**, не 99.95%. Composite SLO Methodology — это **математика multi-component систем**: когда «хочется четыре девятки» сталкивается с реальностью composite, и нужно либо снизить commitment, либо добавить redundancy, либо явно принять honest baseline. Я регулярно вижу команды, которые декларируют SLO без composite math — и потом первый dependency outage сжигает квартальный error budget целиком.
 
