@@ -13,13 +13,15 @@
 //   - SFIA-уровень — фронт-маттер листьев
 //   - иерархия надёжности (этот файл) — в каком порядке практики строятся
 //
-// Инвариант: каждый href должен указывать на существующий лист. При удалении
-// или переименовании листа — синхронизировать с src/data/roadmap.ts.
+// Слой называет свои листья одними id. Ни имени, ни адреса файл не хранит:
+// раньше хранил и то и другое, и это было единственное место вне roadmap.ts,
+// где узел карты лежал копией. Переименование листа копию не трогало, а
+// проверять её было нечем — пирамида молча показывала прежнее имя.
+//
+// Инвариант: каждый id существует в roadmap.ts. Неизвестный роняет сборку в
+// layerLeaves(), до неё то же самое ловит `make data-check` внятным текстом.
 
-export interface HierarchyLeafRef {
-  label: string;
-  href: string;
-}
+import { leavesOf, roadmap, type LeafNode } from './roadmap.ts';
 
 export interface HierarchyLayer {
   /** Якорь для ссылок с других страниц. */
@@ -29,7 +31,8 @@ export interface HierarchyLayer {
   label: string;
   /** Одна фраза: что даёт слой и почему без него верхние не работают. */
   gist: string;
-  leaves: HierarchyLeafRef[];
+  /** id листьев из roadmap.ts; имя и адрес берутся оттуда же. */
+  leaves: string[];
 }
 
 /** Слои в порядке снизу вверх: от фундамента к вершине. */
@@ -40,9 +43,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Monitoring',
     gist: 'Без измерений всё выше — угадывание: непонятно, сломано ли, насколько и стало ли лучше после починки.',
     leaves: [
-      { label: 'SLO Engineering', href: '/engineering/slo-engineering/' },
-      { label: 'SLI-based Alerting', href: '/engineering/sli-based-alerting/' },
-      { label: 'Symptom vs Cause Alerting', href: '/engineering/symptom-vs-cause-alerting/' },
+      'slo-engineering',
+      'sli-based-alerting',
+      'symptom-vs-cause-alerting',
     ],
   },
   {
@@ -51,9 +54,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Incident Response',
     gist: 'Сигнал превращается в действие: кто разбирает, по какой роли, за какое время.',
     leaves: [
-      { label: 'Incident Response', href: '/practices/incident-response/' },
-      { label: 'On-Call Rotation', href: '/practices/on-call-rotation/' },
-      { label: 'Severity Classification', href: '/practices/severity-classification/' },
+      'incident-response',
+      'on-call-rotation',
+      'severity-classification',
     ],
   },
   {
@@ -62,9 +65,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Postmortem / Root Cause Analysis',
     gist: 'Инцидент превращается в изменение системы, а не в устный опыт одного дежурного.',
     leaves: [
-      { label: 'Blameless Postmortem', href: '/practices/blameless-postmortem/' },
-      { label: 'Postmortem Culture', href: '/culture/postmortem-culture/' },
-      { label: 'Systematic Troubleshooting', href: '/engineering/systematic-troubleshooting/' },
+      'blameless-postmortem',
+      'postmortem-culture',
+      'systematic-troubleshooting',
     ],
   },
   {
@@ -73,9 +76,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Testing + Release procedures',
     gist: 'Самая частая причина инцидентов — изменение; слой ограничивает ущерб от собственных релизов.',
     leaves: [
-      { label: 'Test Strategy', href: '/engineering/test-strategy/' },
-      { label: 'CI/CD', href: '/engineering/ci-cd/' },
-      { label: 'Progressive Delivery', href: '/practices/progressive-delivery/' },
+      'test-strategy',
+      'ci-cd',
+      'progressive-delivery',
     ],
   },
   {
@@ -84,8 +87,8 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Capacity Planning',
     gist: 'Отказ от нехватки ресурсов — предсказуемый и потому предотвратимый класс отказов.',
     leaves: [
-      { label: 'Capacity Planning', href: '/engineering/capacity-planning/' },
-      { label: 'Cost Management', href: '/engineering/cost-management/' },
+      'capacity-planning',
+      'cost-management',
     ],
   },
   {
@@ -94,9 +97,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Development',
     gist: 'Надёжность закладывается в архитектуру и код, а не докручивается мониторингом сверху.',
     leaves: [
-      { label: 'Resilience Patterns', href: '/engineering/resilience-patterns/' },
-      { label: 'Infrastructure as Code', href: '/engineering/infrastructure-as-code/' },
-      { label: 'Chaos Engineering', href: '/engineering/chaos-engineering/' },
+      'resilience-patterns',
+      'infrastructure-as-code',
+      'chaos-engineering',
     ],
   },
   {
@@ -105,9 +108,35 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Product',
     gist: 'Требуемый уровень надёжности — продуктовое решение: сколько недоступности переживёт пользователь и бизнес.',
     leaves: [
-      { label: 'Dev Team Partnership', href: '/culture/dev-team-partnership/' },
-      { label: 'Stakeholder Management', href: '/culture/stakeholder-management/' },
-      { label: 'SLO / Budget Review', href: '/culture/slo-budget-review/' },
+      'dev-team-partnership',
+      'stakeholder-management',
+      'slo-budget-review',
     ],
   },
 ];
+
+/** Все листья карты по id. Уникальность id проверяет tools/data/check.ts. */
+const leafById = new Map<string, LeafNode>(
+  roadmap.branches.flatMap((b) =>
+    b.l1.flatMap((l1) => leavesOf(l1).map((leaf): [string, LeafNode] => [leaf.id, leaf])),
+  ),
+);
+
+/**
+ * Листья слоя как узлы карты — с актуальными именем, адресом и приоритетом.
+ *
+ * Неизвестный id роняет сборку, а не пропускает ступень молча: слой без
+ * листьев на странице выглядит осмысленно («практик пока нет»), и опечатка
+ * дожила бы до продакшена.
+ */
+export function layerLeaves(layer: HierarchyLayer): LeafNode[] {
+  return layer.leaves.map((id) => {
+    const leaf = leafById.get(id);
+    if (!leaf) {
+      throw new Error(
+        `reliabilityHierarchy: слой «${layer.id}» ссылается на несуществующий лист «${id}»`,
+      );
+    }
+    return leaf;
+  });
+}
