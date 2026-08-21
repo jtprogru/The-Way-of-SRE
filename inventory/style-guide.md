@@ -4,7 +4,7 @@
 
 Применяется к:
 
-- `src/content/docs/leaves/**/*.md` — все листья.
+- `src/content/docs/{culture,engineering,practices}/*.md` — все листья (hub-страницы L1 в тех же каталогах — `.mdx`, к ним style-guide не применяется).
 - В меньшей степени — к мета-страницам (`about.mdx`, `methodology.mdx`, `format.mdx`); они уже ближе к голосу.
 
 Не применяется к:
