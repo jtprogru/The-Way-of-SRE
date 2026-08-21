@@ -1,79 +1,81 @@
 ---
 title: Capacity Planning
-description: Прогнозирование потребности в ресурсах — forecast, saturation thresholds, headroom, lead time
+description: Прогнозирование потребности в ресурсах — прогноз, пороги насыщения, запас, время на приобретение
 sfia: [3, 4, 5, 6]
 status: draft
 ---
 
-[Auto-scaling](/The-Way-of-SRE/glossary/#auto-scaling) в k8s сам по себе не решает capacity planning. Если кластер не имеет capacity под все auto-scale events — HPA увидит CPU, попробует scale-up, упрётся в node-pool limit или cloud quota, и сервис ляжет ровно так же, как до auto-scaling. Я регулярно вижу команды, считающие, что «у нас всё в k8s с HPA, planning не нужен». Capacity planning — это про **forecast** и **lead time**: какая ресурсная потребность будет через 1–4 квартала, сколько надо времени на приобретение, когда начинать действовать. Соседний лист к [SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/) под L1 `Reliability Engineering`.
+[Auto-scaling](/The-Way-of-SRE/glossary/#auto-scaling) в k8s сам по себе не заменяет планирование мощностей. Если в кластере нет запаса под все события масштабирования сразу, HPA увидит нагрузку на CPU, попробует добавить поды, упрётся в предел пула узлов или квоту облака — и сервис ляжет ровно так же, как лёг бы без всякого автомасштабирования. Я регулярно вижу команды, уверенные, что «у нас всё в k8s с HPA, планировать нечего». Capacity planning — про **прогноз** и **время на приобретение**: сколько ресурсов понадобится через квартал или четыре, сколько времени уходит на их получение, когда из-за этого надо начинать шевелиться. Соседний лист к [SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/) под L1 `Reliability Engineering`.
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — формулировать **SLO-driven saturation thresholds**, а не «80% CPU = паника». У одного сервиса 95% CPU — норма (CPU-bound batch worker); у другого 50% — уже SLO breach (network-bound, deadline-sensitive). Threshold для capacity action определяется эмпирически: при каком уровне утилизации начинается деградация relevant SLI? Это и есть ваш threshold. Magic numbers из guidelines чужих команд — не работают.
+Главный навык на уровне L5 — выводить **пороги насыщения из SLO**, а не из «80% CPU — паника». У фонового обработчика, который упирается в процессор, 95% CPU — норма. У сервиса, который упирается в сеть и живёт с жёстким дедлайном, уже 50% означают нарушение SLO. Порог, за которым пора действовать, определяется эмпирически: при какой утилизации начинает деградировать нужный SLI — это и есть ваше число. Магические числа из чужих методичек не работают.
 
 **L3**
-- Понимает типы ресурсов (CPU, memory, disk, network, file descriptors, DB connections, IOPS); знает, где смотреть текущую утилизацию.
-- Читает forecast / capacity plan для своего сервиса; понимает, что значит «headroom 30%», «текущая capacity покрывает next quarter».
+- Понимает типы ресурсов (CPU, память, диск, сеть, файловые дескрипторы, соединения к базе, IOPS); знает, где смотреть текущую утилизацию.
+- Читает прогноз и план мощностей своего сервиса; понимает, что значит «запас 30%» и «текущих мощностей хватит на следующий квартал».
 
 **L4**
-- Считает headroom: текущее использование vs целевая saturation threshold; оценивает trajectory — когда достигнет limit при текущем growth rate.
-- Обрабатывает capacity events: знает процедуру scale-up (auto-scaling triggers / manual provisioning / cloud quotas / vendor escalation).
+- Считает запас (*headroom*): текущее потребление против целевого порога насыщения; прикидывает, когда упрёмся в предел при нынешних темпах роста.
+- Отрабатывает нехватку ресурсов: знает, как расширяться — триггеры автомасштабирования, ручная выдача, квоты облака, обращение к поставщику.
 
 **L5**
-- Проектирует capacity model: какие saturation indicators (USE-method approach), SLO-driven thresholds, explicit headroom budget, lead times для cloud / managed / on-prem.
-- Делает demand forecast на 1–4 квартала: активные пользователи, traffic patterns, seasonality, feature rollouts, marketing campaigns, M&A. Не «по ощущениям», а timeseries + assumptions.
-- Интегрирует с finance: трекит cost-per-unit (per request, per active user, per GB) как метрику эффективности.
+- Проектирует модель мощностей: какие индикаторы насыщения брать (по методу USE), какие пороги выводить из SLO, каков явный бюджет запаса, сколько времени занимает получить ресурс в облаке, у управляемого сервиса и на своём железе.
+- Делает прогноз спроса на квартал-четыре вперёд: активные пользователи, профиль трафика, сезонность, раскатка фич, маркетинговые кампании, поглощения. Не «по ощущениям», а временные ряды плюс явно записанные допущения.
+- Связывает планирование с финансами: считает удельную стоимость — на запрос, на активного пользователя, на гигабайт — как метрику эффективности.
 
 **L6+**
-- Multi-service / org-level capacity planning: shared resource pools, cross-service dependencies, regional capacity strategy, vendor concentration risk.
-- Strategic capacity decisions: vertical vs horizontal scaling в долгую, multi-region growth, build vs buy.
+- Планирует мощности за пределами одного сервиса: общие пулы ресурсов, зависимости между сервисами, стратегия по регионам, риск завязки на одного поставщика.
+- Принимает стратегические решения: вертикальный или горизонтальный рост в долгую, расширение на несколько регионов, делать самим или покупать.
 
 ## Материалы
 
 ### Книги
 
-- Joe Beda et al. (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/software-engineering-in-sre/)** (O'Reilly, 2016), глава 18 «Software Engineering in SRE». Case study Auxon — Google's intent-based capacity planning; описывает проблемы традиционного capacity planning и intent-based подход.
-- Alejandro Forero Cuervo (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/handling-overload/)** (O'Reilly, 2016), глава 21 «Handling Overload». Что делать, когда forecast ошибся (client throttling, criticality levels, retry budgets).
+- Joe Beda et al. (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/software-engineering-in-sre/)** (O'Reilly, 2016), глава 18 «Software Engineering in SRE». Разбор Auxon — планирования мощностей в Google через декларацию намерения; описывает, чем плох традиционный подход и что даёт intent-based.
+- Alejandro Forero Cuervo (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/handling-overload/)** (O'Reilly, 2016), глава 21 «Handling Overload». Что делать, когда прогноз ошибся: придушить клиентов, ввести уровни критичности, ограничить бюджет ретраев.
 
 ### Статьи
 
-- Brendan Gregg — **[The USE Method](https://www.brendangregg.com/usemethod.html)**. Канонический systematic подход к performance / capacity: для каждого resource — **Utilization**, **Saturation**, **Errors**. «Solves 80% of server issues with 5% of the effort». Применимо в выборе saturation indicators для capacity model.
+- Brendan Gregg — **[The USE Method](https://www.brendangregg.com/usemethod.html)**. Канонический системный подход к производительности и мощностям: для каждого ресурса — **Utilization**, **Saturation**, **Errors**. «Solves 80% of server issues with 5% of the effort». Годится как способ выбрать индикаторы насыщения для модели.
 
 ### Инструменты
 
-- **Prometheus + Grafana** — мониторинг утилизации/сатурации; recording rules для derived метрик; dashboards для capacity (current + projected). Дополняется alerting на saturation thresholds.
-- **Auto-scaling в k8s** — **HPA** (Horizontal Pod Autoscaler) по CPU / memory / custom metrics, **VPA** (Vertical Pod Autoscaler) для resource recommendations, **Cluster Autoscaler** для node-level. Решает **reactive** часть, но не заменяет planning.
-- **Cloud cost / capacity tools** — AWS Compute Optimizer, GCP Recommender, Azure Advisor. Дают рекомендации по rightsizing и резервированию.
-- **Forecasting libraries** — Facebook Prophet, statsmodels, простые linear regression на pandas. По моим наблюдениям, для большинства команд хватает простой linear regression — Prophet избыточен пока нет явной seasonality.
-- **Capacity dashboards (custom)** — комбинация current utilization + 28-day moving average + forecasted trajectory + headroom budget в одном экране.
+- **Prometheus + Grafana** — мониторинг утилизации и насыщения; recording rules для производных метрик; дашборд с текущим и прогнозным потреблением. Дополняется алертами на пороги насыщения.
+- **Автомасштабирование в k8s** — **HPA** по CPU, памяти или своим метрикам, **VPA** для рекомендаций по размеру запросов, **Cluster Autoscaler** на уровне узлов. Закрывает реактивную часть, но планирование не заменяет.
+- **Облачные советчики** — AWS Compute Optimizer, GCP Recommender, Azure Advisor. Дают рекомендации по подгонке размеров и резервированию.
+- **Библиотеки прогноза** — Prophet, statsmodels, простая линейная регрессия на pandas. По моим наблюдениям, большинству команд хватает линейной регрессии: Prophet избыточен, пока в трафике нет явной сезонности.
+- **Свой дашборд мощностей** — текущая утилизация, скользящее среднее за 28 дней, прогнозная кривая и бюджет запаса на одном экране.
 
 ## Best practices
 
-Планирование начинается с прогноза. Cloud quota поднимается за минуты, а железо в on-prem едет неделями, иногда месяцами, и разрыв между этими двумя цифрами — это, по сути, всё содержание практики: заметить нехватку раньше, чем закончится время, которое нужно на её устранение. Реакция «когда упёрлись» — это уже инцидент. Прогноз плюс знание своих lead time даёт фору начать раньше, чем saturation начнёт рушить SLO.
+Планирование начинается с прогноза. Квота в облаке поднимается за минуты, а железо в свой датацентр едет неделями, иногда месяцами, и разрыв между этими двумя цифрами — это, по сути, всё содержание практики: заметить нехватку раньше, чем закончится время, которое нужно на её устранение. Реакция «когда упёрлись» — это уже инцидент. Прогноз плюс знание своих сроков поставки даёт фору начать раньше, чем насыщение начнёт рушить SLO.
 
-Пороги выводятся из SLO. Магические числа не работают: у CPU-bound batch worker и 95% CPU — норма, у network-bound сервиса с жёстким дедлайном 50% означает breach, и чужая методичка это за вас не решит. Способ один. Посмотреть эмпирически, при каком уровне утилизации начинает деградировать нужный SLI, и взять это число.
+Пороги выводятся из SLO. Магические числа не работают: у фонового обработчика, упирающегося в процессор, и 95% CPU — норма, у сервиса с жёстким дедлайном 50% означают нарушение, и чужая методичка это за вас не решит. Способ один. Посмотреть эмпирически, при какой утилизации начинает деградировать нужный SLI, и взять это число.
 
-И отдельно про auto-scaling — путаница здесь самая частая. Реактивную часть он закрывает, burst переживёт. Но на вопросы «хватит ли кластеру capacity на все события масштабирования сразу», «когда докупать nodes» и «во что обойдётся следующий spike» auto-scaling не отвечает вообще. Он работает поверх планирования, не вместо.
+И отдельно про автомасштабирование — путаница здесь самая частая. Реактивную часть оно закрывает, всплеск переживёт. Но на вопросы «хватит ли кластеру ресурсов на все события масштабирования сразу», «когда докупать узлы» и «во что обойдётся следующий всплеск» автомасштабирование не отвечает вообще. Оно работает поверх планирования, не вместо.
 
-**Headroom budget явный, не «у нас есть запас».** На «вроде есть запас» решения не принимаются. Headroom — это N% от capacity, обычно 30–50%, зарезервированные под burst, неожиданные spike и failover из соседних регионов. Опустились ниже — alert. Я регулярно вижу команды, у которых headroom — это просто «то, что осталось»; это не бюджет, это случайность.
+**Бюджет запаса явный, а не «у нас есть запас».** На «вроде есть» решения не принимаются. Запас — это N процентов мощности, обычно от трети до половины, зарезервированные под всплески, неожиданный рост и переключение нагрузки из соседних регионов. Опустились ниже — алерт. Я регулярно вижу команды, у которых запас — это просто «то, что осталось»; такое не бюджет, а случайность.
 
-**Планирование с оглядкой на lead time.** У каждого типа ресурса своё время приобретения: cloud autoscale — минуты, reserved instances — часы, специальное железо — недели, новый кластер со всеми интеграциями — месяцы. Точка действия считается как дата насыщения минус lead time минус safety margin. Для критичных on-prem компонентов запас — недели. Для cloud autoscale — минуты.
+Планировать приходится с оглядкой на сроки поставки. У каждого типа ресурса они свои: автомасштабирование в облаке — минуты, зарезервированные инстансы — часы, специальное железо — недели, новый кластер со всеми интеграциями — месяцы. Точка действия считается просто: дата насыщения минус срок поставки минус запас на ошибку. Для критичных железных компонентов этот запас — недели. Для облака — минуты.
 
-**Cost-per-unit как метрика эффективности.** «Мы растём, поэтому траты растут» — позиция, которая прячет неэффективность. Без unit economics не отличить здоровый рост, где cost-per-user стабилен, от ситуации, где стоимость пользователя обгоняет выручку. Cost per request, per active user, per GB — это проверка для решений по capacity, а не только финансовая отчётность.
+**Удельная стоимость как метрика эффективности.** «Мы растём, поэтому траты растут» — позиция, которая прячет неэффективность. Без удельных чисел не отличить здоровый рост, где стоимость пользователя стабильна, от ситуации, где она обгоняет выручку. Стоимость запроса, активного пользователя, гигабайта — это проверка для решений по мощностям, а не только строчка в финансовой отчётности.
+
+Граница у практики есть, и она про масштаб. Пока сервис маленький, живёт в управляемом облаке, а счёт за инфраструктуру не заметен на фоне зарплат, квартальный прогноз не окупается: там хватает алерта на приближение к квоте и здравого смысла. Практика начинает работать в двух случаях — когда ресурс перестаёт быть резиновым (своё железо, дефицитные GPU, лимиты поставщика) или когда счёт вырос настолько, что за него спрашивают. Обратная сторона тоже известна: модель, которую строят «на всякий случай» и не сверяют с фактом, превращается в квартальный ритуал с красивыми графиками и нулевым влиянием на решения.
 
 ## Связанные листья
 
-- **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — capacity headroom держит SLO достижимым; saturation thresholds выводятся из SLO-driven анализа. Без явных SLO — capacity numbers произвольны.
-- **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — saturation indicators (latency, error rate, queue depth) — отдельный класс SLI. Алертинг на saturation = early warning перед capacity-induced инцидентом.
-- **[Toil Tracking](/The-Way-of-SRE/engineering/toil-tracking/)** — capacity events (manual scale-up, emergency provisioning, quota requests) — крупный класс toil.
-- **[Infrastructure as Code](/The-Way-of-SRE/engineering/infrastructure-as-code/)** — capacity provisioning описывается как IaC; capacity decisions реализуются через PR в IaC repo.
-- **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — каталог сервиса содержит данные о capacity: текущий resource budget, forecast horizon, owner.
-- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — capacity-induced incidents — отдельный класс с собственным response (emergency scale-up, traffic shed, criticality demotion).
-- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — capacity рассматривается с двух сторон: «хватит ли» (этот лист) и «во что обходится» (Cloud Cost Control). Forecast — один.
-- **[Performance & Profiling](/The-Way-of-SRE/engineering/performance-profiling/)** — две стороны ресурса: «хватит ли» (этот лист) и «правильно ли используем те, что есть» (profiling). Resource efficiency через profiling — input для capacity decisions.
+- **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — запас мощности держит SLO достижимым; пороги насыщения выводятся из тех же SLO. Без явных целей числа по мощностям произвольны.
+- **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — индикаторы насыщения (задержка, доля ошибок, глубина очереди) — отдельный класс SLI. Алерт на насыщение — раннее предупреждение перед инцидентом из-за нехватки ресурсов.
+- **[Toil Tracking](/The-Way-of-SRE/engineering/toil-tracking/)** — ручное расширение, аварийная выдача ресурсов и запросы квот — крупный класс toil.
+- **[Infrastructure as Code](/The-Way-of-SRE/engineering/infrastructure-as-code/)** — выдача мощностей описывается кодом; решение по мощностям приезжает как PR в репозиторий с инфраструктурой.
+- **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — каталог сервиса содержит данные о мощностях: текущий бюджет ресурсов, горизонт прогноза, владелец.
+- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — инциденты из-за нехватки ресурсов — отдельный класс со своей реакцией: аварийное расширение, сброс части трафика, понижение критичности второстепенного.
+- **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — мощности смотрят с двух сторон: «хватит ли» (этот лист) и «во что обходится» (Cloud Cost Control). Прогноз у них общий.
+- **[Performance & Profiling](/The-Way-of-SRE/engineering/performance-profiling/)** — две стороны одного ресурса: «хватит ли» здесь и «правильно ли используем то, что есть» там. Эффективность, найденная профилировщиком, — вход для решений по мощностям.
 
 ## Открытые вопросы
 
-Два листа-соседа не написаны. **Auto-scaling Patterns** *(TBD)* — HPA, VPA, KEDA, cluster autoscaler, custom metrics, их тюнинг и антипаттерны. **Load Testing** *(TBD)* — как вообще проверять допущения модели capacity: locust, k6, gatling, vegeta.
+Два листа-соседа не написаны. **Auto-scaling Patterns** *(TBD)* — HPA, VPA, KEDA, Cluster Autoscaler, свои метрики, их тюнинг и антипаттерны. **Load Testing** *(TBD)* — как вообще проверять допущения модели: locust, k6, gatling, vegeta.
 
-Дальше идут темы, по которым у меня нет собственного связного ответа. **Multi-region Capacity Strategy** — балансировка между регионами, capacity под failover, изоляция насыщения одним регионом. **Handling Overload Patterns** — graceful degradation, criticality levels, throttling; отправная точка есть в SRE Book гл. 21.
+Дальше идут темы, по которым у меня нет собственного связного ответа. **Multi-region Capacity Strategy** — балансировка между регионами, запас под переключение, изоляция насыщения одним регионом. **Handling Overload Patterns** — плавная деградация, уровни критичности, придушивание нагрузки; отправная точка есть в SRE Book, глава 21.
