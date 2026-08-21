@@ -82,16 +82,32 @@ for (const branch of roadmap.branches) {
   }
 }
 
-// Иерархия надёжности ссылается на листья своими href — это единственное
-// место, где адрес листа продублирован вне roadmap.ts. Переехал лист,
-// забыли поправить здесь — молча битая ссылка на /reliability-hierarchy/.
-const leafHrefs = new Set(
-  roadmap.branches.flatMap((b) => b.l1.flatMap((l1) => leavesOf(l1).map((leaf) => leaf.href))),
-);
+// Листья адресуются по id и по label из других файлов: иерархия надёжности
+// берёт лист по id, строка «L2-концепты» ищет его по label. Оба поиска дают
+// один узел только при уникальности имени по всей карте — два листа с общим
+// id или label превратят поиск в лотерею «кто последний в массиве».
+const allLeaves = roadmap.branches.flatMap((b) => b.l1.flatMap((l1) => leavesOf(l1)));
+for (const field of ['id', 'label'] as const) {
+  const seen = new Map<string, string>();
+  for (const leaf of allLeaves) {
+    const first = seen.get(leaf[field]);
+    if (first !== undefined) {
+      fail('листья', `${field} «${leaf[field]}» занят дважды: ${first} и ${leaf.href}`);
+    } else {
+      seen.set(leaf[field], leaf.href);
+    }
+  }
+}
+
+// Иерархия надёжности называет листья по id — имя и адрес она берёт из карты
+// и потому разойтись с ней не может. Остаётся сам id: удалили или переименовали
+// лист, и слой пирамиды ссылается в пустоту. layerLeaves() на этом падает при
+// сборке, здесь то же самое читается человеческим текстом и раньше.
+const leafIds = new Set(allLeaves.map((leaf) => leaf.id));
 for (const layer of reliabilityHierarchy) {
-  for (const item of layer.leaves) {
-    if (!leafHrefs.has(item.href)) {
-      fail('reliability-hierarchy', `«${item.label}» ведёт на ${item.href}, такого листа нет`);
+  for (const id of layer.leaves) {
+    if (!leafIds.has(id)) {
+      fail('reliability-hierarchy', `слой «${layer.id}»: листа «${id}» в карте нет`);
     }
   }
 }

@@ -11,7 +11,7 @@
 //
 // Данные — src/data/reliabilityHierarchy.ts (единственный источник правды).
 
-import { reliabilityHierarchy } from '../data/reliabilityHierarchy.ts';
+import { layerLeaves, reliabilityHierarchy } from '../data/reliabilityHierarchy.ts';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const link = (path: string) => `${base}${path}`;
@@ -88,7 +88,7 @@ function ink(step: string): string {
         <div class="pyramid-body">
           <p class="pyramid-gist">{layer.gist}</p>
           <ul class="pyramid-leaves">
-            {layer.leaves.map((leaf) => (
+            {layerLeaves(layer).map((leaf) => (
               <li>
                 <a class="pyramid-leaf" href={link(leaf.href)}>{leaf.label}</a>
               </li>
