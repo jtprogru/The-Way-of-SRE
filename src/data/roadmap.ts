@@ -154,7 +154,7 @@ export const roadmap: Roadmap = {
             'Postmortem Culture',
             'Communities of Practice',
             'Incident Response Training',
-            'Mentorship',
+            'Mentorship Culture',
             'Knowledge Sharing',
           ],
           leaves: [
