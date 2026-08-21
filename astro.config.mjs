@@ -3,12 +3,38 @@ import starlight from '@astrojs/starlight';
 
 import { toStarlightSidebar } from './src/data/sidebar';
 import { socials } from './src/data/nav';
+import { leavesOf, roadmap } from './src/data/roadmap';
+
+// Адреса до перехода на общее пространство имён ветви: хабы жили под
+// /sre-<branch>/, листья — под /leaves/<branch>/. Обе схемы схлопнуты в
+// /<branch>/<name>/, а старые ссылки уводили бы в 404: на GitHub Pages нет
+// сервера, который бы их подхватил. Astro в статике кладёт по каждому
+// адресу страницу с meta-refresh и canonical на новый.
+//
+// Карта собирается из данных, руками не перечисляется: появился лист —
+// редирект ему не нужен, исчез старый адрес — исчезнет и запись.
+//
+// База в ключ подставляется сама, а в назначение — нет: без BASE редирект
+// уводит на jtprogru.github.io/culture/... мимо проекта. Поэтому она здесь
+// константой и используется в обоих местах.
+const BASE = '/The-Way-of-SRE';
+
+const legacyRedirects = Object.fromEntries(
+  roadmap.branches.flatMap((branch) => [
+    [`/sre-${branch.id}`, `${BASE}${branch.href}`],
+    ...branch.l1.map((l1) => [`/sre-${branch.id}/${l1.id}`, `${BASE}${branch.href}${l1.id}/`]),
+    ...branch.l1.flatMap((l1) =>
+      leavesOf(l1).map((leaf) => [`/leaves/${branch.id}/${leaf.id}`, `${BASE}${leaf.href}`]),
+    ),
+  ]),
+);
 
 // Production config: The Way of SRE roadmap site.
 // Деплой автоматический через .github/workflows/deploy-site.yml на push в main.
 export default defineConfig({
   site: 'https://jtprogru.github.io',
-  base: '/The-Way-of-SRE',
+  base: BASE,
+  redirects: legacyRedirects,
   integrations: [
     starlight({
       title: 'The Way of SRE',
