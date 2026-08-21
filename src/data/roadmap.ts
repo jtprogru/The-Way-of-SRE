@@ -4,12 +4,17 @@
 //   - L1-узлы каждой ветви и их порядок
 //   - priorities L1 (must / mandatory / nice / ondemand) — используется
 //     /priorities/ на сайте и цветовой разметкой `PriorityMap`
+//   - l2 — инвентарь концептов каждого L1 в осмысленном порядке
 //   - leaves под L1 (фактически написанные leaf-страницы)
 //
 // За что отвечают src/content/docs/sre-{culture,engineering,practices}/<l1>.mdx:
-//   - описание L1 и его L2 inventory концептов компетенций
-//   - L2-узлы (Stakeholder Management, Metrics, IaC и т.п.) живут ТОЛЬКО там;
-//     это потенциальные подкомпетенции, не leaf-страницы
+//   - описание L1 прозой, и только оно
+//
+// L2 и leaves — два разных факта об одном домене: инвентарь концептов и
+// набор написанных страниц. Пересекаются они по имени: концепт, у которого
+// есть лист, рендерится ссылкой на него (L2Concepts.astro). Инвариант
+// «каждый лист назван в l2 своего L1» держит tools/data/check.ts —
+// переименовали лист и забыли инвентарь, `make check` не пройдёт.
 //
 // Инвариант: у каждого L1 из этого файла должна быть страница
 // src/content/docs/<branch>/<l1-id>.mdx — её адрес выводится из данных
@@ -68,6 +73,16 @@ export interface L1 {
   id: string;
   label: string;
   priority: Priority;
+  /**
+   * Концепты домена в осмысленном порядке — тот срез, который читатель видит
+   * строкой «L2-концепты» на hub-странице. Список полный: и то, что уже
+   * расписано листом, и то, что пока только названо. Разница видна по
+   * наличию листа с тем же label, отдельным флагом не хранится.
+   *
+   * Поле обязательное: L1 без инвентаря — это заголовок без содержания,
+   * такую страницу нечем наполнить.
+   */
+  l2: string[];
   leaves?: Leaf[];
 }
 
@@ -104,6 +119,12 @@ export const roadmap: Roadmap = {
           id: 'relationship-management',
           label: 'Relationship Management',
           priority: 'must',
+          l2: [
+            'Stakeholder Management',
+            'Continuous Feedback',
+            'Dev Team Partnership',
+            'Communications',
+          ],
           leaves: [
             {
               id: 'stakeholder-management',
@@ -125,6 +146,14 @@ export const roadmap: Roadmap = {
           id: 'learning-delivery',
           label: 'Learning Delivery',
           priority: 'must',
+          l2: [
+            'Game Day / Chaos Drills',
+            'Postmortem Culture',
+            'Communities of Practice',
+            'Incident Response Training',
+            'Mentorship',
+            'Knowledge Sharing',
+          ],
           leaves: [
             {
               id: 'postmortem-culture',
@@ -150,6 +179,11 @@ export const roadmap: Roadmap = {
           id: 'measurement',
           label: 'Measurement',
           priority: 'must',
+          l2: [
+            'SLO / Budget Review',
+            'DORA Metrics',
+            'Toil Measurement',
+          ],
           leaves: [
             {
               id: 'slo-budget-review',
@@ -169,6 +203,13 @@ export const roadmap: Roadmap = {
           id: 'knowledge-management',
           label: 'Knowledge Management',
           priority: 'must',
+          l2: [
+            'Runbooks',
+            'Playbooks',
+            'Postmortem Database',
+            'Architecture Decision Records',
+            'Collaboration',
+          ],
           leaves: [
             {
               id: 'runbooks',
@@ -194,6 +235,12 @@ export const roadmap: Roadmap = {
           id: 'it-management',
           label: 'IT Management',
           priority: 'mandatory',
+          l2: [
+            'Service Ownership',
+            'On-Call Budget Management',
+            'DR Policy & Stakeholders',
+            'SLO Governance',
+          ],
           leaves: [
             {
               id: 'service-ownership',
@@ -213,6 +260,14 @@ export const roadmap: Roadmap = {
           id: 'organisational-capability-development',
           label: 'Organisational Capability Development',
           priority: 'nice',
+          l2: [
+            'SRE Maturity Assessment',
+            'SRE Model Adoption',
+            'Research & PoC',
+            'Team Topologies',
+            'SRE Onboarding',
+            'Career Ladders',
+          ],
           leaves: [
             {
               id: 'sre-onboarding',
@@ -246,6 +301,16 @@ export const roadmap: Roadmap = {
           id: 'observability',
           label: 'Observability',
           priority: 'must',
+          l2: [
+            'Metrics',
+            'Logging',
+            'Distributed Tracing',
+            'SLI-based Alerting',
+            'Symptom vs Cause Alerting',
+            'Alert Fatigue Management',
+            'End-User Monitoring',
+            'Telemetry Economics',
+          ],
           leaves: [
             {
               id: 'sli-based-alerting',
@@ -277,6 +342,15 @@ export const roadmap: Roadmap = {
           id: 'reliability-engineering',
           label: 'Reliability Engineering',
           priority: 'must',
+          l2: [
+            'SLO Engineering',
+            'Composite SLO Methodology',
+            'Chaos Engineering',
+            'Capacity Planning',
+            'Disaster Recovery',
+            'Resilience Patterns',
+            'Systematic Troubleshooting',
+          ],
           leaves: [
             {
               id: 'slo-engineering',
@@ -322,6 +396,13 @@ export const roadmap: Roadmap = {
           id: 'it-infrastructure',
           label: 'IT Infrastructure',
           priority: 'must',
+          l2: [
+            'Networking',
+            'Operating Systems',
+            'Containerization & Orchestration',
+            'Service Mesh',
+            'Cloud Providers',
+          ],
           leaves: [
             {
               id: 'networking',
@@ -361,6 +442,13 @@ export const roadmap: Roadmap = {
           id: 'programming-scripting',
           label: 'Programming / Scripting',
           priority: 'must',
+          l2: [
+            'Programming Languages',
+            'Shell & CLI Craft',
+            'CI/CD',
+            'Test Strategy',
+            'Performance & Profiling',
+          ],
           leaves: [
             {
               id: 'programming-languages',
@@ -398,6 +486,13 @@ export const roadmap: Roadmap = {
           id: 'toil-reduction',
           label: 'Toil Reduction',
           priority: 'mandatory',
+          l2: [
+            'Toil Identification',
+            'Toil Tracking',
+            'Toil Automation',
+            'Personal SRE Toolkit',
+            'ChatOps',
+          ],
           leaves: [
             {
               id: 'toil-tracking',
@@ -431,6 +526,10 @@ export const roadmap: Roadmap = {
           id: 'configuration-management',
           label: 'Configuration Management',
           priority: 'mandatory',
+          l2: [
+            'Infrastructure as Code',
+            'GitOps',
+          ],
           leaves: [
             {
               id: 'infrastructure-as-code',
@@ -454,6 +553,14 @@ export const roadmap: Roadmap = {
           id: 'platform-engineering',
           label: 'Platform Engineering',
           priority: 'nice',
+          l2: [
+            'Platform as a Product',
+            'Golden Paths',
+            'Self-Service Infrastructure',
+            'Internal Developer Portal',
+            'Platform Reliability',
+            'Platform Adoption & Measurement',
+          ],
           leaves: [
             {
               id: 'platform-as-a-product',
@@ -473,6 +580,12 @@ export const roadmap: Roadmap = {
           id: 'database-reliability',
           label: 'Database Reliability',
           priority: 'ondemand',
+          l2: [
+            'DB Engines',
+            'Replication',
+            'Backup & Restore',
+            'Performance & Monitoring',
+          ],
           leaves: [
             {
               id: 'backup-restore',
@@ -486,6 +599,14 @@ export const roadmap: Roadmap = {
           id: 'financial-management',
           label: 'Financial Management',
           priority: 'mandatory',
+          l2: [
+            'Cost Management',
+            'Cost Visibility',
+            'Cost Allocation',
+            'Unit Economics',
+            'Reserved / Spot Strategy',
+            'Cost as SLI',
+          ],
           leaves: [
             {
               id: 'cost-management',
@@ -507,6 +628,16 @@ export const roadmap: Roadmap = {
           id: 'incident-management',
           label: 'Incident Management',
           priority: 'must',
+          l2: [
+            'Incident Response',
+            'Severity Classification',
+            'Escalation Paths',
+            'War Room Patterns',
+            'On-Call Rotation',
+            'Customer Communications',
+            'Status Page Management',
+            'MTTR Optimization',
+          ],
           leaves: [
             {
               id: 'incident-response',
@@ -554,6 +685,14 @@ export const roadmap: Roadmap = {
           id: 'problem-management',
           label: 'Problem Management',
           priority: 'must',
+          l2: [
+            'Blameless Postmortem',
+            'Action Items Tracking',
+            'Problem Tracking',
+            'Trend Analysis',
+            'Preventive Measures',
+            'SLO Review Ritual',
+          ],
           leaves: [
             {
               id: 'blameless-postmortem',
@@ -573,6 +712,14 @@ export const roadmap: Roadmap = {
           id: 'change-management',
           label: 'Change Management',
           priority: 'mandatory',
+          l2: [
+            'Production Readiness Review',
+            'Progressive Delivery',
+            'Change Governance',
+            'Rollback Strategy',
+            'Error Budget Gating',
+            'Change Risk Assessment',
+          ],
           leaves: [
             {
               id: 'progressive-delivery',
@@ -595,6 +742,14 @@ export const roadmap: Roadmap = {
           id: 'information-security',
           label: 'Information Security',
           priority: 'mandatory',
+          l2: [
+            'Secrets Management',
+            'Access Control & IAM',
+            'Workload Identity',
+            'Security SLOs',
+            'Security Chaos Engineering',
+            'Compliance Frameworks',
+          ],
           leaves: [
             {
               id: 'secrets-management',
@@ -638,6 +793,16 @@ export const roadmap: Roadmap = {
           id: 'secure-development',
           label: 'Secure Development',
           priority: 'mandatory',
+          l2: [
+            'Threat Modeling',
+            'Security Code Review',
+            'SAST / SCA / Secret Scanning',
+            'Vulnerability Management',
+            'Patch SLA',
+            'Supply Chain Security',
+            'SBOM',
+            'Artifact Signing',
+          ],
           leaves: [
             {
               id: 'threat-modeling',
@@ -669,6 +834,12 @@ export const roadmap: Roadmap = {
           id: 'methods-tools',
           label: 'Methods & Tools',
           priority: 'mandatory',
+          l2: [
+            'SRE Toolchain',
+            'Policy and Standards',
+            'Architecture Decision Records',
+            'Analysis',
+          ],
           leaves: [
             {
               id: 'architecture-decision-records',
@@ -682,6 +853,14 @@ export const roadmap: Roadmap = {
           id: 'professional-development',
           label: 'Professional Development',
           priority: 'mandatory',
+          l2: [
+            'Career Pathing for SRE',
+            'Personal Growth Plan',
+            'Strategy Planning',
+            'Burnout Prevention',
+            'On-Call Design',
+            'Mentoring as Practice',
+          ],
           leaves: [
             {
               id: 'personal-growth-plan',
@@ -701,6 +880,14 @@ export const roadmap: Roadmap = {
           id: 'performance-management',
           label: 'Performance Management',
           priority: 'mandatory',
+          l2: [
+            'People Management',
+            'Setting Goals',
+            'Psychological Safety',
+            'One-on-Ones',
+            'Performance Conversations',
+            'Calibration Meeting',
+          ],
           leaves: [
             {
               id: 'one-on-ones',
@@ -720,6 +907,14 @@ export const roadmap: Roadmap = {
           id: 'sourcing',
           label: 'Sourcing',
           priority: 'mandatory',
+          l2: [
+            'Vendor Management',
+            'Vendor Inventory',
+            'Vendor SLO Math',
+            'Concentration Risk',
+            'Vendor Incident Playbook',
+            'Exit Planning',
+          ],
           leaves: [
             {
               id: 'vendor-management',
