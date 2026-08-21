@@ -4,7 +4,7 @@
 
 ```bash
 make style                                  # все листья: сводка и ранжирование
-make style LEAF=src/content/docs/leaves/culture/runbooks.md
+make style LEAF=src/content/docs/culture/runbooks.md
 make style-ci                               # только детерминированные правила, для CI
 
 python3 tools/style/scan_leaf.py --all --full   # полный отчёт по каждому листу

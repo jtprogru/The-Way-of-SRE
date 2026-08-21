@@ -29,16 +29,19 @@
 // priority и ось SFIA, он НЕ содержит данных (только определения и
 // ссылки сюда).
 //
-// Leaves создаются в src/content/docs/leaves/<branch>/<slug>.md и
-// регистрируются здесь под соответствующим L1 — либо, если лист уточняет
-// другой лист, в его `children` (ровно один уровень вложенности, см. типы
-// ниже). Отдельно в навигации их прописывать не нужно: левый сайдбар
-// строится из этого файла через src/data/sidebar.ts.
+// Leaves создаются в src/content/docs/<branch>/<slug>.md и регистрируются
+// здесь под соответствующим L1 — либо, если лист уточняет другой лист, в его
+// `children` (ровно один уровень вложенности, см. типы ниже). Отдельно в
+// навигации их прописывать не нужно: левый сайдбар строится из этого файла
+// через src/data/sidebar.ts.
 //
-// URL листа плоский независимо от вложенности — /leaves/<branch>/<slug>/.
-// Перевесить лист = поменять одну строку здесь, без редиректов. Отсюда
-// ограничение: подлист живёт в той же ветви, что и родитель, иначе
-// findLeafContext() его не найдёт (ветвь берётся из URL).
+// URL листа плоский независимо от вложенности — /<branch>/<slug>/, рядом с
+// hub-страницами L1 той же ветви. Перевесить лист под другой L1 = поменять
+// одну строку здесь, без редиректов: адрес от родителя не зависит. Отсюда
+// два ограничения. Подлист живёт в той же ветви, что и родитель, иначе
+// findLeafContext() его не найдёт (ветвь берётся из URL). И slug листа не
+// может совпасть с id L1 этой же ветви — они делят одно пространство имён,
+// совпадение ловит tools/data/check.ts.
 //
 // Приоритет у подлиста собственный: вложенная практика вполне может быть
 // важнее родительской на фоне всей карты, наследование это скрывало бы.
@@ -112,7 +115,7 @@ export const roadmap: Roadmap = {
     {
       id: 'culture',
       label: 'SRE Culture',
-      href: '/sre-culture/',
+      href: '/culture/',
       priority: 'must',
       l1: [
         {
@@ -129,13 +132,13 @@ export const roadmap: Roadmap = {
             {
               id: 'stakeholder-management',
               label: 'Stakeholder Management',
-              href: '/leaves/culture/stakeholder-management/',
+              href: '/culture/stakeholder-management/',
               priority: 'mandatory',
               children: [
                 {
                   id: 'dev-team-partnership',
                   label: 'Dev Team Partnership',
-                  href: '/leaves/culture/dev-team-partnership/',
+                  href: '/culture/dev-team-partnership/',
                   priority: 'must',
                 },
               ],
@@ -158,19 +161,19 @@ export const roadmap: Roadmap = {
             {
               id: 'postmortem-culture',
               label: 'Postmortem Culture',
-              href: '/leaves/culture/postmortem-culture/',
+              href: '/culture/postmortem-culture/',
               priority: 'must',
             },
             {
               id: 'game-day',
               label: 'Game Day / Chaos Drills',
-              href: '/leaves/culture/game-day/',
+              href: '/culture/game-day/',
               priority: 'must',
             },
             {
               id: 'communities-of-practice',
               label: 'Communities of Practice',
-              href: '/leaves/culture/communities-of-practice/',
+              href: '/culture/communities-of-practice/',
               priority: 'nice',
             },
           ],
@@ -188,13 +191,13 @@ export const roadmap: Roadmap = {
             {
               id: 'slo-budget-review',
               label: 'SLO / Budget Review',
-              href: '/leaves/culture/slo-budget-review/',
+              href: '/culture/slo-budget-review/',
               priority: 'must',
             },
             {
               id: 'dora-metrics',
               label: 'DORA Metrics',
-              href: '/leaves/culture/dora-metrics/',
+              href: '/culture/dora-metrics/',
               priority: 'mandatory',
             },
           ],
@@ -214,19 +217,19 @@ export const roadmap: Roadmap = {
             {
               id: 'runbooks',
               label: 'Runbooks',
-              href: '/leaves/culture/runbooks/',
+              href: '/culture/runbooks/',
               priority: 'must',
             },
             {
               id: 'playbooks',
               label: 'Playbooks',
-              href: '/leaves/culture/playbooks/',
+              href: '/culture/playbooks/',
               priority: 'mandatory',
             },
             {
               id: 'postmortem-database',
               label: 'Postmortem Database',
-              href: '/leaves/culture/postmortem-database/',
+              href: '/culture/postmortem-database/',
               priority: 'mandatory',
             },
           ],
@@ -245,13 +248,13 @@ export const roadmap: Roadmap = {
             {
               id: 'service-ownership',
               label: 'Service Ownership',
-              href: '/leaves/culture/service-ownership/',
+              href: '/culture/service-ownership/',
               priority: 'mandatory',
             },
             {
               id: 'dr-policy',
               label: 'DR Policy & Stakeholders',
-              href: '/leaves/culture/dr-policy/',
+              href: '/culture/dr-policy/',
               priority: 'mandatory',
             },
           ],
@@ -272,19 +275,19 @@ export const roadmap: Roadmap = {
             {
               id: 'sre-onboarding',
               label: 'SRE Onboarding',
-              href: '/leaves/culture/sre-onboarding/',
+              href: '/culture/sre-onboarding/',
               priority: 'nice',
             },
             {
               id: 'career-ladders',
               label: 'Career Ladders',
-              href: '/leaves/culture/career-ladders/',
+              href: '/culture/career-ladders/',
               priority: 'nice',
             },
             {
               id: 'team-topologies',
               label: 'Team Topologies',
-              href: '/leaves/culture/team-topologies/',
+              href: '/culture/team-topologies/',
               priority: 'mandatory',
             },
           ],
@@ -294,7 +297,7 @@ export const roadmap: Roadmap = {
     {
       id: 'engineering',
       label: 'SRE Engineering',
-      href: '/sre-engineering/',
+      href: '/engineering/',
       priority: 'must',
       l1: [
         {
@@ -315,25 +318,25 @@ export const roadmap: Roadmap = {
             {
               id: 'sli-based-alerting',
               label: 'SLI-based Alerting',
-              href: '/leaves/engineering/sli-based-alerting/',
+              href: '/engineering/sli-based-alerting/',
               priority: 'must',
             },
             {
               id: 'symptom-vs-cause-alerting',
               label: 'Symptom vs Cause Alerting',
-              href: '/leaves/engineering/symptom-vs-cause-alerting/',
+              href: '/engineering/symptom-vs-cause-alerting/',
               priority: 'mandatory',
             },
             {
               id: 'alert-fatigue-management',
               label: 'Alert Fatigue Management',
-              href: '/leaves/engineering/alert-fatigue-management/',
+              href: '/engineering/alert-fatigue-management/',
               priority: 'mandatory',
             },
             {
               id: 'telemetry-economics',
               label: 'Telemetry Economics',
-              href: '/leaves/engineering/telemetry-economics/',
+              href: '/engineering/telemetry-economics/',
               priority: 'mandatory',
             },
           ],
@@ -355,13 +358,13 @@ export const roadmap: Roadmap = {
             {
               id: 'slo-engineering',
               label: 'SLO Engineering',
-              href: '/leaves/engineering/slo-engineering/',
+              href: '/engineering/slo-engineering/',
               priority: 'must',
               children: [
                 {
                   id: 'composite-slo-methodology',
                   label: 'Composite SLO Methodology',
-                  href: '/leaves/engineering/composite-slo-methodology/',
+                  href: '/engineering/composite-slo-methodology/',
                   priority: 'nice',
                 },
               ],
@@ -369,25 +372,25 @@ export const roadmap: Roadmap = {
             {
               id: 'capacity-planning',
               label: 'Capacity Planning',
-              href: '/leaves/engineering/capacity-planning/',
+              href: '/engineering/capacity-planning/',
               priority: 'mandatory',
             },
             {
               id: 'resilience-patterns',
               label: 'Resilience Patterns',
-              href: '/leaves/engineering/resilience-patterns/',
+              href: '/engineering/resilience-patterns/',
               priority: 'mandatory',
             },
             {
               id: 'systematic-troubleshooting',
               label: 'Systematic Troubleshooting',
-              href: '/leaves/engineering/systematic-troubleshooting/',
+              href: '/engineering/systematic-troubleshooting/',
               priority: 'must',
             },
             {
               id: 'chaos-engineering',
               label: 'Chaos Engineering',
-              href: '/leaves/engineering/chaos-engineering/',
+              href: '/engineering/chaos-engineering/',
               priority: 'nice',
             },
           ],
@@ -407,25 +410,25 @@ export const roadmap: Roadmap = {
             {
               id: 'networking',
               label: 'Networking',
-              href: '/leaves/engineering/networking/',
+              href: '/engineering/networking/',
               priority: 'must',
             },
             {
               id: 'operating-systems',
               label: 'Operating Systems',
-              href: '/leaves/engineering/operating-systems/',
+              href: '/engineering/operating-systems/',
               priority: 'must',
             },
             {
               id: 'container-orchestration',
               label: 'Containerization & Orchestration',
-              href: '/leaves/engineering/container-orchestration/',
+              href: '/engineering/container-orchestration/',
               priority: 'must',
               children: [
                 {
                   id: 'service-mesh',
                   label: 'Service Mesh',
-                  href: '/leaves/engineering/service-mesh/',
+                  href: '/engineering/service-mesh/',
                   priority: 'nice',
                 },
               ],
@@ -433,7 +436,7 @@ export const roadmap: Roadmap = {
             {
               id: 'cloud-providers',
               label: 'Cloud Providers',
-              href: '/leaves/engineering/cloud-providers/',
+              href: '/engineering/cloud-providers/',
               priority: 'must',
             },
           ],
@@ -453,31 +456,31 @@ export const roadmap: Roadmap = {
             {
               id: 'programming-languages',
               label: 'Programming Languages',
-              href: '/leaves/engineering/programming-languages/',
+              href: '/engineering/programming-languages/',
               priority: 'must',
             },
             {
               id: 'shell-cli-craft',
               label: 'Shell & CLI Craft',
-              href: '/leaves/engineering/shell-cli-craft/',
+              href: '/engineering/shell-cli-craft/',
               priority: 'must',
             },
             {
               id: 'ci-cd',
               label: 'CI/CD',
-              href: '/leaves/engineering/ci-cd/',
+              href: '/engineering/ci-cd/',
               priority: 'must',
             },
             {
               id: 'test-strategy',
               label: 'Test Strategy',
-              href: '/leaves/engineering/test-strategy/',
+              href: '/engineering/test-strategy/',
               priority: 'mandatory',
             },
             {
               id: 'performance-profiling',
               label: 'Performance & Profiling',
-              href: '/leaves/engineering/performance-profiling/',
+              href: '/engineering/performance-profiling/',
               priority: 'mandatory',
             },
           ],
@@ -497,25 +500,25 @@ export const roadmap: Roadmap = {
             {
               id: 'toil-tracking',
               label: 'Toil Tracking',
-              href: '/leaves/engineering/toil-tracking/',
+              href: '/engineering/toil-tracking/',
               priority: 'mandatory',
             },
             {
               id: 'toil-automation',
               label: 'Toil Automation',
-              href: '/leaves/engineering/toil-automation/',
+              href: '/engineering/toil-automation/',
               priority: 'mandatory',
               children: [
                 {
                   id: 'personal-sre-toolkit',
                   label: 'Personal SRE Toolkit',
-                  href: '/leaves/engineering/personal-sre-toolkit/',
+                  href: '/engineering/personal-sre-toolkit/',
                   priority: 'nice',
                 },
                 {
                   id: 'chatops',
                   label: 'ChatOps',
-                  href: '/leaves/engineering/chatops/',
+                  href: '/engineering/chatops/',
                   priority: 'nice',
                 },
               ],
@@ -534,13 +537,13 @@ export const roadmap: Roadmap = {
             {
               id: 'infrastructure-as-code',
               label: 'Infrastructure as Code',
-              href: '/leaves/engineering/infrastructure-as-code/',
+              href: '/engineering/infrastructure-as-code/',
               priority: 'mandatory',
             },
             {
               id: 'gitops',
               label: 'GitOps',
-              href: '/leaves/engineering/gitops/',
+              href: '/engineering/gitops/',
               priority: 'nice',
             },
           ],
@@ -565,13 +568,13 @@ export const roadmap: Roadmap = {
             {
               id: 'platform-as-a-product',
               label: 'Platform as a Product',
-              href: '/leaves/engineering/platform-as-a-product/',
+              href: '/engineering/platform-as-a-product/',
               priority: 'must',
             },
             {
               id: 'golden-paths',
               label: 'Golden Paths',
-              href: '/leaves/engineering/golden-paths/',
+              href: '/engineering/golden-paths/',
               priority: 'mandatory',
             },
           ],
@@ -590,7 +593,7 @@ export const roadmap: Roadmap = {
             {
               id: 'backup-restore',
               label: 'Backup & Restore',
-              href: '/leaves/engineering/backup-restore/',
+              href: '/engineering/backup-restore/',
               priority: 'must',
             },
           ],
@@ -611,7 +614,7 @@ export const roadmap: Roadmap = {
             {
               id: 'cost-management',
               label: 'Cost Management',
-              href: '/leaves/engineering/cost-management/',
+              href: '/engineering/cost-management/',
               priority: 'mandatory',
             },
           ],
@@ -621,7 +624,7 @@ export const roadmap: Roadmap = {
     {
       id: 'practices',
       label: 'SRE Practices',
-      href: '/sre-practices/',
+      href: '/practices/',
       priority: 'must',
       l1: [
         {
@@ -642,13 +645,13 @@ export const roadmap: Roadmap = {
             {
               id: 'incident-response',
               label: 'Incident Response',
-              href: '/leaves/practices/incident-response/',
+              href: '/practices/incident-response/',
               priority: 'must',
               children: [
                 {
                   id: 'war-room-patterns',
                   label: 'War Room Patterns',
-                  href: '/leaves/practices/war-room-patterns/',
+                  href: '/practices/war-room-patterns/',
                   priority: 'nice',
                 },
               ],
@@ -656,25 +659,25 @@ export const roadmap: Roadmap = {
             {
               id: 'on-call-rotation',
               label: 'On-Call Rotation',
-              href: '/leaves/practices/on-call-rotation/',
+              href: '/practices/on-call-rotation/',
               priority: 'must',
             },
             {
               id: 'severity-classification',
               label: 'Severity Classification',
-              href: '/leaves/practices/severity-classification/',
+              href: '/practices/severity-classification/',
               priority: 'mandatory',
             },
             {
               id: 'customer-communications',
               label: 'Customer Communications',
-              href: '/leaves/practices/customer-communications/',
+              href: '/practices/customer-communications/',
               priority: 'mandatory',
               children: [
                 {
                   id: 'status-page-management',
                   label: 'Status Page Management',
-                  href: '/leaves/practices/status-page-management/',
+                  href: '/practices/status-page-management/',
                   priority: 'mandatory',
                 },
               ],
@@ -697,13 +700,13 @@ export const roadmap: Roadmap = {
             {
               id: 'blameless-postmortem',
               label: 'Blameless Postmortem',
-              href: '/leaves/practices/blameless-postmortem/',
+              href: '/practices/blameless-postmortem/',
               priority: 'must',
             },
             {
               id: 'action-items-tracking',
               label: 'Action Items Tracking',
-              href: '/leaves/practices/action-items-tracking/',
+              href: '/practices/action-items-tracking/',
               priority: 'mandatory',
             },
           ],
@@ -724,13 +727,13 @@ export const roadmap: Roadmap = {
             {
               id: 'progressive-delivery',
               label: 'Progressive Delivery',
-              href: '/leaves/practices/progressive-delivery/',
+              href: '/practices/progressive-delivery/',
               priority: 'mandatory',
             },
             {
               id: 'change-governance',
               label: 'Change Governance',
-              href: '/leaves/practices/change-governance/',
+              href: '/practices/change-governance/',
               priority: 'mandatory',
             },
           ],
@@ -754,19 +757,19 @@ export const roadmap: Roadmap = {
             {
               id: 'secrets-management',
               label: 'Secrets Management',
-              href: '/leaves/practices/secrets-management/',
+              href: '/practices/secrets-management/',
               priority: 'must',
             },
             {
               id: 'access-control-iam',
               label: 'Access Control & IAM',
-              href: '/leaves/practices/access-control-iam/',
+              href: '/practices/access-control-iam/',
               priority: 'must',
               children: [
                 {
                   id: 'workload-identity',
                   label: 'Workload Identity',
-                  href: '/leaves/practices/workload-identity/',
+                  href: '/practices/workload-identity/',
                   priority: 'nice',
                 },
               ],
@@ -774,13 +777,13 @@ export const roadmap: Roadmap = {
             {
               id: 'security-chaos-engineering',
               label: 'Security Chaos Engineering',
-              href: '/leaves/practices/security-chaos-engineering/',
+              href: '/practices/security-chaos-engineering/',
               priority: 'ondemand',
             },
             {
               id: 'compliance-frameworks',
               label: 'Compliance Frameworks',
-              href: '/leaves/practices/compliance-frameworks/',
+              href: '/practices/compliance-frameworks/',
               priority: 'ondemand',
             },
           ],
@@ -807,25 +810,25 @@ export const roadmap: Roadmap = {
             {
               id: 'threat-modeling',
               label: 'Threat Modeling',
-              href: '/leaves/practices/threat-modeling/',
+              href: '/practices/threat-modeling/',
               priority: 'mandatory',
             },
             {
               id: 'security-code-review',
               label: 'Security Code Review',
-              href: '/leaves/practices/security-code-review/',
+              href: '/practices/security-code-review/',
               priority: 'mandatory',
             },
             {
               id: 'vulnerability-management',
               label: 'Vulnerability Management',
-              href: '/leaves/practices/vulnerability-management/',
+              href: '/practices/vulnerability-management/',
               priority: 'mandatory',
             },
             {
               id: 'supply-chain-security',
               label: 'Supply Chain Security',
-              href: '/leaves/practices/supply-chain-security/',
+              href: '/practices/supply-chain-security/',
               priority: 'mandatory',
             },
           ],
@@ -844,7 +847,7 @@ export const roadmap: Roadmap = {
             {
               id: 'architecture-decision-records',
               label: 'Architecture Decision Records',
-              href: '/leaves/practices/architecture-decision-records/',
+              href: '/practices/architecture-decision-records/',
               priority: 'mandatory',
             },
           ],
@@ -865,13 +868,13 @@ export const roadmap: Roadmap = {
             {
               id: 'personal-growth-plan',
               label: 'Personal Growth Plan',
-              href: '/leaves/practices/personal-growth-plan/',
+              href: '/practices/personal-growth-plan/',
               priority: 'mandatory',
             },
             {
               id: 'mentoring-as-practice',
               label: 'Mentoring as Practice',
-              href: '/leaves/practices/mentoring-as-practice/',
+              href: '/practices/mentoring-as-practice/',
               priority: 'nice',
             },
           ],
@@ -892,13 +895,13 @@ export const roadmap: Roadmap = {
             {
               id: 'one-on-ones',
               label: 'One-on-Ones',
-              href: '/leaves/practices/one-on-ones/',
+              href: '/practices/one-on-ones/',
               priority: 'mandatory',
             },
             {
               id: 'calibration-meeting',
               label: 'Calibration Meeting',
-              href: '/leaves/practices/calibration-meeting/',
+              href: '/practices/calibration-meeting/',
               priority: 'mandatory',
             },
           ],
@@ -919,7 +922,7 @@ export const roadmap: Roadmap = {
             {
               id: 'vendor-management',
               label: 'Vendor Management',
-              href: '/leaves/practices/vendor-management/',
+              href: '/practices/vendor-management/',
               priority: 'ondemand',
             },
           ],
@@ -949,7 +952,7 @@ export function countLeaves(l1: L1): number {
 
 /**
  * URL hub-страницы L1: /<branch>/<l1-id>/, например
- * /sre-culture/relationship-management/.
+ * /culture/relationship-management/.
  *
  * Путь выводится из branch.href и l1.id, а не хранится отдельным полем:
  * иначе он мог бы разъехаться с файлом
@@ -973,20 +976,24 @@ export type PageContext =
 export function findPageContext(path: string): PageContext | null {
   const normalized = path.endsWith('/') ? path : `${path}/`;
 
-  const leafMatch = normalized.match(/^\/leaves\/([^/]+)\/([^/]+)\/$/);
-  if (leafMatch) {
-    const ctx = findLeafContext(leafMatch[1], leafMatch[2]);
-    return ctx
-      ? { kind: 'leaf', branch: ctx.branch, l1: ctx.l1, leaf: ctx.leaf, parent: ctx.parent }
-      : null;
-  }
-
   for (const branch of roadmap.branches) {
     if (normalized === branch.href) return { kind: 'branch', branch };
     if (!normalized.startsWith(branch.href)) continue;
-    const l1Id = normalized.slice(branch.href.length).replace(/\/$/, '');
-    const l1 = branch.l1.find((l) => l.id === l1Id);
+
+    // Под ветвью один плоский уровень: /culture/<name>/. Что такое <name> —
+    // hub или практика, — решает не форма адреса, а данные. Сначала L1:
+    // их два десятка против семидесяти листьев, и имя L1 не может совпасть
+    // со slug'ом листа той же ветви (проверяет tools/data/check.ts).
+    const name = normalized.slice(branch.href.length).replace(/\/$/, '');
+    if (name.includes('/')) return null;
+
+    const l1 = branch.l1.find((l) => l.id === name);
     if (l1) return { kind: 'l1', branch, l1 };
+
+    const ctx = findLeafContext(branch.id, name);
+    if (ctx) {
+      return { kind: 'leaf', branch: ctx.branch, l1: ctx.l1, leaf: ctx.leaf, parent: ctx.parent };
+    }
   }
 
   return null;

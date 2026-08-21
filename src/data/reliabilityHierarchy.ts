@@ -40,9 +40,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Monitoring',
     gist: 'Без измерений всё выше — угадывание: непонятно, сломано ли, насколько и стало ли лучше после починки.',
     leaves: [
-      { label: 'SLO Engineering', href: '/leaves/engineering/slo-engineering/' },
-      { label: 'SLI-based Alerting', href: '/leaves/engineering/sli-based-alerting/' },
-      { label: 'Symptom vs Cause Alerting', href: '/leaves/engineering/symptom-vs-cause-alerting/' },
+      { label: 'SLO Engineering', href: '/engineering/slo-engineering/' },
+      { label: 'SLI-based Alerting', href: '/engineering/sli-based-alerting/' },
+      { label: 'Symptom vs Cause Alerting', href: '/engineering/symptom-vs-cause-alerting/' },
     ],
   },
   {
@@ -51,9 +51,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Incident Response',
     gist: 'Сигнал превращается в действие: кто разбирает, по какой роли, за какое время.',
     leaves: [
-      { label: 'Incident Response', href: '/leaves/practices/incident-response/' },
-      { label: 'On-Call Rotation', href: '/leaves/practices/on-call-rotation/' },
-      { label: 'Severity Classification', href: '/leaves/practices/severity-classification/' },
+      { label: 'Incident Response', href: '/practices/incident-response/' },
+      { label: 'On-Call Rotation', href: '/practices/on-call-rotation/' },
+      { label: 'Severity Classification', href: '/practices/severity-classification/' },
     ],
   },
   {
@@ -62,9 +62,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Postmortem / Root Cause Analysis',
     gist: 'Инцидент превращается в изменение системы, а не в устный опыт одного дежурного.',
     leaves: [
-      { label: 'Blameless Postmortem', href: '/leaves/practices/blameless-postmortem/' },
-      { label: 'Postmortem Culture', href: '/leaves/culture/postmortem-culture/' },
-      { label: 'Systematic Troubleshooting', href: '/leaves/engineering/systematic-troubleshooting/' },
+      { label: 'Blameless Postmortem', href: '/practices/blameless-postmortem/' },
+      { label: 'Postmortem Culture', href: '/culture/postmortem-culture/' },
+      { label: 'Systematic Troubleshooting', href: '/engineering/systematic-troubleshooting/' },
     ],
   },
   {
@@ -73,9 +73,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Testing + Release procedures',
     gist: 'Самая частая причина инцидентов — изменение; слой ограничивает ущерб от собственных релизов.',
     leaves: [
-      { label: 'Test Strategy', href: '/leaves/engineering/test-strategy/' },
-      { label: 'CI/CD', href: '/leaves/engineering/ci-cd/' },
-      { label: 'Progressive Delivery', href: '/leaves/practices/progressive-delivery/' },
+      { label: 'Test Strategy', href: '/engineering/test-strategy/' },
+      { label: 'CI/CD', href: '/engineering/ci-cd/' },
+      { label: 'Progressive Delivery', href: '/practices/progressive-delivery/' },
     ],
   },
   {
@@ -84,8 +84,8 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Capacity Planning',
     gist: 'Отказ от нехватки ресурсов — предсказуемый и потому предотвратимый класс отказов.',
     leaves: [
-      { label: 'Capacity Planning', href: '/leaves/engineering/capacity-planning/' },
-      { label: 'Cost Management', href: '/leaves/engineering/cost-management/' },
+      { label: 'Capacity Planning', href: '/engineering/capacity-planning/' },
+      { label: 'Cost Management', href: '/engineering/cost-management/' },
     ],
   },
   {
@@ -94,9 +94,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Development',
     gist: 'Надёжность закладывается в архитектуру и код, а не докручивается мониторингом сверху.',
     leaves: [
-      { label: 'Resilience Patterns', href: '/leaves/engineering/resilience-patterns/' },
-      { label: 'Infrastructure as Code', href: '/leaves/engineering/infrastructure-as-code/' },
-      { label: 'Chaos Engineering', href: '/leaves/engineering/chaos-engineering/' },
+      { label: 'Resilience Patterns', href: '/engineering/resilience-patterns/' },
+      { label: 'Infrastructure as Code', href: '/engineering/infrastructure-as-code/' },
+      { label: 'Chaos Engineering', href: '/engineering/chaos-engineering/' },
     ],
   },
   {
@@ -105,9 +105,9 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
     label: 'Product',
     gist: 'Требуемый уровень надёжности — продуктовое решение: сколько недоступности переживёт пользователь и бизнес.',
     leaves: [
-      { label: 'Dev Team Partnership', href: '/leaves/culture/dev-team-partnership/' },
-      { label: 'Stakeholder Management', href: '/leaves/culture/stakeholder-management/' },
-      { label: 'SLO / Budget Review', href: '/leaves/culture/slo-budget-review/' },
+      { label: 'Dev Team Partnership', href: '/culture/dev-team-partnership/' },
+      { label: 'Stakeholder Management', href: '/culture/stakeholder-management/' },
+      { label: 'SLO / Budget Review', href: '/culture/slo-budget-review/' },
     ],
   },
 ];

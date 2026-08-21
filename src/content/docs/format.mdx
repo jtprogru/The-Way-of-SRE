@@ -9,8 +9,8 @@ description: Как устроена карта компетенций, шабл
 
 - Верхнеуровневая mermaid-схема ветвей — в [`README.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/README.md) на GitHub.
 - Интерактивный паук (главная страница) и branch-views — рендерятся на сайте из `src/data/roadmap.ts`.
-- Содержимое каждого листа — на сайте по адресу `/The-Way-of-SRE/leaves/<branch>/<slug>/`; исходники в `src/content/docs/leaves/<branch>/<slug>.md`.
-- Шаблон листа — [`src/content/docs/leaves/_template.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/src/content/docs/leaves/_template.md) в репозитории.
+- Содержимое каждого листа — на сайте по адресу `/The-Way-of-SRE/<branch>/<slug>/`, рядом с hub-страницами L1 той же ветви; исходники в `src/content/docs/<branch>/<slug>.md`.
+- Шаблон листа — [`inventory/leaf-template.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/inventory/leaf-template.md) в репозитории.
 
 ## Структура листа
 
@@ -24,7 +24,7 @@ description: Как устроена карта компетенций, шабл
 6. **Связанные листья** — с типом связи (предпосылка / продолжение / альтернатива). Коротко.
 7. **Открытые вопросы** — опционально, для листьев в статусе `draft`. Допускается «я не разобрался с X» как приглашение к PR.
 
-Подробные правила заполнения шаблона — в файле [`src/content/docs/leaves/_template.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/src/content/docs/leaves/_template.md). Astro игнорирует `_`-префиксированные файлы, поэтому шаблон не публикуется как страница, но виден в GitHub UI.
+Подробные правила заполнения шаблона — в файле [`inventory/leaf-template.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/inventory/leaf-template.md). Шаблон лежит вне каталога контента и на сайт не попадает.
 
 ## Голос и терминология
 
@@ -47,7 +47,7 @@ description: Как устроена карта компетенций, шабл
 | `src/data/roadmap.ts` | L1-узлы каждой ветви, **priorities L1**, leaves под L1 и их подлисты |
 | `src/content/docs/sre-{culture,engineering,practices}.mdx` | Обзор ветви: интро и карта |
 | `src/content/docs/<branch>/<l1-id>.mdx` | Описание одного L1 прозой; L2 и практики рендерятся из данных |
-| `src/content/docs/leaves/<branch>/<slug>.md` | Содержимое одного листа |
+| `src/content/docs/<branch>/<slug>.md` | Содержимое одного листа |
 | `inventory/overlaps.md` *(GitHub)* | Решения по пересечениям между ветвями (рабочий артефакт) |
 
 Подробнее про инварианты — в [Методологии](/The-Way-of-SRE/methodology/#источники-структуры).
@@ -56,6 +56,6 @@ description: Как устроена карта компетенций, шабл
 
 - **Поправки в листьях** — PR с одним атомарным изменением в одном файле.
 - **Изменения в структуре графа** (L1 и инвентарь L2 в `src/data/roadmap.ts`) — обязательно сверка с [Методологией](/The-Way-of-SRE/methodology/) и `inventory/overlaps.md` в репозитории. Новый L1 — это запись в `roadmap.ts` с непустым `l2` плюс страница `src/content/docs/<branch>/<l1-id>.mdx`; без страницы `make check` не пройдёт.
-- **Новые листья** — создаются строго по шаблону `src/content/docs/leaves/_template.md` в `src/content/docs/leaves/<branch>/<slug>.md` и регистрируются в `src/data/roadmap.ts`. Сайдбар строится из этих данных, править его руками не нужно.
-- **Точка подключения листа.** Лист вешается под L1, если это самостоятельная практика раздела. Если он уточняет уже написанную практику — вешается в её поле `children` (`Runbooks → Playbooks`). Уровень уточнений один: под подлистом детей быть не может, и попытка их завести не пройдёт `bun run check`. Признак, что уточнение просится глубже, — родитель дорос до L1 и повышается. Подлист живёт в той же ветви, что и родитель, приоритет у него собственный, а URL остаётся плоским (`/leaves/<branch>/<slug>/`), поэтому перевесить лист можно одной строкой без редиректов.
+- **Новые листья** — создаются строго по шаблону `inventory/leaf-template.md` в `src/content/docs/<branch>/<slug>.md` и регистрируются в `src/data/roadmap.ts`. Сайдбар строится из этих данных, править его руками не нужно.
+- **Точка подключения листа.** Лист вешается под L1, если это самостоятельная практика раздела. Если он уточняет уже написанную практику — вешается в её поле `children` (`Runbooks → Playbooks`). Уровень уточнений один: под подлистом детей быть не может, и попытка их завести не пройдёт `bun run check`. Признак, что уточнение просится глубже, — родитель дорос до L1 и повышается. Подлист живёт в той же ветви, что и родитель, приоритет у него собственный, а URL остаётся плоским (`/<branch>/<slug>/`), поэтому перевесить лист можно одной строкой без редиректов.
 - **Обсуждение** — [Чат в Telegram](https://t.me/+BPP6mMOs34s2Yzcy), новые листья и анонсы — в [Канале](https://t.me/+LFsXS2FuZiwwMzky).

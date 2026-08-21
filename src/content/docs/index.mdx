@@ -20,6 +20,13 @@ export const totalLeaves = roadmap.branches.reduce(
   0,
 );
 export const totalL1 = roadmap.branches.reduce((sum, b) => sum + b.l1.length, 0);
+// Одна фраза про ветвь для строки ниже. Порядок, имена и адреса ветвей
+// берутся из roadmap.ts — руками здесь остаётся только текст.
+export const branchGist = {
+  culture: 'Люди, нормы, постмортем-культура.',
+  engineering: 'Observability, SLO, IaC, базы данных.',
+  practices: 'Incident, change, on-call, security.',
+};
 // Числа берутся из данных, поэтому и окончание считается, а не пишется
 // руками: «22 компетенций» и «23 компетенции» — разные формы.
 export const plural = (n, one, few, many) => {
@@ -49,18 +56,12 @@ export const plural = (n, one, few, many) => {
 </p>
 
 <ul class="branches-strip">
-  <li data-branch="culture">
-    <a href={`${base}/sre-culture/`}>SRE Culture</a>
-    <span>Люди, нормы, постмортем-культура.</span>
-  </li>
-  <li data-branch="engineering">
-    <a href={`${base}/sre-engineering/`}>SRE Engineering</a>
-    <span>Observability, SLO, IaC, базы данных.</span>
-  </li>
-  <li data-branch="practices">
-    <a href={`${base}/sre-practices/`}>SRE Practices</a>
-    <span>Incident, change, on-call, security.</span>
-  </li>
+  {roadmap.branches.map((b) => (
+    <li data-branch={b.id}>
+      <a href={`${base}${b.href}`}>{b.label}</a>
+      <span>{branchGist[b.id]}</span>
+    </li>
+  ))}
 </ul>
 
 <p class="meta-strip">

@@ -20,43 +20,43 @@ description: Термины SRE с переводом, кратким опред
 
 Attribute-Based Access Control — модель авторизации, в которой решение «можно ли» вычисляется из атрибутов subject (роль, department, clearance), resource (sensitivity, owner) и context (time, IP, MFA strength). Решает scaling-проблему RBAC в больших orgs (role explosion), но требует attribute hygiene — кто их валидирует, что происходит при stale attribute.
 
-*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/).
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/).
 
 ### ADR
 
 Architecture Decision Record — фиксация технического решения в формате `context → decision → consequences`, версионируется в git, ревьюится в PR. Через два года новый engineer открывает ADR и понимает, почему было принято решение, — не «решили в чате полтора года назад».
 
-*Категория A* — пишется заглавными. См. [`Architecture Decision Records`](/The-Way-of-SRE/leaves/practices/architecture-decision-records/). Источник: Michael Nygard, *Documenting Architecture Decisions* (2011); [adr.github.io](https://adr.github.io/).
+*Категория A* — пишется заглавными. См. [`Architecture Decision Records`](/The-Way-of-SRE/practices/architecture-decision-records/). Источник: Michael Nygard, *Documenting Architecture Decisions* (2011); [adr.github.io](https://adr.github.io/).
 
 ### action items
 
 Конкретные задачи с владельцем, дедлайном, приоритетом и критерием готовности. Появляются на постмортеме или ином ритуале. Без всех четырёх атрибутов action item — «доброе пожелание», и через два-три невыполненных списка убивает доверие к ритуалу.
 
-*Категория C* — двойная форма «задачи (action items)» при первом упоминании. См. [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/), [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/). Источник: Beyer et al., *SRE Book*, гл. 15.
+*Категория C* — двойная форма «задачи (action items)» при первом упоминании. См. [`Blameless Postmortem`](/The-Way-of-SRE/practices/blameless-postmortem/), [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/). Источник: Beyer et al., *SRE Book*, гл. 15.
 
 ### alert fatigue
 
 Состояние, в котором команда теряет способность отличать актуальные сигналы от шума из-за большого количества алертов. Симптом — actionable rate ниже 50%, дежурный *ack*'ает на автомате и пропускает реальные инциденты.
 
-*Категория B* — «усталость от алертов». См. [`Alert Fatigue Management`](/The-Way-of-SRE/leaves/engineering/alert-fatigue-management/), [`On-Call Rotation`](/The-Way-of-SRE/leaves/practices/on-call-rotation/).
+*Категория B* — «усталость от алертов». См. [`Alert Fatigue Management`](/The-Way-of-SRE/engineering/alert-fatigue-management/), [`On-Call Rotation`](/The-Way-of-SRE/practices/on-call-rotation/).
 
 ### attack surface
 
 Сумма всех точек, через которые потенциальный атакующий может попасть в систему: открытые порты, публичные API, зависимости, права у пользователей. Минимизация attack surface снижает вероятность компрометации.
 
-*Категория B* — «поверхность атаки». См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+*Категория B* — «поверхность атаки». См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/), [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/).
 
 ### audit trail
 
 Хронологический след действий, по которому через год можно восстановить «кто, когда и почему» сделал изменение. Реализуется через git history, IAM audit log, structured incident log.
 
-*Категория B* — «журнал аудита» (или «след аудита», если рядом уже стоит «log»). См. [`Service Ownership`](/The-Way-of-SRE/leaves/culture/service-ownership/), [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
+*Категория B* — «журнал аудита» (или «след аудита», если рядом уже стоит «log»). См. [`Service Ownership`](/The-Way-of-SRE/culture/service-ownership/), [`GitOps`](/The-Way-of-SRE/engineering/gitops/), [`Secrets Management`](/The-Way-of-SRE/practices/secrets-management/).
 
 ### auto-scaling
 
 Динамическое изменение количества compute-ресурсов в ответ на нагрузку. В Kubernetes — HPA (по CPU/memory/custom metrics), VPA (resource recommendations), Cluster Autoscaler (node-level). Решает **reactive** часть масштабирования, но не заменяет capacity planning — auto-scaling упрётся в node-pool limit или cloud quota, если capacity не была спрогнозирована заранее.
 
-*Категория A* — устоявшийся англицизм. См. [`Capacity Planning`](/The-Way-of-SRE/leaves/engineering/capacity-planning/).
+*Категория A* — устоявшийся англицизм. См. [`Capacity Planning`](/The-Way-of-SRE/engineering/capacity-planning/).
 
 ## B
 
@@ -64,19 +64,19 @@ Architecture Decision Record — фиксация технического ре�
 
 Резервная копия данных, сделанная для возможности **проверенного восстановления** при потере primary. В SRE-практике главная дисциплина — *untested backup ≠ backup*: backup, который никто никогда не восстанавливал, существует только на бумаге. Используется в паре с явными RPO/RTO и регулярными restore-drills с измеряемым MTTR.
 
-*Категория A* — устоявшийся англицизм; «бэкап» как транслитерация допустима в неформальном контексте. См. [`Backup & Restore`](/The-Way-of-SRE/leaves/engineering/backup-restore/).
+*Категория A* — устоявшийся англицизм; «бэкап» как транслитерация допустима в неформальном контексте. См. [`Backup & Restore`](/The-Way-of-SRE/engineering/backup-restore/).
 
 ### blameless
 
 Принцип разбора инцидентов, в котором фокус на **системе**, а не на «кто это сделал». Психологическая безопасность — предпосылка blameless, не следствие шаблона.
 
-*Категория A* — пишется латиницей курсивом, без склонения. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/). Источник: Allspaw, *Blameless PostMortems and a Just Culture* (Etsy, 2012); Dekker, *The Field Guide to Understanding 'Human Error'*.
+*Категория A* — пишется латиницей курсивом, без склонения. См. [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/practices/blameless-postmortem/). Источник: Allspaw, *Blameless PostMortems and a Just Culture* (Etsy, 2012); Dekker, *The Field Guide to Understanding 'Human Error'*.
 
 ### burn rate
 
 Скорость, с которой сервис сжигает [error budget](#error-budget). При burn rate `14.4×` за час за 5 часов бюджет на месяц исчерпан. Используется как input для multi-window multi-burn-rate alerting.
 
-*Категория A*. См. [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/), [`SLO / Budget Review`](/The-Way-of-SRE/leaves/culture/slo-budget-review/). Источник: Beyer et al., *SRE Workbook*, гл. 5.
+*Категория A*. См. [`SLI-based Alerting`](/The-Way-of-SRE/engineering/sli-based-alerting/), [`SLO / Budget Review`](/The-Way-of-SRE/culture/slo-budget-review/). Источник: Beyer et al., *SRE Workbook*, гл. 5.
 
 ## C
 
@@ -84,85 +84,85 @@ Architecture Decision Record — фиксация технического ре�
 
 Стратегия выкатки изменения малыми долями трафика (5 / 25 / 50 / 100%) с health gate по SLI на каждом шаге. При нарушении burn rate — автоматический rollback. Не путать с blue-green (две полные версии, переключение целиком).
 
-*Категория A*. См. [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/).
+*Категория A*. См. [`Progressive Delivery`](/The-Way-of-SRE/practices/progressive-delivery/).
 
 ### calibration meeting
 
 Регулярная встреча руководителей одной зоны ответственности, на которой они вместе пересматривают свои рекомендуемые уровни для инженеров и согласовывают общую интерпретацию [career ladder](#career-ladder). Без неё команда A и команда B имеют расходящиеся «L5», решения о повышениях становятся несправедливыми, зарплатные диапазоны разъезжаются. Ритм — полугодие или квартал; результат — общая интерпретация ladder и решения о повышениях на основе артефактов.
 
-*Категория B* — «калибровка / калибровочная встреча». См. [`Calibration Meeting`](/The-Way-of-SRE/leaves/practices/calibration-meeting/).
+*Категория B* — «калибровка / калибровочная встреча». См. [`Calibration Meeting`](/The-Way-of-SRE/practices/calibration-meeting/).
 
 ### career ladder
 
 Документированная система уровней инженерных ролей и критериев переходов между ними — expectations per level (skills, scope, impact, behaviours) плюс явные signals для promotion. Engineer читает, чтобы понять, что от него ожидается; manager использует для review; [calibration meeting](#calibration-meeting) уточняет применение между командами.
 
-*Категория C* — двойная форма «карьерная лестница (career ladder)» при первом упоминании. См. [`Career Ladders`](/The-Way-of-SRE/leaves/culture/career-ladders/). Источник: Will Larson, *Staff Engineer*; [Progression.fyi](https://progression.fyi/) (75+ публичных ladders).
+*Категория C* — двойная форма «карьерная лестница (career ladder)» при первом упоминании. См. [`Career Ladders`](/The-Way-of-SRE/culture/career-ladders/). Источник: Will Larson, *Staff Engineer*; [Progression.fyi](https://progression.fyi/) (75+ публичных ladders).
 
 ### cardinality
 
 Число уникальных комбинаций значений измерений. В модели Prometheus каждая уникальная комбинация label образует отдельный временной ряд; labels с неограниченным множеством значений (`user_id`, email, request ID) могут резко увеличить объём данных.
 
-*Категория A* — «кардинальность (cardinality)» при первом упоминании. См. [`Telemetry Economics`](/The-Way-of-SRE/leaves/engineering/telemetry-economics/). Источник: [Prometheus — Metric and label naming](https://prometheus.io/docs/practices/naming/).
+*Категория A* — «кардинальность (cardinality)» при первом упоминании. См. [`Telemetry Economics`](/The-Way-of-SRE/engineering/telemetry-economics/). Источник: [Prometheus — Metric and label naming](https://prometheus.io/docs/practices/naming/).
 
 ### change failure rate
 
 Доля deploy, после которых требуется немедленное вмешательство, например rollback или hotfix. Одна из двух метрик нестабильности в текущей модели [DORA](#dora); требует явного определения `deployment` и `intervention` для приложения или сервиса.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Change Governance`](/The-Way-of-SRE/leaves/practices/change-governance/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`Change Governance`](/The-Way-of-SRE/practices/change-governance/).
 
 ### chaos engineering
 
 Дисциплина hypothesis-driven экспериментов, в которых система вводится в контролируемый сбой ради проверки её resilience-свойств. Не «сломаем что-нибудь», а явная steady-state hypothesis → инъекция → измерение → вывод.
 
-*Категория A*. См. [`Chaos Engineering`](/The-Way-of-SRE/leaves/engineering/chaos-engineering/). Источник: Rosenthal & Jones, *Chaos Engineering: System Resiliency in Practice* (O'Reilly, 2020).
+*Категория A*. См. [`Chaos Engineering`](/The-Way-of-SRE/engineering/chaos-engineering/). Источник: Rosenthal & Jones, *Chaos Engineering: System Resiliency in Practice* (O'Reilly, 2020).
 
 ### CI/CD
 
 Continuous Integration / Continuous Delivery (или Deployment). Pipeline сборки, тестов и доставки кода в production как кодовый артефакт. Платформа, на которой работают [progressive delivery](#canary-release), [IaC](#iac), [GitOps](#gitops).
 
-*Категория A*. См. [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/). Источник: Humble & Farley, *Continuous Delivery* (Addison-Wesley, 2010).
+*Категория A*. См. [`CI/CD`](/The-Way-of-SRE/engineering/ci-cd/). Источник: Humble & Farley, *Continuous Delivery* (Addison-Wesley, 2010).
 
 ### ChatOps
 
 Operations через chat-интерфейс с встроенным audit trail. Термин ввёл GitHub около 2011 с [Hubot](https://hubot.github.com/). Три уровня: **push** (нотификации в chat — alerts / CI), **pull** (bot отвечает на queries — `/oncall`, `/status`), **action** (триггер операций через chat — `/deploy`, `/incident declare`). Современные incident-platforms (incident.io, Netflix Dispatch, FireHydrant) — Slack-native ChatOps.
 
-*Категория A* — пишется без склонения. См. [`ChatOps`](/The-Way-of-SRE/leaves/engineering/chatops/), [`Severity Classification`](/The-Way-of-SRE/leaves/practices/severity-classification/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/).
+*Категория A* — пишется без склонения. См. [`ChatOps`](/The-Way-of-SRE/engineering/chatops/), [`Severity Classification`](/The-Way-of-SRE/practices/severity-classification/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/).
 
 ### cognitive load
 
 Объём знаний и контекста, который команда удерживает «в голове», чтобы продолжать работать с системой. Skelton/Pais выделяют три типа (intrinsic, extraneous, germane); рабочая SRE-эвристика — «сколько сервисов и технологий держит команда без потери качества». Превышение → degraded incident response, устаревающие runbook'и, on-call lottery. Решается либо split на меньшие team boundaries, либо инвестицией в платформу, которая снимает extraneous load. Во втором издании книги когнитивная нагрузка поднята до уровня принципа проектирования организации, а не одного из соображений.
 
-*Категория C* — «когнитивная нагрузка (cognitive load)» при первом упоминании. См. [`Team Topologies`](/The-Way-of-SRE/leaves/culture/team-topologies/), [`Toil`](/The-Way-of-SRE/leaves/engineering/toil-tracking/). Источник: Skelton & Pais, *Team Topologies* (IT Revolution, 1-е изд. 2019, 2-е изд. 2025).
+*Категория C* — «когнитивная нагрузка (cognitive load)» при первом упоминании. См. [`Team Topologies`](/The-Way-of-SRE/culture/team-topologies/), [`Toil`](/The-Way-of-SRE/engineering/toil-tracking/). Источник: Skelton & Pais, *Team Topologies* (IT Revolution, 1-е изд. 2019, 2-е изд. 2025).
 
 ### contributing factors
 
 Множество условий, **совместное** наступление которых вызвало инцидент. Подход NBJS (Necessary But Only Jointly Sufficient) альтернативен наивному поиску «root cause»: вместо одной причины — список факторов, каждый из которых отдельно предотвратил бы инцидент.
 
-*Категория C* — двойная форма «факторы вклада (contributing factors)» при первом упоминании. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/). Источник: Allspaw, *Each Necessary, But Only Jointly Sufficient*.
+*Категория C* — двойная форма «факторы вклада (contributing factors)» при первом упоминании. См. [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/). Источник: Allspaw, *Each Necessary, But Only Jointly Sufficient*.
 
 ### Conway's Law
 
 «Любая организация, которая проектирует систему, неизбежно произведёт design, чья структура повторяет структуру коммуникации этой организации» (Mel Conway, 1968). В Team Topologies используется не как наблюдение, а как инструмент — **inverse Conway maneuver**: сначала проектируется желаемая архитектура, отсюда выводятся team boundaries.
 
-*Категория A* — устоявшийся англицизм. См. [`Team Topologies`](/The-Way-of-SRE/leaves/culture/team-topologies/). Источник: Conway, *How Do Committees Invent?* (Datamation, 1968).
+*Категория A* — устоявшийся англицизм. См. [`Team Topologies`](/The-Way-of-SRE/culture/team-topologies/). Источник: Conway, *How Do Committees Invent?* (Datamation, 1968).
 
 ### coverage
 
 Code coverage — процент кода, выполненного тестами. Полезен как **diagnostic** (что **не** покрыто) и для сравнения модулей; **бесполезен как target**. «80% обязательно для merge» через Goodhart's law порождает тесты без assertions или на trivial code (геттеры) — coverage growth есть, signal value не растёт. Mutation score — гораздо более честная метрика качества тестов, но дороже считать.
 
-*Категория A* — устоявшийся англицизм. См. [`Test Strategy`](/The-Way-of-SRE/leaves/engineering/test-strategy/).
+*Категория A* — устоявшийся англицизм. См. [`Test Strategy`](/The-Way-of-SRE/engineering/test-strategy/).
 
 ### CVE
 
 Common Vulnerabilities and Exposures — публичная нумерация известных уязвимостей (`CVE-YYYY-NNNN`). Поддерживается MITRE; используется как vocabulary в [vulnerability management](#vulnerability-management).
 
-*Категория A* — пишется заглавными. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+*Категория A* — пишется заглавными. См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/), [`Supply Chain Security`](/The-Way-of-SRE/practices/supply-chain-security/).
 
 ### CVSS
 
 Common Vulnerability Scoring System — числовая оценка серьёзности CVE по шкале 0–10. Базовая метрика для приоритизации патчей, но **не единственная**: combined CVSS + [EPSS](#epss) + asset context даёт actionable очередь, в отличие от наивного «патчим всё что CVSS ≥ 7».
 
-*Категория A* — пишется заглавными. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория A* — пишется заглавными. См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ## D
 
@@ -170,61 +170,61 @@ Common Vulnerability Scoring System — числовая оценка серьё
 
 Dynamic Application Security Testing — поиск уязвимостей в **работающем** приложении через внешние запросы, без доступа к исходникам. Дополняет [`SAST`](#sast) (статический анализ кода): видит то, что проявляется только в runtime. Инструменты — OWASP ZAP, Burp Suite.
 
-*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/practices/security-code-review/), [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ### decision log
 
 Отдельный артефакт инцидента, в котором фиксируются значимые решения: кто решил, когда, какие альтернативы рассматривались, какой rollback plan. Не «размешан в Slack scrollback» — отдельный документ. Primary input для постмортема.
 
-*Категория B* — «журнал решений». См. [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/).
+*Категория B* — «журнал решений». См. [`War Room Patterns`](/The-Way-of-SRE/practices/war-room-patterns/).
 
 ### defense in depth
 
 Принцип многоуровневой защиты: компрометация одного слоя не даёт полного доступа, потому что есть следующий слой. Pre-commit hook → CI scan → historical scan — типичный пример для secrets.
 
-*Категория B* — «защита в глубину». См. [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
+*Категория B* — «защита в глубину». См. [`Secrets Management`](/The-Way-of-SRE/practices/secrets-management/).
 
 ### deliberate practice
 
 Структурированная учебная практика с измеримым outcome и feedback'ом: формулируется учебная цель (артефакт + критерий выполнения), применяется на реальной задаче, ревьюется с peer'ом. Anders Ericsson показал, что 10000 часов работы сами по себе ничего не значат — нужна именно deliberate practice. Противоположность passive consumption (только книги/курсы без применения).
 
-*Категория C* — двойная форма «осознанная практика (deliberate practice)» при первом упоминании. См. [`Personal Growth Plan`](/The-Way-of-SRE/leaves/practices/personal-growth-plan/). Источник: Anders Ericsson, *Peak: Secrets from the New Science of Expertise* (2016).
+*Категория C* — двойная форма «осознанная практика (deliberate practice)» при первом упоминании. См. [`Personal Growth Plan`](/The-Way-of-SRE/practices/personal-growth-plan/). Источник: Anders Ericsson, *Peak: Secrets from the New Science of Expertise* (2016).
 
 ### deployment frequency
 
 Число deploy за период или время между deploy. Одна из трёх метрик пропускной способности в текущей модели [DORA](#dora). Читается вместе с метриками нестабильности; сама по себе высокая частота не доказывает качество процесса.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/engineering/ci-cd/), [`Progressive Delivery`](/The-Way-of-SRE/practices/progressive-delivery/).
 
 ### deployment rework rate
 
 Доля незапланированных deploy, выполненных вследствие production-инцидента. С 2024 года входит в текущую модель [DORA](#dora) как одна из двух метрик нестабильности.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
 
 ### DORA
 
 DevOps Research and Assessment. Текущая модель включает пять метрик производительности доставки: change lead time, [`deployment frequency`](#deployment-frequency), failed deployment recovery time, [`change failure rate`](#change-failure-rate) и [`deployment rework rate`](#deployment-rework-rate). Первые три образуют throughput, последние две — instability. Reliability относится к операционной производительности, а не является шестой метрикой доставки.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/). Источники: [актуальное руководство DORA](https://dora.dev/guides/dora-metrics/), [история изменений модели](https://dora.dev/insights/dora-metrics-history/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/). Источники: [актуальное руководство DORA](https://dora.dev/guides/dora-metrics/), [история изменений модели](https://dora.dev/insights/dora-metrics-history/).
 
 ### dotfiles
 
 Конфигурационные файлы пользователя в HOME, начинающиеся с точки (`.zshrc`, `.config/nvim`, `.tmux.conf`). Industry-стандарт — хранить в git-репозитории с symlink-deployment ([GNU stow](https://www.gnu.org/software/stow/) или собственный `install.sh`). Без git-репо не переживают переустановку OS / смену машины. Главный способ переносить personal toolkit между environments.
 
-*Категория A* — пишется без склонения. См. [`Personal SRE Toolkit`](/The-Way-of-SRE/leaves/engineering/personal-sre-toolkit/). Источник: [dotfiles.github.io](https://dotfiles.github.io/) (community catalog).
+*Категория A* — пишется без склонения. См. [`Personal SRE Toolkit`](/The-Way-of-SRE/engineering/personal-sre-toolkit/). Источник: [dotfiles.github.io](https://dotfiles.github.io/) (community catalog).
 
 ### DR
 
 Disaster Recovery — стратегия и политика реагирования на катастрофические сценарии (потеря региона, datacenter fire, cyber-attack, cloud account compromise). DR ≠ backup: backup — технологический слой; DR Policy — governance с decision rights, stakeholder map, RTO/RPO на уровне org. AWS-канонические 4 tier (Backup & Restore / Pilot Light / Warm Standby / Multi-Site Active-Active) — trade-off cost × RTO, выбор per service tier.
 
-*Категория A* — пишется заглавными. См. [`DR Policy & Stakeholders`](/The-Way-of-SRE/leaves/culture/dr-policy/), [`Backup & Restore`](/The-Way-of-SRE/leaves/engineering/backup-restore/), [`RPO / RTO`](#rpo).
+*Категория A* — пишется заглавными. См. [`DR Policy & Stakeholders`](/The-Way-of-SRE/culture/dr-policy/), [`Backup & Restore`](/The-Way-of-SRE/engineering/backup-restore/), [`RPO / RTO`](#rpo).
 
 ### drift
 
 Расхождение между желаемым состоянием (в git) и фактическим (в кластере / cloud). В GitOps controller непрерывно сводит drift к нулю; click-ops в проде — источник drift и операционный инцидент.
 
-*Категория B* — «дрейф (конфигурации)». См. [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/), [`Infrastructure as Code`](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/).
+*Категория B* — «дрейф (конфигурации)». См. [`GitOps`](/The-Way-of-SRE/engineering/gitops/), [`Infrastructure as Code`](/The-Way-of-SRE/engineering/infrastructure-as-code/).
 
 ## E
 
@@ -232,13 +232,13 @@ Disaster Recovery — стратегия и политика реагирова�
 
 Exploit Prediction Scoring System (FIRST.org). Data-driven вероятность активной эксплуатации уязвимости в течение 30 дней. Дополняет [CVSS](#cvss) при triage уязвимостей.
 
-*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ### error budget
 
 «Допустимое количество ошибок» — `1 − SLO target`. При SLO 99.9% месячный error budget = 0.1% × 30 дней ≈ 43 минуты. Используется как объективный сигнал «можно ли катить новые фичи».
 
-*Категория A*. См. [`SLO Engineering`](/The-Way-of-SRE/leaves/engineering/slo-engineering/), [`SLO / Budget Review`](/The-Way-of-SRE/leaves/culture/slo-budget-review/). Источник: Beyer et al., *SRE Book*, гл. 4.
+*Категория A*. См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/), [`SLO / Budget Review`](/The-Way-of-SRE/culture/slo-budget-review/). Источник: Beyer et al., *SRE Book*, гл. 4.
 
 ## F
 
@@ -246,13 +246,13 @@ Exploit Prediction Scoring System (FIRST.org). Data-driven вероятност�
 
 Четыре метрики, которые покрывают подавляющее большинство симптомов сервиса: **latency** (длительность обработки запроса), **traffic** (нагрузка — RPS, активные соединения), **errors** (доля сбоев), **saturation** (степень загруженности ресурса до отказа). Применяются как первый проход при разборе неизвестной поломки и как baseline-набор дашбордов для нового сервиса. Комплементарны с [USE](#use-method) (для ресурсов) и [RED](#red-method) (для сервисов).
 
-*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/leaves/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 6 «Monitoring Distributed Systems».
+*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 6 «Monitoring Distributed Systems».
 
 ### feature flag
 
 Toggle, отделяющий момент выкатки кода (deploy) от момента включения функциональности (release). Позволяет катить код в production в выключенном состоянии и включать для cohort / процента трафика. Категории: release / experiment / ops / permissioning.
 
-*Категория A*. См. [`Progressive Delivery`](/The-Way-of-SRE/leaves/practices/progressive-delivery/). Источник: Pete Hodgson, *Feature Toggles* (martinfowler.com).
+*Категория A*. См. [`Progressive Delivery`](/The-Way-of-SRE/practices/progressive-delivery/). Источник: Pete Hodgson, *Feature Toggles* (martinfowler.com).
 
 ## G
 
@@ -260,13 +260,13 @@ Toggle, отделяющий момент выкатки кода (deploy) от 
 
 Поддерживаемый и намеренно ограниченный способ сделать типовую вещь: собрать сервис, поднять пайплайн, завести хранилище. Ключевое свойство — не обязательность, а разница в поддержке: сойти с пути можно, но дальше команда несёт последствия сама. Синоним, встречающийся в русскоязычной практике, — paved road.
 
-*Категория C* — «типовой путь (golden path)» при первом упоминании, дальше golden path. См. [`Golden Paths`](/The-Way-of-SRE/leaves/engineering/golden-paths/), [`Platform as a Product`](/The-Way-of-SRE/leaves/engineering/platform-as-a-product/). Источник: [Spotify Engineering — How We Use Golden Paths to Solve Fragmentation in Our Software Ecosystem](https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem) (2020).
+*Категория C* — «типовой путь (golden path)» при первом упоминании, дальше golden path. См. [`Golden Paths`](/The-Way-of-SRE/engineering/golden-paths/), [`Platform as a Product`](/The-Way-of-SRE/engineering/platform-as-a-product/). Источник: [Spotify Engineering — How We Use Golden Paths to Solve Fragmentation in Our Software Ecosystem](https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem) (2020).
 
 ### GitOps
 
 Pull-based reconciliation модель: git как [единый источник истины](#single-source-of-truth) desired state, controller в кластере (Argo CD / Flux) непрерывно сводит actual state с git. Отличается от push-based CI-applying. Click-ops в проде с этой моделью несовместим.
 
-*Категория A*. См. [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/). Источник: [OpenGitOps Principles](https://opengitops.dev/) (CNCF).
+*Категория A*. См. [`GitOps`](/The-Way-of-SRE/engineering/gitops/). Источник: [OpenGitOps Principles](https://opengitops.dev/) (CNCF).
 
 ## I
 
@@ -274,25 +274,25 @@ Pull-based reconciliation модель: git как [единый источни�
 
 Identity and Access Management — централизованная система управления тем, кто (human или service) есть в системе и что им разрешено. Включает authentication (login + MFA / federation) и authorization (RBAC / ABAC / ReBAC). У cloud-провайдеров — нативная (AWS IAM, GCP IAM, Microsoft Entra ID); у workforce — обычно отдельный IdP (Okta, Entra ID, JumpCloud) поверх облачных IAM.
 
-*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/), [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/).
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/), [`Secrets Management`](/The-Way-of-SRE/practices/secrets-management/), [`Workload Identity`](/The-Way-of-SRE/practices/workload-identity/).
 
 ### IaC
 
 Infrastructure as Code — production-инфраструктура (cloud resources, k8s манифесты, IAM, network) описана как версионируемый код и применяется через автоматизированный pipeline. Никакого click-ops в console облака.
 
-*Категория A*. См. [`Infrastructure as Code`](/The-Way-of-SRE/leaves/engineering/infrastructure-as-code/). Источник: Kief Morris, *Infrastructure as Code* (O'Reilly, 2-е изд., 2020).
+*Категория A*. См. [`Infrastructure as Code`](/The-Way-of-SRE/engineering/infrastructure-as-code/). Источник: Kief Morris, *Infrastructure as Code* (O'Reilly, 2-е изд., 2020).
 
 ### IC
 
 Incident Commander — координатор инцидента. Не делает руками, а принимает решения и держит структуру: распределение ролей, sitrep cadence, decision log. После 2–4 часов передаёт роль (handoff), чтобы не терять качество решений из-за fatigue.
 
-*Категория A* — допустим перевод «руководитель инцидента» при первом упоминании. См. [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/).
+*Категория A* — допустим перевод «руководитель инцидента» при первом упоминании. См. [`Incident Response`](/The-Way-of-SRE/practices/incident-response/), [`War Room Patterns`](/The-Way-of-SRE/practices/war-room-patterns/).
 
 ### idempotency
 
 Свойство операции, при котором повторный вызов даёт тот же результат, что и однократный. Пре-условие для retry-safe вызовов — без idempotency каждый retry потенциально создаёт side-effect (double-write, double-charge). Реализуется через idempotency keys, ETags, conditional writes, transaction outbox.
 
-*Категория A* — устоявшийся англицизм; «идемпотентность» как транслитерация тоже допустима. См. [`Resilience Patterns`](/The-Way-of-SRE/leaves/engineering/resilience-patterns/).
+*Категория A* — устоявшийся англицизм; «идемпотентность» как транслитерация тоже допустима. См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/).
 
 ## K
 
@@ -300,13 +300,13 @@ Incident Commander — координатор инцидента. Не дела�
 
 CISA Known Exploited Vulnerabilities — публичный каталог уязвимостей с подтверждённой active exploitation. Federal mandate для US agencies; индустрия следует как best practice — match KEV в стеке = patch вне обычной очереди triage.
 
-*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ### Kubernetes
 
 Container orchestrator, выросший из Google Borg и переданный CNCF в 2015. Де-факто стандарт runtime для container workload'ов в 2026. Архитектурно — набор контроллеров поверх etcd: kube-apiserver / scheduler / controller-manager / kubelet. Core abstractions — Pod (unit scheduling), Service (stable endpoint), Deployment / StatefulSet (управление lifecycle). Доступен как managed-сервис у всех hyperscaler'ов (EKS / GKE / AKS / Yandex Managed Kubernetes).
 
-*Категория A* — пишется без склонения, иногда как **k8s** (k + 8 букв + s). См. [`Containerization & Orchestration`](/The-Way-of-SRE/leaves/engineering/container-orchestration/), [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/), [`Cloud Providers`](/The-Way-of-SRE/leaves/engineering/cloud-providers/).
+*Категория A* — пишется без склонения, иногда как **k8s** (k + 8 букв + s). См. [`Containerization & Orchestration`](/The-Way-of-SRE/engineering/container-orchestration/), [`GitOps`](/The-Way-of-SRE/engineering/gitops/), [`Cloud Providers`](/The-Way-of-SRE/engineering/cloud-providers/).
 
 ## L
 
@@ -314,13 +314,13 @@ Container orchestrator, выросший из Google Borg и переданны�
 
 Время от commit изменения в version control до deploy в production. Одна из трёх метрик пропускной способности в текущей модели [DORA](#dora). Источник начала и конца интервала фиксируется в методике расчёта, чтобы изменения tooling не склеивали несопоставимые периоды.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`CI/CD`](/The-Way-of-SRE/engineering/ci-cd/).
 
 ### least privilege
 
 Принцип, по которому идентичность (человек или сервис) имеет минимальный необходимый набор прав — не больше. Снижает blast radius при компрометации. Реализуется через IAM/RBAC scoping и just-in-time elevation.
 
-*Категория B* — «(принцип) наименьших привилегий». См. [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория B* — «(принцип) наименьших привилегий». См. [`Secrets Management`](/The-Way-of-SRE/practices/secrets-management/), [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ## M
 
@@ -328,19 +328,19 @@ Container orchestrator, выросший из Google Borg и переданны�
 
 Регулярная парная связь, в которой более опытный инженер передаёт ученику контекст и навыки, не покрываемые формальным онбордингом и не сводимые к код-ревью. Отличается от **коучинга** (вопросы без позиции эксперта) и **sponsorship** (открытие возможностей через рекомендации и защиту) — разные социальные контракты, разные риски, разные эффекты на карьеру. Базовая дисциплина — менторский контракт в начале связи и явное условие выхода.
 
-*Категория A* — устоявшийся англицизм. См. [`Mentoring as Practice`](/The-Way-of-SRE/leaves/practices/mentoring-as-practice/), [`Communities of Practice`](/The-Way-of-SRE/leaves/culture/communities-of-practice/), [`SRE Onboarding`](/The-Way-of-SRE/leaves/culture/sre-onboarding/).
+*Категория A* — устоявшийся англицизм. См. [`Mentoring as Practice`](/The-Way-of-SRE/practices/mentoring-as-practice/), [`Communities of Practice`](/The-Way-of-SRE/culture/communities-of-practice/), [`SRE Onboarding`](/The-Way-of-SRE/culture/sre-onboarding/).
 
 ### MFA
 
 Multi-Factor Authentication — требование двух или более независимых факторов для login (что-то, что знаешь / имеешь / есть ты сам). Не равноценны: SMS phish'ится через SIM swap, TOTP — через relay-фишинг, FIDO2/WebAuthn (hardware keys, passkeys) — cryptographic binding на domain делает их **phishing-resistant**. Для admin/production access baseline — FIDO2; для low-risk — TOTP.
 
-*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/). Источник: [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html).
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/). Источник: [NIST SP 800-63B](https://pages.nist.gov/800-63-3/sp800-63b.html).
 
 ### mTLS
 
 Mutual TLS — TLS с двусторонней аутентификацией: и client, и server предъявляют сертификаты. Используется для service-to-service authentication вместо shared secrets / bearer tokens; в [service mesh](#service-mesh) (Istio, Linkerd) — by default. Certificate provisioning обычно через workload identity ([SPIFFE](#spiffe--spire) SVID или mesh-native).
 
-*Категория A* — пишется без склонения. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`Networking`](/The-Way-of-SRE/leaves/engineering/networking/), [`Service Mesh`](/The-Way-of-SRE/leaves/engineering/service-mesh/).
+*Категория A* — пишется без склонения. См. [`Workload Identity`](/The-Way-of-SRE/practices/workload-identity/), [`Networking`](/The-Way-of-SRE/engineering/networking/), [`Service Mesh`](/The-Way-of-SRE/engineering/service-mesh/).
 
 ### MTBF / MTTF
 
@@ -348,13 +348,13 @@ Mutual TLS — TLS с двусторонней аутентификацией: �
 
 Mean Time Between Failures — среднее время между двумя отказами восстанавливаемой системы (`время работы / число отказов`); Mean Time To Failure — то же для невосстанавливаемой, где отказ один и терминальный. Пара к [MTTR](#mttr): MTTR отвечает «как быстро поднимаемся», MTBF — «как часто падаем», и поодиночке обе метрики врут. Низкий MTTR при низком MTBF — встаём быстро, но падаем слишком часто, и пользователю от скорости восстановления не легче; высокий MTBF при высоком MTTR — падаем редко, но болит долго. Рост MTTR при стабильном MTBF читается как деградация on-call и эскалаций; падение MTBF при стабильном MTTR — как деградация качества релизов. Из формулы стационарной доступности `A = MTTF / (MTTF + MTTR)` следуют два пути: наращивать время до отказа (дорого, упирается в надёжность компонентов) или снижать время восстановления (автоматизация) — в облачных средах второй почти всегда дешевле. Сам MTTF пришёл из hardware-надёжности и к распределённому сервису применяется натянуто: у него нет одного терминального отказа, он постоянно живёт в частичной деградации.
 
-*Категория A* — пишутся заглавными. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`SLO Engineering`](/The-Way-of-SRE/leaves/engineering/slo-engineering/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/). Источник: [разбор пары MTTR / MTBF](https://t.me/jtprogru_channel/4413) в канале автора.
+*Категория A* — пишутся заглавными. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/). Источник: [разбор пары MTTR / MTBF](https://t.me/jtprogru_channel/4413) в канале автора.
 
 ### MTTR
 
 Mean Time To Repair / Resolve / Recovery — семейство метрик, точное начало и окончание которых зависят от принятого определения. DORA использовала MTTR в ранней модели, но в 2023 году заменила его на **failed deployment recovery time**: время восстановления именно после неудачного deploy, требующего немедленного вмешательства. Общий MTTR инцидентов больше не следует называть DORA-метрикой.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/leaves/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/culture/runbooks/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
 
 ## O
 
@@ -362,25 +362,25 @@ Mean Time To Repair / Resolve / Recovery — семейство метрик, т
 
 Способность отвечать на вопросы о внутреннем состоянии системы через её внешние сигналы (метрики, логи, трейсы). Не «monitoring наоборот», а способность задавать **новые** вопросы без перевыпуска.
 
-*Категория A*. См. [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/), [`Resilience Patterns`](/The-Way-of-SRE/leaves/engineering/resilience-patterns/). Источник: Sridharan, *Distributed Systems Observability* (O'Reilly, 2018).
+*Категория A*. См. [`SLI-based Alerting`](/The-Way-of-SRE/engineering/sli-based-alerting/), [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/). Источник: Sridharan, *Distributed Systems Observability* (O'Reilly, 2018).
 
 ### OIDC
 
 OpenID Connect — identity layer поверх OAuth 2.0; современный стандарт для federated authentication. В SRE-контексте чаще встречается как **OIDC federation**: workload (CI runner, k8s pod) предъявляет signed JWT от своего issuer'а (GitHub, GitLab, k8s API server), cloud провайдер (AWS STS, GCP STS) принимает токен и выдаёт ephemeral credentials — без long-lived API key в repository secrets или environment.
 
-*Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/), [`CI/CD`](/The-Way-of-SRE/leaves/engineering/ci-cd/), [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/). Источник: [OIDC Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html).
+*Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/practices/workload-identity/), [`CI/CD`](/The-Way-of-SRE/engineering/ci-cd/), [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/). Источник: [OIDC Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html).
 
 ### operator pattern
 
 Kubernetes controller с custom CRD, который управляет complex / stateful workload (DB primary/replica failover, certificate rotation, Kafka cluster). Декларативный API: `kubectl apply` — остальное operator делает сам (provision / failover / backup / restore / upgrade). Cost: разработка — самостоятельный Go-проект с k8s API expertise, controller-runtime; maintenance — следить за k8s API deprecations. Готовые operators (postgres-operator, cert-manager, external-secrets) покрывают 80% потребностей.
 
-*Категория A* — пишется без склонения. См. [`Toil Automation`](/The-Way-of-SRE/leaves/engineering/toil-automation/). Источник: CoreOS / Red Hat blog (2016); [Operator Capability Levels](https://operatorframework.io/operator-capabilities/).
+*Категория A* — пишется без склонения. См. [`Toil Automation`](/The-Way-of-SRE/engineering/toil-automation/). Источник: CoreOS / Red Hat blog (2016); [Operator Capability Levels](https://operatorframework.io/operator-capabilities/).
 
 ### on-call
 
 Дежурство — режим работы, в котором инженер отвечает за реагирование на алерты в нерабочее время (или в смену). Sustainable on-call требует явной компенсации, alert hygiene, runbook на каждый pager.
 
-*Категория A* — пишется латиницей без склонения. См. [`On-Call Rotation`](/The-Way-of-SRE/leaves/practices/on-call-rotation/).
+*Категория A* — пишется латиницей без склонения. См. [`On-Call Rotation`](/The-Way-of-SRE/practices/on-call-rotation/).
 
 ### one-on-one
 
@@ -388,7 +388,7 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 Регулярная (раз в 1–2 недели) встреча engineer'а с manager или tech lead. Не status update — пространство для того, что **не покрыто** другими ритуалами: личные блокеры, обратная связь, growth conversations, отношения. Andy Grove формализовал в 1983: 1:1 — это **встреча сотрудника**, не manager'а.
 
-*Категория A* (термин «1:1» используется без склонения). См. [`One-on-Ones`](/The-Way-of-SRE/leaves/practices/one-on-ones/). Источник: Andy Grove, *High Output Management* (1983).
+*Категория A* (термин «1:1» используется без склонения). См. [`One-on-Ones`](/The-Way-of-SRE/practices/one-on-ones/). Источник: Andy Grove, *High Output Management* (1983).
 
 ### OWASP Top 10
 
@@ -396,7 +396,7 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 Список самых критичных классов уязвимостей веб-приложений от OWASP, обновляется раз в несколько лет. Актуальная редакция — 2025 (первая с 2021 года); №1 по-прежнему broken access control, а среди новых категорий — сбои цепочки поставок ПО. Не чеклист, а словарь классов, на которые смотрят в security-ревью и threat modeling.
 
-*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/practices/security-code-review/), [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/).
 
 ## P
 
@@ -404,19 +404,19 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 Дисциплина построения внутренней технической платформы для команд-разработчиков: набор возможностей, собранный под нужды пользователей и поданный как внутренний продукт с владельцем, roadmap и обратной связью. Платформа не равна порталу и не равна команде эксплуатации; портал — один из возможных интерфейсов.
 
-*Категория A*. См. [`Platform as a Product`](/The-Way-of-SRE/leaves/engineering/platform-as-a-product/), [`Team Topologies`](/The-Way-of-SRE/leaves/culture/team-topologies/). Источники: [Evan Bottcher — What I Talk About When I Talk About Platforms](https://martinfowler.com/articles/talk-about-platforms.html) (2018), [CNCF Platforms White Paper](https://tag-app-delivery.cncf.io/whitepapers/platforms/).
+*Категория A*. См. [`Platform as a Product`](/The-Way-of-SRE/engineering/platform-as-a-product/), [`Team Topologies`](/The-Way-of-SRE/culture/team-topologies/). Источники: [Evan Bottcher — What I Talk About When I Talk About Platforms](https://martinfowler.com/articles/talk-about-platforms.html) (2018), [CNCF Platforms White Paper](https://tag-app-delivery.cncf.io/whitepapers/platforms/).
 
 ### playbook
 
 Сценарий реагирования для **класса** инцидентов: роли (IC / Deputy / Scribe / SME), первые действия, decision points, escalation criteria, comms cadence. Не путать с [runbook](#runbook): runbook = «что делать» для одного симптома; playbook = «что решать и кого звать» для класса инцидентов. Google SRE Workbook использует термины как синонимы; incident-response сообщество после PagerDuty / incident.io в 2020-х закрепило различение.
 
-*Категория A*. См. [`Playbooks`](/The-Way-of-SRE/leaves/culture/playbooks/), [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/).
+*Категория A*. См. [`Playbooks`](/The-Way-of-SRE/culture/playbooks/), [`Runbooks`](/The-Way-of-SRE/culture/runbooks/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/).
 
 ### postmortem
 
 Документ, фиксирующий разбор инцидента после его завершения: timeline, contributing factors, action items с владельцем и дедлайном, lessons learned. В SRE-практике норма — [blameless](#blameless) постмортем.
 
-*Категория A* как документ; «провести разбор» допустим как процесс. См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/leaves/practices/blameless-postmortem/), [`Postmortem Database`](/The-Way-of-SRE/leaves/culture/postmortem-database/). Источник: Beyer et al., *SRE Book*, гл. 15.
+*Категория A* как документ; «провести разбор» допустим как процесс. См. [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/practices/blameless-postmortem/), [`Postmortem Database`](/The-Way-of-SRE/culture/postmortem-database/). Источник: Beyer et al., *SRE Book*, гл. 15.
 
 ### principle of least privilege
 
@@ -428,13 +428,13 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 Role-Based Access Control — модель авторизации, в которой permissions присваиваются ролям, а пользователи получают роли. Простая, audit-friendly, хорошо работает на 5–20 ролях. При scale страдает role explosion (роль на каждую комбинацию permissions) — тогда сдвиг в сторону [ABAC](#abac) или ReBAC (Zanzibar-style relationship model).
 
-*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/leaves/practices/access-control-iam/), [`Secrets Management`](/The-Way-of-SRE/leaves/practices/secrets-management/).
+*Категория A* — пишется заглавными. См. [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/), [`Secrets Management`](/The-Way-of-SRE/practices/secrets-management/).
 
 ### RED method
 
 Метод первого прохода для сервиса: **Rate** (rps), **Errors** (доля сбоев), **Duration** (распределение latency, обычно через гистограмму с percentile'ями). Application-уровневый аналог [USE](#use-method); вместе с [Four Golden Signals](#four-golden-signals) формирует базовый набор сервисных метрик. Предложен Tom Wilkie (Weaveworks).
 
-*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/leaves/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/). Источник: Tom Wilkie, *The RED Method* (Weaveworks, 2018).
+*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/engineering/sli-based-alerting/). Источник: Tom Wilkie, *The RED Method* (Weaveworks, 2018).
 
 ### RPO / RTO
 
@@ -442,13 +442,13 @@ Role-Based Access Control — модель авторизации, в котор
 
 Recovery Point Objective (сколько данных потерять допустимо) и Recovery Time Objective (сколько времени на восстановление). Фиксируются в SLO-документе сервиса; пересматриваются вместе с SLO.
 
-*Категория A*. См. [`Backup & Restore`](/The-Way-of-SRE/leaves/engineering/backup-restore/).
+*Категория A*. См. [`Backup & Restore`](/The-Way-of-SRE/engineering/backup-restore/).
 
 ### runbook
 
 Конкретные инструкции по реагированию на инцидент: симптом → шаги диагностики → mitigation → rollback → escalation. Каждый шаг — actionable команда или явное решение, не «понять и подумать». **Алерт без runbook — фоновый шум**.
 
-*Категория A* — пишется латиницей без склонения (если нужно — через апостроф: `runbook'ом`). См. [`Runbooks`](/The-Way-of-SRE/leaves/culture/runbooks/).
+*Категория A* — пишется латиницей без склонения (если нужно — через апостроф: `runbook'ом`). См. [`Runbooks`](/The-Way-of-SRE/culture/runbooks/).
 
 ## S
 
@@ -456,75 +456,75 @@ Recovery Point Objective (сколько данных потерять допу�
 
 Static Application Security Testing — анализ исходного кода на security-дефекты без запуска (pattern-matching + semantic). Ловит SQL-инъекции, слабый crypto, захардкоженные секреты; **не видит** логику авторизации (broken access control). Инструменты — Semgrep, CodeQL, gosec, Bandit.
 
-*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/practices/security-code-review/), [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ### SBOM
 
 Software Bill of Materials — список всех dependencies артефакта со связями (transitive deps, версии, hashes). Форматы: SPDX (ISO standard) или CycloneDX (OWASP). Foundation для vulnerability management — нельзя патчить то, чего не знаешь, что есть.
 
-*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/), [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/practices/supply-chain-security/), [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ### SCA
 
 Software Composition Analysis — анализ сторонних dependencies артефакта на known CVE; опирается на [`SBOM`](#sbom). Отличается от [`SAST`](#sast) объектом: SAST смотрит свой код, SCA — чужой. Инструменты — govulncheck, Snyk, Dependabot, Trivy.
 
-*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/), [`Security Code Review`](/The-Way-of-SRE/leaves/practices/security-code-review/), [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/).
+*Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/), [`Security Code Review`](/The-Way-of-SRE/practices/security-code-review/), [`Supply Chain Security`](/The-Way-of-SRE/practices/supply-chain-security/).
 
 ### sampling
 
 Выбор подмножества telemetry для обработки или хранения. Head sampling принимает решение в начале trace и не видит его целиком; tail sampling учитывает завершённый или почти завершённый trace, но требует state и сложнее масштабируется.
 
-*Категория A* — «сэмплирование (sampling)» при первом упоминании. См. [`Telemetry Economics`](/The-Way-of-SRE/leaves/engineering/telemetry-economics/). Источник: [OpenTelemetry — Sampling](https://opentelemetry.io/docs/concepts/sampling/).
+*Категория A* — «сэмплирование (sampling)» при первом упоминании. См. [`Telemetry Economics`](/The-Way-of-SRE/engineering/telemetry-economics/). Источник: [OpenTelemetry — Sampling](https://opentelemetry.io/docs/concepts/sampling/).
 
 ### service mesh
 
 Инфраструктурный слой для service-to-service коммуникации, реализованный через sidecar-прокси (обычно Envoy) рядом с каждым pod'ом + control plane (Istio / Linkerd / Consul Connect). Даёт три функции из коробки: [mTLS](#mtls), traffic management (routing, retry, timeout), L7-observability (RED-метрики, distributed tracing). Альтернатива sidecar — per-node proxy через eBPF (Cilium Service Mesh, Istio Ambient).
 
-*Категория A* — пишется без склонения. См. [`Service Mesh`](/The-Way-of-SRE/leaves/engineering/service-mesh/), [`Networking`](/The-Way-of-SRE/leaves/engineering/networking/).
+*Категория A* — пишется без склонения. См. [`Service Mesh`](/The-Way-of-SRE/engineering/service-mesh/), [`Networking`](/The-Way-of-SRE/engineering/networking/).
 
 ### severity
 
 Классификация серьёзности инцидента — `SEV0..SEV3` (или эквивалент). Выводится из `impact × scope`; определяет response intensity, audience для customer comms, требования к постмортему. Severity не статична: upgrade/downgrade в ходе инцидента — нормально.
 
-*Категория A*. См. [`Severity Classification`](/The-Way-of-SRE/leaves/practices/severity-classification/).
+*Категория A*. См. [`Severity Classification`](/The-Way-of-SRE/practices/severity-classification/).
 
 ### shared responsibility model
 
 Модель распределения ответственности между cloud-провайдером и клиентом для каждого сервиса. Провайдер отвечает за «security/availability of the cloud» (физическая инфра, hypervisor, control plane managed-сервисов); клиент — за «security/availability in the cloud» (конфигурация, IAM, данные, workload-level reliability). Граница смещается между IaaS / PaaS / SaaS — у managed-Kubernetes провайдер берёт control plane, клиент остаётся с worker nodes и workload'ами. Public-документация: AWS / Azure / GCP / Yandex Cloud — у каждого своя версия матрицы.
 
-*Категория B* — «модель shared responsibility». См. [`Cloud Providers`](/The-Way-of-SRE/leaves/engineering/cloud-providers/), [`DR Policy & Stakeholders`](/The-Way-of-SRE/leaves/culture/dr-policy/).
+*Категория B* — «модель shared responsibility». См. [`Cloud Providers`](/The-Way-of-SRE/engineering/cloud-providers/), [`DR Policy & Stakeholders`](/The-Way-of-SRE/culture/dr-policy/).
 
 ### single source of truth
 
 Архитектурный принцип: данные хранятся в одном месте, все остальные представления выводятся из него или ссылаются на него. Антипод — расползание по wiki / spreadsheet / устным договорённостям.
 
-*Категория B* — «единый источник истины». См. [`Service Ownership`](/The-Way-of-SRE/leaves/culture/service-ownership/), [`GitOps`](/The-Way-of-SRE/leaves/engineering/gitops/).
+*Категория B* — «единый источник истины». См. [`Service Ownership`](/The-Way-of-SRE/culture/service-ownership/), [`GitOps`](/The-Way-of-SRE/engineering/gitops/).
 
 ### sitrep
 
 Sitrep (situation report) — формализованная сводка статуса инцидента, выпускаемая по cadence (каждые 15 мин для SEV0, 30 мин для SEV1). Структура: `current status / what we tried / what we're doing now / next step / blockers / next sitrep at HH:MM`.
 
-*Категория C* — «сводка обстановки (sitrep)» при первом упоминании. См. [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/), [`Customer Communications`](/The-Way-of-SRE/leaves/practices/customer-communications/).
+*Категория C* — «сводка обстановки (sitrep)» при первом упоминании. См. [`War Room Patterns`](/The-Way-of-SRE/practices/war-room-patterns/), [`Customer Communications`](/The-Way-of-SRE/practices/customer-communications/).
 
 ### SLA / SLO / SLI
 
 <a id="sli"></a><a id="slo"></a><a id="sla"></a>
 
-**SLI** (Service Level Indicator) — измеряемая метрика, чаще всего отношение `good events / valid events`. **SLO** (Objective) — целевое значение SLI на окне (например, 99.9% за 28 дней). **SLA** (Agreement) — контрактное обязательство с consequences при нарушении (compensation, refund). Сколько простоя стоит за каждой девяткой — [таблица в листе SLO Engineering](/The-Way-of-SRE/leaves/engineering/slo-engineering/#что-должен-уметь).
+**SLI** (Service Level Indicator) — измеряемая метрика, чаще всего отношение `good events / valid events`. **SLO** (Objective) — целевое значение SLI на окне (например, 99.9% за 28 дней). **SLA** (Agreement) — контрактное обязательство с consequences при нарушении (compensation, refund). Сколько простоя стоит за каждой девяткой — [таблица в листе SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/#что-должен-уметь).
 
-*Категория A* — все три заглавными. См. [`SLO Engineering`](/The-Way-of-SRE/leaves/engineering/slo-engineering/), [`SLI-based Alerting`](/The-Way-of-SRE/leaves/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 4.
+*Категория A* — все три заглавными. См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/), [`SLI-based Alerting`](/The-Way-of-SRE/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 4.
 
 ### SLSA
 
 Supply-chain Levels for Software Artifacts (OpenSSF). В актуальной спецификации v1.2 требования разделены на Build и Source tracks. Build track содержит L0–L3: отсутствие гарантий, наличие provenance, hosted build platform с подписанным provenance и hardened build platform. Старая единая шкала SLSA 1–4 относится к версии до 1.0.
 
-*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/leaves/practices/supply-chain-security/). Источник: [SLSA specification v1.2](https://slsa.dev/spec/v1.2/).
+*Категория A*. См. [`Supply Chain Security`](/The-Way-of-SRE/practices/supply-chain-security/). Источник: [SLSA specification v1.2](https://slsa.dev/spec/v1.2/).
 
 ### SOC 2
 
 Service Organization Control 2 — фреймворк сертификации (AICPA) для SaaS-вендоров, доказывающий клиентам, что у вендора есть operating controls по Trust Services Criteria (Security обязательно, остальные четыре — Availability / Processing Integrity / Confidentiality / Privacy — опционально). **Type I** — control design в момент аудита; **Type II** — operational effectiveness за период 6–12 месяцев. В B2B SaaS — типичное требование для prospect customers.
 
-*Категория A* — пишется через пробел. См. [`Compliance Frameworks`](/The-Way-of-SRE/leaves/practices/compliance-frameworks/). Источник: [AICPA Trust Services Criteria](https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services).
+*Категория A* — пишется через пробел. См. [`Compliance Frameworks`](/The-Way-of-SRE/practices/compliance-frameworks/). Источник: [AICPA Trust Services Criteria](https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services).
 
 ### SPIFFE / SPIRE
 
@@ -532,7 +532,7 @@ Service Organization Control 2 — фреймворк сертификации (
 
 **SPIFFE** (Secure Production Identity Framework For Everyone) — CNCF-стандарт workload identity: формат ID (`spiffe://trust-domain/path`), SVID (Verifiable Identity Document — X.509 или JWT), attestation framework. **SPIRE** — reference implementation: SPIRE server выпускает SVIDs, SPIRE agent на ноде проводит attestation workload'ов. Используется в команд с multi-cloud / hybrid scenarios; в одном cloud чаще используют cloud-native альтернативу (IRSA, GCP Workload Identity).
 
-*Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/leaves/practices/workload-identity/). Источник: [SPIFFE Specification](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/).
+*Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/practices/workload-identity/). Источник: [SPIFFE Specification](https://spiffe.io/docs/latest/spiffe-about/spiffe-concepts/).
 
 ### SRE
 
@@ -544,7 +544,7 @@ Site Reliability Engineering. Дисциплина, родившаяся в Goog
 
 Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiation, **I**nformation Disclosure, **D**enial of Service, **E**levation of Privilege. Применяется per element of DFD (data flow diagram).
 
-*Категория A*. См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/). Источник: Shostack, *Threat Modeling: Designing for Security* (Wiley, 2014).
+*Категория A*. См. [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/). Источник: Shostack, *Threat Modeling: Designing for Security* (Wiley, 2014).
 
 ## T
 
@@ -552,31 +552,31 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Диагностическая рамка Matthew Skelton и Manuel Pais: четыре фундаментальных типа команд (stream-aligned, platform, enabling, complicated-subsystem) и три режима взаимодействия (collaboration, X-as-a-Service, facilitating). Применяется в SRE-контексте для сознательного дизайна SRE-функции на уровне org: embedded → enabling → platform — не альтернативы, а разные interaction modes под разные стадии зрелости. Во втором издании platform team уточнена как **platform grouping** — не одна команда, а фрактальная группировка команд разных типов.
 
-*Категория A* — пишется без склонения. См. [`Team Topologies`](/The-Way-of-SRE/leaves/culture/team-topologies/), [`Platform as a Product`](/The-Way-of-SRE/leaves/engineering/platform-as-a-product/). Источник: Skelton & Pais, *Team Topologies* (IT Revolution, 1-е изд. 2019, 2-е изд. 2025).
+*Категория A* — пишется без склонения. См. [`Team Topologies`](/The-Way-of-SRE/culture/team-topologies/), [`Platform as a Product`](/The-Way-of-SRE/engineering/platform-as-a-product/). Источник: Skelton & Pais, *Team Topologies* (IT Revolution, 1-е изд. 2019, 2-е изд. 2025).
 
 ### threat model
 
 Документ, фиксирующий результат threat modeling: DFD с trust boundaries → identified threats per STRIDE category → mitigations с явным статусом (implemented / planned / accepted). Living document, не «artifact для аудита».
 
-*Категория C* — «модель угроз (threat model)» при первом упоминании. См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+*Категория C* — «модель угроз (threat model)» при первом упоминании. См. [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/).
 
 ### timeline
 
 Хронология событий и решений в инциденте, собранная по timestamp из логов, алертов, Slack-тредов. Главная дисциплина — отделить **факты** от интерпретаций. «X не справился» — уже интерпретация; «X вернул 503 в 14:23» — факт.
 
-*Категория C* — «хронология (timeline)» при первом упоминании, дальше можно «timeline». См. [`Postmortem Culture`](/The-Way-of-SRE/leaves/culture/postmortem-culture/), [`Incident Response`](/The-Way-of-SRE/leaves/practices/incident-response/).
+*Категория C* — «хронология (timeline)» при первом упоминании, дальше можно «timeline». См. [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/).
 
 ### toil
 
 Операционная работа, которая **manual, repetitive, automatable, tactical, devoid of enduring value, scales linearly with service growth**. Все пять критериев должны выполняться — иначе это не toil, а просто «не любимая работа». Google SRE convention — ≤ 50% времени per engineer.
 
-*Категория A*. См. [`Toil Tracking`](/The-Way-of-SRE/leaves/engineering/toil-tracking/). Источник: Vivek Rau, *SRE Book*, гл. 5.
+*Категория A*. См. [`Toil Tracking`](/The-Way-of-SRE/engineering/toil-tracking/). Источник: Vivek Rau, *SRE Book*, гл. 5.
 
 ### trust boundary
 
 Граница, при пересечении которой меняется уровень доверия (network zone, deployment unit, role). На threat model рисуются явно — потому что именно на boundary threats умножаются.
 
-*Категория B* — «граница доверия». См. [`Threat Modeling`](/The-Way-of-SRE/leaves/practices/threat-modeling/).
+*Категория B* — «граница доверия». См. [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/).
 
 ## U
 
@@ -584,15 +584,15 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Метод первого прохода для ресурсов: для каждого ресурса (CPU, memory, disk, network) проверить три показателя — **Utilization** (% времени, проведённого в обработке), **Saturation** (степень очереди / wait time), **Errors** (drop, retransmit, EIO). Brendan Gregg's формулировка: «решает 80% проблем server'а 5% усилий». Аналог [RED](#red-method) на уровне ресурса; вместе с [Four Golden Signals](#four-golden-signals) — стандартный набор для systematic troubleshooting.
 
-*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/leaves/engineering/systematic-troubleshooting/), [`Performance & Profiling`](/The-Way-of-SRE/leaves/engineering/performance-profiling/). Источник: Brendan Gregg, *The USE Method* (brendangregg.com).
+*Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/engineering/systematic-troubleshooting/), [`Performance & Profiling`](/The-Way-of-SRE/engineering/performance-profiling/). Источник: Brendan Gregg, *The USE Method* (brendangregg.com).
 
 ## V
 
 ### vulnerability management
 
-Дисциплина обнаружения, классификации и устранения software vulnerabilities в собственных артефактах и dependencies. Не CVE-checklist, а измеримый процесс: discovery ([SCA](https://github.com/jtprogru/The-Way-of-SRE/blob/main/src/content/docs/leaves/practices/vulnerability-management.md) / SAST / DAST / pen test / bug bounty) → triage (CVSS + EPSS + asset context) → remediation (patch SLA per severity) → verification.
+Дисциплина обнаружения, классификации и устранения software vulnerabilities в собственных артефактах и dependencies. Не CVE-checklist, а измеримый процесс: discovery ([SCA](https://github.com/jtprogru/The-Way-of-SRE/blob/main/src/content/docs/practices/vulnerability-management.md) / SAST / DAST / pen test / bug bounty) → triage (CVSS + EPSS + asset context) → remediation (patch SLA per severity) → verification.
 
-*Категория A* (как фраза процесса). См. [`Vulnerability Management`](/The-Way-of-SRE/leaves/practices/vulnerability-management/).
+*Категория A* (как фраза процесса). См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
 ## W
 
@@ -600,7 +600,7 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Канал координации high-severity инцидента, в котором собраны IC / Ops / Comms / Scribe / SME. С 1970-х годов разрабатывается как practice в crisis management (FEMA ICS). Без структуры war room — амплификатор хаоса; со структурой — единственный способ держать координацию при многочасовом инциденте.
 
-*Категория C* — «оперативный штаб (war room)» при первом упоминании, дальше «war room». См. [`War Room Patterns`](/The-Way-of-SRE/leaves/practices/war-room-patterns/).
+*Категория C* — «оперативный штаб (war room)» при первом упоминании, дальше «war room». См. [`War Room Patterns`](/The-Way-of-SRE/practices/war-room-patterns/).
 
 ---
 

@@ -44,9 +44,9 @@
 
 Полная интерактивная карта с листьями (конкретные умения, материалы, best practices) живёт на сайте: <https://jtprogru.github.io/The-Way-of-SRE/>. Карта делится на три ветви:
 
-- **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/sre-culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **15 листьев** на полной глубине.
-- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/sre-engineering/)** — технические компетенции и стек. Главный объект — системы. **30 листьев** на полной глубине.
-- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/sre-practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **25 листьев** на полной глубине.
+- **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **15 листьев** на полной глубине.
+- **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/engineering/)** — технические компетенции и стек. Главный объект — системы. **30 листьев** на полной глубине.
+- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **25 листьев** на полной глубине.
 
 Всё дерево целиком, от корня до подлистов, — на странице [Mind map](https://jtprogru.github.io/The-Way-of-SRE/mindmap/): двусторонняя карта с зумом, фильтром по приоритету и сворачиванием веток.
 
@@ -81,7 +81,7 @@ bun install && bun run dev
 
 ```bash
 make style                                                    # весь корпус
-make style LEAF=src/content/docs/leaves/culture/runbooks.md   # один лист
+make style LEAF=src/content/docs/culture/runbooks.md   # один лист
 ```
 
 Как он устроен и почему пороги именно такие — в [`tools/style/README.md`](tools/style/README.md).
@@ -98,5 +98,5 @@ make style LEAF=src/content/docs/leaves/culture/runbooks.md   # один лис�
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — как приносить правки: рабочий процесс, добавление нового листа, проверки перед PR (в репозитории, не на сайте).
 - [`inventory/overlaps.md`](inventory/overlaps.md) — рабочий артефакт ребаланса (в репозитории, не на сайте).
 - [`inventory/tlroadmap-review.md`](inventory/tlroadmap-review.md) — разбор соседнего проекта tlroadmap.io (в репозитории, не на сайте).
-- Шаблон листа — [`src/content/docs/leaves/_template.md`](src/content/docs/leaves/_template.md) (Astro игнорирует `_`-префикс, шаблон виден только в GitHub UI).
-- Заполненные листья — на сайте; исходники в `src/content/docs/leaves/<branch>/<slug>.md`.
+- Шаблон листа — [`inventory/leaf-template.md`](inventory/leaf-template.md) (лежит вне каталога контента и на сайт не попадает).
+- Заполненные листья — на сайте; исходники в `src/content/docs/<branch>/<slug>.md`, рядом с hub-страницами L1 той же ветви.
