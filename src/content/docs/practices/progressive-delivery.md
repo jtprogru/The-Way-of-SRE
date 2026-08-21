@@ -5,28 +5,28 @@ sfia: [3, 4, 5, 6]
 status: draft
 ---
 
-«Выкатим сразу всем» — так живут команды без progressive delivery, и я регулярно вижу, чем это заканчивается: инцидент в проде с blast radius во весь трафик. Progressive Delivery — это **дисциплина** выкатки малыми долями с возможностью посмотреть и откатиться. Код едет через [canary](/The-Way-of-SRE/glossary/#canary-release) с явным SLI health gate, feature flags отделяют момент release от момента deploy, а rollback срабатывает по burn rate, а не по чьей-то команде «жми кнопку». Главная практика внутри L1 `Change Management`.
+«Выкатим сразу всем» — так живут команды без progressive delivery, и я регулярно вижу, чем это заканчивается: инцидент в проде с blast radius во весь трафик. Progressive Delivery — это **дисциплина** выкатки малыми долями с возможностью посмотреть и откатиться. Код едет через [canary](/The-Way-of-SRE/glossary/#canary-release) с явным гейтом по SLI, feature flag отделяет релиз от деплоя, а откат срабатывает по burn rate, а не по чьей-то команде «жми кнопку». Главная практика внутри L1 `Change Management`.
 
 ## Что должен уметь
 
-Главный навык на уровне L5 — реализовать **автоматический rollback по SLO burn rate**, а не «manual decision во время инцидента». Я регулярно вижу команды с canary без auto-rollback — инженер смотрит дашборд, решает в моменте остановить или продолжить. Когнитивная нагрузка + reaction time → real customer impact, иногда минуты разницы. Auto-rollback по burn rate threshold снимает решение с человека, который в момент инцидента работает хуже всего.
+Главный навык на уровне L5 — сделать **автоматический откат по burn rate**, а не «решим руками во время инцидента». Я регулярно вижу канарейку без автоотката: инженер смотрит на дашборд и решает в моменте, останавливать или продолжать. Пока он думает, счётчик тикает, и эти минуты доходят до клиента. Порог по burn rate снимает решение с человека, который именно в такой момент соображает хуже всего.
 
 **L3**
-- Понимает разницу между rolling update, canary, blue-green и feature flag rollout; различает «deploy» и «release».
-- Запускает деплой по существующему pipeline команды; знает, как откатить через документированную rollback procedure.
+- Понимает разницу между rolling update, canary, blue-green и выкаткой через feature flag; различает деплой и релиз.
+- Запускает деплой по существующему конвейеру команды; знает, как откатиться по документированной процедуре.
 
 **L4**
-- Настраивает canary release для своего сервиса: traffic % steps (5 / 25 / 50 / 100), health gate по error rate или p99 latency, длительность каждой фазы.
-- Использует feature flags для отделения deploy от release: код в проде, но функциональность включается отдельным toggle для cohort / процента трафика / внутренних пользователей.
+- Настраивает canary для своего сервиса: доли трафика (5 / 25 / 50 / 100%), гейт по доле ошибок или p99 latency, длительность каждой фазы.
+- Отделяет релиз от деплоя через feature flag: код уже в проде, а функциональность включается отдельным переключателем — на когорту, на процент трафика, на внутренних пользователей.
 
 **L5**
-- Проектирует rollout policy для сервиса: явные SLI gates, time windows, blast radius.
-- Реализует автоматический rollback по SLO burn rate или health check failure; не требует ручного вмешательства в обычных случаях.
-- Координирует rollout критичных изменений с непрямым кодовым путём (DB schema migration, config schema change): backward-compatible шаг → code change → forward-only cleanup.
+- Проектирует политику выкатки для сервиса: явные гейты по SLI, временные окна, ограничение blast radius.
+- Делает автоматический откат по burn rate или по провалу health check; в обычных случаях человек в этой петле не нужен.
+- Ведёт выкатку изменений, которые не сводятся к правке кода, — миграций схемы БД, смены формата конфигурации: сначала обратно совместимый шаг, потом изменение кода, потом отдельная зачистка старого.
 
 **L6+**
-- Внедряет progressive delivery как стандарт для команды/org: pipeline templates, training, метрики DORA.
-- Балансирует velocity vs safety: где можно ослабить gate, где усилить.
+- Внедряет progressive delivery как стандарт для команды или организации: шаблоны конвейеров, обучение, метрики DORA.
+- Держит баланс скорости и безопасности: где гейт можно ослабить, а где, наоборот, затянуть.
 
 ## Материалы
 
@@ -34,26 +34,26 @@ status: draft
 
 - Jez Humble, David Farley — **Continuous Delivery** (Addison-Wesley, 2010). Фундамент дисциплины частых, безопасных, автоматизированных выкаток.
 - Nicole Forsgren, Jez Humble, Gene Kim — **Accelerate** (IT Revolution, 2018). Эмпирическая основа исходной модели DORA; для текущих пяти метрик и failed deployment recovery time нужен [актуальный guide DORA](https://dora.dev/guides/dora-metrics/).
-- Gene Kim, Jez Humble, Patrick Debois, John Willis — **The DevOps Handbook**, 2-е изд. (IT Revolution, 2021). Deployment patterns в широком контексте DevOps.
+- Gene Kim, Jez Humble, Patrick Debois, John Willis — **The DevOps Handbook**, 2-е изд. (IT Revolution, 2021). Паттерны выкатки в широком контексте DevOps.
 
 ### Статьи
 
-- Martin Fowler — **[CanaryRelease](https://martinfowler.com/bliki/CanaryRelease.html)**. Каноническое определение canary как deployment strategy.
-- Pete Hodgson — **[Feature Toggles (Feature Flags)](https://martinfowler.com/articles/feature-toggles.html)** (martinfowler.com). Четыре категории toggles (release / experiment / ops / permissioning), best practices по управлению карьерой флага.
+- Martin Fowler — **[CanaryRelease](https://martinfowler.com/bliki/CanaryRelease.html)**. Каноническое определение canary как стратегии выкатки.
+- Pete Hodgson — **[Feature Toggles (Feature Flags)](https://martinfowler.com/articles/feature-toggles.html)** (martinfowler.com). Четыре категории флагов (release, experiment, ops, permissioning) и практики управления жизнью флага — от появления до удаления.
 
 ### Инструменты
 
 - **[Argo Rollouts](https://argoproj.github.io/argo-rollouts/)** — нативный для Kubernetes контроллер под canary / blue-green; интеграция с Prometheus / Datadog для metric-driven promotion и automated rollback.
-- **[Flagger](https://flagger.app/)** — progressive delivery operator поверх service mesh (Istio, Linkerd) с SLI-driven traffic shifting.
-- **[Unleash](https://www.getunleash.io/)** — open-source feature flags platform. По моим наблюдениям, чаще выбирают для self-hosted сценариев.
-- **LaunchDarkly** — коммерческая feature flags платформа с расширенными targeting / experimentation. Полезна, когда команда выходит за десятки активных флагов и нужен enterprise SSO / audit.
-- **Spinnaker** / **Argo CD** / **Flux** — deployment orchestration; не делают progressive delivery сами по себе, но дают обвязку pipeline для Argo Rollouts и Flagger.
+- **[Flagger](https://flagger.app/)** — оператор progressive delivery поверх service mesh (Istio, Linkerd), переливающий трафик по метрикам SLI.
+- **[Unleash](https://www.getunleash.io/)** — открытая платформа для feature flag. По моим наблюдениям, её чаще берут там, где всё держат на своих серверах.
+- **LaunchDarkly** — коммерческая платформа для feature flag с продвинутым таргетингом и экспериментами. Нужна, когда активных флагов уже десятки и требуется корпоративный SSO с аудитом.
+- **Spinnaker** / **Argo CD** / **Flux** — оркестрация выкаток; сами по себе progressive delivery они не делают, но дают конвейерную обвязку для Argo Rollouts и Flagger.
 
 ## Best practices
 
-Deploy и release — разные события, и feature flag их разделяет. Сначала код едет в прод выключенным, и мы убеждаемся, что он там просто лежит и ничего не ломает. Потом функциональность включается — на когорту, на процент трафика, на внутренних пользователей. Если что-то пошло не так, флаг гасится, и откатывать выкатку не нужно вовсе.
+Деплой и релиз — разные события, и feature flag их разделяет. Сначала код едет в прод выключенным, и мы убеждаемся, что он там просто лежит и ничего не ломает. Потом функциональность включается — на когорту, на процент трафика, на внутренних пользователей. Если что-то пошло не так, флаг гасится, и откатывать выкатку не нужно вовсе.
 
-Canary без health gate — это не canary, а «пусть постоит часик». Ручное продвижение по таймеру выглядит как осторожность. Проверяет оно ровно ничего. Гейт — это явное условие на SLI, burn rate или error rate: держит пять процентов трафика SLO заданное время — pipeline продвигает сам, не держит — сам же и откатывает.
+Canary без health gate — это не canary, а «пусть постоит часик». Ручное продвижение по таймеру выглядит как осторожность. Проверяет оно ровно ничего. Гейт — это явное условие на SLI, burn rate или error rate: держит пять процентов трафика SLO заданное время — конвейер продвигает сам, не держит — сам же и откатывает.
 
 Откат обязан быть проще, чем накат фикса. «Сейчас докатим быстрее, чем откатим» — фраза, после которой инцидент обычно удлиняется вдвое: под давлением человек пишет код хуже всего, а проверить его негде. Откат — это одна команда или заранее подготовленный revert, проверенный *до* деплоя, а не придуманный в момент пожара.
 
@@ -65,14 +65,14 @@ Canary без health gate — это не canary, а «пусть постоит
 
 ## Связанные листья
 
-- **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — owner сервиса отвечает за deploy; каталог фиксирует rollout policy.
-- **[Runbooks](/The-Way-of-SRE/culture/runbooks/)** — rollback procedure для каждого сервиса — обязательный runbook; качество определяет MTTR при сбое деплоя.
-- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — rollback во время инцидента — стандартный mitigation.
-- **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — burn rate в canary phase = health gate; алертинг — основа auto-rollback.
-- **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — SLO определяет, насколько safe canary phase; без явного SLO health gate настроить нельзя.
+- **[Service Ownership](/The-Way-of-SRE/culture/service-ownership/)** — владелец сервиса отвечает за деплой; каталог фиксирует политику выкатки.
+- **[Runbooks](/The-Way-of-SRE/culture/runbooks/)** — процедура отката для каждого сервиса — обязательный runbook; её качество прямо определяет MTTR при сбое деплоя.
+- **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — откат во время инцидента — стандартный способ погасить.
+- **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — burn rate на фазе канарейки и есть тот самый гейт; алертинг — основа автоотката.
+- **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — SLO определяет, насколько безопасна фаза канарейки; без явного SLO гейт настроить не из чего.
 - **[GitOps](/The-Way-of-SRE/engineering/gitops/)** — Argo Rollouts (с ArgoCD) и Flagger (с Flux) — нативные для GitOps инструменты progressive delivery.
-- **[Test Strategy](/The-Way-of-SRE/engineering/test-strategy/)** — pre-deploy tests vs canary как runtime test; дополняют друг друга.
-- **[Change Governance](/The-Way-of-SRE/practices/change-governance/)** — *техника* deployment (этот лист) и *policy / process* (governance) — соседние практики. Canary без явного change classification — half practice.
+- **[Test Strategy](/The-Way-of-SRE/engineering/test-strategy/)** — тесты до деплоя и канарейка как проверка в бою дополняют друг друга.
+- **[Change Governance](/The-Way-of-SRE/practices/change-governance/)** — *техника* выкатки (этот лист) и *политика с процессом* (соседний) — две половины одной практики. Канарейка без явной классификации изменений — половина дела.
 - **[DORA Metrics](/The-Way-of-SRE/culture/dora-metrics/)** — эффект progressive delivery проверяется по throughput и instability; для восстановления после неудачного deploy используется failed deployment recovery time, а не общий MTTR инцидентов.
 
 ## Открытые вопросы
