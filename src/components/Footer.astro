@@ -164,7 +164,12 @@ const docNav = navFor('footer');
   )}
 
   <div class="meta sl-flex">
-    <EditLink />
+    {/*
+      На листьях ссылка на исходник живёт в карточке метаданных сверху
+      (LeafMeta.astro) — второй такой же внизу был бы дублем. На хабах,
+      мета-страницах и главной карточки нет, там остаётся штатное место.
+    */}
+    {!leafCtx && <EditLink />}
     <LastUpdated />
   </div>
   <Pagination />
