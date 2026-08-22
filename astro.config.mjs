@@ -59,6 +59,15 @@ export default defineConfig({
       },
       // Соцссылки в шапке; тот же массив рендерит подвал (Footer.astro).
       social: socials,
+      // «Редактировать страницу» в подвале: Starlight клеит адрес как
+      // baseUrl + путь файла от корня репозитория, поэтому здесь ветка, а
+      // дальше подставится src/content/docs/<branch>/<slug>.md. Компонент
+      // EditLink в Footer.astro стоял всегда и молчал без этой строки.
+      // Отключить ссылку на конкретной странице — `editUrl: false` в её
+      // фронт-маттере.
+      editLink: {
+        baseUrl: 'https://github.com/jtprogru/The-Way-of-SRE/edit/main/',
+      },
       // Состав сайдбара целиком из данных: мета-страницы — src/data/nav.ts,
       // ветви, L1 и листья — src/data/roadmap.ts. Перечислять их здесь
       // руками не нужно, форму дерева задаёт src/data/sidebar.ts.

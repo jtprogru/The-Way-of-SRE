@@ -3,9 +3,9 @@
 // 1) сохраняет дефолтное поведение Starlight (EditLink + LastUpdated + Pagination)
 // 2) добавляет site-wide блок снизу: doc-nav, соцссылки, копирайт, лицензия.
 //
-// Рендерится и на splash-страницах тоже, включая главную: EditLink,
-// LastUpdated и Pagination там пустые, а site-footer выводится как обычно.
-// Дублировать его инлайном в index.mdx не нужно.
+// Рендерится и на splash-страницах тоже, включая главную: LastUpdated и
+// Pagination там пустые, EditLink ведёт на сам index.mdx, а site-footer
+// выводится как обычно. Дублировать его инлайном в index.mdx не нужно.
 
 import { execSync } from 'node:child_process';
 import EditLink from 'virtual:starlight/components/EditLink';
