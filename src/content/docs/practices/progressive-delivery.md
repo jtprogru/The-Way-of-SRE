@@ -40,6 +40,7 @@ status: draft
 
 - Martin Fowler — **[CanaryRelease](https://martinfowler.com/bliki/CanaryRelease.html)**. Каноническое определение canary как стратегии выкатки.
 - Pete Hodgson — **[Feature Toggles (Feature Flags)](https://martinfowler.com/articles/feature-toggles.html)** (martinfowler.com). Четыре категории флагов (release, experiment, ops, permissioning) и практики управления жизнью флага — от появления до удаления.
+- Мой разбор — **[Digital Immune System: инженерия устойчивости как продукт](https://jtprog.ru/posts/digital-immune-system-maturity/)** (jtprog.ru, август 2026). Про SLO как гейт в конвейере: выкатка останавливается по сжиганию бюджета ошибок, а не по метрике инфраструктуры, и решение об откате принимает автоматика в заранее оговорённых границах. Полезно, когда Argo Rollouts или Flagger уже стоят, а критерий продвижения всё ещё «посмотрим глазами».
 
 ### Инструменты
 

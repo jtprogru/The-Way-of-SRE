@@ -48,6 +48,7 @@ status: draft
 - Julia Evans — **[Wizard Zines](https://wizardzines.com/zines/)**. Серия коротких зинов (Bite Size Linux, Bite Size Networking, How Containers Work) — лучший вход во внутренности Linux для тех, кто отскакивает от тысячестраничных книг. По моим наблюдениям, командная беглость в Linux чаще всего растёт именно через её материалы.
 - Liz Rice — **[Why Container Security Matters](https://www.youtube.com/watch?v=8nVUbF8aJtw)** (KubeCon). Полчаса: пространства имён, cgroups и capabilities в живой демонстрации с `unshare` и `nsenter`.
 - Michael Kerrisk — **[The Linux Programming Interface](https://man7.org/tlpi/)**. Если Stevens и Rago кажутся слишком плотными, это современная альтернатива того же охвата. Частично доступна онлайн.
+- Мой разбор — **[Что происходит, когда ты открываешь сайт](https://jtprog.ru/posts/what-happens-when-you-open-website/)** (jtprog.ru, июль 2026). К этой компетенции относится серверная половина текста: аппаратное прерывание и DMA, обработчик прерывания и переход в ядро, NAPI и softirq вместо прерывания на каждый пакет, распределение по ядрам через RPS и RFS, путь кадра вверх по стеку до сокета. Собирал её потому, что, по моим наблюдениям, сетевой стек ядра объясняют либо на уровне `tcpdump`, либо на уровне исходников, а середины почти нет.
 
 ### Инструменты
 

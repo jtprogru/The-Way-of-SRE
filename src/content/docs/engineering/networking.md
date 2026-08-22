@@ -42,6 +42,7 @@ status: draft
 - Cloudflare — **[Everything you ever wanted to know about UDP sockets](https://blog.cloudflare.com/everything-you-ever-wanted-to-know-about-udp-sockets-but-were-afraid-to-ask-part-1/)**. Внутренности сокетов UDP в Linux. Полезно тем, кто выходит за пределы HTTP.
 - Istio — **[What is a service mesh?](https://istio.io/latest/about/service-mesh/)**. Каноническое определение service mesh — точка входа перед погружением.
 - **[Cloudflare 2019-07-02 incident report](https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/)** — публичный разбор сложного сетевого инцидента, см. ниже.
+- Мой разбор — **[Что происходит, когда ты открываешь сайт](https://jtprog.ru/posts/what-happens-when-you-open-website/)** (jtprog.ru, июль 2026). Путь запроса от нажатия Enter до пикселя: кеши браузера, разрешение имени, Anycast и edge, рукопожатия TCP и TLS, версии протокола вплоть до QUIC, BGP между автономными системами и приём пакета на сервере. Grigorik заканчивает на стороне клиента, здесь дорога доведена до ядра и обратно.
 
 ### Инструменты
 
