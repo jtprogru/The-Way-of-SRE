@@ -41,6 +41,7 @@ status: draft
 - **[Handling Overload](https://sre.google/sre-book/handling-overload/)** — SRE Book, глава 21. Дополняет предыдущую: придушивание на стороне клиента, уровни критичности, бюджеты повторов, дедлайны и их проброс.
 - Marc Brooker — **[Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/)** (AWS Architecture Blog, 2015). Главный публичный кейс — см. ниже.
 - Netflix Tech Blog — **[Making the Netflix API more resilient](https://netflixtechblog.com/making-the-netflix-api-more-resilient-a8ec62159c2d)**. История появления Hystrix и обоснование изоляции по отсекам на живой системе.
+- Мой разбор — **[Digital Immune System: инженерия устойчивости как продукт](https://jtprog.ru/posts/digital-immune-system-maturity/)** (jtprog.ru, август 2026). Раздел про право на отказ и организованную деградацию — про то, чего в главах SRE Book выше нет: деградация срабатывает только тогда, когда заранее решено, какие функции гаснут первыми и кто это решение принимает. Входная точка в саму концепцию — мой более ранний [обзор Digital Immune System](https://jtprog.ru/posts/digital-immune-system/) (февраль 2026).
 
 ### Инструменты
 

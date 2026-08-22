@@ -56,6 +56,7 @@ status: draft
 - Betsy Beyer et al. — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)** (SRE Workbook, гл. 5). Связь инженерной части SLO со стратегией алертинга.
 - Betsy Beyer et al. — **[Appendix B. Example Error Budget Policy](https://sre.google/workbook/error-budget-policy/)** (SRE Workbook). Готовый шаблон Error Budget Policy.
 - Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про то, где привычный способ измерять надёжность перестаёт работать; полезно как отрезвляющее чтение после первого удачного SLO.
+- Мой разбор — **[SLO как чертёж архитектуры](https://jtprog.ru/posts/slo-as-architecture-blueprint/)** (jtprog.ru, май 2026). Прохожу цепочку целиком на одном кейсе поиска в маркетплейсе: функциональные требования → критичный пользовательский путь → шаги пути → SLI → SLO → бюджет ошибок. Источники выше начинают сразу с индикатора; здесь начало на шаг раньше, потому что, по моим наблюдениям, спорят в командах про сценарий, а не про формулу. Отдельным разделом — что в SLI брать нельзя.
 
 ### Инструменты
 

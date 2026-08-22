@@ -42,6 +42,7 @@ status: draft
 - Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про пределы существующего подхода к измерению надёжности — полезно, когда алерты на SLO уже настроены и начинают спорить с реальностью.
 - Grafana — **[How to alert on SLOs](https://grafana.com/blog/2022/03/14/how-to-create-slo-alerts-with-grafana-cloud-slo)**. Практично, с конкретными PromQL.
 - Liz Fong-Jones и др. — **[Developing Effective Service Level Indicators and Service Level Objectives](https://www.usenix.org/conference/srecon18europe/presentation/fong-jones-0)** (SREcon18 Europe). Сильный доклад практиков про то, как выбирать SLI — половина проблем с алертами родом отсюда.
+- Мой разбор — **[Скорость сгорания бюджета ошибок — что тут не так?](https://jtprog.ru/posts/burn-rate-is-not-speed/)** (jtprog.ru, апрель 2026). Откуда берётся каноническое 14.4 из пятой главы Workbook и почему burn rate — безразмерный коэффициент, а не скорость. Разбирал это потому, что, по моим наблюдениям, из-за слова «скорость» коэффициент путают с интенсивностью ошибок и подбирают окна наугад. В конце — про скользящее окно и про то, как коэффициент шумит на малом трафике.
 
 ### Курсы
 

@@ -40,6 +40,7 @@ status: draft
 
 - Betsy Beyer et al. — **[Appendix B. Example Error Budget Policy](https://sre.google/workbook/error-budget-policy/)** (SRE Workbook). Готовый шаблон Error Budget Policy.
 - Google SRE — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)**. Какие данные (burn rate windows, alerts) приходят на ревью как входные.
+- Мой разбор — **[Надёжность строится в диалоге с бизнесом](https://jtprog.ru/posts/reliability-is-a-conversation/)** (jtprog.ru, май 2026). Про то, чего шаблон политики выше не даёт: почему SLO остаётся дашбордом, пока правила не проговорены с продуктом, и три признака, что разговор не состоялся. Там же кейс Mercari про User Journey SLO — переименовать артефакт мало, ревью нужно встроить в процесс продукта.
 
 ### Инструменты
 
