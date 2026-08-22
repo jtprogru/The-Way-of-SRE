@@ -18,7 +18,7 @@
  * содержимого — там же, где стоял рукописный блок. На страницах вне графа
  * компонент не отдаёт ничего.
  */
-import { Aside } from '@astrojs/starlight/components';
+import { Aside, Icon } from '@astrojs/starlight/components';
 import { findPageContext, l1Href, priorityLabels } from '../data/roadmap.ts';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -30,6 +30,12 @@ const ctx = findPageContext(path);
 const leafCtx = ctx?.kind === 'leaf' ? ctx : null;
 
 const { sfia, status } = Astro.locals.starlightRoute.entry.data;
+
+// Адрес правки в GitHub Starlight считает сам из editLink.baseUrl
+// (astro.config.mjs) и пути файла. Здесь он нужен потому, что на листьях
+// штатный EditLink в подвале погашен: ссылка живёт в этой карточке, у
+// заголовка, а не внизу страницы.
+const { editUrl } = Astro.locals.starlightRoute;
 
 interface Step {
   label: string;
@@ -51,32 +57,108 @@ const priority = leafCtx ? priorityLabels[leafCtx.leaf.priority] : null;
 
 {
   leafCtx && (
-    <Aside type="note" title="Метаданные листа">
-      <ul>
-        <li>
-          <strong>Ветвь:</strong> <a href={`${base}${leafCtx.branch.href}`}>{leafCtx.branch.label}</a>
-        </li>
-        <li>
-          <strong>Путь:</strong>{' '}
-          {trail.map((step, i) => (
-            <>
-              {i > 0 && ' / '}
-              {step.href ? <a href={`${base}${step.href}`}>{step.label}</a> : step.label}
-            </>
-          ))}
-        </li>
-        {sfia && (
-          <li>
-            <strong>SFIA-уровни:</strong> {sfia.join(', ')}
-          </li>
+    <div class="leaf-meta">
+      <Aside type="note" title="Метаданные листа">
+        {editUrl && (
+          <a
+            class="leaf-meta-edit"
+            href={editUrl.href}
+            target="_blank"
+            rel="noopener"
+            title="Открыть исходник листа в редакторе GitHub"
+            aria-label="Править исходник листа на GitHub"
+          >
+            <Icon name="pencil" size="1em" />
+            <span class="leaf-meta-edit-text">Править</span>
+          </a>
         )}
-        <li>
-          <strong>Приоритет:</strong> {priority!.emoji} {priority!.ru}
-        </li>
-        <li>
-          <strong>Статус:</strong> {status}
-        </li>
-      </ul>
-    </Aside>
+        <ul>
+          <li>
+            <strong>Ветвь:</strong> <a href={`${base}${leafCtx.branch.href}`}>{leafCtx.branch.label}</a>
+          </li>
+          <li>
+            <strong>Путь:</strong>{' '}
+            {trail.map((step, i) => (
+              <>
+                {i > 0 && ' / '}
+                {step.href ? <a href={`${base}${step.href}`}>{step.label}</a> : step.label}
+              </>
+            ))}
+          </li>
+          {sfia && (
+            <li>
+              <strong>SFIA-уровни:</strong> {sfia.join(', ')}
+            </li>
+          )}
+          <li>
+            <strong>Приоритет:</strong> {priority!.emoji} {priority!.ru}
+          </li>
+          <li>
+            <strong>Статус:</strong> {status}
+          </li>
+        </ul>
+      </Aside>
+    </div>
   )
 }
+
+<style>
+  /*
+   * Кнопка правки садится на строку заголовка Aside: заголовок — чужая
+   * разметка, врезаться в неё нельзя, поэтому обёртка держит систему
+   * координат, а ссылка уходит из потока. Высота считается из тех же
+   * переменных, что и заголовок, — так она центрируется по нему при любом
+   * масштабе шрифта, а не по подобранному вручную отступу.
+   */
+  .leaf-meta {
+    position: relative;
+  }
+  /* Место под кнопку, чтобы длинный заголовок не наехал на неё. */
+  .leaf-meta :global(.starlight-aside__title) {
+    padding-inline-end: 7rem;
+  }
+
+  .leaf-meta-edit {
+    position: absolute;
+    top: 1rem;
+    inset-inline-end: 1rem;
+    height: calc(var(--sl-text-h5) * var(--sl-line-height-headings));
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0 0.5rem;
+    border: 1px solid var(--sl-color-asides-border);
+    border-radius: 4px;
+    font-size: var(--sl-text-sm);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--sl-color-asides-text-accent) !important;
+    text-decoration: none !important;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .leaf-meta-edit:hover,
+  .leaf-meta-edit:focus-visible {
+    background-color: var(--sl-color-asides-border);
+    color: var(--sl-color-white) !important;
+  }
+  :root[data-theme='light'] .leaf-meta-edit:hover,
+  :root[data-theme='light'] .leaf-meta-edit:focus-visible {
+    color: var(--sl-color-bg) !important;
+  }
+
+  /* На узком экране подпись не влезает рядом с заголовком — остаётся иконка. */
+  @media (max-width: 30rem) {
+    .leaf-meta :global(.starlight-aside__title) {
+      padding-inline-end: 2.75rem;
+    }
+    .leaf-meta-edit-text {
+      display: none;
+    }
+  }
+
+  @media print {
+    .leaf-meta-edit {
+      display: none;
+    }
+  }
+</style>
