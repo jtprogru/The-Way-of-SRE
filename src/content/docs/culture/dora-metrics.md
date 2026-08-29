@@ -37,15 +37,15 @@ DORA делит их на две группы. **Пропускная спосо
 
 ### Книги
 
-- Nicole Forsgren, Jez Humble, Gene Kim — **[Accelerate](https://itrevolution.com/product/accelerate/)** (IT Revolution, 2018). Фундамент исходной четырёхметричной модели и методологии исследования. За текущими названиями и составом метрик сюда идти уже нельзя, рекомендую читать вместе с актуальным руководством DORA.
+- Nicole Forsgren, Jez Humble, Gene Kim — **[Accelerate](https://itrevolution.com/product/accelerate/)** (IT Revolution, 2018). Фундамент исходной четырёхметричной модели и методологии исследования. Читал бегло, для общего развития книга своё даёт, но за текущими названиями и составом метрик сюда идти уже нельзя — сверяться всё равно по актуальному руководству DORA.
 - Gene Kim, Patrick Debois, John Willis, Jez Humble — **[The DevOps Handbook](https://itrevolution.com/product/the-devops-handbook-second-edition/)** (IT Revolution, 2-е изд., 2021). Полезен как операционный контекст, но в части состава DORA-метрик устарел — за ним идти не стоит.
 
 ### Статьи и доклады
 
-- DORA — **[Software delivery performance metrics](https://dora.dev/guides/dora-metrics/)**. Сверку определений рекомендую начинать отсюда: пять метрик, группировка throughput / instability, область применения и типовые ошибки. Страница обновлена 5 января 2026 года.
+- DORA — **[Software delivery performance metrics](https://dora.dev/guides/dora-metrics/)**. Пять метрик, группировка throughput / instability, область применения и типовые ошибки. Определения сверяю по этой странице, а не по книгам: она обновляется, последняя правка — 5 января 2026 года, а книжные списки метрик к этому моменту устарели.
 - DORA — **[A history of DORA's software delivery metrics](https://dora.dev/insights/dora-metrics-history/)**. Нужен, чтобы не смешивать версии модели: отдельно объясняет переход от MTTR к failed deployment recovery time, роль reliability и добавление deployment rework rate.
 - DORA — **[Quick Check](https://dora.dev/quickcheck/)**. Подходит как вход в разговор и baseline, но не заменяет проверяемые определения и сбор событий из инженерных систем.
-- DORA — **[Capabilities catalog](https://dora.dev/capabilities/)**. Советую открывать его уже после того, как ограничение найдено: каталог предлагает практики для улучшения процесса, а не ещё один способ ранжировать команды.
+- DORA — **[Capabilities catalog](https://dora.dev/capabilities/)**. Открываю уже после того, как ограничение найдено. По моим наблюдениям, в обратном порядке каталог читается как список практик, которые надо внедрить, хотя он предлагает способ улучшить процесс, а не ещё один способ ранжировать команды.
 
 ### Инструменты
 
