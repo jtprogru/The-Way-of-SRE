@@ -32,30 +32,30 @@ status: draft
 
 ### Книги
 
-- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/monitoring-distributed-systems/)** (O'Reilly, 2016), глава 6 «Monitoring Distributed Systems». База терминологии. Короткая.
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/alerting-on-slos/)** (O'Reilly, 2018), глава 5 «Alerting on SLOs». **Главная глава по теме.** Если читать одну — эту. Шесть стратегий алертинга разобраны последовательно, у каждой явно названы слабые места по precision, recall, времени обнаружения и времени сброса, и там же лежат готовые параметры окон для multi-burn-rate.
+- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/monitoring-distributed-systems/)** (O'Reilly, 2016), глава 6 «Monitoring Distributed Systems». Рекомендую как базу терминологии, глава короткая.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/alerting-on-slos/)** (O'Reilly, 2018), глава 5 «Alerting on SLOs». **Главная глава по теме,** рекомендую читать её первой. Шесть стратегий алертинга разобраны последовательно, у каждой явно названы слабые места по precision, recall, времени обнаружения и времени сброса, и там же лежат готовые параметры окон для multi-burn-rate.
 - Alex Hidalgo — **Implementing Service Level Objectives** (O'Reilly, 2020). По моему ощущению, дополняет SRE Workbook, не заменяет: главное — глубина по составным SLO и пользовательским сценариям, чего в Workbook нет.
 
 ### Статьи и доклады
 
-- Google SRE — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)**. То же, что в Workbook гл. 5, но онлайн и бесплатно.
-- Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про пределы существующего подхода к измерению надёжности — полезно, когда алерты на SLO уже настроены и начинают спорить с реальностью.
-- Grafana — **[How to alert on SLOs](https://grafana.com/blog/2022/03/14/how-to-create-slo-alerts-with-grafana-cloud-slo)**. Практично, с конкретными PromQL.
-- Liz Fong-Jones и др. — **[Developing Effective Service Level Indicators and Service Level Objectives](https://www.usenix.org/conference/srecon18europe/presentation/fong-jones-0)** (SREcon18 Europe). Сильный доклад практиков про то, как выбирать SLI — половина проблем с алертами родом отсюда.
+- Google SRE — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)**. То же, что в Workbook гл. 5, но онлайн и бесплатно; рекомендую эту ссылку, если книги под рукой нет.
+- Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про пределы существующего подхода к измерению надёжности. Сам не смотрел; доклад в списке как единственный, который с остальными спорит, а не достраивает их.
+- Grafana — **[How to alert on SLOs](https://grafana.com/blog/2022/03/14/how-to-create-slo-alerts-with-grafana-cloud-slo)**. Рекомендую как практическое дополнение к главе выше: конкретные PromQL, которые можно взять и проверить у себя.
+- Liz Fong-Jones и др. — **[Developing Effective Service Level Indicators and Service Level Objectives](https://www.usenix.org/conference/srecon18europe/presentation/fong-jones-0)** (SREcon18 Europe). Про то, как выбирать SLI, — половина проблем с алертами родом отсюда. Не читал и не смотрел, как и остальные её материалы; строка здесь указатель, а не рекомендация.
 - Мой разбор — **[Скорость сгорания бюджета ошибок — что тут не так?](https://jtprog.ru/posts/burn-rate-is-not-speed/)** (jtprog.ru, апрель 2026). Откуда берётся каноническое 14.4 из пятой главы Workbook и почему burn rate — безразмерный коэффициент, а не скорость. Разбирал это потому, что, по моим наблюдениям, из-за слова «скорость» коэффициент путают с интенсивностью ошибок и подбирают окна наугад. В конце — про скользящее окно и про то, как коэффициент шумит на малом трафике.
 
 ### Курсы
 
-- Google Cloud — **Site Reliability Engineering: Measuring and Managing Reliability** (Coursera). Уровень начальный; полезно команде, которая впервые слышит про SLI/SLO.
+- Google Cloud — **Site Reliability Engineering: Measuring and Managing Reliability** (Coursera). Уровень начальный. Сам курс не проходил и за содержание не ручаюсь; в списке он для команды, которая впервые слышит про SLI и SLO.
 
 ### Инструменты
 
-- **[Prometheus + Alertmanager](https://prometheus.io/)** — каноничный стек: SLI собирается `recording rules`, алерты — правилами на скорость сжигания. Если у вас k8s — выбор по умолчанию.
-- **[VictoriaMetrics + vmalert](https://victoriametrics.com/)** — альтернатива Prometheus для высоконагруженных сценариев; совместимый язык правил.
-- **[Grafana Alerting](https://grafana.com/docs/grafana/latest/alerting/)** — альтернатива Alertmanager с настройкой через интерфейс; удобна для команд, живущих в Grafana, и неудобна там, где всё едет через git.
+- **[Prometheus + Alertmanager](https://prometheus.io/)** — каноничный стек: SLI собирается `recording rules`, алерты — правилами на скорость сжигания. Рекомендую как выбор по умолчанию, особенно если у вас k8s.
+- **[VictoriaMetrics + vmalert](https://victoriametrics.com/)** — альтернатива Prometheus для высоконагруженных сценариев; язык правил совместим, поэтому рекомендую как замену без переписывания алертов, когда Prometheus перестаёт держать нагрузку.
+- **[Grafana Alerting](https://grafana.com/docs/grafana/latest/alerting/)** — альтернатива Alertmanager с настройкой через интерфейс. Рекомендую командам, живущим в Grafana; там, где всё едет через git, она неудобна.
 - **[Sloth](https://sloth.dev/)** — генератор PromQL для SLO и burn-rate алертов из декларативного YAML. По моим наблюдениям, его чаще берут команды от 5+ сервисов: вручную написать корректные multi-window правила тяжелее, чем кажется, и Sloth убирает целую категорию ошибок (опечатки в формуле, забытые окна, неконсистентные шаги).
 - **[Pyrra](https://github.com/pyrra-dev/pyrra)** — open-source альтернатива Nobl9, родная для k8s, со встроенным дашбордом бюджета ошибок. Я вижу, что её берут как промежуточную ступень: Sloth уже маловат, Nobl9 ещё рано.
-- **[Nobl9](https://nobl9.com/)** — коммерческая платформа. Имеет смысл, когда SLO ведут несколько команд в разных регионах и нужен общий язык и общий портал. Для одной команды — перебор.
+- **[Nobl9](https://nobl9.com/)** — коммерческая платформа. Сам не работал; коллеги рекомендуют её там, где SLO ведут несколько команд в разных регионах и нужен общий язык и общий портал. Для одной команды — перебор.
 
 ## Best practices
 

@@ -47,24 +47,24 @@ status: draft
 
 ### Книги
 
-- Alex Hidalgo — **Implementing Service Level Objectives** (O'Reilly, 2020). Главы с первой по шестую — от определения SLI до расчёта бюджета ошибок. Главный практический источник.
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/implementing-slos/)** (O'Reilly, 2018), глава 2 «Implementing SLOs». Канонический подход Google к SLO-инжинирингу.
-- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/service-level-objectives/)** (O'Reilly, 2016), глава 4 «Service Level Objectives». База терминологии и фундаментальные модели.
+- Alex Hidalgo — **Implementing Service Level Objectives** (O'Reilly, 2020). Рекомендую как главный практический источник: главы с первой по шестую ведут от определения SLI до расчёта бюджета ошибок.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/implementing-slos/)** (O'Reilly, 2018), глава 2 «Implementing SLOs». Тоже рекомендую: канонический подход Google, короче и суше Идальго.
+- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/service-level-objectives/)** (O'Reilly, 2016), глава 4 «Service Level Objectives». Рекомендую как фундамент: база терминологии и модели, на которых стоит всё остальное. За устройством практики идти не сюда.
 
 ### Статьи и доклады
 
-- Betsy Beyer et al. — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)** (SRE Workbook, гл. 5). Связь инженерной части SLO со стратегией алертинга.
-- Betsy Beyer et al. — **[Appendix B. Example Error Budget Policy](https://sre.google/workbook/error-budget-policy/)** (SRE Workbook). Готовый шаблон Error Budget Policy.
-- Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про то, где привычный способ измерять надёжность перестаёт работать; полезно как отрезвляющее чтение после первого удачного SLO.
+- Betsy Beyer et al. — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)** (SRE Workbook, гл. 5). Связь инженерной части SLO со стратегией алертинга. Рекомендую прочитать до того, как настраивать алерты, иначе они встают на метрики, а не на бюджет.
+- Betsy Beyer et al. — **[Appendix B. Example Error Budget Policy](https://sre.google/workbook/error-budget-policy/)** (SRE Workbook). Готовый шаблон Error Budget Policy. Рекомендую начинать с него, а не писать политику с нуля.
+- Štěpán Davidovič — **[Measuring Reliability: What Got Us Here Won't Get Us There](https://www.usenix.org/conference/srecon22emea/presentation/davidovic)** (SREcon22 EMEA). Про то, где привычный способ измерять надёжность перестаёт работать. Сам не смотрел; в списке доклад стоит как единственный источник, который с остальными спорит, а не достраивает их.
 - Мой разбор — **[SLO как чертёж архитектуры](https://jtprog.ru/posts/slo-as-architecture-blueprint/)** (jtprog.ru, май 2026). Прохожу цепочку целиком на одном кейсе поиска в маркетплейсе: функциональные требования → критичный пользовательский путь → шаги пути → SLI → SLO → бюджет ошибок. Источники выше начинают сразу с индикатора; здесь начало на шаг раньше, потому что, по моим наблюдениям, спорят в командах про сценарий, а не про формулу. Отдельным разделом — что в SLI брать нельзя.
 
 ### Инструменты
 
-- **[Prometheus](https://prometheus.io/)** — `recording rules` для SLI, правила алертинга для скорости сжигания. Канонический стек.
+- **[Prometheus](https://prometheus.io/)** — `recording rules` для SLI, правила алертинга для скорости сжигания. Канонический стек, рекомендую начинать с него: остальное в этом ряду так или иначе описывает то же самое.
 - **[Sloth](https://sloth.dev/)** — генератор PromQL для SLO и burn-rate алертов из декларативного YAML. По моим наблюдениям, чаще выбирают в командах от 5+ сервисов.
 - **[Pyrra](https://github.com/pyrra-dev/pyrra)** — открытая платформа управления SLO поверх Prometheus: дашборд бюджета ошибок, многооконные алерты, оператор для Kubernetes.
-- **[OpenSLO](https://openslo.com/)** — независимая от вендоров спецификация SLO в YAML; утилита `oslo` проверяет их прямо в конвейере.
-- **[Nobl9](https://nobl9.com/)** — коммерческая платформа поверх любого мониторинга. Полезна, когда SLO надо держать в едином виде сразу по многим командам.
+- **[OpenSLO](https://openslo.com/)** — независимая от вендоров спецификация SLO в YAML; утилита `oslo` проверяет их прямо в конвейере. Рекомендую как формат описания, даже если платформа потом сменится.
+- **[Nobl9](https://nobl9.com/)** — коммерческая платформа поверх любого мониторинга. Сам не работал; коллеги рекомендуют её там, где SLO надо держать в едином виде сразу по многим командам.
 
 ## Best practices
 

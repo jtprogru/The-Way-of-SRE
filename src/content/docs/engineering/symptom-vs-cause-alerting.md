@@ -33,21 +33,21 @@ status: draft
 
 ### Книги
 
-- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/monitoring-distributed-systems/)** (O'Reilly, 2016), глава 6 «Monitoring Distributed Systems». Канонический разбор: четыре золотых сигнала, симптомы против причин, white-box против black-box. Если выбирать одну главу — эту.
-- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/practical-alerting/)** (O'Reilly, 2016), глава 10 «Practical Alerting from Time-Series Data». Как связка «временной ряд — правило — пейджер» устроена изнутри на примере Borgmon; читать после шестой главы.
-- Mike Julian — **[Practical Monitoring](https://www.oreilly.com/library/view/practical-monitoring/9781491957349/)** (O'Reilly, 2017). Глава про осмысленные алерты. Тот же принцип с другой стороны: разделение на то, что будит, то, что уходит тикетом, и то, что просто пишется в лог.
-- Cindy Sridharan — **[Distributed Systems Observability](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/)** (O'Reilly, 2018). Контекст: почему наблюдаемость и мониторинг — разные вещи и почему поиск причин уходит в трассировки и логи, а алертинг остаётся на симптомах.
+- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/monitoring-distributed-systems/)** (O'Reilly, 2016), глава 6 «Monitoring Distributed Systems». Рекомендую: канонический разбор — четыре золотых сигнала, симптомы против причин, white-box против black-box. Если выбирать одну главу, то эту.
+- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/practical-alerting/)** (O'Reilly, 2016), глава 10 «Practical Alerting from Time-Series Data». Как связка «временной ряд — правило — пейджер» устроена изнутри на примере Borgmon. Рекомендую следом за шестой главой, но не вместо неё.
+- Mike Julian — **[Practical Monitoring](https://www.oreilly.com/library/view/practical-monitoring/9781491957349/)** (O'Reilly, 2017). Глава про осмысленные алерты: разделение на то, что будит, то, что уходит тикетом, и то, что просто пишется в лог. Не читал — книга в списке ради этого разделения, а не как проверенная рекомендация.
+- Cindy Sridharan — **[Distributed Systems Observability](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/)** (O'Reilly, 2018). Не читал; строка здесь ради контекста — почему наблюдаемость и мониторинг разные вещи и почему поиск причин уходит в трассировки и логи, а алертинг остаётся на симптомах.
 
 ### Статьи и доклады
 
-- Rob Ewaschuk — **[My Philosophy on Alerting](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/preview)** (Google, 2014). Первоисточник принципа «будим на симптомы, а не на причины». Короткий документ — лучшая первая статья по теме. Главный публичный кейс — см. ниже.
+- Rob Ewaschuk — **[My Philosophy on Alerting](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/preview)** (Google, 2014). Первоисточник принципа «будим на симптомы, а не на причины». Рекомендую начинать с него: документ короткий и остаётся лучшим из того, что я по теме читал. Главный публичный кейс — см. ниже.
 - Betsy Beyer, Niall Murphy, Liz Fong-Jones, David Rensin — **[The Site Reliability Workbook](https://sre.google/workbook/alerting-on-slos/)** (O'Reilly, 2018), глава 5 «Alerting on SLOs». Многооконные алерты по скорости сжигания — практика, выросшая из документа Ewaschuk: 2, 5 и 10 процентов бюджета на разных окнах.
-- Charity Majors — **[блог Honeycomb](https://www.honeycomb.io/blog)** и её [личный блог](https://charity.wtf/). Контекст высокой кардинальности и наблюдаемости как противопоставления классическому мониторингу. Полезно как фон, а не как канон по алертингу.
+- Charity Majors — **[блог Honeycomb](https://www.honeycomb.io/blog)** и её [личный блог](https://charity.wtf/). Контекст высокой кардинальности и наблюдаемости как противопоставления классическому мониторингу. Рекомендую как фон, а не как канон по алертингу: про выбор порогов и симптомов там почти ничего.
 
 ### Инструменты
 
-- **[Prometheus + Alertmanager](https://prometheus.io/docs/alerting/latest/overview/)** — стандарт де-факто. Многооконная схема собирается из `for` и правил агрегации. Sloth, Pyrra и OpenSLO генерируют такие правила из описания SLO.
-- **[Grafana](https://grafana.com/oss/alerting/)** / **[Datadog](https://docs.datadoghq.com/monitoring/)** / **[New Relic](https://docs.newrelic.com/docs/alerts-applied-intelligence/)** — алертинг внутри готовых платформ наблюдаемости; подход тот же, синтаксис разный.
+- **[Prometheus + Alertmanager](https://prometheus.io/docs/alerting/latest/overview/)** — стандарт де-факто, и рекомендую его же. Многооконная схема собирается из `for` и правил агрегации. Sloth, Pyrra и OpenSLO генерируют такие правила из описания SLO.
+- **[Grafana](https://grafana.com/oss/alerting/)** / **[Datadog](https://docs.datadoghq.com/monitoring/)** / **[New Relic](https://docs.newrelic.com/docs/alerts-applied-intelligence/)** — алертинг внутри готовых платформ наблюдаемости; подход тот же, синтаксис разный. Рекомендую любую из трёх, если платформа в компании уже стоит: заводить её отдельно ради алертинга смысла нет.
 - **[Sloth](https://sloth.dev/)** / **[Pyrra](https://github.com/pyrra-dev/pyrra)** / **[OpenSLO](https://openslo.com/)** — SLO как код: правила алертинга генерируются из описания автоматически. По моим наблюдениям, чаще берут Sloth — проверенный и хорошо ложится на Prometheus.
 - **Анти-инструмент:** правило алерта на каждую метрику дашборда. Антипаттерн, который доводит до усталости за месяц. Правило «алерт — это пейджер, всё остальное — дашборд» остаётся самым сильным фильтром.
 
