@@ -34,14 +34,14 @@ Game day и chaos engineering — разные инструменты с пер�
 
 ### Книги
 
-- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/accelerating-sre-on-call/)** (O'Reilly, 2016), глава 28 «Accelerating SREs to On-Call and Beyond». Источник Wheel of Misfortune как формализованной практики; рекомендую читать первым, если сталкиваетесь с темой впервые.
-- Casey Rosenthal, Nora Jones — **[Chaos Engineering: System Resiliency in Practice](https://www.oreilly.com/library/view/chaos-engineering/9781492043858/)** (O'Reilly, 2020), главы про GameDay structure и blast radius management. Рекомендую как главный практический источник по технической стороне учений с реальной инъекцией.
+- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/accelerating-sre-on-call/)** (O'Reilly, 2016), глава 28 «Accelerating SREs to On-Call and Beyond». Источник Wheel of Misfortune как формализованной практики. Сам главу не читал — формат знаю по рассказам коллег, которые его у себя гоняли, и именно в этом виде он разошёлся по индустрии.
+- Casey Rosenthal, Nora Jones — **[Chaos Engineering: System Resiliency in Practice](https://www.oreilly.com/library/view/chaos-engineering/9781492043858/)** (O'Reilly, 2020), главы про GameDay structure и blast radius management. Не читал; лежит в списке по совету коллег, которые занимаются chaos engineering всерьёз, — за технической стороной учений с реальной инъекцией они отправляют сюда.
 - Kripa Krishnan — **[Weathering the Unexpected](https://queue.acm.org/detail.cfm?id=2371516)** (ACM Queue, 2012). Не книга, но обязательно к прочтению: как Google запустил DiRT и что из этого вышло. Самый ценный единичный источник про full-scale drill.
 
 ### Статьи и доклады
 
-- **[Wheel of Misfortune](https://sre.google/sre-book/accelerating-sre-on-call/)** (SRE Book, глава 28 «Accelerating SREs to On-Call and Beyond»). Описание формата ролевой тренировки: ведущий берёт реальный прошлый инцидент, участник отыгрывает дежурного. Рекомендую как стартовую точку команде, у которой ритуала ещё нет.
-- **[AWS GameDay](https://aws.amazon.com/gameday/)** — программа AWS для внешнего обучения incident response. Советую посмотреть как **референс формата** — тайм-бокс, оценка, разбор после игры, — даже если AWS вы не используете.
+- **[Wheel of Misfortune](https://sre.google/sre-book/accelerating-sre-on-call/)** (SRE Book, глава 28 «Accelerating SREs to On-Call and Beyond»). Описание формата ролевой тренировки: ведущий берёт реальный прошлый инцидент, участник отыгрывает дежурного. Команде без ритуала советую начинать с него: порог входа нулевой, нужны ведущий, час времени и один прошлый постмортем.
+- **[AWS GameDay](https://aws.amazon.com/gameday/)** — программа AWS для внешнего обучения incident response. Пробовал заводить такой формат у себя: до регулярного ритуала не дошло, я ушёл из компании раньше, но впечатление осталось хорошее. Смотреть стоит как **референс формата** — тайм-бокс, оценка, разбор после игры, — даже если AWS вы не используете.
 - Aaron Blohowiak (Netflix) — **[FIT: Failure Injection Testing](https://netflixtechblog.com/fit-failure-injection-testing-35d8e2a9bb2)** (Netflix Tech Blog, 2014). Эволюция от game day к continuous chaos; объясняет, **где game day упирается в потолок** и нужны automated experiments.
 - **[Ɔhaos Ǝnginǝǝring @ Target](https://tech.target.com/blog/chaos-engineering-at-target-part-2)** (Target Tech Blog). Один из немногих публичных взглядов изнутри на то, как крупная компания встраивает game day в обычную работу: cadence, участники, что делают с находками.
 
