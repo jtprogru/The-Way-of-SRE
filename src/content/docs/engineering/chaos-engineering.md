@@ -32,24 +32,24 @@ status: draft
 
 ### Книги
 
-- Casey Rosenthal, Nora Jones — **[Chaos Engineering: System Resiliency in Practice](https://www.oreilly.com/library/view/chaos-engineering/9781492043858/)** (O'Reilly, 2020). Каноническая книга от авторов Principles of Chaos. Главы про гипотезы, управление радиусом поражения и устройство game day. Кейсы из Netflix, LinkedIn, Capital One, Slack.
-- Russ Miles — **[Learning Chaos Engineering](https://www.oreilly.com/library/view/learning-chaos-engineering/9781492051001/)** (O'Reilly, 2019). Прикладное руководство на Chaos Toolkit; хорошо заходит как первая практическая книга для команды.
+- Casey Rosenthal, Nora Jones — **[Chaos Engineering: System Resiliency in Practice](https://www.oreilly.com/library/view/chaos-engineering/9781492043858/)** (O'Reilly, 2020). Каноническая книга от авторов Principles of Chaos: главы про гипотезы, управление радиусом поражения и устройство game day, кейсы из Netflix, LinkedIn, Capital One, Slack. Не читал — лежит в списке по совету коллег, которые занимаются chaos engineering всерьёз.
+- Russ Miles — **[Learning Chaos Engineering](https://www.oreilly.com/library/view/learning-chaos-engineering/9781492051001/)** (O'Reilly, 2019). Прикладное руководство на Chaos Toolkit. Не читал, поэтому ранжировать не берусь; в списке она как единственная книга, которая идёт от инструмента, а не от принципов.
 
 ### Статьи и доклады
 
-- **[Principles of Chaos Engineering](https://principlesofchaos.org/)** (2015). Основополагающий документ от команды Netflix, которым дисциплина и была формально названа. Короткий, читается за десять минут.
-- **[Netflix Tech Blog — Chaos Engineering Upgraded](https://netflixtechblog.com/chaos-engineering-upgraded-878d341f15fa)** (2015). История эволюции от Chaos Monkey к ChAP. Главный кейс листа — см. ниже.
-- Casey Rosenthal — **[Principles of Chaos Engineering](https://www.usenix.org/conference/srecon17americas/program/presentation/rosenthal)** (SREcon17 Americas). Доклад одного из авторов манифеста: откуда взялись принципы и почему эксперимент ставится именно в проде.
-- Kelly Shortridge, Aaron Rinehart — **[Security Chaos Engineering](https://www.oreilly.com/library/view/security-chaos-engineering/9781098113810/)** (O'Reilly, 2023). Тот же метод, направленный на защитные механизмы: их проверяют экспериментом, а не бумажным аудитом.
+- **[Principles of Chaos Engineering](https://principlesofchaos.org/)** (2015). Основополагающий документ от команды Netflix, которым дисциплина и была формально названа. Рекомендую начинать с него: он короткий, читается за десять минут, и дальше уже видно, нужен ли остальной список.
+- **[Netflix Tech Blog — Chaos Engineering Upgraded](https://netflixtechblog.com/chaos-engineering-upgraded-878d341f15fa)** (2015). История эволюции от Chaos Monkey к ChAP. Рекомендую вторым шагом после манифеста: там же главный кейс этого листа — см. ниже.
+- Casey Rosenthal — **[Principles of Chaos Engineering](https://www.usenix.org/conference/srecon17americas/program/presentation/rosenthal)** (SREcon17 Americas). Доклад одного из авторов манифеста: откуда взялись принципы и почему эксперимент ставится именно в проде. Сам не смотрел, оставляю как первоисточник к манифесту выше.
+- Kelly Shortridge, Aaron Rinehart — **[Security Chaos Engineering](https://www.oreilly.com/library/view/security-chaos-engineering/9781098113810/)** (O'Reilly, 2023). Тот же метод, направленный на защитные механизмы: их проверяют экспериментом, а не бумажным аудитом. Не читал; строка стоит здесь как указатель на смежную ветку метода.
 
 ### Инструменты
 
-- **[Chaos Mesh](https://chaos-mesh.org/)** (CNCF, родной для k8s) — эксперимент описывается через CRD: `PodChaos`, `NetworkChaos`, `IOChaos`, `StressChaos`. Я вижу, что в сценариях с k8s чаще берут именно его.
-- **[Litmus](https://litmuschaos.io/)** (CNCF, k8s) — альтернатива Chaos Mesh с богатым каталогом готовых экспериментов (ChaosHub) и связкой с Argo Workflows.
-- **[AWS Fault Injection Service](https://aws.amazon.com/fis/) / [Azure Chaos Studio](https://learn.microsoft.com/en-us/azure/chaos-studio/)** — управляемый chaos внутри самого облака: погасить инстанс, приостановить диск, придушить API, порвать сеть. Своего оператора разворачивать не надо.
-- **[Chaos Toolkit](https://chaostoolkit.org/)** — open-source описание экспериментов в JSON и YAML, поверх разных платформ. Берут, когда инструмент не должен быть привязан к одной среде исполнения.
-- **[Gremlin](https://www.gremlin.com/) / [Steadybit](https://www.steadybit.com/)** — коммерческие платформы. Надёжная автоматическая остановка по SLO, визуальный конструктор экспериментов, журнал аудита для регуляторов.
-- **[Pumba](https://github.com/alexei-led/pumba)** — chaos для Docker: `pause`, `kill`, `netem`, нагрузка на ресурсы в локальных контейнерах. Лёгкий вариант для экспериментов на машине разработчика.
+- **[Chaos Mesh](https://chaos-mesh.org/)** (CNCF, родной для k8s) — эксперимент описывается через CRD: `PodChaos`, `NetworkChaos`, `IOChaos`, `StressChaos`. Сам не пробовал; коллеги, которые ставили эксперименты всерьёз, в сценариях с k8s чаще берут именно его.
+- **[Litmus](https://litmuschaos.io/)** (CNCF, k8s) — альтернатива Chaos Mesh с богатым каталогом готовых экспериментов (ChaosHub) и связкой с Argo Workflows. Тоже знаю по чужим рекомендациям, а не по своим прогонам.
+- **[AWS Fault Injection Service](https://aws.amazon.com/fis/) / [Azure Chaos Studio](https://learn.microsoft.com/en-us/azure/chaos-studio/)** — управляемый chaos внутри самого облака: погасить инстанс, приостановить диск, придушить API, порвать сеть. Своего оператора разворачивать не надо. С обоими сервисами я не знаком.
+- **[Chaos Toolkit](https://chaostoolkit.org/)** — open-source описание экспериментов в JSON и YAML, поверх разных платформ. Берут, когда инструмент не должен быть привязан к одной среде исполнения; в руках у меня он не был.
+- **[Gremlin](https://www.gremlin.com/) / [Steadybit](https://www.steadybit.com/)** — коммерческие платформы. Надёжная автоматическая остановка по SLO, визуальный конструктор экспериментов, журнал аудита для регуляторов. Ни одну из двух вживую не видел, сужу по описаниям.
+- **[Pumba](https://github.com/alexei-led/pumba)** — chaos для Docker: `pause`, `kill`, `netem`, нагрузка на ресурсы в локальных контейнерах. Лёгкий вариант для экспериментов на машине разработчика, хотя сам я до него не добрался.
 
 ## Best practices
 

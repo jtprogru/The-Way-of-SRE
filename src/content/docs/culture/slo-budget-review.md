@@ -32,22 +32,22 @@ status: draft
 
 ### Книги
 
-- Alex Hidalgo — **Implementing Service Level Objectives** (O'Reilly, 2020), глава 8 «Establishing an SLO Review». Главный практический источник по структуре ритуала.
-- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/service-level-objectives/)** (O'Reilly, 2016), глава 4. Фундамент SLI/SLO/SLA и почему ревью необходим.
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/implementing-slos/)** (O'Reilly, 2018), глава 2. Главный источник по форматам SLO, error budget, ритуалу ревью.
+- Alex Hidalgo — **Implementing Service Level Objectives** (O'Reilly, 2020), глава 8 «Establishing an SLO Review». Рекомендую как основной источник именно по структуре встречи: про SLO и бюджет ошибок подробно пишут и другие, а про то, как провести ревью, — здесь.
+- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/service-level-objectives/)** (O'Reilly, 2016), глава 4. Рекомендую как фундамент: SLI, SLO, SLA и объяснение, зачем ревью вообще нужен. За устройством самой встречи идти не сюда.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/implementing-slos/)** (O'Reilly, 2018), глава 2. Тоже рекомендую: форматы SLO, устройство бюджета ошибок и примеры ревью — то место, где абстракция четвёртой главы становится конкретной.
 
 ### Статьи и доклады
 
-- Betsy Beyer et al. — **[Appendix B. Example Error Budget Policy](https://sre.google/workbook/error-budget-policy/)** (SRE Workbook). Готовый шаблон Error Budget Policy.
-- Google SRE — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)**. Какие данные (burn rate windows, alerts) приходят на ревью как входные.
+- Betsy Beyer et al. — **[Appendix B. Example Error Budget Policy](https://sre.google/workbook/error-budget-policy/)** (SRE Workbook). Готовый шаблон Error Budget Policy. Рекомендую начинать с него, а не писать политику с нуля: править чужой текст под себя быстрее, чем спорить о структуре с чистого листа.
+- Google SRE — **[Alerting on SLOs](https://sre.google/workbook/alerting-on-slos/)**. Какие данные приходят на ревью как входные: окна burn rate и построенные на них алерты. Рекомендую прочитать до первого ревью, иначе на встречу приносят графики, из которых решение не следует.
 - Мой разбор — **[Надёжность строится в диалоге с бизнесом](https://jtprog.ru/posts/reliability-is-a-conversation/)** (jtprog.ru, май 2026). Про то, чего шаблон политики выше не даёт: почему SLO остаётся дашбордом, пока правила не проговорены с продуктом, и три признака, что разговор не состоялся. Там же кейс Mercari про User Journey SLO — переименовать артефакт мало, ревью нужно встроить в процесс продукта.
 
 ### Инструменты
 
-- **Grafana SLO-дашборд** — визуализация burn rate / budget remaining / SLI на одном экране. Основной артефакт перед ревью; без дашборда ревью превращается в догадки.
-- **[Sloth](https://sloth.dev/)** — генератор PromQL для SLI/burn-rate. Стандартизирует записи между сервисами и упрощает подключение нового сервиса к ревью.
-- **[Nobl9](https://nobl9.com/)** — коммерческая SLO-платформа. Имеет смысл, когда SLO ведут несколько команд сразу и нужен общий портал; для одной команды это тяжело и избыточно.
-- **Error Budget Policy (markdown в репо команды)** — документ, фиксирующий правила: что замораживаем при каких burn rate, кто принимает решение, по каким критериям возвращаемся. Без документа решения теряются через месяц.
+- **Grafana SLO-дашборд** — визуализация burn rate / budget remaining / SLI на одном экране. Что именно рисовать и чем — вкусовщина; важно, что без такого экрана ревью превращается в догадки.
+- **[Sloth](https://sloth.dev/)** — генератор PromQL для SLI и burn rate, самый известный инструмент в этом ряду. Стандартизирует записи между сервисами и упрощает подключение нового сервиса к ревью.
+- **[Nobl9](https://nobl9.com/)** — коммерческая SLO-платформа. Строку можно пропустить: для одной команды она тяжела и избыточна, а осмысленной становится, только когда SLO ведут несколько команд сразу и нужен общий портал.
+- **Error Budget Policy (markdown в репо команды)** — документ, фиксирующий правила: что замораживаем при каких burn rate, кто принимает решение, по каким критериям возвращаемся. Как пункт списка его можно пропустить: это не источник, а артефакт самого ритуала, и готовый шаблон для него лежит выше. Без документа решения теряются через месяц.
 
 ## Best practices
 
