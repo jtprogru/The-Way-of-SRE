@@ -39,24 +39,24 @@ status: draft
 
 ### Книги
 
-- Alex Hidalgo — **[Implementing Service Level Objectives](https://www.alex-hidalgo.com/the-slo-book)** (O'Reilly, 2020). Единственная книга, где вероятностной стороне SLO отведена отдельная глава, а не абзац. Если выбирать одну ссылку — эту.
-- Betsy Beyer et al. (eds) — **[The Site Reliability Workbook](https://sre.google/workbook/implementing-slos/)** (O'Reilly, 2018), глава 2 «Implementing SLOs». Раздел про зависимости сверху и снизу — подход Google. Не так глубоко, как у Идальго, но канонично.
-- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/embracing-risk/)** (O'Reilly, 2016), глава 3 «Embracing Risk». Не про сложение напрямую, но фундамент для понимания: целевая доступность — это решение с разменами, а не красивое число.
+- Alex Hidalgo — **[Implementing Service Level Objectives](https://www.alex-hidalgo.com/the-slo-book)** (O'Reilly, 2020). Единственная книга, где вероятностной стороне SLO отведена отдельная глава, а не абзац. Рекомендую: если выбирать одну ссылку из списка, то эту.
+- Betsy Beyer et al. (eds) — **[The Site Reliability Workbook](https://sre.google/workbook/implementing-slos/)** (O'Reilly, 2018), глава 2 «Implementing SLOs». Раздел про зависимости сверху и снизу — подход Google. Тоже рекомендую, хотя по составным целям это заметно мельче, чем у Идальго.
+- Betsy Beyer et al. (eds) — **[Site Reliability Engineering](https://sre.google/sre-book/embracing-risk/)** (O'Reilly, 2016), глава 3 «Embracing Risk». Рекомендую, хотя напрямую про сложение здесь ничего нет: целевая доступность — решение с разменами, а не красивое число, и без этого арифметика ниже повисает в воздухе.
 
 ### Статьи и доклады
 
-- Alex Ewerlöf — **[Composite SLO](https://blog.alexewerlof.com/p/composite-slo)**. Разбор с конкретными формулами и схемами: как складывать SLO компонентов и почему наивное перемножение врёт. Хорошо дополняет книгу Идальго практикой.
-- Google Cloud — **[SRE fundamentals: SLIs, SLAs and SLOs](https://cloud.google.com/blog/products/devops-sre/sre-fundamentals-slis-slas-and-slos)**. По сложению неглубоко, зато канонический источник по словарю.
-- Marc Brooker — **[личный блог](https://brooker.co.za/blog/)** (AWS Principal Engineer). Отдельной статьи именно про сложение SLA у него нет, но разборы вероятностного поведения распределённых систем — лучший фон для понимания, почему считать в лоб нельзя.
+- Alex Ewerlöf — **[Composite SLO](https://blog.alexewerlof.com/p/composite-slo)**. Разбор с конкретными формулами и схемами: как складывать SLO компонентов и почему наивное перемножение врёт. Рекомендую читать сразу после Идальго: там теория, здесь практика.
+- Google Cloud — **[SRE fundamentals: SLIs, SLAs and SLOs](https://cloud.google.com/blog/products/devops-sre/sre-fundamentals-slis-slas-and-slos)**. По сложению неглубоко, зато канонический источник по словарю. Рекомендую как место, куда отправлять спорящих о терминах.
+- Marc Brooker — **[личный блог](https://brooker.co.za/blog/)** (AWS Principal Engineer). Отдельной статьи именно про сложение SLA у него нет, но разборы вероятностного поведения распределённых систем рекомендую как фон: из них понятно, почему считать в лоб нельзя.
 - Мой разбор — **[SLO как чертёж архитектуры](https://jtprog.ru/posts/slo-as-architecture-blueprint/)** (jtprog.ru, май 2026). Формул сложения там нет, зато разобрана ошибка, из которой нужда в них вырастает: раздел про ловушку среднего по системе показывает на кейсе маркетплейса, как один индикатор на весь сценарий прячет деградацию отдельного шага. Стоит прочитать до разбора Ewerlöf, если составной расчёт пока кажется теорией.
 
 ### Инструменты
 
-- **[OpenSLO](https://openslo.com/)** — независимая от вендоров спецификация SLO в YAML; составные цели описываются через `objectives[]` с несколькими SLI. Используется в Sloth, Pyrra и Nobl9.
+- **[OpenSLO](https://openslo.com/)** — независимая от вендоров спецификация SLO в YAML; составные цели описываются через `objectives[]` с несколькими SLI. Используется в Sloth, Pyrra и Nobl9, и рекомендую держаться этого формата, а не заводить свой YAML.
 - **[Sloth](https://sloth.dev/)** — SLO как код для Prometheus; правила многооконного алертинга по скорости сжигания генерируются автоматически. Составной SLO собирается из нескольких определений плюс свои recording rules.
 - **[Pyrra](https://github.com/pyrra-dev/pyrra)** — альтернатива Sloth с более жёсткими умолчаниями. По моим наблюдениям, Sloth чаще берут туда, где уже что-то настроено, Pyrra — когда начинают с нуля.
-- **[Nobl9](https://www.nobl9.com/)** — коммерческая платформа для SLO, лучшая в индустрии поддержка составных целей из коробки. Если программа SLO для компании критична и бюджет есть — стоит смотреть.
-- **[Пример Error Budget Policy из SRE Workbook](https://sre.google/workbook/error-budget-policy/)** — готовый шаблон политики от Google; отдельного репозитория с таким шаблоном у них нет, несмотря на распространённое заблуждение.
+- **[Nobl9](https://www.nobl9.com/)** — коммерческая платформа для SLO. Сам не работал, но по отзывам коллег поддержка составных целей из коробки здесь лучшая из доступных; рекомендую смотреть, если программа SLO для компании критична и бюджет на неё есть.
+- **[Пример Error Budget Policy из SRE Workbook](https://sre.google/workbook/error-budget-policy/)** — готовый шаблон политики от Google, рекомендую начинать с него, а не с чистого листа; отдельного репозитория с таким шаблоном у них нет, несмотря на распространённое заблуждение.
 - **Анти-инструмент:** расчёт в таблице Excel, который обновляют вручную раз в квартал. Это не инструмент, а приглашение к протухшей арифметике. Расчёт живёт в коде (OpenSLO, определения Sloth) и обновляется PR'ом вместе с графом зависимостей.
 
 ## Best practices
