@@ -1,0 +1,49 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Здесь обсуждаем идеи до того, как они станут работой: новый лист, перенос листа под другой L1, новый L1, изменения сайта. Когда идея созрела и понятно, куда её вешать, заводится issue по шаблону «Предложение листа».
+
+        Перед тем как писать: поищи похожие обсуждения и issue, сверь идею с [Методологией](https://jtprogru.github.io/The-Way-of-SRE/methodology/). Одна идея — одна дискуссия. Фактические ошибки в листьях — сразу в [issue](https://github.com/jtprogru/The-Way-of-SRE/issues/new/choose), уязвимости — приватно по [SECURITY.md](https://github.com/jtprogru/The-Way-of-SRE/blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: О чём идея
+      options:
+        - Новый лист
+        - Структура карты — перенос листа, новый L1, слияние или разделение
+        - Сайт и навигация
+        - Другое
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Идея
+      description: Что предлагаешь и какую проблему читателя карты это решает
+    validations:
+      required: true
+
+  - type: textarea
+    id: related
+    attributes:
+      label: Связанные листья и L1
+      description: Что на карте уже есть рядом и чем твоя идея от этого отличается
+
+  - type: textarea
+    id: sources
+    attributes:
+      label: Источники
+      description: Если идея про практику — на чём она держится. Первичные источники лучше пересказов.
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Правила
+      options:
+        - label: Поискал похожие обсуждения и issue
+          required: true
+        - label: Согласен соблюдать [Кодекс поведения](https://github.com/jtprogru/The-Way-of-SRE/blob/main/CODE_OF_CONDUCT.md)
+          required: true

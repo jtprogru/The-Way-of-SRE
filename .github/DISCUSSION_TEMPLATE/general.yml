@@ -1,0 +1,22 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Всё, что не вопрос и не идея: опыт применения практик с карты, как вы используете её для онбординга или планов развития, обсуждение SRE-тем вокруг листьев.
+
+        Для вопроса есть категория Q&A, для идеи листа или изменения карты — Ideas. Фактические ошибки — в [issue](https://github.com/jtprogru/The-Way-of-SRE/issues/new/choose), уязвимости — приватно по [SECURITY.md](https://github.com/jtprogru/The-Way-of-SRE/blob/main/SECURITY.md).
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: О чём хочешь поговорить
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Правила
+      options:
+        - label: Согласен соблюдать [Кодекс поведения](https://github.com/jtprogru/The-Way-of-SRE/blob/main/CODE_OF_CONDUCT.md)
+          required: true

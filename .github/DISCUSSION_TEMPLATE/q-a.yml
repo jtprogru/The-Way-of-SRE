@@ -1,0 +1,37 @@
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Вопросы про карту и про то, как в неё контрибутить: куда повесить лист, как читать приоритеты и SFIA-уровни, почему практика описана так, а не иначе. Когда ответ найден, отметь его кнопкой «Mark as answer» — следующему с тем же вопросом будет проще.
+
+        Одна тема — одна дискуссия. Фактическая ошибка в листе — это [issue](https://github.com/jtprogru/The-Way-of-SRE/issues/new/choose), а не вопрос. Быстрый вопрос можно задать и в [Telegram-чате](https://t.me/+BPP6mMOs34s2Yzcy).
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Вопрос
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Страница карты
+      description: Если вопрос про конкретный лист или раздел
+      placeholder: https://jtprogru.github.io/The-Way-of-SRE/culture/runbooks/
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: Что уже посмотрел
+      description: CONTRIBUTING, Методология, style-guide, похожие обсуждения — чтобы ответ не повторял то, что ты уже прочитал
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Правила
+      options:
+        - label: Поискал похожие обсуждения и issue
+          required: true
+        - label: Согласен соблюдать [Кодекс поведения](https://github.com/jtprogru/The-Way-of-SRE/blob/main/CODE_OF_CONDUCT.md)
+          required: true
