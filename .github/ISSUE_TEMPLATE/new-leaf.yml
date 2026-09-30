@@ -1,0 +1,75 @@
+name: Предложение листа
+description: Конкретная практика, которой не хватает на карте
+labels: [new-leaf]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Лист — конкретная практика внутри домена, а не сам домен: `Incident Management` — это L1, а `Blameless Postmortem` — лист. Перед тем как заполнять, сверь идею с [Методологией](https://jtprogru.github.io/The-Way-of-SRE/methodology/) и обсуди её в [Discussions](https://github.com/jtprogru/The-Way-of-SRE/discussions/categories/ideas) или в [чате](https://t.me/+BPP6mMOs34s2Yzcy): чаще всего практика уже описана на карте под другим именем.
+
+  - type: input
+    id: name
+    attributes:
+      label: Название практики
+      placeholder: Change Freeze
+    validations:
+      required: true
+
+  - type: dropdown
+    id: branch
+    attributes:
+      label: Ветвь
+      options:
+        - SRE Culture
+        - SRE Engineering
+        - SRE Practices
+        - Не знаю
+    validations:
+      required: true
+
+  - type: input
+    id: l1
+    attributes:
+      label: Под какой L1
+      description: Список L1 — на странице ветви. Если практика уточняет уже написанный лист, назови его.
+      placeholder: Incident Management
+
+  - type: textarea
+    id: what
+    attributes:
+      label: Что это за практика
+      description: Что инженер делает руками, когда её применяет, и какую проблему она решает
+    validations:
+      required: true
+
+  - type: textarea
+    id: gap
+    attributes:
+      label: Почему её не покрывают существующие листья
+      description: Назови ближайшие листья и чего в них не хватает
+    validations:
+      required: true
+
+  - type: textarea
+    id: sources
+    attributes:
+      label: Источники
+      description: Первичные — книги, статьи авторов практики, постмортемы компаний, спецификации
+    validations:
+      required: true
+
+  - type: input
+    id: discussion
+    attributes:
+      label: Обсуждение
+      description: Ссылка на дискуссию в Ideas, если идею уже обсуждали
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Проверки
+      options:
+        - label: Поискал по сайту — такой практики нет под другим именем
+          required: true
+        - label: Обсудил идею в Discussions или в чате
+        - label: Готов написать лист сам

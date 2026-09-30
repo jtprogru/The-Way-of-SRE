@@ -1,0 +1,36 @@
+name: Проблема сайта
+description: Сломалась вёрстка, навигация, mind map или страница не открывается
+labels: [bug]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Страница
+      placeholder: https://jtprogru.github.io/The-Way-of-SRE/mindmap/
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Что происходит
+      description: Скриншот можно перетащить прямо в поле
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Что ожидалось
+
+  - type: input
+    id: env
+    attributes:
+      label: Браузер и устройство
+      placeholder: Firefox 131, macOS / Safari, iPhone
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Ошибки в консоли браузера
+      render: text

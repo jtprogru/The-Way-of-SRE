@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Вопрос или идея листа
+    url: https://github.com/jtprogru/The-Way-of-SRE/discussions
+    about: Куда повесить лист и нужен ли он вообще — обсуждаем в Discussions, категории Q&A и Ideas
+  - name: Быстрый вопрос в Telegram-чате
+    url: https://t.me/+BPP6mMOs34s2Yzcy
+    about: Если ответ нужен здесь и сейчас, а не в долгой ветке обсуждения
+  - name: Уязвимость
+    url: https://github.com/jtprogru/The-Way-of-SRE/security/advisories/new
+    about: Не открывай публичный issue, сообщи приватно — подробности в SECURITY.md

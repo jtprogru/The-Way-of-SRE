@@ -1,0 +1,61 @@
+name: Фактическая ошибка
+description: Битая ссылка, число без источника, устаревшая версия стандарта, разъехавшийся пересказ кейса
+labels: [documentation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Одна ошибка — один issue. Если правка в пару строк, быстрее сразу прислать PR: он здесь такой же нормальный вклад, как новый лист.
+
+  - type: input
+    id: leaf
+    attributes:
+      label: Лист
+      description: Адрес страницы на сайте
+      placeholder: https://jtprogru.github.io/The-Way-of-SRE/practices/incident-response/
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Что не так
+      options:
+        - Ссылка битая или ведёт не на тот материал
+        - Число или дата не совпадают с источником
+        - Устарела версия стандарта или инструмента
+        - Пересказ кейса расходится с первоисточником или с другим листом
+        - Другое
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: Что написано сейчас
+      description: Цитата из листа, лучше с названием секции
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Как должно быть
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Первичный источник
+      description: |
+        Постмортем самой компании, статья автора практики, текст спецификации. Пересказ в чужом блоге источником не считается (§3.9 style-guide). Для битой ссылки — где материал лежит сейчас, если нашёл.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: pr
+    attributes:
+      label: Участие
+      options:
+        - label: Готов прислать PR с исправлением
