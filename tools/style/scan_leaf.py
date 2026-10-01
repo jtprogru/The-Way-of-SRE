@@ -355,8 +355,12 @@ def check(path, baseline):
         level = '!' if len(calques) > 2 else '~'
         add(level, '§3.7', 'кальки и канцелярит: ' + ', '.join(calques))
 
-    # §4.3: личная оценка в «Материалах»
-    mat_bullets = bullets_of(sections.get('Материалы', []))
+    # §4.3: личная оценка в «Материалах». Подраздел «Шаблоны» в счёт не идёт:
+    # там ссылки на заготовки из templates/ этого же репозитория, а правило
+    # про внешние источники, которые автор читал и оценивает.
+    materials = sections.get('Материалы', [])
+    own_templates = set(bullets_of(subsection(materials, 'Шаблоны')))
+    mat_bullets = [b for b in bullets_of(materials) if b not in own_templates]
     if mat_bullets:
         rated = [b for b in mat_bullets if MATERIAL_OPINION.search(b)]
         share = len(rated) / len(mat_bullets)
