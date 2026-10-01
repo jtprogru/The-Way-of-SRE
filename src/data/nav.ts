@@ -97,6 +97,14 @@ export const docNav: NavEntry[] = [
     href: '/glossary/',
     in: ['sidebar', 'header', 'footer', 'intro'],
   },
+  {
+    // Перечень шаблонов; сами файлы лежат в templates/ вне сайта, состав
+    // страницы — src/data/templates.ts. В шапку не идёт: там уже пять ссылок.
+    id: 'templates',
+    label: 'Шаблоны',
+    href: '/templates/',
+    in: ['sidebar', 'footer', 'intro'],
+  },
 ];
 
 export interface SocialEntry {
