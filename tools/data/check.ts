@@ -171,10 +171,23 @@ for (const template of templates) {
     }
   }
 }
+// Шаблоны лежат вне сайта и ссылаются на него полным адресом: на лист, где
+// документ разобран, на страницу перечня. link-check ходит по dist/ и этих
+// файлов не видит, поэтому адрес сверяется здесь — за ним должна стоять
+// страница в src/content/docs.
+const SITE_LINK = /https:\/\/jtprogru\.github\.io\/The-Way-of-SRE\/([^\s)"'<>#?]*)/g;
 for (const file of globSync('*.md', { cwd: `${REPO}/templates` })) {
   const id = file.replace(/\.md$/, '');
   if (file !== 'README.md' && !templateIds.has(id)) {
     fail(`templates/${file}`, 'файл не назван в src/data/templates.ts');
+  }
+
+  const text = readFileSync(`${REPO}/templates/${file}`, 'utf8');
+  for (const [, raw] of text.matchAll(SITE_LINK)) {
+    const page = decodeURIComponent(raw).replace(/[.,;:]+$/, '').replace(/\/$/, '') || 'index';
+    if (!existsSync(`${DOCS}/${page}.md`) && !existsSync(`${DOCS}/${page}.mdx`)) {
+      fail(`templates/${file}`, `ссылка на /${raw}, а такой страницы на сайте нет`);
+    }
   }
 }
 // Обратная сторона той же связи: лист сослался на шаблон, а перечень про
