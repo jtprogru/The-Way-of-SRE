@@ -12,9 +12,13 @@
  * L2: лист, выпавший из `l2` своего L1, не ломает ничего видимого, он просто
  * тихо исчезает из карты покрытия домена.
  *
+ * Сюда же относятся ссылки из текста на файлы репозитория в GitHub: это тоже
+ * адрес, за которым должен стоять файл, и тоже строка, которую никто не
+ * сверяет.
+ *
  * Запуск: `make data-check` (входит в `make check`).
  */
-import { existsSync } from 'node:fs';
+import { existsSync, globSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { l1Href, leavesOf, roadmap } from '../../src/data/roadmap.ts';
@@ -110,6 +114,25 @@ for (const layer of reliabilityHierarchy) {
   }
 }
 
+// Ссылки на файлы репозитория. check-links.ts смотрит только адреса сайта, и
+// ссылка на GitHub для него внешняя: переименовали inventory/overlaps.md —
+// методология молча ведёт в 404. Адрес с веткой main обязан указывать на путь,
+// который есть в рабочем дереве; ссылка и файл, добавленные одним PR, проходят.
+const REPO_LINK =
+  /https:\/\/github\.com\/jtprogru\/The-Way-of-SRE\/(?:blob|tree)\/main\/([^\s)"'<>#?]+)/g;
+let repoLinks = 0;
+for (const rel of globSync('**/*.{md,mdx}', { cwd: DOCS })) {
+  const text = readFileSync(`${DOCS}/${rel}`, 'utf8');
+  for (const [, raw] of text.matchAll(REPO_LINK)) {
+    // Адрес без скобок в прозе цепляет знак препинания за собой.
+    const path = decodeURIComponent(raw).replace(/[.,;:]+$/, '');
+    repoLinks++;
+    if (!existsSync(`${REPO}/${path}`)) {
+      fail(`src/content/docs/${rel}`, `ссылка на ${path}, а такого пути в репозитории нет`);
+    }
+  }
+}
+
 const l1Count = roadmap.branches.reduce((n, b) => n + b.l1.length, 0);
 const l2Count = roadmap.branches.reduce(
   (n, b) => n + b.l1.reduce((m, l1) => m + l1.l2.length, 0),
@@ -122,4 +145,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`данные: ${l1Count} L1, ${l2Count} концептов L2 — инварианты соблюдены`);
+console.log(
+  `данные: ${l1Count} L1, ${l2Count} концептов L2, ${repoLinks} ссылок на файлы репозитория — инварианты соблюдены`,
+);
