@@ -21,7 +21,7 @@
 // Инвариант: каждый id существует в roadmap.ts. Неизвестный роняет сборку в
 // layerLeaves(), до неё то же самое ловит `make data-check` внятным текстом.
 
-import { leavesOf, roadmap, type LeafNode } from './roadmap.ts';
+import { findLeaf, type LeafNode } from './roadmap.ts';
 
 export interface HierarchyLayer {
   /** Якорь для ссылок с других страниц. */
@@ -115,13 +115,6 @@ export const reliabilityHierarchy: HierarchyLayer[] = [
   },
 ];
 
-/** Все листья карты по id. Уникальность id проверяет tools/data/check.ts. */
-const leafById = new Map<string, LeafNode>(
-  roadmap.branches.flatMap((b) =>
-    b.l1.flatMap((l1) => leavesOf(l1).map((leaf): [string, LeafNode] => [leaf.id, leaf])),
-  ),
-);
-
 /**
  * Листья слоя как узлы карты — с актуальными именем, адресом и приоритетом.
  *
@@ -131,7 +124,7 @@ const leafById = new Map<string, LeafNode>(
  */
 export function layerLeaves(layer: HierarchyLayer): LeafNode[] {
   return layer.leaves.map((id) => {
-    const leaf = leafById.get(id);
+    const leaf = findLeaf(id);
     if (!leaf) {
       throw new Error(
         `reliabilityHierarchy: слой «${layer.id}» ссылается на несуществующий лист «${id}»`,
