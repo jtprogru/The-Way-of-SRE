@@ -101,7 +101,7 @@ export const templates: TemplateEntry[] = [
     id: 'disaster-recovery-plan',
     label: 'Disaster Recovery Plan',
     gist: 'Как сервис восстанавливается после катастрофы: RTO и RPO с обоснованием, права решения, копии с датой проверки, сценарии и учения.',
-    leaves: ['backup-restore'],
+    leaves: ['backup-restore', 'dr-policy'],
   },
   {
     id: 'sre-maturity-assessment',
@@ -114,6 +114,12 @@ export const templates: TemplateEntry[] = [
     label: 'Сценарий Game Day',
     gist: 'Одна тренировка реакции на инцидент: что отрабатываем, сценарий, радиус поражения и условия остановки, хронология, находки и задачи.',
     leaves: ['game-day', 'chaos-engineering'],
+  },
+  {
+    id: 'raci-matrix',
+    label: 'Матрица RACI',
+    gist: 'Кто за какое решение отвечает: кто делает, кто утверждает, с кем советуются и кого ставят в известность. Одна страница с проверкой на одну A в строке.',
+    leaves: ['stakeholder-management', 'dr-policy'],
   },
 ];
 
