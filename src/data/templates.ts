@@ -101,7 +101,7 @@ export const templates: TemplateEntry[] = [
     id: 'disaster-recovery-plan',
     label: 'Disaster Recovery Plan',
     gist: 'Как сервис восстанавливается после катастрофы: RTO и RPO с обоснованием, права решения, копии с датой проверки, сценарии и учения.',
-    leaves: ['backup-restore'],
+    leaves: ['backup-restore', 'dr-policy'],
   },
   {
     id: 'sre-maturity-assessment',
