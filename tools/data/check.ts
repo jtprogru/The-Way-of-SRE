@@ -14,7 +14,8 @@
  *
  * Сюда же относятся ссылки из текста на файлы репозитория в GitHub: это тоже
  * адрес, за которым должен стоять файл, и тоже строка, которую никто не
- * сверяет.
+ * сверяет. И перечень шаблонов из src/data/templates.ts: он обязан совпадать
+ * с каталогом templates/ и с тем, что написано в листьях.
  *
  * Запуск: `make data-check` (входит в `make check`).
  */
@@ -23,6 +24,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { l1Href, leavesOf, roadmap } from '../../src/data/roadmap.ts';
 import { reliabilityHierarchy } from '../../src/data/reliabilityHierarchy.ts';
+import { templatePath, templates } from '../../src/data/templates.ts';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const DOCS = `${REPO}/src/content/docs`;
@@ -121,6 +123,10 @@ for (const layer of reliabilityHierarchy) {
 const REPO_LINK =
   /https:\/\/github\.com\/jtprogru\/The-Way-of-SRE\/(?:blob|tree)\/main\/([^\s)"'<>#?]+)/g;
 let repoLinks = 0;
+// Какие шаблоны названы в тексте листа: id листа → id шаблонов. Собирается
+// попутно, сверяется с templates.ts ниже.
+const leafByFile = new Map(allLeaves.map((leaf) => [`${leaf.href.slice(1, -1)}.md`, leaf.id]));
+const templatesInLeaf = new Map<string, Set<string>>();
 for (const rel of globSync('**/*.{md,mdx}', { cwd: DOCS })) {
   const text = readFileSync(`${DOCS}/${rel}`, 'utf8');
   for (const [, raw] of text.matchAll(REPO_LINK)) {
@@ -129,6 +135,55 @@ for (const rel of globSync('**/*.{md,mdx}', { cwd: DOCS })) {
     repoLinks++;
     if (!existsSync(`${REPO}/${path}`)) {
       fail(`src/content/docs/${rel}`, `ссылка на ${path}, а такого пути в репозитории нет`);
+    }
+
+    const leafId = leafByFile.get(rel);
+    const templateId = path.match(/^templates\/([^/]+)\.md$/)?.[1];
+    if (leafId && templateId) {
+      if (!templatesInLeaf.has(leafId)) templatesInLeaf.set(leafId, new Set());
+      templatesInLeaf.get(leafId)!.add(templateId);
+    }
+  }
+}
+
+// Перечень шаблонов против каталога templates/. Страница /templates/ рисуется
+// из данных, а файлы лежат вне сайта и в сборку не попадают: запись без файла
+// даёт ссылку в 404 на GitHub, файл без записи на странице просто не виден.
+const templateIds = new Set<string>();
+for (const template of templates) {
+  const where = `templates/${template.id}`;
+  if (templateIds.has(template.id)) {
+    fail(where, 'id занят дважды');
+  }
+  templateIds.add(template.id);
+
+  if (!existsSync(`${REPO}/${templatePath(template)}`)) {
+    fail(where, `нет файла ${templatePath(template)}`);
+  }
+
+  for (const id of template.leaves) {
+    if (!leafIds.has(id)) {
+      fail(where, `листа «${id}» в карте нет`);
+    } else if (!templatesInLeaf.get(id)?.has(template.id)) {
+      // Страница обещает, что документ разобран в листе. Если лист о шаблоне
+      // молчит, читатель туда придёт и ничего не найдёт.
+      fail(where, `лист «${id}» назван в leaves, но на шаблон в тексте не ссылается`);
+    }
+  }
+}
+for (const file of globSync('*.md', { cwd: `${REPO}/templates` })) {
+  const id = file.replace(/\.md$/, '');
+  if (file !== 'README.md' && !templateIds.has(id)) {
+    fail(`templates/${file}`, 'файл не назван в src/data/templates.ts');
+  }
+}
+// Обратная сторона той же связи: лист сослался на шаблон, а перечень про
+// этот лист не знает. Шаблон без записи сюда не попадает, он уже пойман выше.
+for (const [leafId, ids] of templatesInLeaf) {
+  for (const id of ids) {
+    const template = templates.find((t) => t.id === id);
+    if (template && !template.leaves.includes(leafId)) {
+      fail(`templates/${id}`, `лист «${leafId}» ссылается на шаблон, но не назван в leaves`);
     }
   }
 }
@@ -146,5 +201,5 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `данные: ${l1Count} L1, ${l2Count} концептов L2, ${repoLinks} ссылок на файлы репозитория — инварианты соблюдены`,
+  `данные: ${l1Count} L1, ${l2Count} концептов L2, ${templates.length} шаблонов, ${repoLinks} ссылок на файлы репозитория — инварианты соблюдены`,
 );
