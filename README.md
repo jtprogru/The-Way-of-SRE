@@ -95,6 +95,7 @@ make style LEAF=src/content/docs/culture/runbooks.md   # один лист
 - [Мотивация](https://jtprogru.github.io/The-Way-of-SRE/about/) — зачем проект существует и для кого (`src/content/docs/about.mdx`).
 - [Формат проекта](https://jtprogru.github.io/The-Way-of-SRE/format/) — как устроена карта, шаблон листа, правила контрибуции (`src/content/docs/format.mdx`).
 - [Методология](https://jtprogru.github.io/The-Way-of-SRE/methodology/) — методологический каркас, принцип разделения ветвей, оси priority и SFIA, источники структуры (`src/content/docs/methodology.mdx`).
+- [Шаблоны](https://jtprogru.github.io/The-Way-of-SRE/templates/) — перечень шаблонов документов SRE со ссылками на листья, где они разобраны; сами файлы лежат в [`templates/`](templates/README.md), вне сайта.
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — как приносить правки: рабочий процесс, добавление нового листа, проверки перед PR (в репозитории, не на сайте).
 - [`inventory/overlaps.md`](inventory/overlaps.md) — рабочий артефакт ребаланса (в репозитории, не на сайте).
 - [`inventory/tlroadmap-review.md`](inventory/tlroadmap-review.md) — разбор соседнего проекта tlroadmap.io (в репозитории, не на сайте).
