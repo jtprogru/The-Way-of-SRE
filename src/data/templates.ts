@@ -36,7 +36,14 @@ export interface TemplateEntry {
 }
 
 /** Шаблоны в порядке отображения. */
-export const templates: TemplateEntry[] = [];
+export const templates: TemplateEntry[] = [
+  {
+    id: 'slo-doc',
+    label: 'SLO-документ',
+    gist: 'Что измеряется у одного сервиса, какая цель поставлена и кто за неё отвечает: SLI с явным знаменателем, окно, бюджет ошибок, исключения и порядок пересмотра.',
+    leaves: ['slo-engineering'],
+  },
+];
 
 /** Путь шаблона от корня репозитория. */
 export function templatePath(template: TemplateEntry): string {
