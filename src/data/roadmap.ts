@@ -182,6 +182,22 @@ export function countLeaves(l1: L1): number {
   return leavesOf(l1).length;
 }
 
+/** Все листья карты по id. Уникальность id проверяет tools/data/check.ts. */
+const leafById = new Map<string, LeafNode>(
+  roadmap.branches.flatMap((b) =>
+    b.l1.flatMap((l1) => leavesOf(l1).map((leaf): [string, LeafNode] => [leaf.id, leaf])),
+  ),
+);
+
+/**
+ * Лист по одному id, без ветви. Нужен данным, которые называют листья одними
+ * id и ничего больше про них не хранят, — иерархии надёжности и перечню
+ * шаблонов: имя и адрес узла они берут отсюда.
+ */
+export function findLeaf(id: string): LeafNode | undefined {
+  return leafById.get(id);
+}
+
 /**
  * URL hub-страницы L1: /<branch>/<l1-id>/, например
  * /culture/relationship-management/.

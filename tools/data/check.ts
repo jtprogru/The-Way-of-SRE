@@ -12,13 +12,19 @@
  * L2: лист, выпавший из `l2` своего L1, не ломает ничего видимого, он просто
  * тихо исчезает из карты покрытия домена.
  *
+ * Сюда же относятся ссылки из текста на файлы репозитория в GitHub: это тоже
+ * адрес, за которым должен стоять файл, и тоже строка, которую никто не
+ * сверяет. И перечень шаблонов из src/data/templates.ts: он обязан совпадать
+ * с каталогом templates/ и с тем, что написано в листьях.
+ *
  * Запуск: `make data-check` (входит в `make check`).
  */
-import { existsSync } from 'node:fs';
+import { existsSync, globSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import { l1Href, leavesOf, roadmap } from '../../src/data/roadmap.ts';
 import { reliabilityHierarchy } from '../../src/data/reliabilityHierarchy.ts';
+import { templatePath, templates } from '../../src/data/templates.ts';
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const DOCS = `${REPO}/src/content/docs`;
@@ -110,6 +116,91 @@ for (const layer of reliabilityHierarchy) {
   }
 }
 
+// Ссылки на файлы репозитория. check-links.ts смотрит только адреса сайта, и
+// ссылка на GitHub для него внешняя: переименовали inventory/overlaps.md —
+// методология молча ведёт в 404. Адрес с веткой main обязан указывать на путь,
+// который есть в рабочем дереве; ссылка и файл, добавленные одним PR, проходят.
+const REPO_LINK =
+  /https:\/\/github\.com\/jtprogru\/The-Way-of-SRE\/(?:blob|tree)\/main\/([^\s)"'<>#?]+)/g;
+let repoLinks = 0;
+// Какие шаблоны названы в тексте листа: id листа → id шаблонов. Собирается
+// попутно, сверяется с templates.ts ниже.
+const leafByFile = new Map(allLeaves.map((leaf) => [`${leaf.href.slice(1, -1)}.md`, leaf.id]));
+const templatesInLeaf = new Map<string, Set<string>>();
+for (const rel of globSync('**/*.{md,mdx}', { cwd: DOCS })) {
+  const text = readFileSync(`${DOCS}/${rel}`, 'utf8');
+  for (const [, raw] of text.matchAll(REPO_LINK)) {
+    // Адрес без скобок в прозе цепляет знак препинания за собой.
+    const path = decodeURIComponent(raw).replace(/[.,;:]+$/, '');
+    repoLinks++;
+    if (!existsSync(`${REPO}/${path}`)) {
+      fail(`src/content/docs/${rel}`, `ссылка на ${path}, а такого пути в репозитории нет`);
+    }
+
+    const leafId = leafByFile.get(rel);
+    const templateId = path.match(/^templates\/([^/]+)\.md$/)?.[1];
+    if (leafId && templateId) {
+      if (!templatesInLeaf.has(leafId)) templatesInLeaf.set(leafId, new Set());
+      templatesInLeaf.get(leafId)!.add(templateId);
+    }
+  }
+}
+
+// Перечень шаблонов против каталога templates/. Страница /templates/ рисуется
+// из данных, а файлы лежат вне сайта и в сборку не попадают: запись без файла
+// даёт ссылку в 404 на GitHub, файл без записи на странице просто не виден.
+const templateIds = new Set<string>();
+for (const template of templates) {
+  const where = `templates/${template.id}`;
+  if (templateIds.has(template.id)) {
+    fail(where, 'id занят дважды');
+  }
+  templateIds.add(template.id);
+
+  if (!existsSync(`${REPO}/${templatePath(template)}`)) {
+    fail(where, `нет файла ${templatePath(template)}`);
+  }
+
+  for (const id of template.leaves) {
+    if (!leafIds.has(id)) {
+      fail(where, `листа «${id}» в карте нет`);
+    } else if (!templatesInLeaf.get(id)?.has(template.id)) {
+      // Страница обещает, что документ разобран в листе. Если лист о шаблоне
+      // молчит, читатель туда придёт и ничего не найдёт.
+      fail(where, `лист «${id}» назван в leaves, но на шаблон в тексте не ссылается`);
+    }
+  }
+}
+// Шаблоны лежат вне сайта и ссылаются на него полным адресом: на лист, где
+// документ разобран, на страницу перечня. link-check ходит по dist/ и этих
+// файлов не видит, поэтому адрес сверяется здесь — за ним должна стоять
+// страница в src/content/docs.
+const SITE_LINK = /https:\/\/jtprogru\.github\.io\/The-Way-of-SRE\/([^\s)"'<>#?]*)/g;
+for (const file of globSync('*.md', { cwd: `${REPO}/templates` })) {
+  const id = file.replace(/\.md$/, '');
+  if (file !== 'README.md' && !templateIds.has(id)) {
+    fail(`templates/${file}`, 'файл не назван в src/data/templates.ts');
+  }
+
+  const text = readFileSync(`${REPO}/templates/${file}`, 'utf8');
+  for (const [, raw] of text.matchAll(SITE_LINK)) {
+    const page = decodeURIComponent(raw).replace(/[.,;:]+$/, '').replace(/\/$/, '') || 'index';
+    if (!existsSync(`${DOCS}/${page}.md`) && !existsSync(`${DOCS}/${page}.mdx`)) {
+      fail(`templates/${file}`, `ссылка на /${raw}, а такой страницы на сайте нет`);
+    }
+  }
+}
+// Обратная сторона той же связи: лист сослался на шаблон, а перечень про
+// этот лист не знает. Шаблон без записи сюда не попадает, он уже пойман выше.
+for (const [leafId, ids] of templatesInLeaf) {
+  for (const id of ids) {
+    const template = templates.find((t) => t.id === id);
+    if (template && !template.leaves.includes(leafId)) {
+      fail(`templates/${id}`, `лист «${leafId}» ссылается на шаблон, но не назван в leaves`);
+    }
+  }
+}
+
 const l1Count = roadmap.branches.reduce((n, b) => n + b.l1.length, 0);
 const l2Count = roadmap.branches.reduce(
   (n, b) => n + b.l1.reduce((m, l1) => m + l1.l2.length, 0),
@@ -122,4 +213,6 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`данные: ${l1Count} L1, ${l2Count} концептов L2 — инварианты соблюдены`);
+console.log(
+  `данные: ${l1Count} L1, ${l2Count} концептов L2, ${templates.length} шаблонов, ${repoLinks} ссылок на файлы репозитория — инварианты соблюдены`,
+);
