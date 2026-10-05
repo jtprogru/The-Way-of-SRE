@@ -240,6 +240,12 @@ Exploit Prediction Scoring System (FIRST.org). Data-driven вероятност�
 
 *Категория A*. См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/), [`SLO / Budget Review`](/The-Way-of-SRE/culture/slo-budget-review/). Источник: Beyer et al., *SRE Book*, гл. 4.
 
+### error budget policy
+
+Заранее согласованные правила: что команда делает при разном расходе [бюджета ошибок](#error-budget), кто останавливает релизы, кто разрешает продолжить и по какому условию возвращается работа над фичами. Документ продуктовый: под ним стоит подпись владельца продукта, потому что это он соглашается, что фичи подождут.
+
+*Категория C* — «политика бюджета ошибок (error budget policy)» при первом упоминании, дальше «политика бюджета». См. [`Error Budget Gating`](/The-Way-of-SRE/practices/error-budget-gating/), [`SLO / Budget Review`](/The-Way-of-SRE/culture/slo-budget-review/). Источник: Beyer et al., *SRE Workbook*, приложение B. Заготовка — [`templates/error-budget-policy.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/templates/error-budget-policy.md).
+
 ## F
 
 ### Four Golden Signals
@@ -626,4 +632,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `error budget policy`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
