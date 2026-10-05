@@ -72,6 +72,12 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория A* — пишется латиницей курсивом, без склонения. См. [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/practices/blameless-postmortem/). Источник: Allspaw, *Blameless PostMortems and a Just Culture* (Etsy, 2012); Dekker, *The Field Guide to Understanding 'Human Error'*.
 
+### break-glass
+
+Аварийный доступ в обход обычной системы прав на случай, когда сама система прав недоступна. Работает без онлайновых зависимостей: локальные учётные записи, заранее выданные сертификаты, аппаратные ключи. Каждое использование поднимает алерт и разбирается после.
+
+*Категория C* — «аварийный доступ (break-glass)» при первом упоминании, дальше «аварийный доступ». См. [`Disaster Recovery`](/The-Way-of-SRE/engineering/disaster-recovery/), [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/).
+
 ### burn rate
 
 Скорость, с которой сервис сжигает [error budget](#error-budget). При burn rate `14.4×` за час за 5 часов бюджет на месяц исчерпан. Используется как input для multi-window multi-burn-rate alerting.
@@ -253,6 +259,12 @@ Exploit Prediction Scoring System (FIRST.org). Data-driven вероятност�
 Четыре метрики, которые покрывают подавляющее большинство симптомов сервиса: **latency** (длительность обработки запроса), **traffic** (нагрузка — RPS, активные соединения), **errors** (доля сбоев), **saturation** (степень загруженности ресурса до отказа). Применяются как первый проход при разборе неизвестной поломки и как baseline-набор дашбордов для нового сервиса. Комплементарны с [USE](#use-method) (для ресурсов) и [RED](#red-method) (для сервисов).
 
 *Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/engineering/sli-based-alerting/). Источник: Beyer et al., *SRE Book*, гл. 6 «Monitoring Distributed Systems».
+
+### failover
+
+Перевод нагрузки с отказавшей площадки, узла или реплики на резервную. Бывает ручным и автоматическим. Автоматическому нужен координатор, который решает, что основной узел мёртв; его ошибка даёт два узла, принимающих запись одновременно. Время переключения входит в [RTO](#rpo--rto).
+
+*Категория C* — «переключение (failover)» при первом упоминании, дальше «переключение». См. [`Disaster Recovery`](/The-Way-of-SRE/engineering/disaster-recovery/), [`DR Policy & Stakeholders`](/The-Way-of-SRE/culture/dr-policy/).
 
 ### feature flag
 
