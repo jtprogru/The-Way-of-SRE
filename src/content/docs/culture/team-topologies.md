@@ -81,7 +81,7 @@ status: draft
 
 ## Открытые вопросы
 
-- **SRE Maturity Assessment** *(TBD)* — соседний L2-концепт под этим L1; включает оценку, в каком режиме topology организация находится сейчас и куда движется. Кандидат на отдельный лист.
+- **[SRE Maturity Assessment](/The-Way-of-SRE/culture/sre-maturity-assessment/)** — соседняя практика под этим L1. Оценка зрелости нередко показывает, что разрыв лежит в организационной форме, а не в инструментах; сам режим топологии она не оценивает.
 - **SRE Model Adoption** *(TBD)* — практическая часть выбора и перехода между режимами (embedded → платформа → гибрид); может быть отдельным листом или частью этого.
 - **Internal Developer Portal** *(TBD)* — практическая реализация витрины платформы через Backstage / Port / Cortex. Сам L1 `Platform Engineering` уже выделен в Engineering, а продуктовая рамка вокруг него описана в [Platform as a Product](/The-Way-of-SRE/engineering/platform-as-a-product/); портал остаётся кандидатом на отдельный лист там же.
 
