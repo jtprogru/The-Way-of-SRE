@@ -83,7 +83,7 @@ export const templates: TemplateEntry[] = [
     id: 'sre-review-monthly',
     label: 'Ежемесячный SRE Review',
     gist: 'Повестка и протокол ежемесячного обзора всех операционных практик команды: от SLO и постмортемов до toil и дежурств, с таблицей решений в конце.',
-    leaves: ['slo-budget-review'],
+    leaves: ['slo-budget-review', 'sre-maturity-assessment'],
   },
   {
     id: 'capacity-plan',
@@ -107,7 +107,7 @@ export const templates: TemplateEntry[] = [
     id: 'sre-maturity-assessment',
     label: 'Оценка зрелости SRE',
     gist: 'Оценка практик SRE по шести областям на шкале от 0 до 5: уровень сейчас с доказательством, целевой уровень, план шагов и сравнение с прошлой оценкой.',
-    leaves: [],
+    leaves: ['sre-maturity-assessment'],
   },
   {
     id: 'game-day-playbook',

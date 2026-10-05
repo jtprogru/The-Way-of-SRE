@@ -121,6 +121,7 @@
 | error budget policy | политика бюджета ошибок (error budget policy) | политика бюджета |
 | histogram | гистограмма (histogram) | гистограмма |
 | label (в метриках) | метка (label) | метка |
+| maturity model | модель зрелости (maturity model) | модель зрелости |
 
 ---
 
@@ -224,3 +225,4 @@
 - 2026-10-05 — вместе с листом `problem-tracking` добавлены `problem` в категорию B, `known error` и `workaround` в категорию C.
 - 2026-10-05 — вместе с листом `error-budget-gating` в категорию C добавлена `error budget policy`.
 - 2026-10-05 — вместе с листом `metrics` в категорию C добавлены `histogram` и `label`.
+- 2026-10-05 — вместе с листом `sre-maturity-assessment` в категорию C добавлена `maturity model`.

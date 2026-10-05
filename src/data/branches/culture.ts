@@ -110,6 +110,7 @@ export const culture: BranchSource = {
         'Career Ladders',
       ],
       leaves: [
+        { id: 'sre-maturity-assessment', label: 'SRE Maturity Assessment', priority: 'nice' },
         { id: 'sre-onboarding', label: 'SRE Onboarding', priority: 'nice' },
         { id: 'career-ladders', label: 'Career Ladders', priority: 'nice' },
         { id: 'team-topologies', label: 'Team Topologies', priority: 'mandatory' },
