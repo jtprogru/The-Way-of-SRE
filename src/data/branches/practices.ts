@@ -80,6 +80,7 @@ export const practices: BranchSource = {
       leaves: [
         { id: 'progressive-delivery', label: 'Progressive Delivery', priority: 'mandatory' },
         { id: 'change-governance', label: 'Change Governance', priority: 'mandatory' },
+        { id: 'error-budget-gating', label: 'Error Budget Gating', priority: 'mandatory' },
       ],
     },
     {

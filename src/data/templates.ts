@@ -47,7 +47,7 @@ export const templates: TemplateEntry[] = [
     id: 'error-budget-policy',
     label: 'Error Budget Policy',
     gist: 'Что команда делает при разном расходе бюджета ошибок: пороги и действия, условия заморозки релизов и выхода из неё, исключения, эскалация.',
-    leaves: ['slo-budget-review', 'slo-engineering'],
+    leaves: ['slo-budget-review', 'slo-engineering', 'error-budget-gating'],
   },
   {
     id: 'runbook',
