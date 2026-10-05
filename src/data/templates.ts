@@ -95,7 +95,7 @@ export const templates: TemplateEntry[] = [
     id: 'production-readiness-review',
     label: 'Production Readiness Review',
     gist: 'Проверка готовности сервиса к продакшну и запись её результата: чек-лист по шести блокам, исключения с владельцем и сроком, решение.',
-    leaves: [],
+    leaves: ['production-readiness-review'],
   },
   {
     id: 'disaster-recovery-plan',

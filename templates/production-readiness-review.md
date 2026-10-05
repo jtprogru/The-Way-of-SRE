@@ -1,6 +1,6 @@
 # Шаблон: Production Readiness Review
 
-Production Readiness Review проверяет, готов ли сервис к промышленной эксплуатации, и записывает результат: что готово, что принято исключением и кто за это отвечает. В карте практика относится к домену [Change Management](https://jtprogru.github.io/The-Way-of-SRE/practices/change-management/).
+Production Readiness Review проверяет, готов ли сервис к промышленной эксплуатации, и записывает результат: что готово, что принято исключением и кто за это отвечает. Как вести чек-лист, что считать доказательством и когда ревью пора заменять платформой, разобрано в листе [Production Readiness Review](https://jtprogru.github.io/The-Way-of-SRE/practices/production-readiness-review/).
 
 Пункты чек-листа опираются на практики, у которых есть свои листья: [SLO Engineering](https://jtprogru.github.io/The-Way-of-SRE/engineering/slo-engineering/), [Runbooks](https://jtprogru.github.io/The-Way-of-SRE/culture/runbooks/), [Progressive Delivery](https://jtprogru.github.io/The-Way-of-SRE/practices/progressive-delivery/), [Capacity Planning](https://jtprogru.github.io/The-Way-of-SRE/engineering/capacity-planning/), [Service Ownership](https://jtprogru.github.io/The-Way-of-SRE/culture/service-ownership/).
 
