@@ -16,8 +16,8 @@ updates:
     ignore:
       # js-yaml держится на 4.x намеренно: это не наша зависимость, а способ
       # зафиксировать, какая копия окажется в корневом node_modules. Astro
-      # ждёт default-экспорт (js-yaml 4), markdownlint-cli2 требует ровно
-      # 5.2.2 и получает свою вложенную копию. Мажорный бамп сломает билд.
+      # ждёт default-экспорт (js-yaml 4), markdownlint-cli2 закрепляет точную
+      # версию 5.x и получает свою вложенную копию. Мажорный бамп сломает билд.
       - dependency-name: "js-yaml"
         update-types: ["version-update:semver-major"]
       # typescript держится на 6.x, пока `astro check` не умеет работать с 7.
