@@ -9,7 +9,7 @@ status: draft
 
 Лог — поток событий, записанных в тот момент, когда они произошли. Лист про то, как сделать событие пригодным для поиска и для машины: [структура](/The-Way-of-SRE/glossary/#structured-logging), набор полей, уровень, идентификатор запроса. И про то, чего в логе не бывает ни при каких условиях.
 
-Границы с соседями. [Metrics](/The-Way-of-SRE/engineering/metrics/) отвечают на вопрос «сколько и как часто», лог — на вопрос «что именно случилось с этим запросом»; идентификаторам, которым не место в метках, место здесь. Объём, сроки хранения и семплирование разобраны в [Telemetry Economics](/The-Way-of-SRE/engineering/telemetry-economics/). Что из сигналов будит человека, решает [Symptom vs Cause Alerting](/The-Way-of-SRE/engineering/symptom-vs-cause-alerting/). Путь запроса через несколько сервисов показывают трейсы, и лог связывается с ними одним полем.
+Границы с соседями. [Metrics](/The-Way-of-SRE/engineering/metrics/) отвечают на вопрос «сколько и как часто», лог — на вопрос «что именно случилось с этим запросом»; идентификаторам, которым не место в метках, место здесь. Объём, сроки хранения и семплирование разобраны в [Telemetry Economics](/The-Way-of-SRE/engineering/telemetry-economics/). Что из сигналов будит человека, решает [Symptom vs Cause Alerting](/The-Way-of-SRE/engineering/symptom-vs-cause-alerting/). Путь запроса через несколько сервисов показывает [Distributed Tracing](/The-Way-of-SRE/engineering/distributed-tracing/), и лог связывается с трейсом одним полем.
 
 ## Что должен уметь
 
@@ -82,7 +82,7 @@ status: draft
 - **[Symptom vs Cause Alerting](/The-Way-of-SRE/engineering/symptom-vs-cause-alerting/)** — почему человека будит метрика симптома, а лог остаётся для объяснения.
 - **[Secrets Management](/The-Way-of-SRE/practices/secrets-management/)** — секрет, попавший в лог, считается утёкшим и требует ротации.
 - **[Blameless Postmortem](/The-Way-of-SRE/practices/blameless-postmortem/)** — хронология разбора собирается в том числе из логов; без идентификаторов её собирают руками.
-- **Distributed Tracing** *(TBD)* — путь запроса между сервисами и вторая половина связки по идентификатору.
+- **[Distributed Tracing](/The-Way-of-SRE/engineering/distributed-tracing/)** — путь запроса между сервисами и вторая половина связки по идентификатору.
 
 ## Открытые вопросы
 

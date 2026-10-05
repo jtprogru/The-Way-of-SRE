@@ -146,6 +146,12 @@ Operations через chat-интерфейс с встроенным audit trai
 
 *Категория C* — «когнитивная нагрузка (cognitive load)» при первом упоминании. См. [`Team Topologies`](/The-Way-of-SRE/culture/team-topologies/), [`Toil`](/The-Way-of-SRE/engineering/toil-tracking/). Источник: Skelton & Pais, *Team Topologies* (IT Revolution, 1-е изд. 2019, 2-е изд. 2025).
 
+### context propagation
+
+Передача идентификатора трейса и идентификатора родительского спана вместе с запросом, от сервиса к сервису. Без неё спаны разных сервисов не складываются в одно дерево. В OpenTelemetry по умолчанию контекст едет в заголовке `traceparent` из спецификации W3C Trace Context.
+
+*Категория C* — «передача контекста (context propagation)» при первом упоминании, дальше «передача контекста». См. [`Distributed Tracing`](/The-Way-of-SRE/engineering/distributed-tracing/). Источник: OpenTelemetry, [Context propagation](https://opentelemetry.io/docs/concepts/context-propagation/).
+
 ### contributing factors
 
 Множество условий, **совместное** наступление которых вызвало инцидент. Подход NBJS (Necessary But Only Jointly Sufficient) альтернативен наивному поиску «root cause»: вместо одной причины — список факторов, каждый из которых отдельно предотвратил бы инцидент.
@@ -647,6 +653,14 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 Операционная работа, которая **manual, repetitive, automatable, tactical, devoid of enduring value, scales linearly with service growth**. Все пять критериев должны выполняться — иначе это не toil, а просто «не любимая работа». Google SRE convention — ≤ 50% времени per engineer.
 
 *Категория A*. См. [`Toil Tracking`](/The-Way-of-SRE/engineering/toil-tracking/). Источник: Vivek Rau, *SRE Book*, гл. 5.
+
+### trace / span
+
+<a id="trace"></a><a id="span"></a>
+
+Трейс — запись пути одного запроса через систему; спан — одна операция на этом пути с началом, концом, именем и атрибутами. Спаны знают своего родителя и складываются в дерево. Трейс отвечает на вопрос, где запрос потерял время или сломался, и не отвечает на вопрос, сколько таких запросов.
+
+*Категория C* — «трейс (trace)» и «спан (span)» при первом упоминании, дальше кириллицей. См. [`Distributed Tracing`](/The-Way-of-SRE/engineering/distributed-tracing/), [`Telemetry Economics`](/The-Way-of-SRE/engineering/telemetry-economics/). Источник: OpenTelemetry, [Traces](https://opentelemetry.io/docs/concepts/signals/traces/).
 
 ### trust boundary
 

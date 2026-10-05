@@ -126,6 +126,8 @@
 | break-glass | аварийный доступ (break-glass) | аварийный доступ |
 | structured logging | структурированные логи (structured logging) | структурированные логи |
 | canonical log line | каноническая строка лога (canonical log line) | каноническая строка |
+| trace / span | трейс (trace), спан (span) | трейс, спан |
+| context propagation | передача контекста (context propagation) | передача контекста |
 
 ---
 
@@ -232,3 +234,4 @@
 - 2026-10-05 — вместе с листом `sre-maturity-assessment` в категорию C добавлена `maturity model`.
 - 2026-10-05 — вместе с листом `disaster-recovery` в категорию C добавлены `failover` и `break-glass`.
 - 2026-10-05 — вместе с листом `logging` в категорию C добавлены `structured logging` и `canonical log line`.
+- 2026-10-05 — вместе с листом `distributed-tracing` в категорию C добавлены `trace / span` и `context propagation`.
