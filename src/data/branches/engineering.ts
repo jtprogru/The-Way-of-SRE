@@ -57,6 +57,7 @@ export const engineering: BranchSource = {
           ],
         },
         { id: 'capacity-planning', label: 'Capacity Planning', priority: 'mandatory' },
+        { id: 'disaster-recovery', label: 'Disaster Recovery', priority: 'mandatory' },
         { id: 'resilience-patterns', label: 'Resilience Patterns', priority: 'mandatory' },
         { id: 'systematic-troubleshooting', label: 'Systematic Troubleshooting', priority: 'must' },
         { id: 'chaos-engineering', label: 'Chaos Engineering', priority: 'nice' },

@@ -1,6 +1,6 @@
 # Шаблон: Disaster Recovery Plan
 
-Disaster Recovery Plan записывает для одного сервиса, как он восстанавливается после катастрофы: за какое время, с какой потерей данных, по каким шагам и кто принимает решения. Права решения и карта стейкхолдеров на уровне организации разобраны в листе [DR Policy & Stakeholders](https://jtprogru.github.io/The-Way-of-SRE/culture/dr-policy/), резервные копии и их проверка — в листе [Backup & Restore](https://jtprogru.github.io/The-Way-of-SRE/engineering/backup-restore/), учения — в листе [Game Day](https://jtprogru.github.io/The-Way-of-SRE/culture/game-day/).
+Disaster Recovery Plan записывает для одного сервиса, как он восстанавливается после катастрофы: за какое время, с какой потерей данных, по каким шагам и кто принимает решения. Права решения и карта стейкхолдеров на уровне организации разобраны в листе [DR Policy & Stakeholders](https://jtprogru.github.io/The-Way-of-SRE/culture/dr-policy/), техника переключения, репликации и аварийного доступа — в листе [Disaster Recovery](https://jtprogru.github.io/The-Way-of-SRE/engineering/disaster-recovery/), резервные копии и их проверка — в листе [Backup & Restore](https://jtprogru.github.io/The-Way-of-SRE/engineering/backup-restore/), учения — в листе [Game Day](https://jtprogru.github.io/The-Way-of-SRE/culture/game-day/).
 
 ## Когда применять
 
