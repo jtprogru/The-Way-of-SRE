@@ -28,6 +28,7 @@ export const engineering: BranchSource = {
       ],
       leaves: [
         { id: 'metrics', label: 'Metrics', priority: 'must' },
+        { id: 'logging', label: 'Logging', priority: 'must' },
         { id: 'sli-based-alerting', label: 'SLI-based Alerting', priority: 'must' },
         { id: 'symptom-vs-cause-alerting', label: 'Symptom vs Cause Alerting', priority: 'mandatory' },
         { id: 'alert-fatigue-management', label: 'Alert Fatigue Management', priority: 'mandatory' },

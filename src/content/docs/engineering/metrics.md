@@ -89,7 +89,7 @@ status: draft
 - **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — какие метрики превращаются в алерт и по какой формуле.
 - **[Symptom vs Cause Alerting](/The-Way-of-SRE/engineering/symptom-vs-cause-alerting/)** — метрики причин остаются на дашборде, будят метрики симптомов.
 - **[Performance & Profiling](/The-Way-of-SRE/engineering/performance-profiling/)** — когда метрика показала хвост, а откуда он берётся, видно только в профиле.
-- **Logging** *(TBD)* и **Distributed Tracing** *(TBD)* — куда уходят идентификаторы, которым не место в метках.
+- **[Logging](/The-Way-of-SRE/engineering/logging/)** и **Distributed Tracing** *(TBD)* — куда уходят идентификаторы, которым не место в метках.
 
 ## Открытые вопросы
 

@@ -86,6 +86,12 @@ Architecture Decision Record — фиксация технического ре�
 
 ## C
 
+### canonical log line
+
+Одна широкая запись, которую сервис пишет в конце обработки запроса: метод, статус, длительность, идентификаторы и всё, что понадобится для поиска. Для своего запроса она главная, остальные записи её дополняют. Набор полей держат стабильным, как контракт.
+
+*Категория C* — «каноническая строка лога (canonical log line)» при первом упоминании. См. [`Logging`](/The-Way-of-SRE/engineering/logging/). Источник: Brandur Leach, [Fast and flexible observability with canonical log lines](https://stripe.com/blog/canonical-log-lines) (Stripe, 2019).
+
 ### canary release
 
 Стратегия выкатки изменения малыми долями трафика (5 / 25 / 50 / 100%) с health gate по SLI на каждом шаге. При нарушении burn rate — автоматический rollback. Не путать с blue-green (две полные версии, переключение целиком).
@@ -515,6 +521,12 @@ Recovery Point Objective (сколько данных потерять допу�
 *Категория A* — пишется латиницей без склонения (если нужно — через апостроф: `runbook'ом`). См. [`Runbooks`](/The-Way-of-SRE/culture/runbooks/).
 
 ## S
+
+### structured logging
+
+Запись лога как набора именованных полей, а не строки текста: событие названо один раз, контекст лежит в отдельных полях. По такой записи ищут и считают без регулярных выражений. Формат вторичен, первичен набор полей и стабильность их имён.
+
+*Категория C* — «структурированные логи (structured logging)» при первом упоминании, дальше «структурированные логи». См. [`Logging`](/The-Way-of-SRE/engineering/logging/). Источник: OpenTelemetry, [Logs Data Model](https://opentelemetry.io/docs/specs/otel/logs/data-model/).
 
 ### SAST
 
