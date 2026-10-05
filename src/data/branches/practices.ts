@@ -45,6 +45,7 @@ export const practices: BranchSource = {
             { id: 'status-page-management', label: 'Status Page Management', priority: 'mandatory' },
           ],
         },
+        { id: 'mttr-optimization', label: 'MTTR Optimization', priority: 'mandatory' },
       ],
     },
     {

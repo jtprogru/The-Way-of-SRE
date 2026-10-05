@@ -46,7 +46,7 @@
 
 - **[SRE Culture](https://jtprogru.github.io/The-Way-of-SRE/culture/)** — нормы, отношения, обмен опытом. Главный объект — люди и нормы. **16 листьев** на полной глубине.
 - **[SRE Engineering](https://jtprogru.github.io/The-Way-of-SRE/engineering/)** — технические компетенции и стек. Главный объект — системы. **32 листа** на полной глубине.
-- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **28 листьев** на полной глубине.
+- **[SRE Practices](https://jtprogru.github.io/The-Way-of-SRE/practices/)** — операционные процессы и ритуалы. Главный объект — процесс. **29 листьев** на полной глубине.
 
 Всё дерево целиком, от корня до подлистов, — на странице [Mind map](https://jtprogru.github.io/The-Way-of-SRE/mindmap/): двусторонняя карта с зумом, фильтром по приоритету и сворачиванием веток.
 

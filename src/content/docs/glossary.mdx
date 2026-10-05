@@ -394,11 +394,19 @@ Mean Time Between Failures — среднее время между двумя �
 
 *Категория A* — пишутся заглавными. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/). Источник: [разбор пары MTTR / MTBF](https://t.me/jtprogru_channel/4413) в канале автора.
 
+### MTTD / MTTA
+
+<a id="mttd"></a><a id="mtta"></a>
+
+Mean Time To Detect — время от начала отказа до момента, когда о нём узнали; Mean Time To Acknowledge — время от сигнала до момента, когда инцидент взяли в работу. Первые два отрезка времени инцидента, за ними идут гашение и устранение причины. Если отсчёт идёт от алерта, а не от отказа, MTTD по определению равен нулю и из отчёта пропадает.
+
+*Категория A* — пишутся заглавными. См. [`MTTR Optimization`](/The-Way-of-SRE/practices/mttr-optimization/), [`On-Call Rotation`](/The-Way-of-SRE/practices/on-call-rotation/). Пара к [MTTR](#mttr).
+
 ### MTTR
 
 Mean Time To Repair / Resolve / Recovery — семейство метрик, точное начало и окончание которых зависят от принятого определения. DORA использовала MTTR в ранней модели, но в 2023 году заменила его на **failed deployment recovery time**: время восстановления именно после неудачного deploy, требующего немедленного вмешательства. Общий MTTR инцидентов больше не следует называть DORA-метрикой.
 
-*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/culture/runbooks/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
+*Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/culture/runbooks/), [`MTTR Optimization`](/The-Way-of-SRE/practices/mttr-optimization/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
 
 ## O
 
