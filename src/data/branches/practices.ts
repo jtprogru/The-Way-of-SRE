@@ -62,6 +62,7 @@ export const practices: BranchSource = {
       leaves: [
         { id: 'blameless-postmortem', label: 'Blameless Postmortem', priority: 'must' },
         { id: 'action-items-tracking', label: 'Action Items Tracking', priority: 'mandatory' },
+        { id: 'problem-tracking', label: 'Problem Tracking', priority: 'must' },
       ],
     },
     {
