@@ -124,6 +124,8 @@
 | maturity model | модель зрелости (maturity model) | модель зрелости |
 | failover | переключение (failover) | переключение |
 | break-glass | аварийный доступ (break-glass) | аварийный доступ |
+| structured logging | структурированные логи (structured logging) | структурированные логи |
+| canonical log line | каноническая строка лога (canonical log line) | каноническая строка |
 
 ---
 
@@ -229,3 +231,4 @@
 - 2026-10-05 — вместе с листом `metrics` в категорию C добавлены `histogram` и `label`.
 - 2026-10-05 — вместе с листом `sre-maturity-assessment` в категорию C добавлена `maturity model`.
 - 2026-10-05 — вместе с листом `disaster-recovery` в категорию C добавлены `failover` и `break-glass`.
+- 2026-10-05 — вместе с листом `logging` в категорию C добавлены `structured logging` и `canonical log line`.
