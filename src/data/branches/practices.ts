@@ -78,6 +78,7 @@ export const practices: BranchSource = {
         'Change Risk Assessment',
       ],
       leaves: [
+        { id: 'production-readiness-review', label: 'Production Readiness Review', priority: 'mandatory' },
         { id: 'progressive-delivery', label: 'Progressive Delivery', priority: 'mandatory' },
         { id: 'change-governance', label: 'Change Governance', priority: 'mandatory' },
         { id: 'error-budget-gating', label: 'Error Budget Gating', priority: 'mandatory' },

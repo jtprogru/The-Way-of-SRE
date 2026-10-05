@@ -86,7 +86,7 @@ Error Budget Gating закрывает именно этот разрыв: пр�
 - **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — алерты на burn rate дают гейту второй вход, быстрый расход.
 - **[Problem Tracking](/The-Way-of-SRE/practices/problem-tracking/)** — класс отказов, который раз за разом съедает бюджет, — это проблема со своей записью, а не повод для очередной заморозки.
 - **[Stakeholder Management](/The-Way-of-SRE/culture/stakeholder-management/)** — подпись владельца продукта под правилами гейта добывается там.
-- **Production Readiness Review** *(TBD)* — проверка готовности до первого релиза; гейт по бюджету работает после него.
+- **[Production Readiness Review](/The-Way-of-SRE/practices/production-readiness-review/)** — проверка готовности до первого релиза; гейт по бюджету работает после него.
 
 ## Открытые вопросы
 
