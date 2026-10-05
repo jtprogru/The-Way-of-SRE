@@ -122,6 +122,8 @@
 | histogram | гистограмма (histogram) | гистограмма |
 | label (в метриках) | метка (label) | метка |
 | maturity model | модель зрелости (maturity model) | модель зрелости |
+| failover | переключение (failover) | переключение |
+| break-glass | аварийный доступ (break-glass) | аварийный доступ |
 
 ---
 
@@ -226,3 +228,4 @@
 - 2026-10-05 — вместе с листом `error-budget-gating` в категорию C добавлена `error budget policy`.
 - 2026-10-05 — вместе с листом `metrics` в категорию C добавлены `histogram` и `label`.
 - 2026-10-05 — вместе с листом `sre-maturity-assessment` в категорию C добавлена `maturity model`.
+- 2026-10-05 — вместе с листом `disaster-recovery` в категорию C добавлены `failover` и `break-glass`.
