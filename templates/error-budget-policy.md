@@ -1,6 +1,6 @@
 # Шаблон: Error Budget Policy
 
-Политика бюджета ошибок заранее записывает, что команда делает при разном расходе бюджета: что останавливается, кто принимает решение и по какому условию работа над фичами возвращается. Зачем она нужна ревью и как её ведут, разобрано в листе [SLO / Budget Review](https://jtprogru.github.io/The-Way-of-SRE/culture/slo-budget-review/). Откуда берётся сам бюджет — в листе [SLO Engineering](https://jtprogru.github.io/The-Way-of-SRE/engineering/slo-engineering/).
+Политика бюджета ошибок заранее записывает, что команда делает при разном расходе бюджета: что останавливается, кто принимает решение и по какому условию работа над фичами возвращается. Зачем она нужна ревью и как её ведут, разобрано в листе [SLO / Budget Review](https://jtprogru.github.io/The-Way-of-SRE/culture/slo-budget-review/). Откуда берётся сам бюджет — в листе [SLO Engineering](https://jtprogru.github.io/The-Way-of-SRE/engineering/slo-engineering/). Как правила из политики становятся проверкой на пути изменения — в листе [Error Budget Gating](https://jtprogru.github.io/The-Way-of-SRE/practices/error-budget-gating/).
 
 Часть разделов повторяет пример политики из приложения B к [SRE Workbook](https://sre.google/workbook/error-budget-policy/): цели и не-цели, правило для крупного инцидента, случаи вне контроля команды, эскалация.
 
