@@ -119,6 +119,8 @@
 | known error | известная ошибка (known error) | known error или известная ошибка — по контексту |
 | workaround | обходное решение (workaround) | обходное решение |
 | error budget policy | политика бюджета ошибок (error budget policy) | политика бюджета |
+| histogram | гистограмма (histogram) | гистограмма |
+| label (в метриках) | метка (label) | метка |
 
 ---
 
@@ -221,3 +223,4 @@
 - 2026-05-22 (после PR #59) — добавлены в категорию B: `least privilege`, `defense in depth`, `attack surface`. Причина: пропустил при первой раскатке, в листьях остались как «принцип least privilege», «defense-in-depth» — типичный гибрид. Замечание было: «principle of least privilege» — явный пример того, что переводится без потерь.
 - 2026-10-05 — вместе с листом `problem-tracking` добавлены `problem` в категорию B, `known error` и `workaround` в категорию C.
 - 2026-10-05 — вместе с листом `error-budget-gating` в категорию C добавлена `error budget policy`.
+- 2026-10-05 — вместе с листом `metrics` в категорию C добавлены `histogram` и `label`.

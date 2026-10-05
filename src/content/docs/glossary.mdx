@@ -274,6 +274,14 @@ Pull-based reconciliation модель: git как [единый источни�
 
 *Категория A*. См. [`GitOps`](/The-Way-of-SRE/engineering/gitops/). Источник: [OpenGitOps Principles](https://opengitops.dev/) (CNCF).
 
+## H
+
+### histogram
+
+Тип метрики, который хранит распределение наблюдений по интервалам (бакетам), а не одно число. Перцентиль по гистограмме считается на стороне запроса: за любое окно и по любому набору реплик. Этим она отличается от summary, где квантили посчитаны заранее и между репликами не складываются.
+
+*Категория C* — «гистограмма (histogram)» при первом упоминании, дальше «гистограмма». См. [`Metrics`](/The-Way-of-SRE/engineering/metrics/). Источник: [Prometheus — Histograms and summaries](https://prometheus.io/docs/practices/histograms/).
+
 ## I
 
 ### IAM
@@ -321,6 +329,12 @@ Container orchestrator, выросший из Google Borg и переданны�
 *Категория A* — пишется без склонения, иногда как **k8s** (k + 8 букв + s). См. [`Containerization & Orchestration`](/The-Way-of-SRE/engineering/container-orchestration/), [`GitOps`](/The-Way-of-SRE/engineering/gitops/), [`Cloud Providers`](/The-Way-of-SRE/engineering/cloud-providers/).
 
 ## L
+
+### label
+
+Пара «имя — значение», которая делит метрику на временные ряды. Каждая уникальная комбинация значений меток даёт отдельный ряд, поэтому набор значений у метки конечный и известен заранее; идентификаторы пользователей и запросов в метки не кладут. Число рядов, которое получается в итоге, — [кардинальность](#cardinality).
+
+*Категория C* — «метка (label)» при первом упоминании, дальше «метка». См. [`Metrics`](/The-Way-of-SRE/engineering/metrics/), [`Telemetry Economics`](/The-Way-of-SRE/engineering/telemetry-economics/). Источник: [Prometheus — Metric and label naming](https://prometheus.io/docs/practices/naming/).
 
 ### lead time for changes
 
