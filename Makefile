@@ -26,7 +26,7 @@ help: ## Показать доступные команды
 
 # js-yaml в devDependencies никто не импортирует: он там, чтобы в корне
 # node_modules лежала версия 4.x. Astro ждёт от неё default-экспорт, а
-# markdownlint-cli2 требует ровно 5.2.2 и живёт со своей вложенной копией.
+# markdownlint-cli2 закрепляет точную версию 5.x и живёт со своей вложенной копией.
 node_modules: package.json bun.lock
 	bun install $(BUN_INSTALL_FLAGS)
 	@touch node_modules
