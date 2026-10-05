@@ -87,6 +87,7 @@
 | defense in depth / defense-in-depth | защита в глубину | Устоявшийся перевод; иногда «эшелонированная защита» — формальнее |
 | operational discipline | операционная дисциплина | Не «*operational* дисциплина» |
 | high-severity incident | критический инцидент / инцидент высокой степени | Не «high-severity incident». Если нужна точность — `SEV0` / `SEV1` |
+| problem (в смысле ITIL) | проблема | Причина серии инцидентов, а не любая неприятность; при первом упоминании в листе термин вводится определением |
 
 ---
 
@@ -115,6 +116,8 @@
 | service ownership | владение сервисом (service ownership) | владение сервисом |
 | career ladder | карьерная лестница (career ladder) | карьерная лестница |
 | golden path | типовой путь (golden path) | golden path |
+| known error | известная ошибка (known error) | known error или известная ошибка — по контексту |
+| workaround | обходное решение (workaround) | обходное решение |
 
 ---
 
@@ -215,3 +218,4 @@
 
 - 2026-05-22 — первый черновик. Покрытие — на основе листьев `postmortem-culture`, `sli-based-alerting`, `war-room-patterns`, `gitops`, `threat-modeling`.
 - 2026-05-22 (после PR #59) — добавлены в категорию B: `least privilege`, `defense in depth`, `attack surface`. Причина: пропустил при первой раскатке, в листьях остались как «принцип least privilege», «defense-in-depth» — типичный гибрид. Замечание было: «principle of least privilege» — явный пример того, что переводится без потерь.
+- 2026-10-05 — вместе с листом `problem-tracking` добавлены `problem` в категорию B, `known error` и `workaround` в категорию C.

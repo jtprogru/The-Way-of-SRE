@@ -302,6 +302,12 @@ CISA Known Exploited Vulnerabilities — публичный каталог уя�
 
 *Категория A*. См. [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
 
+### known error
+
+[Проблема](#problem), которую разобрали, но не устранили. Под термином живут два состояния: причина понятна и есть [обходное решение](#workaround), исправление в работе; либо исправлять решили не делать, потому что оно дороже жизни с проблемой. В реестре их стоит разводить по разным статусам, у каждого — дата пересмотра.
+
+*Категория C* — «известная ошибка (known error)» при первом упоминании, дальше как удобнее. См. [`Problem Tracking`](/The-Way-of-SRE/practices/problem-tracking/). Термин из ITIL; открытый пересказ — [Atlassian](https://www.atlassian.com/itsm/problem-management).
+
 ### Kubernetes
 
 Container orchestrator, выросший из Google Borg и переданный CNCF в 2015. Де-факто стандарт runtime для container workload'ов в 2026. Архитектурно — набор контроллеров поверх etcd: kube-apiserver / scheduler / controller-manager / kubelet. Core abstractions — Pod (unit scheduling), Service (stable endpoint), Deployment / StatefulSet (управление lifecycle). Доступен как managed-сервис у всех hyperscaler'ов (EKS / GKE / AKS / Yandex Managed Kubernetes).
@@ -421,6 +427,12 @@ Kubernetes controller с custom CRD, который управляет complex /
 ### principle of least privilege
 
 См. [least privilege](#least-privilege).
+
+### problem
+
+Причина или условие, общее для нескольких инцидентов. Инцидент — то, что сломалось сейчас; проблема — то, из-за чего оно продолжает ломаться. У записи о проблеме свой владелец и свой жизненный цикл, а закрывают её, когда инциденты перестали приходить: выкаченного исправления для этого мало.
+
+*Категория B* — «проблема». См. [`Problem Tracking`](/The-Way-of-SRE/practices/problem-tracking/). Термин из ITIL.
 
 ## R
 
@@ -601,6 +613,12 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 Канал координации high-severity инцидента, в котором собраны IC / Ops / Comms / Scribe / SME. С 1970-х годов разрабатывается как practice в crisis management (FEMA ICS). Без структуры war room — амплификатор хаоса; со структурой — единственный способ держать координацию при многочасовом инциденте.
 
 *Категория C* — «оперативный штаб (war room)» при первом упоминании, дальше «war room». См. [`War Room Patterns`](/The-Way-of-SRE/practices/war-room-patterns/).
+
+### workaround
+
+Временное решение, которое снижает влияние [проблемы](#problem) или не даёт ей дойти до инцидента, пока нет постоянного исправления. Обходное решение, которое дежурный выполняет руками каждую неделю, — это уже [toil](#toil) с известным источником.
+
+*Категория C* — «обходное решение (workaround)» при первом упоминании, дальше «обходное решение». См. [`Problem Tracking`](/The-Way-of-SRE/practices/problem-tracking/).
 
 ---
 
