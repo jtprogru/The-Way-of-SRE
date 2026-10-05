@@ -454,6 +454,12 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 *Категория B* — «проблема». См. [`Problem Tracking`](/The-Way-of-SRE/practices/problem-tracking/). Термин из ITIL.
 
+### PRR
+
+Production Readiness Review — проверка сервиса на рубеже: перед первым выходом в прод, перед передачей под чужое дежурство или после существенной перестройки. Итог — список пробелов, решение по каждому и исключения с владельцем и сроком, а не заполненный чек-лист. У AWS тот же инструмент называется ORR, Operational Readiness Review.
+
+*Категория A* — пишется заглавными; полное название при первом упоминании. См. [`Production Readiness Review`](/The-Way-of-SRE/practices/production-readiness-review/), [`Change Governance`](/The-Way-of-SRE/practices/change-governance/). Источник: Beyer et al., *SRE Book*, гл. 32. Заготовка — [`templates/production-readiness-review.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/templates/production-readiness-review.md).
+
 ## R
 
 ### RBAC
@@ -646,4 +652,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `production readiness review (PRR)`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
