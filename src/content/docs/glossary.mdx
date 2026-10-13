@@ -438,6 +438,14 @@ Mean Time To Repair / Resolve / Recovery — семейство метрик, т
 
 *Категория A*. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/), [`Runbooks`](/The-Way-of-SRE/culture/runbooks/), [`MTTR Optimization`](/The-Way-of-SRE/practices/mttr-optimization/). Источник: [DORA — история метрик](https://dora.dev/insights/dora-metrics-history/).
 
+## N
+
+### near miss
+
+Событие, которое могло стать инцидентом и не стало: отказ остановила случайность или последняя линия защиты. Под формальные критерии инцидента не попадает, потому что ущерба нет, а пробел в защите показывает тот же. Разбирать его дешевле настоящего инцидента; в документе постмортема для таких находок есть раздел «Где нам повезло».
+
+*Категория D* — устоявшегося перевода нет, кандидаты «несостоявшийся инцидент» и «почти-инцидент» не закрепились; пишется латиницей, смысл раскрывается в предложении. См. [`Blameless Postmortem`](/The-Way-of-SRE/practices/blameless-postmortem/).
+
 ## O
 
 ### observability
@@ -496,7 +504,9 @@ Kubernetes controller с custom CRD, который управляет complex /
 
 ### postmortem
 
-Документ, фиксирующий разбор инцидента после его завершения: timeline, contributing factors, action items с владельцем и дедлайном, lessons learned. В SRE-практике норма — [blameless](#blameless) постмортем.
+<a id="pir"></a>
+
+Документ, фиксирующий разбор инцидента после его завершения: timeline, contributing factors, action items с владельцем и дедлайном, lessons learned. В SRE-практике норма — [blameless](#blameless) постмортем. Тот же ритуал встречается под именами post-incident review (PIR), incident review и learning review.
 
 *Категория A* как документ; «провести разбор» допустим как процесс. См. [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/practices/blameless-postmortem/), [`Postmortem Database`](/The-Way-of-SRE/culture/postmortem-database/). Источник: Beyer et al., *SRE Book*, гл. 15.
 
@@ -730,4 +740,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `near miss`, `wheel of misfortune`, `tabletop exercise`, `game day`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `wheel of misfortune`, `tabletop exercise`, `game day`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
