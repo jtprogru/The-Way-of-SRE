@@ -90,6 +90,7 @@
 | operational discipline | операционная дисциплина | Не «*operational* дисциплина» |
 | high-severity incident | критический инцидент / инцидент высокой степени | Не «high-severity incident». Если нужна точность — `SEV0` / `SEV1` |
 | problem (в смысле ITIL) | проблема | Причина серии инцидентов, а не любая неприятность; при первом упоминании в листе термин вводится определением |
+| Goodhart's law | закон Гудхарта | Устоявшийся перевод, фамилия пишется по-русски |
 
 ---
 
@@ -256,3 +257,4 @@
 - 2026-10-13 — вместе с обогащением листа `incident-response` в категорию A добавлена `OODA`, в категорию D — `tool sprawl` и `executive swoop`.
 - 2026-10-13 — вместе с обогащением листа `resilience-patterns` в категорию A добавлен `circuit breaker`, в категорию C — `bulkhead`, `retry budget`, `deadline propagation`, `graceful degradation` и `metastable failure`.
 - 2026-10-13 — в категорию C добавлены `exponential backoff` и `jitter`. Перевод «выдержка», появившийся при стилевом проходе, заменён на «задержка» в листьях `resilience-patterns` и `networking` и в ссылках на них из `chaos-engineering` и `distributed-tracing`; слово «выдержка» оставлено за паузой перед срабатыванием алерта и за карантином новых версий.
+- 2026-10-13 — вместе с обогащением листа `slo-engineering` в категорию B добавлен `Goodhart's law`.

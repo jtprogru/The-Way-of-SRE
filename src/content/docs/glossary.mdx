@@ -184,7 +184,7 @@ Operations через chat-интерфейс с встроенным audit trai
 
 ### coverage
 
-Code coverage — процент кода, выполненного тестами. Полезен как **diagnostic** (что **не** покрыто) и для сравнения модулей; **бесполезен как target**. «80% обязательно для merge» через Goodhart's law порождает тесты без assertions или на trivial code (геттеры) — coverage growth есть, signal value не растёт. Mutation score — гораздо более честная метрика качества тестов, но дороже считать.
+Code coverage — процент кода, выполненного тестами. Полезен как **diagnostic** (что **не** покрыто) и для сравнения модулей; **бесполезен как target**. «80% обязательно для merge» через [Goodhart's law](#goodharts-law) порождает тесты без assertions или на trivial code (геттеры) — coverage growth есть, signal value не растёт. Mutation score — гораздо более честная метрика качества тестов, но дороже считать.
 
 *Категория A* — устоявшийся англицизм. См. [`Test Strategy`](/The-Way-of-SRE/engineering/test-strategy/).
 
@@ -333,6 +333,12 @@ Toggle, отделяющий момент выкатки кода (deploy) от 
 Pull-based reconciliation модель: git как [единый источник истины](#single-source-of-truth) desired state, controller в кластере (Argo CD / Flux) непрерывно сводит actual state с git. Отличается от push-based CI-applying. Click-ops в проде с этой моделью несовместим.
 
 *Категория A*. См. [`GitOps`](/The-Way-of-SRE/engineering/gitops/). Источник: [OpenGitOps Principles](https://opengitops.dev/) (CNCF).
+
+### Goodhart's law
+
+Закон Гудхарта: когда мера становится целью, она перестаёт быть хорошей мерой. Пока по показателю принимают решения о системе, людям выгодно, чтобы он показывал правду. Когда от него начинает зависеть оценка самих людей, выгодной становится цифра, и её улучшают в обход того, что она измеряла. Назван по имени экономиста Чарльза Гудхарта, который заметил это на инструментах денежно-кредитного контроля; расхожая формулировка взята из статьи антрополога Marilyn Strathern об аудите британских университетов.
+
+*Категория B* — «закон Гудхарта». См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/), [`SLO / Budget Review`](/The-Way-of-SRE/culture/slo-budget-review/), [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/), [`Test Strategy`](/The-Way-of-SRE/engineering/test-strategy/). Источник: Marilyn Strathern, [«Improving ratings»: audit in the British University system](https://archive.org/details/ImprovingRatingsAuditInTheBritishUniversitySystem) (European Review, 1997).
 
 ### graceful degradation
 
