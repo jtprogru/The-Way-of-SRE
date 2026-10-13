@@ -276,6 +276,12 @@ Exploit Prediction Scoring System (FIRST.org). Data-driven вероятност�
 
 *Категория C* — «политика бюджета ошибок (error budget policy)» при первом упоминании, дальше «политика бюджета». См. [`Error Budget Gating`](/The-Way-of-SRE/practices/error-budget-gating/), [`SLO / Budget Review`](/The-Way-of-SRE/culture/slo-budget-review/). Источник: Beyer et al., *SRE Workbook*, приложение B. Заготовка — [`templates/error-budget-policy.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/templates/error-budget-policy.md).
 
+### executive swoop
+
+Старший по должности приходит в звонок по инциденту и начинает отменять решения [IC](#ic), торопить команду или требовать отчёт, который в моменте собирать некому. Название взято из открытого руководства PagerDuty. Там же записан ответ: IC спрашивает «вы берёте командование на себя?». Если да, командование передаётся вслух. Если нет, решения остаются за IC.
+
+*Категория D* — устоявшегося перевода нет; пишется латиницей, смысл раскрывается в предложении. См. [`Incident Response`](/The-Way-of-SRE/practices/incident-response/). Источник: PagerDuty, [Incident Commander training](https://response.pagerduty.com/training/incident_commander/).
+
 ## F
 
 ### Four Golden Signals
@@ -479,6 +485,12 @@ Kubernetes controller с custom CRD, который управляет complex /
 Регулярная (раз в 1–2 недели) встреча engineer'а с manager или tech lead. Не status update — пространство для того, что **не покрыто** другими ритуалами: личные блокеры, обратная связь, growth conversations, отношения. Andy Grove формализовал в 1983: 1:1 — это **встреча сотрудника**, не manager'а.
 
 *Категория A* (термин «1:1» используется без склонения). См. [`One-on-Ones`](/The-Way-of-SRE/practices/one-on-ones/). Источник: Andy Grove, *High Output Management* (1983).
+
+### OODA
+
+Observe, Orient, Decide, Act — наблюдение, ориентация, решение, действие. Петля принятия решений в неопределённости, которую описал военный лётчик и стратег John Boyd. Главная в ней ориентация: она определяет, что наблюдающий заметит, что решит и что сделает. В инциденте петлёй удобно мерить один синк: общая картина, гипотеза, действие, проверка.
+
+*Категория A* — пишется заглавными; по-русски «петля OODA» или «петля Бойда». См. [`Incident Response`](/The-Way-of-SRE/practices/incident-response/). Источник: John Boyd, [The Essence of Winning and Losing](https://www.coljohnboyd.com/documents/1995-06-28__Boyd_John_R__The_Essence_of_Winning_and_Losing__PPT-PDF.pdf) (1995).
 
 ### OWASP Top 10
 
@@ -689,6 +701,12 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 Операционная работа, которая **manual, repetitive, automatable, tactical, devoid of enduring value, scales linearly with service growth**. Все пять критериев должны выполняться — иначе это не toil, а просто «не любимая работа». Google SRE convention — ≤ 50% времени per engineer.
 
 *Категория A*. См. [`Toil Tracking`](/The-Way-of-SRE/engineering/toil-tracking/). Источник: Vivek Rau, *SRE Book*, гл. 5.
+
+### tool sprawl
+
+Разрастание набора инструментов: каждый добавляли по отдельности под понятную задачу, а набор целиком никто не пересматривал. В инциденте это оборачивается ручным переносом данных между окнами и хронологией, которую потом собирают по кускам из мониторинга, чата, трекера и системы дежурств.
+
+*Категория D* — устоявшегося перевода нет, разговорное «зоопарк инструментов» в тексте не закрепилось; пишется латиницей, смысл раскрывается в предложении. См. [`Incident Response`](/The-Way-of-SRE/practices/incident-response/).
 
 ### trace / span
 
