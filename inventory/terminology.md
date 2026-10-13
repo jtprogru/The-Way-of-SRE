@@ -36,6 +36,7 @@
 - *manifest, controller, sidecar, operator, CRD*
 - *canary, blue-green, A/B, feature flag, progressive delivery*
 - *rollback, hotfix, deploy* (но «релиз» — по-русски, устоялся)
+- *circuit breaker* — латиницей без склонения; состояния по-русски: замкнут, разомкнут, полуоткрыт
 - *throughput, latency, percentile* (`p50`, `p95`, `p99`)
 - *RBAC, IAM, SSO, MFA*
 
@@ -132,6 +133,11 @@
 | critical user journey (CUJ) | критичный пользовательский путь (critical user journey, CUJ) | CUJ |
 | implicit SLO | неявный SLO (implicit SLO) | неявный SLO |
 | quality SLI | индикатор качества ответа (quality SLI) | quality SLI |
+| bulkhead | изоляция по отсекам (bulkhead) | отсеки |
+| retry budget | бюджет повторов (retry budget) | бюджет повторов |
+| deadline propagation | проброс дедлайна (deadline propagation) | проброс дедлайна |
+| graceful degradation | плавная деградация (graceful degradation) | деградация |
+| metastable failure | метастабильный отказ (metastable failure) | метастабильный отказ |
 
 ---
 
@@ -246,3 +252,4 @@
 - 2026-10-13 — вместе с обогащением листа `slo-engineering` в категорию C добавлены `critical user journey (CUJ)`, `implicit SLO` и `quality SLI`, в категорию D — `aspirational SLO`.
 - 2026-10-13 — вместе с обогащением листа `blameless-postmortem` в категорию D добавлен `near miss`.
 - 2026-10-13 — вместе с обогащением листа `incident-response` в категорию A добавлена `OODA`, в категорию D — `tool sprawl` и `executive swoop`.
+- 2026-10-13 — вместе с обогащением листа `resilience-patterns` в категорию A добавлен `circuit breaker`, в категорию C — `bulkhead`, `retry budget`, `deadline propagation`, `graceful degradation` и `metastable failure`.

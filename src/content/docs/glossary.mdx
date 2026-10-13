@@ -84,6 +84,12 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория C* — «аварийный доступ (break-glass)» при первом упоминании, дальше «аварийный доступ». См. [`Disaster Recovery`](/The-Way-of-SRE/engineering/disaster-recovery/), [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/).
 
+### bulkhead
+
+Изоляция по отсекам: у каждой зависимости свой ограниченный пул потоков или соединений либо своя очередь. Когда зависимость начинает отвечать медленно, заполняется только её отсек, и остальные вызовы сервиса продолжают работать. Название взято из судостроения: переборки не дают одной пробоине затопить весь корпус.
+
+*Категория C* — «изоляция по отсекам (bulkhead)» при первом упоминании, дальше «отсеки». См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/). Источник: Michael Nygard, *Release It!*; Netflix, [Hystrix: How it Works](https://github.com/Netflix/Hystrix/wiki/How-it-Works).
+
 ### burn rate
 
 Скорость, с которой сервис сжигает [error budget](#error-budget). При burn rate `14.4×` тридцатидневный бюджет исчерпан за 50 часов. Используется как input для multi-window multi-burn-rate alerting.
@@ -146,6 +152,12 @@ Operations через chat-интерфейс с встроенным audit trai
 
 *Категория A* — пишется без склонения. См. [`ChatOps`](/The-Way-of-SRE/engineering/chatops/), [`Severity Classification`](/The-Way-of-SRE/practices/severity-classification/), [`Incident Response`](/The-Way-of-SRE/practices/incident-response/).
 
+### circuit breaker
+
+Обёртка вокруг вызова зависимости с тремя состояниями. В замкнутом вызовы идут как обычно и считаются ошибки. Когда ошибок становится больше порога, цепь размыкается: вызовы сразу получают отказ или запасной ответ и до зависимости не доходят. После паузы наступает полуоткрытое состояние: проходит пробный вызов, и по его результату цепь замыкается или размыкается снова.
+
+*Категория A* — пишется латиницей без склонения; состояния называются по-русски: замкнут, разомкнут, полуоткрыт. См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/), [`Service Mesh`](/The-Way-of-SRE/engineering/service-mesh/). Источник: Michael Nygard, *Release It!*; Martin Fowler, [CircuitBreaker](https://martinfowler.com/bliki/CircuitBreaker.html) (2014).
+
 ### cognitive load
 
 Объём знаний и контекста, который команда удерживает «в голове», чтобы продолжать работать с системой. Skelton/Pais выделяют три типа (intrinsic, extraneous, germane); рабочая SRE-эвристика — «сколько сервисов и технологий держит команда без потери качества». Превышение → degraded incident response, устаревающие runbook'и, on-call lottery. Решается либо split на меньшие team boundaries, либо инвестицией в платформу, которая снимает extraneous load. Во втором издании книги когнитивная нагрузка поднята до уровня принципа проектирования организации, а не одного из соображений.
@@ -201,6 +213,12 @@ Common Vulnerability Scoring System — числовая оценка серьё
 Dynamic Application Security Testing — поиск уязвимостей в **работающем** приложении через внешние запросы, без доступа к исходникам. Дополняет [`SAST`](#sast) (статический анализ кода): видит то, что проявляется только в runtime. Инструменты — OWASP ZAP, Burp Suite.
 
 *Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/practices/security-code-review/), [`Vulnerability Management`](/The-Way-of-SRE/practices/vulnerability-management/).
+
+### deadline propagation
+
+Проброс дедлайна: срок ответа назначается один раз на входе в систему и передаётся вниз по цепочке вызовов. Каждый сервис перед очередным шагом проверяет, осталось ли время, и не начинает работу, результат которой уже некому отдать.
+
+*Категория C* — «проброс дедлайна (deadline propagation)» при первом упоминании, дальше «проброс дедлайна». См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/). Источник: Beyer et al., *SRE Book*, гл. 22.
 
 ### decision log
 
@@ -316,6 +334,12 @@ Pull-based reconciliation модель: git как [единый источни�
 
 *Категория A*. См. [`GitOps`](/The-Way-of-SRE/engineering/gitops/). Источник: [OpenGitOps Principles](https://opengitops.dev/) (CNCF).
 
+### graceful degradation
+
+Плавная деградация: при отказе зависимости или перегрузке сервис продолжает выполнять главную функцию и вместо ошибки отдаёт урезанный ответ — устаревшие данные из кеша, заглушку или пустой блок. Работает только тогда, когда заранее решено, чем жертвуют в первую очередь.
+
+*Категория C* — «плавная деградация (graceful degradation)» при первом упоминании, дальше «деградация». См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/), [`Vendor Reliability`](/The-Way-of-SRE/practices/vendor-reliability/). Источник: AWS Well-Architected, [REL05-BP01](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_graceful_degradation.html).
+
 ## H
 
 ### histogram
@@ -409,6 +433,12 @@ Container orchestrator, выросший из Google Borg и переданны�
 Регулярная парная связь, в которой более опытный инженер передаёт ученику контекст и навыки, не покрываемые формальным онбордингом и не сводимые к код-ревью. Отличается от **коучинга** (вопросы без позиции эксперта) и **sponsorship** (открытие возможностей через рекомендации и защиту) — разные социальные контракты, разные риски, разные эффекты на карьеру. Базовая дисциплина — менторский контракт в начале связи и явное условие выхода.
 
 *Категория A* — устоявшийся англицизм. См. [`Mentoring as Practice`](/The-Way-of-SRE/practices/mentoring-as-practice/), [`Communities of Practice`](/The-Way-of-SRE/culture/communities-of-practice/), [`SRE Onboarding`](/The-Way-of-SRE/culture/sre-onboarding/).
+
+### metastable failure
+
+Метастабильный отказ: система попадает в плохое состояние от какого-то толчка и остаётся в нём, когда толчок уже убран. Удерживает её петля обратной связи, чаще всего усиление работы вроде повторов. Сама система из такого состояния не выходит. Нужно сильное внешнее вмешательство: резко снизить нагрузку или перезапустить.
+
+*Категория C* — «метастабильный отказ (metastable failure)» при первом упоминании, дальше «метастабильный отказ». См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/). Источник: Bronson et al., [Metastable Failures in Distributed Systems](https://sigops.org/s/conferences/hotos/2021/papers/hotos21-s11-bronson.pdf) (HotOS '21).
 
 ### MFA
 
@@ -559,6 +589,12 @@ Role-Based Access Control — модель авторизации, в котор
 Метод первого прохода для сервиса: **Rate** (rps), **Errors** (доля сбоев), **Duration** (распределение latency, обычно через гистограмму с percentile'ями). Application-уровневый аналог [USE](#use-method); вместе с [Four Golden Signals](#four-golden-signals) формирует базовый набор сервисных метрик. Предложен Tom Wilkie (Weaveworks).
 
 *Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/engineering/systematic-troubleshooting/), [`SLI-based Alerting`](/The-Way-of-SRE/engineering/sli-based-alerting/). Источник: Tom Wilkie, *The RED Method* (Weaveworks, 2018).
+
+### retry budget
+
+Бюджет повторов: ограничение на число или долю повторных запросов. Выдержка и разброс разносят повторы во времени, бюджет ограничивает их объём, и при массовых отказах повторы прекращаются сами. В SRE Book описаны два уровня: не больше трёх попыток на запрос и не больше 10% повторов в потоке клиента.
+
+*Категория C* — «бюджет повторов (retry budget)» при первом упоминании, дальше «бюджет повторов». См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/), [`Capacity Planning`](/The-Way-of-SRE/engineering/capacity-planning/). Источник: Beyer et al., *SRE Book*, гл. 21.
 
 ### RPO / RTO
 
@@ -758,4 +794,4 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 Этот глоссарий — публичный артефакт. Рабочие правила того, как **переводить** термины и какие графические нормы применять, живут в `inventory/terminology.md` репозитория (внутренний документ контрибутора). Если в глоссарии и в `terminology.md` обнаружится расхождение — глоссарий ближе к читателю, исправляется в обе стороны через PR.
 
-Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `circuit breaker`, `bulkhead`, `backpressure`, `load shedding`, `graceful degradation`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `wheel of misfortune`, `tabletop exercise`, `game day`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
+Глоссарий пополняется по мере роста проекта. Список того, что **ещё не добавлено** и стоит в очереди: `MITRE ATT&CK`, `PASTA`, `OCTAVE`, `LINDDUN`, `VAST`, `Sigstore`, `ReBAC` / Zanzibar, `JIT access`, `PAM`, `FIDO2` / `WebAuthn`, `ISO 27001`, `PCI-DSS`, `HIPAA`, `GDPR`, `FedRAMP`, `Hubot`, `Taskfile`, `Backstage`, `backpressure`, `load shedding`, `health gate`, `blue-green deployment`, `dark launch`, `shadow traffic`, `pull-based` / `push-based` модели, `dashboard`, `pipeline`, `stakeholder`, `escalation path`, `outage`, `wheel of misfortune`, `tabletop exercise`, `game day`, `engagement contract`, `embedded SRE` / `consulting SRE` / `platform SRE`, `policy as code`, `OPA`. PR с добавлениями приветствуется.
