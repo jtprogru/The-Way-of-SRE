@@ -32,7 +32,7 @@ status: draft
 
 ### Книги
 
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/how-sre-relates/)** (O'Reilly, 2018), глава 16 «How SRE Relates to DevOps». Место SRE в парадигме DevOps.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/how-sre-relates/)** (O'Reilly, 2018), глава 1 «How SRE Relates to DevOps». Место SRE в парадигме DevOps.
 - Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/engagement-model/)**, глава 18 «SRE Engagement Model». По моим наблюдениям, главный источник по моделям подключения (PRR, simple PRR, ongoing) — на него ссылаются чаще, чем на любую статью по теме.
 - David N. Blank-Edelman (ред.) — **Seeking SRE** (O'Reilly, 2018). Сборник: разделы про устройство организации, embedded против consulting, масштабирование SRE.
 - Matthew Skelton, Manuel Pais — **[Team Topologies](https://teamtopologies.com/book)** (IT Revolution, 1-е изд. 2019, 2-е изд. 2025). Типы команд (stream-aligned / platform / complicated-subsystem / enabling) — SRE укладывается в несколько в зависимости от модели.
