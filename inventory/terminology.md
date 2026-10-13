@@ -138,6 +138,8 @@
 | deadline propagation | проброс дедлайна (deadline propagation) | проброс дедлайна |
 | graceful degradation | плавная деградация (graceful degradation) | деградация |
 | metastable failure | метастабильный отказ (metastable failure) | метастабильный отказ |
+| exponential backoff | экспоненциальная задержка (exponential backoff) | задержка, пауза между повторами |
+| jitter | разброс (jitter) | разброс |
 
 ---
 
@@ -253,3 +255,4 @@
 - 2026-10-13 — вместе с обогащением листа `blameless-postmortem` в категорию D добавлен `near miss`.
 - 2026-10-13 — вместе с обогащением листа `incident-response` в категорию A добавлена `OODA`, в категорию D — `tool sprawl` и `executive swoop`.
 - 2026-10-13 — вместе с обогащением листа `resilience-patterns` в категорию A добавлен `circuit breaker`, в категорию C — `bulkhead`, `retry budget`, `deadline propagation`, `graceful degradation` и `metastable failure`.
+- 2026-10-13 — в категорию C добавлены `exponential backoff` и `jitter`. Перевод «выдержка», появившийся при стилевом проходе, заменён на «задержка» в листьях `resilience-patterns` и `networking` и в ссылках на них из `chaos-engineering` и `distributed-tracing`; слово «выдержка» оставлено за паузой перед срабатыванием алерта и за карантином новых версий.

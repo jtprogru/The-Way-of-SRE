@@ -79,7 +79,7 @@ status: draft
 
 ## Связанные листья
 
-- **[Resilience Patterns](/The-Way-of-SRE/engineering/resilience-patterns/)** — там строят, здесь проверяют. Chaos отвечает на вопросы: circuit breaker реально открывается? ретраи с выдержкой не усиливают шторм? отсеки изолируют?
+- **[Resilience Patterns](/The-Way-of-SRE/engineering/resilience-patterns/)** — там строят, здесь проверяют. Chaos отвечает на вопросы: circuit breaker реально открывается? ретраи с задержкой не усиливают шторм? отсеки изолируют?
 - **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — SLO как база отсчёта и как предохранитель. Гипотеза формулируется в терминах SLI; запас бюджета определяет, можно ли вообще ставить эксперимент.
 - **[Capacity Planning](/The-Way-of-SRE/engineering/capacity-planning/)** — chaos проверяет допущения модели мощностей: пороги насыщения, бюджет запаса, скорость реакции автомасштабирования. Без него эти числа «по ощущениям».
 - **[CI/CD](/The-Way-of-SRE/engineering/ci-cd/)** — непрерывный chaos живёт отдельным этапом конвейера, сценарии game day автоматизируются; неизменяемые артефакты дают быстрый откат после эксперимента.
