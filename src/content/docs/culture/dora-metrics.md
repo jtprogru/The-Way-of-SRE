@@ -73,6 +73,7 @@ DORA делит их на две группы. **Пропускная спосо
 ## Связанные листья
 
 - **[SLO / Budget Review](/The-Way-of-SRE/culture/slo-budget-review/)** — операционная надёжность и опыт пользователя; не шестая DORA-метрика.
+- **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — тот же закон Гудхарта на другой цифре: что делают с SLI, когда его выполнение становится оценкой команды.
 - **[CI/CD](/The-Way-of-SRE/engineering/ci-cd/)** — основной источник событий change и deploy, а также место улучшения потока доставки.
 - **[Progressive Delivery](/The-Way-of-SRE/practices/progressive-delivery/)** — снижает blast radius изменения и даёт механизмы быстрого вмешательства при неудачном deploy.
 - **[Change Governance](/The-Way-of-SRE/practices/change-governance/)** — правила согласования изменений могут проявляться в change lead time; причинность проверяется отдельно.
