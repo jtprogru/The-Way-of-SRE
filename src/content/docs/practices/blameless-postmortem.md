@@ -36,23 +36,23 @@ status: draft
 
 ### Книги
 
-- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/postmortem-culture/)** (O'Reilly, 2016), глава 15. Фундамент ритуала и канонический шаблон постмортема.
-- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/postmortem-culture/)** (O'Reilly, 2018), глава 10. Разбор плохого и хорошего постмортема на одном реальном инциденте.
+- Betsy Beyer et al. — **[Site Reliability Engineering](https://sre.google/sre-book/postmortem-culture/)** (O'Reilly, 2016), глава 15. Фундамент ритуала и канонический шаблон постмортема. Рекомендую читать первой: глава короткая, а перечень поводов для разбора из неё я пересказываю ниже.
+- Betsy Beyer et al. — **[The Site Reliability Workbook](https://sre.google/workbook/postmortem-culture/)** (O'Reilly, 2018), глава 10. Разбор плохого и хорошего постмортема на одном реальном инциденте. По моему ощущению, для ритуала она полезнее главы 15: видно, как один и тот же сбой превращается в два разных документа.
 
 ### Статьи и доклады
 
-- John Allspaw — **[Blameless PostMortems and a Just Culture](https://www.etsy.com/codeascraft/blameless-postmortems/)** (Etsy, 2012). Классическая статья, заложившая словарь.
+- John Allspaw — **[Blameless PostMortems and a Just Culture](https://www.etsy.com/codeascraft/blameless-postmortems/)** (Etsy, 2012). Классическая статья, заложившая словарь. Обязательное чтение для того, кто ведёт встречу.
 - John Allspaw — **[The Infinite Hows (or, the Dangers Of The Five Whys)](https://www.kitchensoap.com/2014/11/14/the-infinite-hows-or-the-dangers-of-the-five-whys/)** (Kitchen Soap, 2014). Критика «пяти почему» и вопросы «как» им на замену. Рекомендую тому, кто ведёт встречу: вопросы оттуда переносятся в разбор почти дословно.
 - Atlassian — **[Incident Management Handbook: Postmortems](https://www.atlassian.com/incident-management/handbook/postmortems)**. Противоположная школа: «пять почему» до корневой причины, причины делятся на ближайшие и корневые. Рекомендую прочитать хотя бы затем, чтобы спорить с настоящим текстом, а не с пересказом.
-- **[PagerDuty — Postmortems](https://postmortems.pagerduty.com/)**. Открытый набор руководств по проведению постмортема: культурная рамка, написание документа, ведение встречи, чеклисты. Лицензия Apache 2.0 — можно брать и адаптировать под себя.
-- **[Cloudflare incident reports](https://blog.cloudflare.com/tag/post-mortem/)**. Регулярные публичные постмортемы — эталон, на который многие команды ориентируются.
+- **[PagerDuty — Postmortems](https://postmortems.pagerduty.com/)**. Открытый набор руководств по проведению постмортема: культурная рамка, написание документа, ведение встречи, чеклисты. Лицензия Apache 2.0 — можно брать и адаптировать под себя. Рекомендую начинать с двух страниц: вопросы для анализа и чеклист постмортема.
+- **[Cloudflare incident reports](https://blog.cloudflare.com/tag/post-mortem/)**. Регулярные публичные постмортемы — эталон, на который многие команды ориентируются. По моим наблюдениям, один из лучших образцов разбора, который не стыдно опубликовать.
 - Мой разбор — **[Постмортем, только про дорогу](https://t.me/jtprogru_channel/4534)** (Telegram, сентябрь 2026). Короткий пост о том, что разборы ДТП устроены как постмортемы: одной причины не бывает, сигналы были заранее, а «я был прав» не спасает.
 
 ### Инструменты
 
-- **Шаблоны** — **[Google SRE Example Postmortem](https://sre.google/sre-book/example-postmortem/)** (реальный шаблон Google), **[PagerDuty Postmortem Template](https://postmortems.pagerduty.com/resources/post_mortem_template/)**, **[dastergon/postmortem-templates](https://github.com/dastergon/postmortem-templates)** (агрегированная коллекция).
+- **Шаблоны** — **[Google SRE Example Postmortem](https://sre.google/sre-book/example-postmortem/)** (реальный шаблон Google), **[PagerDuty Postmortem Template](https://postmortems.pagerduty.com/resources/post_mortem_template/)**, **[dastergon/postmortem-templates](https://github.com/dastergon/postmortem-templates)** (агрегированная коллекция). Первый шаблон команды с нуля писать не стоит, дешевле подрезать чужой.
 - **Markdown в репозитории команды** — самый простой формат: один постмортем — один файл в `postmortems/<YYYY-MM-DD>-<slug>.md`. По моим наблюдениям, для команды до десяти постмортемов в месяц этого достаточно.
-- **Платформы** — **[incident.io](https://incident.io/)**, **[FireHydrant](https://firehydrant.com/)**. Автоматический сбор хронологии из Slack и алертов, конспект от модели, ведение ретро. Полезны, когда команда выходит за десяток постмортемов в месяц.
+- **Платформы** — **[incident.io](https://incident.io/)**, **[FireHydrant](https://firehydrant.com/)**. Автоматический сбор хронологии из Slack и алертов, конспект от модели, ведение ретро. По моим наблюдениям, окупаются, когда команда выходит за десяток постмортемов в месяц.
 
 ### Шаблоны
 
