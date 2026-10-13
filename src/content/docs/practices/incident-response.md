@@ -109,6 +109,7 @@ status: draft
 - **[War Room Patterns](/The-Way-of-SRE/practices/war-room-patterns/)** — операционная дисциплина для критических инцидентов, в которых участвует несколько команд.
 - **[On-Call Rotation](/The-Way-of-SRE/practices/on-call-rotation/)** — кто реагирует и в каком состоянии.
 - **[Systematic Troubleshooting](/The-Way-of-SRE/engineering/systematic-troubleshooting/)** — методология разбора неизвестной поломки; здесь координация вокруг него, там сам поиск.
+- **[MTTR Optimization](/The-Way-of-SRE/practices/mttr-optimization/)** — время инцидента по отрезкам: обнаружение, реакция, гашение, устранение. Здесь — как прожить эти отрезки организованно, там — как их мерить.
 - **[Action Items Tracking](/The-Way-of-SRE/practices/action-items-tracking/)** — закрытие инцидента включает постановку задач с владельцем, сроком и критерием; соседний лист — про дисциплину их выполнения.
 - **[ChatOps](/The-Way-of-SRE/engineering/chatops/)** — современные инструменты для инцидентов (incident.io, Netflix Dispatch, FireHydrant) — это ChatOps внутри Slack: объявление инцидента, координация и сводки живут в чате, и там же остаётся журнал аудита.
 - **[Status Page Management](/The-Way-of-SRE/practices/status-page-management/)** — обновление публичной статусной страницы стоит в чеклисте IC прямо в моменте инцидента.
@@ -118,4 +119,6 @@ status: draft
 
 ## Открытые вопросы
 
-Почти всё, что раньше висело здесь в открытых вопросах, разъехалось по отдельным листьям внутри Incident Management: Severity Classification, Customer Communications, On-Call Rotation, War Room Patterns, Status Page Management. По основным операционным практикам эта ветка закрыта, и незакрытых кусков в ней я сейчас не вижу.
+Почти всё, что раньше висело здесь в открытых вопросах, разъехалось по отдельным листьям внутри Incident Management: Severity Classification, Customer Communications, On-Call Rotation, War Room Patterns, Status Page Management. По основным операционным практикам эта ветка закрыта.
+
+Открытым остался один вопрос: кому командовать. Whitworth рисует три ступени как лестницу, по которой идут вверх: выделенная центральная команда, затем команды-владельцы, затем вся компания, где инцидент может объявить и служба поддержки. Robert Ross, CEO FireHydrant, в 2023 году [писал другое](https://firehydrant.com/blog/exploring-distributed-vs-centralized-incident-command-models/): большинству команд нужна комбинация распределённой и централизованной модели. Оба автора руководят компаниями, которые продают платформы для инцидентов, так что оба текста я читаю с поправкой. Независимого сравнения моделей на данных мне не попадалось.
