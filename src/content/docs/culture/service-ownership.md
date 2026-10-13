@@ -72,6 +72,7 @@ Catalog работает, только когда он единственный 
 - **[SLO / Budget Review](/The-Way-of-SRE/culture/slo-budget-review/)** — owner — это тот, кто принимает решения о бюджете; без чёткого ownership ревью не имеет адресата.
 - **[Runbooks](/The-Way-of-SRE/culture/runbooks/)** — owner отвечает за актуальность runbook своего сервиса; catalog связывает service ↔ runbook URL.
 - **[Dev Team Partnership](/The-Way-of-SRE/culture/dev-team-partnership/)** — контракт взаимодействия предполагает явного владельца; без него партнёрство сползает в «SRE решает всё».
+- **[Stakeholder Management](/The-Way-of-SRE/culture/stakeholder-management/)** — имя владельца со стороны продукта появляется в каталоге после разговора, который описан там; до него поле остаётся пустым.
 - **[Incident Response](/The-Way-of-SRE/practices/incident-response/)** — incident commander смотрит в catalog, чтобы узнать owner и эскалационный путь.
 - **[Backup & Restore](/The-Way-of-SRE/engineering/backup-restore/)** — каталог содержит метаданные о бэкапах сервиса; без catalog на момент disaster инженеры ищут backup вслепую.
 - **[Cloud Cost Control](/The-Way-of-SRE/engineering/cloud-cost-control/)** — каталог хранит и деньги: текущие затраты, бюджет, динамику. За расходы отвечает тот же, кто владеет сервисом.
