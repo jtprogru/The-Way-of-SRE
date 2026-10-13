@@ -40,6 +40,12 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория B* — «усталость от алертов». См. [`Alert Fatigue Management`](/The-Way-of-SRE/engineering/alert-fatigue-management/), [`On-Call Rotation`](/The-Way-of-SRE/practices/on-call-rotation/).
 
+### aspirational SLO
+
+Цель, которую команда уже измеряет и показывает рядом с действующим SLO, но по которой пока не обязана действовать: в политике бюджета прямо записано, что её нарушение ничего не запускает. В Workbook описана для случая, когда правильная цель жёстче нынешних возможностей продукта и вводить её сразу значит жить в постоянном нарушении.
+
+*Категория D* — устоявшегося перевода нет; пишется латиницей курсивом, смысл раскрывается в предложении. См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/). Источник: Beyer et al., *SRE Workbook*, гл. 2.
+
 ### attack surface
 
 Сумма всех точек, через которые потенциальный атакующий может попасть в систему: открытые порты, публичные API, зависимости, права у пользователей. Минимизация attack surface снижает вероятность компрометации.
@@ -169,6 +175,12 @@ Operations через chat-интерфейс с встроенным audit trai
 Code coverage — процент кода, выполненного тестами. Полезен как **diagnostic** (что **не** покрыто) и для сравнения модулей; **бесполезен как target**. «80% обязательно для merge» через Goodhart's law порождает тесты без assertions или на trivial code (геттеры) — coverage growth есть, signal value не растёт. Mutation score — гораздо более честная метрика качества тестов, но дороже считать.
 
 *Категория A* — устоявшийся англицизм. См. [`Test Strategy`](/The-Way-of-SRE/engineering/test-strategy/).
+
+### CUJ
+
+Critical User Journey — последовательность шагов, из которой состоит ключевое для пользователя действие: найти товар, положить в корзину, оплатить. SLO, записанный на такой путь, отвечает на вопрос «смог ли человек сделать то, за чем пришёл». SLO отдельного сервиса на него не отвечает: путь проходит через несколько сервисов и ломается на любом.
+
+*Категория C* — «критичный пользовательский путь (critical user journey, CUJ)» при первом упоминании, дальше `CUJ`. См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/). Источник: Beyer et al., *SRE Workbook*, гл. 2.
 
 ### CVE
 
@@ -331,6 +343,12 @@ Incident Commander — координатор инцидента. Не дела�
 Свойство операции, при котором повторный вызов даёт тот же результат, что и однократный. Пре-условие для retry-safe вызовов — без idempotency каждый retry потенциально создаёт side-effect (double-write, double-charge). Реализуется через idempotency keys, ETags, conditional writes, transaction outbox.
 
 *Категория A* — устоявшийся англицизм; «идемпотентность» как транслитерация тоже допустима. См. [`Resilience Patterns`](/The-Way-of-SRE/engineering/resilience-patterns/).
+
+### implicit SLO
+
+Уровень надёжности, который сервис фактически держал до сих пор и к которому привыкли его потребители. Работает как обещание независимо от того, что записано в SLO-документе и записано ли вообще: вокруг него построены чужие кеши, обработка ошибок и повторы. Заметное отклонение от него в любую сторону — изменение, о котором предупреждают заранее.
+
+*Категория C* — «неявный SLO (implicit SLO)» при первом упоминании, дальше «неявный SLO». См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/). Источник: Niall Murphy, [Implicit SLOs and their dangers](https://blog.relyabilit.ie/implicit-slos-and-their-dangers/) (2024).
 
 ## K
 
@@ -497,6 +515,14 @@ Kubernetes controller с custom CRD, который управляет complex /
 Production Readiness Review — проверка сервиса на рубеже: перед первым выходом в прод, перед передачей под чужое дежурство или после существенной перестройки. Итог — список пробелов, решение по каждому и исключения с владельцем и сроком, а не заполненный чек-лист. У AWS тот же инструмент называется ORR, Operational Readiness Review.
 
 *Категория A* — пишется заглавными; полное название при первом упоминании. См. [`Production Readiness Review`](/The-Way-of-SRE/practices/production-readiness-review/), [`Change Governance`](/The-Way-of-SRE/practices/change-governance/). Источник: Beyer et al., *SRE Book*, гл. 32. Заготовка — [`templates/production-readiness-review.md`](https://github.com/jtprogru/The-Way-of-SRE/blob/main/templates/production-readiness-review.md).
+
+## Q
+
+### quality SLI
+
+Индикатор, который считает долю ответов, отданных без деградации. Нужен сервису, умеющему отвечать урезанно: такой ответ уходит с кодом успеха и по SLI доступности считается хорошим. Видит только ту деградацию, о которой сервис сообщил сам.
+
+*Категория C* — «индикатор качества ответа (quality SLI)» при первом упоминании, дальше quality SLI. См. [`SLO Engineering`](/The-Way-of-SRE/engineering/slo-engineering/). Источник: Beyer et al., *SRE Workbook*, гл. 2, табл. 2-1.
 
 ## R
 
