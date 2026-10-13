@@ -79,7 +79,7 @@ status: draft
 - **[Telemetry Economics](/The-Way-of-SRE/engineering/telemetry-economics/)** — сколько стоит хранение трейсов и как устроено семплирование на входе и по итогу.
 - **[Service Mesh](/The-Way-of-SRE/engineering/service-mesh/)** — спаны на границах сервисов без правки кода; контекст внутри сервиса передавать всё равно приходится самому.
 - **[Systematic Troubleshooting](/The-Way-of-SRE/engineering/systematic-troubleshooting/)** — трейс как способ делить путь запроса пополам, не перебирая сервисы по очереди.
-- **[Resilience Patterns](/The-Way-of-SRE/engineering/resilience-patterns/)** — повторы и удержанные соединения из истории Glovo — случай для правил, которые разобраны там: выдержка, таймауты, изоляция по отсекам.
+- **[Resilience Patterns](/The-Way-of-SRE/engineering/resilience-patterns/)** — повторы и удержанные соединения из истории Glovo — случай для правил, которые разобраны там: задержка между повторами, таймауты, изоляция по отсекам.
 - **[Composite SLO Methodology](/The-Way-of-SRE/engineering/composite-slo-methodology/)** — карта зависимостей, построенная по трейсам, служит входом для расчёта составных целей.
 
 ## Открытые вопросы
