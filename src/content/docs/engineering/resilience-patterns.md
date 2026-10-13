@@ -37,6 +37,7 @@ status: draft
 
 - Michael Nygard — **[Release It! Design and Deploy Production-Ready Software](https://pragprog.com/titles/mnee2/release-it-second-edition/)** (Pragmatic Bookshelf, 2-е изд., 2018). Каноническая книга по теме: главы про паттерны и антипаттерны стабильности — circuit breaker, отсеки, устойчивое состояние, быстрый отказ. Спустя двадцать лет всё ещё лучший единый источник.
 - Cindy Sridharan — **[Distributed Systems Observability](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/)** (O'Reilly, 2018). Связь устойчивости и наблюдаемости: как увидеть, что circuit breaker открыт, и как поймать шторм повторов в метриках.
+- Наталья Савенкова — **[SRE. Рецепты выживания в продакшне для инженера по надежности](https://www.litres.ru/book/natalya-savenkova/sre-recepty-vyzhivaniya-v-prodakshene-dlya-inzhenera-po-70232503/)** (2024). Читал и рекомендую: шестьдесят страниц коротких рецептов без теории. К этому листу относятся рецепты про деградацию: согласованный с продуктом ответ по умолчанию, несколько уровней отключения и повторы с ограничением.
 
 ### Статьи и доклады
 
@@ -44,7 +45,9 @@ status: draft
 - **[Handling Overload](https://sre.google/sre-book/handling-overload/)** — SRE Book, глава 21. Дополняет предыдущую: придушивание на стороне клиента, уровни критичности, бюджеты повторов, дедлайны и их проброс.
 - Marc Brooker — **[Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/)** (AWS Architecture Blog, 2015). Главный публичный кейс — см. ниже.
 - Netflix Tech Blog — **[Making the Netflix API more resilient](https://netflixtechblog.com/making-the-netflix-api-more-resilient-a8ec62159c2d)**. История появления Hystrix и обоснование изоляции по отсекам на живой системе.
+- Nathan Bronson, Abutalib Aghayev, Aleksey Charapko, Timothy Zhu — **[Metastable Failures in Distributed Systems](https://sigops.org/s/conferences/hotos/2021/papers/hotos21-s11-bronson.pdf)** (HotOS '21). Советую прочитать целиком: семь страниц, после которых шторм повторов перестаёт выглядеть невезением: у отказа, который не проходит сам, есть определение, три состояния и петля в роли причины.
 - Мой разбор — **[Digital Immune System: инженерия устойчивости как продукт](https://jtprog.ru/posts/digital-immune-system-maturity/)** (jtprog.ru, август 2026). Раздел про право на отказ и организованную деградацию — про то, чего в главах SRE Book выше нет: деградация срабатывает только тогда, когда заранее решено, какие функции гаснут первыми и кто это решение принимает. Входная точка в саму концепцию — мой более ранний [обзор Digital Immune System](https://jtprog.ru/posts/digital-immune-system/) (февраль 2026).
+- Мой разбор — **[Ночь с пятницы на понедельник: как не утонуть в крупном инциденте](https://t.me/jtprogru_channel/4470)** (Telegram, март 2026). Конспект статьи Яндекса о региональном сбое в облаке. К этому листу относятся ставки, которые, по моему мнению, стоит примерять каждому: плоскость данных, переживающая падение плоскости управления, рубильник для вывода зоны и жёсткое ограничение очередей.
 
 ### Инструменты
 
