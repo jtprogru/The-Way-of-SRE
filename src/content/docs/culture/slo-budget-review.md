@@ -84,7 +84,7 @@ status: draft
 ## Связанные листья
 
 - **[SLI-based Alerting](/The-Way-of-SRE/engineering/sli-based-alerting/)** — алерты на burn rate дают входные данные для SLO Review; без правильно построенных алертов ревью смотрит на запаздывающие или зашумленные данные.
-- **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — инженерная сторона. Без работающего инструментария Review теряет точные данные.
+- **[SLO Engineering](/The-Way-of-SRE/engineering/slo-engineering/)** — инженерная сторона. Без работающего инструментария Review теряет точные данные. Там же про то, как индикатор защищают от подгонки на уровне формулы.
 - **[Postmortem Culture](/The-Way-of-SRE/culture/postmortem-culture/)** — постмортемы крупных инцидентов показывают, что именно съедает бюджет; ревью — точка, где их выводы превращаются в приоритеты.
 - **[Blameless Postmortem](/The-Way-of-SRE/practices/blameless-postmortem/)** — короткие постмортемы по budget burn приходят на ревью как материал для решений.
 - **[Dev Team Partnership](/The-Way-of-SRE/culture/dev-team-partnership/)** — ревью с участием команды разработки — основной канал, где partnership проявляется в работе с общим бюджетом.
