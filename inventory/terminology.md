@@ -128,6 +128,9 @@
 | canonical log line | каноническая строка лога (canonical log line) | каноническая строка |
 | trace / span | трейс (trace), спан (span) | трейс, спан |
 | context propagation | передача контекста (context propagation) | передача контекста |
+| critical user journey (CUJ) | критичный пользовательский путь (critical user journey, CUJ) | CUJ |
+| implicit SLO | неявный SLO (implicit SLO) | неявный SLO |
+| quality SLI | индикатор качества ответа (quality SLI) | quality SLI |
 
 ---
 
@@ -149,6 +152,7 @@
 | escalation path | путь эскалации / схема эскалации | По контексту |
 | outage | сбой / простой | По контексту: «outage» допустим в SRE-литературе, «сбой» — более общий |
 | postmortem (как процесс vs документ) | постмортем (документ) / разбор инцидента (процесс) | Постмортем как документ оставляем; «провести постмортем» в значении ритуала — допустим перевод «провести разбор» |
+| aspirational SLO | «SLO на вырост» / «целевой SLO без обязательств» | Устоявшегося перевода нет, оба кандидата придуманы на ходу. Пока латиницей курсивом, смысл раскрывается в предложении |
 
 Лист пополняется по ходу аудита и пилота.
 
@@ -235,3 +239,4 @@
 - 2026-10-05 — вместе с листом `disaster-recovery` в категорию C добавлены `failover` и `break-glass`.
 - 2026-10-05 — вместе с листом `logging` в категорию C добавлены `structured logging` и `canonical log line`.
 - 2026-10-05 — вместе с листом `distributed-tracing` в категорию C добавлены `trace / span` и `context propagation`.
+- 2026-10-13 — вместе с обогащением листа `slo-engineering` в категорию C добавлены `critical user journey (CUJ)`, `implicit SLO` и `quality SLI`, в категорию D — `aspirational SLO`.
