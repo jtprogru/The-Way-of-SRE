@@ -732,6 +732,12 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 *Категория C* — «модель угроз (threat model)» при первом упоминании. См. [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/).
 
+### time to market
+
+Время от идеи до момента, когда результат дошёл до клиента. Шире [lead time for changes](#lead-time-for-changes) из модели [DORA](#dora): тот считает только участок от commit до deploy в production, а разбор идеи, приоритизация и дизайн в него не входят. Где теряется время на всём пути, показывает карта [потока ценности](#value-stream).
+
+*Категория A* — латиницей без склонения, сокращение TTM. См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/). Источники: DORA, [определение change lead time](https://dora.dev/guides/dora-metrics/) и [Visibility of work in the value stream](https://dora.dev/capabilities/work-visibility-in-value-stream/).
+
 ### timeline
 
 Хронология событий и решений в инциденте, собранная по timestamp из логов, алертов, Slack-тредов. Главная дисциплина — отделить **факты** от интерпретаций. «X не справился» — уже интерпретация; «X вернул 503 в 14:23» — факт.
@@ -773,6 +779,12 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 *Категория A*. См. [`Systematic Troubleshooting`](/The-Way-of-SRE/engineering/systematic-troubleshooting/), [`Performance & Profiling`](/The-Way-of-SRE/engineering/performance-profiling/). Источник: Brendan Gregg, *The USE Method* (brendangregg.com).
 
 ## V
+
+### value stream
+
+Путь работы от идеи до результата у клиента: все этапы и передачи между ними, от бизнеса и дизайна до эксплуатации и поддержки. Карта потока ценности (value stream mapping) режет этот путь на 5–15 блоков и для каждого записывает lead time, чистое время обработки и долю работы, которую следующий блок принимает без переделки. По карте ищут узкое место: ускорение вне его почти не сокращает общий lead time.
+
+*Категория C* — «поток ценности (value stream)» при первом упоминании, дальше «поток ценности». См. [`DORA Metrics`](/The-Way-of-SRE/culture/dora-metrics/). Источник: DORA, [Visibility of work in the value stream](https://dora.dev/capabilities/work-visibility-in-value-stream/).
 
 ### vulnerability management
 

@@ -38,6 +38,7 @@
 - *rollback, hotfix, deploy* (но «релиз» — по-русски, устоялся)
 - *circuit breaker* — латиницей без склонения; состояния по-русски: замкнут, разомкнут, полуоткрыт
 - *throughput, latency, percentile* (`p50`, `p95`, `p99`)
+- *time to market* (TTM) — латиницей без склонения; не путать с change lead time из модели DORA
 - *RBAC, IAM, SSO, MFA*
 
 ### Security-лексика
@@ -141,6 +142,7 @@
 | metastable failure | метастабильный отказ (metastable failure) | метастабильный отказ |
 | exponential backoff | экспоненциальная задержка (exponential backoff) | задержка, пауза между повторами |
 | jitter | разброс (jitter) | разброс |
+| value stream | поток ценности (value stream) | поток ценности |
 
 ---
 
@@ -258,3 +260,4 @@
 - 2026-10-13 — вместе с обогащением листа `resilience-patterns` в категорию A добавлен `circuit breaker`, в категорию C — `bulkhead`, `retry budget`, `deadline propagation`, `graceful degradation` и `metastable failure`.
 - 2026-10-13 — в категорию C добавлены `exponential backoff` и `jitter`. Перевод «выдержка», появившийся при стилевом проходе, заменён на «задержка» в листьях `resilience-patterns` и `networking` и в ссылках на них из `chaos-engineering` и `distributed-tracing`; слово «выдержка» оставлено за паузой перед срабатыванием алерта и за карантином новых версий.
 - 2026-10-13 — вместе с обогащением листа `slo-engineering` в категорию B добавлен `Goodhart's law`.
+- 2026-10-14 — вместе с обогащением листа `dora-metrics` в категорию A добавлен `time to market`, в категорию C — `value stream`.
