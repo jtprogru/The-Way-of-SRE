@@ -19,7 +19,7 @@
     "sharp": "^0.35.5"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
+    "@astrojs/check": "^0.9.12",
     "doctoc": "^2.5.0",
     "js-yaml": "^4.3.2",
     "markdownlint-cli2": "^0.23.3",
