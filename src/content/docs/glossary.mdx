@@ -762,6 +762,12 @@ Threat modeling framework (Microsoft): **S**poofing, **T**ampering, **R**epudiat
 
 ## T
 
+### Team API
+
+Опубликованная договорённость для тех, кто работает с командой: за что она отвечает, какие запросы принимает, как к ней обратиться и чего ждать в ответ. В отличие от записи о владельце сервиса, описывает порядок обращения к этому владельцу.
+
+*Категория C* — «интерфейс команды (Team API)». См. [`Team Topologies`](/The-Way-of-SRE/culture/team-topologies/), [`Service Ownership`](/The-Way-of-SRE/culture/service-ownership/). Источник: [шаблон Team API от Team Topologies](https://github.com/TeamTopologies/Team-API-template).
+
 ### Team Topologies
 
 Диагностическая рамка Matthew Skelton и Manuel Pais: четыре фундаментальных типа команд (stream-aligned, platform, enabling, complicated-subsystem) и три режима взаимодействия (collaboration, X-as-a-Service, facilitating). Применяется в SRE-контексте для сознательного дизайна SRE-функции на уровне org: embedded → enabling → platform — не альтернативы, а разные interaction modes под разные стадии зрелости. Во втором издании platform team уточнена как **platform grouping** — не одна команда, а фрактальная группировка команд разных типов.
