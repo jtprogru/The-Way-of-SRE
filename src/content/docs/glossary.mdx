@@ -654,6 +654,12 @@ Software Composition Analysis — анализ сторонних dependencies �
 
 *Категория A* — «сэмплирование (sampling)» при первом упоминании. См. [`Telemetry Economics`](/The-Way-of-SRE/engineering/telemetry-economics/). Источник: [OpenTelemetry — Sampling](https://opentelemetry.io/docs/concepts/sampling/).
 
+### Secure SDLC
+
+Безопасный жизненный цикл разработки: команда учитывает требования безопасности при проектировании, проверяет их при реализации и продолжает следить за ними после выпуска. Разбор угроз и репетиция отзыва секрета проверяют разные части этого цикла.
+
+*Категория A*. См. [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/), [`Secrets Management`](/The-Way-of-SRE/practices/secrets-management/).
+
 ### service mesh
 
 Инфраструктурный слой для service-to-service коммуникации, реализованный через sidecar-прокси (обычно Envoy) рядом с каждым pod'ом + control plane (Istio / Linkerd / Consul Connect). Даёт три функции из коробки: [mTLS](#mtls), traffic management (routing, retry, timeout), L7-observability (RED-метрики, distributed tracing). Альтернатива sidecar — per-node proxy через eBPF (Cilium Service Mesh, Istio Ambient).
@@ -671,6 +677,12 @@ Software Composition Analysis — анализ сторонних dependencies �
 Модель распределения ответственности между cloud-провайдером и клиентом для каждого сервиса. Провайдер отвечает за «security/availability of the cloud» (физическая инфра, hypervisor, control plane managed-сервисов); клиент — за «security/availability in the cloud» (конфигурация, IAM, данные, workload-level reliability). Граница смещается между IaaS / PaaS / SaaS — у managed-Kubernetes провайдер берёт control plane, клиент остаётся с worker nodes и workload'ами. Public-документация: AWS / Azure / GCP / Yandex Cloud — у каждого своя версия матрицы.
 
 *Категория B* — «модель shared responsibility». См. [`Cloud Providers`](/The-Way-of-SRE/engineering/cloud-providers/), [`DR Policy & Stakeholders`](/The-Way-of-SRE/culture/dr-policy/).
+
+### shift left
+
+Сдвиг влево — приближение обратной связи к моменту, когда автор ещё может исправить изменение: например, при обсуждении схемы или в проверке PR. Ранние проверки дополняют контроль работающего сервиса, а не заменяют его.
+
+*Категория C*. См. [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/), [`Secrets Management`](/The-Way-of-SRE/practices/secrets-management/).
 
 ### single source of truth
 
