@@ -508,6 +508,12 @@ OpenID Connect — identity layer поверх OAuth 2.0; современный
 
 *Категория A* — пишется заглавными. См. [`Workload Identity`](/The-Way-of-SRE/practices/workload-identity/), [`CI/CD`](/The-Way-of-SRE/engineering/ci-cd/), [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/). Источник: [OIDC Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html).
 
+### OKR
+
+Objectives and Key Results — способ записать цель и проверяемые признаки её достижения. В плане роста полезно различать продукт работы (*output*, например написанная инструкция) и её эффект (*outcome*: инженер теперь справляется с задачей без помощи).
+
+*Категория A*. См. [`Personal Growth Plan`](/The-Way-of-SRE/practices/personal-growth-plan/).
+
 ### operator pattern
 
 Kubernetes controller с custom CRD, который управляет complex / stateful workload (DB primary/replica failover, certificate rotation, Kafka cluster). Декларативный API: `kubectl apply` — остальное operator делает сам (provision / failover / backup / restore / upgrade). Cost: разработка — самостоятельный Go-проект с k8s API expertise, controller-runtime; maintenance — следить за k8s API deprecations. Готовые operators (postgres-operator, cert-manager, external-secrets) покрывают 80% потребностей.
@@ -543,6 +549,12 @@ Observe, Orient, Decide, Act — наблюдение, ориентация, р�
 *Категория A*. См. [`Security Code Review`](/The-Way-of-SRE/practices/security-code-review/), [`Threat Modeling`](/The-Way-of-SRE/practices/threat-modeling/).
 
 ## P
+
+### performance review
+
+Оценка работы за период: инженер и руководитель разбирают вклад на конкретных задачах, сопоставляют его с ожиданиями роли и обсуждают обратную связь. Это не проверка процента выполненных учебных целей. При [калибровке](#calibration-meeting) руководители сверяют оценки между командами.
+
+*Категория C*. См. [`Personal Growth Plan`](/The-Way-of-SRE/practices/personal-growth-plan/), [`Calibration Meeting`](/The-Way-of-SRE/practices/calibration-meeting/).
 
 ### platform engineering
 
