@@ -32,12 +32,12 @@ status: draft
 
 ### Книги
 
-- Joe Beda et al. (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/software-engineering-in-sre/)** (O'Reilly, 2016), глава 18 «Software Engineering in SRE». Разбор Auxon — планирования мощностей в Google через декларацию намерения; описывает, чем плох традиционный подход и что даёт intent-based.
-- Alejandro Forero Cuervo (ред. Beyer) — **[Site Reliability Engineering](https://sre.google/sre-book/handling-overload/)** (O'Reilly, 2016), глава 21 «Handling Overload». Что делать, когда прогноз ошибся: придушить клиентов, ввести уровни критичности, ограничить бюджет ретраев.
+- Dave Helstroom и Trisha Weir при участии Evan Leonard и Kurt Delimon — **[Site Reliability Engineering](https://sre.google/sre-book/software-engineering-in-sre/)**, глава 18 «Software Engineering in SRE». В разборе Auxon рекомендую посмотреть, что Google изменил в самой заявке на ресурсы. Из заявки «столько-то ядер в этом кластере» непонятно, подойдёт ли соседний кластер. Когда владелец указывает, какой спрос надо покрыть и где допустимо разместить сервис, план можно пересчитать даже при задержке поставки.
+- Alejandro Forero Cuervo — **[Site Reliability Engineering](https://sre.google/sre-book/handling-overload/)** (O'Reilly, 2016), глава 21 «Handling Overload». Для плана мощностей советую раздел про критичность запросов. Автор приводит пример с поисковыми подсказками: пока человек печатает, ответ нужен быстро, но при перегрузке подсказку допустимо не показать. Жёсткий дедлайн ещё не означает, что под запрос надо покупать резерв.
 
 ### Статьи
 
-- Brendan Gregg — **[The USE Method](https://www.brendangregg.com/usemethod.html)**. Канонический системный подход к производительности и мощностям: для каждого ресурса — **Utilization**, **Saturation**, **Errors**. «Solves 80% of server issues with 5% of the effort». Годится как способ выбрать индикаторы насыщения для модели.
+- Brendan Gregg — **[The USE Method](https://www.brendangregg.com/usemethod.html)**. Для каждого ресурса Грегг предлагает проверить загрузку, насыщение и ошибки. Для плана особенно полезно различие между первыми двумя: одно дело, что все соединения с базой заняты, другое — что за свободным соединением уже стоит очередь.
 
 ### Инструменты
 
