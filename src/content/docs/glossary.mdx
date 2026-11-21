@@ -84,6 +84,12 @@ Architecture Decision Record — фиксация технического ре�
 
 *Категория C* — «аварийный доступ (break-glass)» при первом упоминании, дальше «аварийный доступ». См. [`Disaster Recovery`](/The-Way-of-SRE/engineering/disaster-recovery/), [`Access Control & IAM`](/The-Way-of-SRE/practices/access-control-iam/).
 
+### buddy
+
+Коллега, к которому новичок может прийти с вопросом о том, как устроена работа в команде: где получить доступ, к кому пойти с первой задачей. В отличие от технического наставника, бадди помогает пройти программу, но не обязательно сам учит дежурить.
+
+*Категория D* — в разговоре об адаптации используется «бадди». См. [`SRE Onboarding`](/The-Way-of-SRE/culture/sre-onboarding/).
+
 ### bulkhead
 
 Изоляция по отсекам: у каждой зависимости свой ограниченный пул потоков или соединений либо своя очередь. Когда зависимость начинает отвечать медленно, заполняется только её отсек, и остальные вызовы сервиса продолжают работать. Название взято из судостроения: переборки не дают одной пробоине затопить весь корпус.
@@ -587,6 +593,12 @@ Observe, Orient, Decide, Act — наблюдение, ориентация, р�
 Документ, фиксирующий разбор инцидента после его завершения: timeline, contributing factors, action items с владельцем и дедлайном, lessons learned. В SRE-практике норма — [blameless](#blameless) постмортем. Тот же ритуал встречается под именами post-incident review (PIR), incident review и learning review.
 
 *Категория A* как документ; «провести разбор» допустим как процесс. См. [`Postmortem Culture`](/The-Way-of-SRE/culture/postmortem-culture/), [`Blameless Postmortem`](/The-Way-of-SRE/practices/blameless-postmortem/), [`Postmortem Database`](/The-Way-of-SRE/culture/postmortem-database/). Источник: Beyer et al., *SRE Book*, гл. 15.
+
+### preboarding
+
+Подготовка команды к первому рабочему дню нового сотрудника: заказать технику, оформить заявки на доступ, договориться, кто встретит новичка. Не предполагает работы сотрудника до выхода.
+
+*Категория B* — «подготовка до выхода». См. [`SRE Onboarding`](/The-Way-of-SRE/culture/sre-onboarding/).
 
 ### principle of least privilege
 
