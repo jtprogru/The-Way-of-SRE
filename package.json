@@ -23,7 +23,7 @@
     "@emnapi/runtime": "1.11.3",
     "doctoc": "^2.5.0",
     "js-yaml": "^4.3.2",
-    "markdownlint-cli2": "^0.24.1",
+    "markdownlint-cli2": "^0.24.2",
     "typescript": "^6.0.3"
   }
 }
